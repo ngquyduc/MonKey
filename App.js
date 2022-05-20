@@ -37,9 +37,9 @@ const styles = StyleSheet.create({
 //   };
 //  };
  
-//  const CalleeComponent2 = (pr) =>  {
+//  const CalleeComponent2 = (props) =>  {
 //   return (
-//     <Text>{pr.phrase}</Text>
+//     <Text>{props.phrase}</Text>
 //   );
 // };
 
