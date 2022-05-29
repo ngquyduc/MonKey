@@ -4,7 +4,7 @@ import { SafeAreaView, View, Text } from 'react-native';
 const Input = () => {
   return (
     <SafeAreaView>
-      <Text>Hello, I am your dog</Text>
+    `<Text>Hello, I am your dog</Text>
     </SafeAreaView>
   );
 }

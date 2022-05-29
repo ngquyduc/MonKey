@@ -1,45 +1,64 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput , View, Button, Alert } from 'react-native';
+import { StyleSheet, Text, TextInput , View, Button, Alert,TouchableWithoutFeedback,KeyboardAvoidingView , Keyboard } from 'react-native';
 import React from "react";
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Login from './screens/Login';
+
+export default function App() {
+  return (
+    <>
+      <StatusBar style = "light"/>
+      <Login></Login>
+    </>
+  )
+}
 
 // const userAuthenticationInterace = () => {
 //   const [username, onChangeUsername] = React.useState(null);
 //   const [password, onChangePassword] = React.useState(null);
 //   return (
-//     <View style = {[styles.container, {
-//       flexDirection: "column"}]}>
-//       <View style = {[styles.container, { flex: 3 }]}>
-//         <Text style = {styles.appName}>MonKey</Text>
-//       </View>
-//       <View style = {[styles.container, { flex: 1.5 }]}>
-//         <TextInput
-//           style = {styles.input}
-//           placeholder='Username'
-//           onChangeText = {onChangeUsername}
-//           value = {username}
-//         />
-//         <TextInput
-//           style = {styles.input}
-//           placeholder='Password'
-//           onChangeText = {onChangePassword}
-//           value = {password}
-//         />
-//         <Button
-//           title="Sign in"
-//           color="#a67e32"
-//           onPress={() => Alert.alert('')}
-//         />
-//         <Button
-//           title="New to MonKey? Click here to sign-up"
-//           color="#a67e32"
-//           onPress={() => Alert.alert('Button with adjusted color pressed')}
-//         />
-//         {/* <Text style = {styles.appName}>MonKey</Text> */}
-//       </View>
-//       <View style = {[styles.container, { flex: 4}]}/>
-//     </View>
+//     <KeyboardAvoidingView
+//     behavior={"height"}
+//     style={styles.container}
+//     >
+//       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+//         <View style = {[styles.container, {
+//           flexDirection: "column"}]}>
+//           <View style = {[styles.container, { flex: 5 }]}>
+//             <Text style = {styles.appName}>MonKey</Text>
+//           </View>
+//           <View style = {[styles.container, { flex: 4 }]}>
+//             <KeyboardAvoidingView
+//             behavior={Platform.OS === "ios" ? "padding" : "height"}
+//             style={styles.container}
+//             >
+//               <TextInput
+//                 style = {styles.input}
+//                 placeholder='Username'
+//                 onChangeText = {onChangeUsername}
+//                 value = {username}
+//               />
+//               <TextInput
+//                 style = {styles.input}
+//                 placeholder='Password'
+//                 onChangeText = {onChangePassword}
+//                 value = {password}
+//               />
+//               <Button
+//                 title="Sign in"
+//                 color="#a67e32"
+//                 onPress={() => Alert.alert('To be updated')}
+//               />
+//               <Button
+//                 title="New to MonKey? Click here to sign-up"
+//                 color="#a67e32"
+//                 onPress={() => Alert.alert('To be updated')}
+//               />
+//             </KeyboardAvoidingView>
+//           </View>
+//           <View style = {[styles.container, { flex: 2 }]}/>
+//         </View>
+//       </TouchableWithoutFeedback>
+//     </KeyboardAvoidingView>
 //   )
 // }
 
@@ -72,36 +91,3 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // });
 
 // export default userAuthenticationInterace;
-
-
-import Input from './screens/Input';
-import Calendar from'./screens/Calendar';
-
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
-
-const Tab = createBottomTabNavigator();
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Calendar" component={Calendar} />
-        <Tab.Screen name="Input" component={Input} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
-}
