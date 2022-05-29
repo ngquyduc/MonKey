@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { StatusBarHeight } from "./constants";
 import { colors } from "./colors";
-const {beige, brown, darkBlue, darkYellow} = colors;
+const {beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -62,14 +62,35 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginBottom: 25
   },
-  iconContainer: {
+  leftIconContainer: {
     position: 'absolute',
-    top: 38,
+    top: 40,
     left: 13,
     zIndex: 1,
     borderRightWidth:2,
     borderRightColor: darkBlue,
     paddingRight: 8
+  },
+  rightIconContainer: {
+    position: 'absolute',
+    top: 40,
+    right: 13,
+    zIndex: 1,
+  },
+  signInUpButton: {
+    padding: 15,
+    backgroundColor: darkBlue,
+    flexDirection: 'row',
+    flex: 1,
+    height: 55,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  loginText: {
+    fontSize: 21,
+    fontWeight: '500',
+    color: beige,
   }
 });
 
