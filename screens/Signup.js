@@ -4,9 +4,9 @@ import KeyboardAvoidingContainer from '../components/Containers/KeyboardAvoiding
 import { Text, View } from 'react-native';
 import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
-import SignInUpButton from '../components/Containers/SignInUpButton';
+import SignUpButton from '../components/Containers/SignUpButton';
 
-const Signup = () => {
+const SignUp = () => {
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -45,10 +45,10 @@ const Signup = () => {
             isPassword={true}
             value={password}
           />
-          <SignInUpButton>Sign-up</SignInUpButton>
+          <SignUpButton>Sign-up</SignUpButton>
       </KeyboardAvoidingContainer>
     </MainContainer>
   )
 }
 
-export default Signup;
+export default SignUp;

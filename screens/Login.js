@@ -4,7 +4,7 @@ import KeyboardAvoidingContainer from '../components/Containers/KeyboardAvoiding
 import { Text, View, ActivityIndicator } from 'react-native';
 import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
-import SignInUpButton from '../components/Containers/SignInUpButton';
+import LogInButton from '../components/Containers/LogInButton';
 import PressableText from '../components/Containers/PressableText';
 
 function handleSubmit() {
@@ -40,8 +40,7 @@ const Login = () => {
             isPassword={true}
             value={password}
           />
-          <SignInUpButton>Login</SignInUpButton>
-          {/* <SignInUpButton><ActivityIndicator size='small'/></SignInUpButton> */}
+          <LogInButton>Login</LogInButton>
           <PressableText>New to MonKey? Sign-up here</PressableText>
           <PressableText>Forgot password?</PressableText>
       </KeyboardAvoidingContainer>
