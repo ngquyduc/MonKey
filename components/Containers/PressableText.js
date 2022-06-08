@@ -1,6 +1,6 @@
 
 import styles from "../styles";
-import { View, TextInput, Text, Pressable } from 'react-native'
+import {  Text, Pressable } from 'react-native'
 import { colors } from "../colors";
 const {} = colors;
 

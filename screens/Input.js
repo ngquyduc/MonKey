@@ -1,11 +1,11 @@
 import React from 'react';
-import { SafeAreaView, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 
-const Input = () => {
+const Input = (props) => {
   return (
-    <SafeAreaView>
-    `<Text>Hello, I am your dog</Text>
-    </SafeAreaView>
+    <View>
+      <Text>Input</Text>
+    </View>
   );
 }
 

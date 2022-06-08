@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import MainContainer from '../components/Containers/Main';
 import KeyboardAvoidingContainer from '../components/Containers/KeyboardAvoiding';
-import { Text, View, ActivityIndicator } from 'react-native';
+import { Text, View, ActivityIndicator, Alert } from 'react-native';
 import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import LogInButton from '../components/Containers/LogInButton';

@@ -1,5 +1,5 @@
 import styles from "../styles";
-import { View, TextInput, Text, TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import { colors } from "../colors";
 
 const {} = colors;

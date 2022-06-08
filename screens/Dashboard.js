@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Calendar = (props) => {
+const Dashboard = (props) => {
   return (
     <View>
-      <Text>Calendar</Text>
+      <Text>Dashboard</Text>
     </View>
+    
   );
 }
 
-export default Calendar;
+export default Dashboard;

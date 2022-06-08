@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Calendar = (props) => {
+const Stats = (props) => {
   return (
     <View>
-      <Text>Calendar</Text>
+      <Text>Stats</Text>
     </View>
   );
 }
 
-export default Calendar;
+export default Stats;
