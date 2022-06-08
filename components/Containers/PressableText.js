@@ -1,4 +1,3 @@
-
 import styles from "../styles";
 import {  Text, Pressable } from 'react-native'
 import { colors } from "../colors";
