@@ -5,9 +5,8 @@ import { Text, View } from 'react-native';
 import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import SignUpButton from '../components/Containers/SignUpButton';
-
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { authentication } from '../firebase';
+import { auth } from '../firebase';
 
 
 const SignUp = () => {
@@ -16,15 +15,24 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
 
   const handleSignup = () => {
-    createUserWithEmailAndPassword(authentication, email, password)
-    .then((userCredential) => {
-      console.log(userCredential);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
-
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        console.log(error.code, error.message)
+        // ..
+      });
+    // createUserWithEmailAndPassword(authentication, email, password)
+    // .then((userCredential) => {
+    //   console.log(userCredential);
+    // })
+    // .catch((error) => {
+    //   console.log(error);
+    // });
+  };
   return (
     <MainContainer>
       <KeyboardAvoidingContainer>
@@ -43,7 +51,6 @@ const SignUp = () => {
             placeholder='yourmail@gmail.com'
             keyboardType='email-address'
             value={email}
-            autoCapitalize = 'none'
             onChangeText={text => setEmail(text)}
           />
           <TextInputWithIcon
@@ -52,7 +59,6 @@ const SignUp = () => {
             placeholder='* * * * * * * *'
             isPassword={true}
             value={password}
-            autoCapitalize = 'none'
             onChangeText={text => setPassword(text)}
           />
           {/* <TextInputWithIcon
