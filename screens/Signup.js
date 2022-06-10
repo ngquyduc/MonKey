@@ -5,35 +5,23 @@ import { Text, View } from 'react-native';
 import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import SignUpButton from '../components/Containers/SignUpButton';
-// import auth from 'firebase/auth';
-// const handleSignup = () => {
-//   auth
-//     .createUserWithEmailAndPassword(email, password)
-//     .then(userCredentials => {
-//       const user = userCredentials.user;
-//       console.log(user.email);
-//     })
-//     .catch(error => alert(error.message))
-// }
-import { app } from '../firebase';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { authentication } from '../firebase';
+
 
 const SignUp = () => {
-  const [username, setUsername] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const auth = getAuth(app);
+  // const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleSignup = () => {
-    createUserWithEmailAndPassword(email, password)
+    createUserWithEmailAndPassword(authentication, email, password)
     .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      // ...
+      console.log(userCredential);
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
+      console.log(error);
     });
   }
 
@@ -43,18 +31,20 @@ const SignUp = () => {
         <View style={{alignContent: 'left', paddingBottom: 20}}>
           <Text style={styles.boldBlueText}>Sign-up</Text>
         </View>
-          <TextInputWithIcon
+          {/* <TextInputWithIcon
             label='Username'
             icon='user'
             placeholder='YourUsername'
             value={username}
-          />
+          /> */}
           <TextInputWithIcon
             label='Email address'
             icon='mail'
             placeholder='yourmail@gmail.com'
             keyboardType='email-address'
             value={email}
+            autoCapitalize = 'none'
+            onChangeText={text => setEmail(text)}
           />
           <TextInputWithIcon
             label='Password'
@@ -62,15 +52,17 @@ const SignUp = () => {
             placeholder='* * * * * * * *'
             isPassword={true}
             value={password}
+            autoCapitalize = 'none'
+            onChangeText={text => setPassword(text)}
           />
-          <TextInputWithIcon
+          {/* <TextInputWithIcon
             label='Confirm password'
             icon='lock-open'
             placeholder='* * * * * * * *'
             isPassword={true}
             value={password}
-          />
-          <SignUpButton onPress = {handleSignup}>Sign-up</SignUpButton>
+          /> */}
+          <SignUpButton onPress={handleSignup}>Sign-up</SignUpButton>
       </KeyboardAvoidingContainer>
     </MainContainer>
   )

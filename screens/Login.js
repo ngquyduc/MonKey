@@ -6,16 +6,25 @@ import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import LogInButton from '../components/Containers/LogInButton';
 import PressableText from '../components/Containers/PressableText';
-import {auth} from '../firebase';
-function handleSubmit() {
-  //TO BE UPDATED
-}
-
-
+import { authentication } from '../firebase';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+
+  const auth = getAuth(app);
+  const handleLogIn = () => {
+    signInWithEmailAndPassword(authentication, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log('Logged in with', user.email)
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      console.log(errorMessage)
+    });
+  }
 
   return (
     <MainContainer>
@@ -42,7 +51,7 @@ const Login = () => {
             isPassword={true}
             value={password}
           />
-          <LogInButton>Login</LogInButton>
+          <LogInButton onPress={handleLogIn}>Login</LogInButton>
           <PressableText>New to MonKey? Sign-up here</PressableText>
           <PressableText>Forgot password?</PressableText>
       </KeyboardAvoidingContainer>
