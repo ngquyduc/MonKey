@@ -12,8 +12,8 @@ import { authentication } from '../firebase';
 
 const SignUp = () => {
   // const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSignup = () => {
     createUserWithEmailAndPassword(authentication, email, password)
