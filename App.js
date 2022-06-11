@@ -11,7 +11,8 @@ export default function App() {
   return (
     <>
       <StatusBar style = "light"/>
-      <Signup></Signup>
+      {/* <Signup></Signup> */}
+      <Login></Login>
     </>
     // <NavigationContainer>
     //   <Tabs/>

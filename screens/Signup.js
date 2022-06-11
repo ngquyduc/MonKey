@@ -5,25 +5,12 @@ import { Text, View } from 'react-native';
 import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import SignUpButton from '../components/Containers/SignUpButton';
-
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { authentication } from '../firebase';
-
+import { handleSignup } from '../api/authentication';
 
 const SignUp = () => {
   // const [username, setUsername] = useState('');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSignup = () => {
-    createUserWithEmailAndPassword(authentication, email, password)
-    .then((userCredential) => {
-      console.log(userCredential);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
 
   return (
     <MainContainer>
@@ -62,7 +49,7 @@ const SignUp = () => {
             isPassword={true}
             value={password}
           /> */}
-          <SignUpButton onPress={handleSignup}>Sign-up</SignUpButton>
+          <SignUpButton onPress={() => handleSignup(email, password)}>Sign-up</SignUpButton>
       </KeyboardAvoidingContainer>
     </MainContainer>
   )
