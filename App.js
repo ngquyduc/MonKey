@@ -3,19 +3,18 @@ import { StyleSheet, Text, TextInput , View, Button, Alert,TouchableWithoutFeedb
 import React from "react";
 import Login from './screens/Login';
 import Signup from './screens/Signup';
-import Dashboard from './screens/Dashboard';
+import Home from './screens/Home';
 import { NavigationContainer } from '@react-navigation/native';
 import Tabs from './navigation/tabs';
 
 export default function App() {
   return (
-    <>
-      <StatusBar style = "light"/>
-      {/* <Signup></Signup> */}
-      <Login></Login>
-    </>
-    // <NavigationContainer>
-    //   <Tabs/>
-    // </NavigationContainer>
+    // <>
+    //   <StatusBar style = "light"/>\
+    //   <Login></Login>
+    // </>
+    <NavigationContainer>
+      <Tabs/>
+    </NavigationContainer>
   )
 }

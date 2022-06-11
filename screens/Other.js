@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import styles from '../components/styles';
-const Home = (props) => {
+const Other = (props) => {
   return (
     <View style={styles.mainContainer}>
-      <Text>Home</Text>
+      <Text>Other</Text>
     </View>
   );
 }
 
-export default Home;
+export default Other;
