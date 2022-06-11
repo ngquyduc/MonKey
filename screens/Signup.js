@@ -5,34 +5,13 @@ import { Text, View } from 'react-native';
 import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import SignUpButton from '../components/Containers/SignUpButton';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebase';
-
+import { handleSignup } from '../api/authentication';
 
 const SignUp = () => {
   // const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSignup = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        // ...
-      })
-      .catch((error) => {
-        console.log(error.code, error.message)
-        // ..
-      });
-    // createUserWithEmailAndPassword(authentication, email, password)
-    // .then((userCredential) => {
-    //   console.log(userCredential);
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // });
-  };
   return (
     <MainContainer>
       <KeyboardAvoidingContainer>
@@ -68,7 +47,7 @@ const SignUp = () => {
             isPassword={true}
             value={password}
           /> */}
-          <SignUpButton onPress={handleSignup}>Sign-up</SignUpButton>
+          <SignUpButton onPress={() => handleSignup(email, password)}>Sign-up</SignUpButton>
       </KeyboardAvoidingContainer>
     </MainContainer>
   )

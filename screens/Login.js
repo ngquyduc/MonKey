@@ -6,25 +6,11 @@ import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import LogInButton from '../components/Containers/LogInButton';
 import PressableText from '../components/Containers/PressableText';
-import { authentication } from '../firebase';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { handleLogIn } from '../api/authentication';
 
 const Login = () => {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-
-  const auth = getAuth(app);
-  const handleLogIn = () => {
-    signInWithEmailAndPassword(authentication, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log('Logged in with', user.email)
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      console.log(errorMessage)
-    });
-  }
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <MainContainer>
@@ -43,6 +29,8 @@ const Login = () => {
             placeholder='yourmail@gmail.com'
             keyboardType='email-address'
             value={email}
+            autoCapitalize = 'none'
+            onChangeText={text => setEmail(text)}
           />
           <TextInputWithIcon
             label='Password'
@@ -50,8 +38,10 @@ const Login = () => {
             placeholder='* * * * * * * *'
             isPassword={true}
             value={password}
+            autoCapitalize = 'none'
+            onChangeText={text => setPassword(text)}
           />
-          <LogInButton onPress={handleLogIn}>Login</LogInButton>
+          <LogInButton onPress={() => handleLogIn(email, password)}>Login</LogInButton>
           <PressableText>New to MonKey? Sign-up here</PressableText>
           <PressableText>Forgot password?</PressableText>
       </KeyboardAvoidingContainer>

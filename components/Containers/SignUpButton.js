@@ -9,7 +9,7 @@ const {} = colors;
 const SignUpButton = (props) => {
 
   return (
-    <TouchableOpacity style={styles.signInUpButton} onPress = {props.onPress}>
+    <TouchableOpacity style={styles.signInUpButton} onPress={props.onPress}>
       <Text style={styles.loginText}>{props.children}</Text>
     </TouchableOpacity>
   )
