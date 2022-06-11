@@ -5,59 +5,59 @@ import Home from '../screens/Home';
 import Input from '../screens/Input';
 import Stats from '../screens/Stats';
 import Other from '../screens/Other';
-import * as Animatable from 'react-native-animatable';
 import { colors } from '../components/colors';
-import { Ionicons } from '@expo/vector-icons';
-import { View } from 'react-native';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-const { beige, darkYellow } = colors;
-
+const { beige, darkBlue, lightBlue } = colors;
 
 const Tabs = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={Home} 
         options={{
+          tabBarShowLabel:false,
           headerShown:false,
           tabBarLabel: "Home",
-          tabBarIcon: ({focused, color}) => {
-            <Ionicons name={'home'} size ={14} color={darkYellow}/>
-          }
+          tabBarIcon: ({focused}) => (
+            <Ionicons name={focused ? 'home' : 'home-outline'} size ={28} color={focused ? darkBlue : lightBlue}/>
+          )
         }}/>
       <Tab.Screen name="Calendar" component={Calendar} 
         options={{
+          tabBarShowLabel:false,
           headerShown:false,
           tabBarLabel: "Calendar",
-          tabBarIcon: ({focused, color}) => {
-            <Ionicons name={'home'} size ={14} color={darkYellow}/>
-          }
+          tabBarIcon: ({focused}) => (
+            <Ionicons name={focused ? "calendar" : "calendar-outline"} size ={28} color={focused ? darkBlue : lightBlue}/>
+          )
         }}/>
       <Tab.Screen name="Input" component={Input} 
         options={{
+          tabBarShowLabel:false,
           headerShown:false,
           tabBarLabel: "Input",
-          tabBarIcon: ({focused, color}) => {
-            <Ionicons name={'home'} size ={14} color={darkYellow}/>
-          }
+          tabBarIcon: ({focused}) => (
+            <FontAwesome name={focused ? "plus-square" : "plus-square-o"} size ={28} color={focused ? darkBlue : lightBlue}/>
+          )
         }}/>
       <Tab.Screen name="Stats" component={Stats} 
         options={{
+          tabBarShowLabel:false,
           headerShown:false,
           tabBarLabel: "Stats",
-          tabBarIcon: ({focused, color}) => {
-            <Ionicons name='home' size ={14} color={darkYellow}/>
-          }
+          tabBarIcon: ({focused}) => (
+            <Ionicons name={focused ? "bar-chart" : "bar-chart-outline"} size ={28} color={focused ? darkBlue : lightBlue}/>
+          ),
+          
         }}/>
       <Tab.Screen name="Other" component={Other} 
         options={{
+          tabBarShowLabel:false,
           headerShown:false,
           tabBarLabel: "Other",
-          tabBarIcon: ({focused, color}) => {
-            <View>
-            <Ionicons name='home' size ={14} color={darkYellow}/>
-            </View>
-          }
+          tabBarIcon: ({focused}) => (
+            <Ionicons name={focused ? "ellipsis-horizontal-sharp" : "ellipsis-horizontal-outline"} size={28} color={focused ? darkBlue : lightBlue} />
+          )
         }}/>
     </Tab.Navigator>
   );
