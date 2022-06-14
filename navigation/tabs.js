@@ -1,16 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Calendar from '../screens/Calendar';
 import Home from '../screens/Home';
-import Input from '../screens/Input';
+import Expense from '../screens/inputScreen/Expense';
 import Stats from '../screens/Stats';
 import Other from '../screens/Other';
 import { colors } from '../components/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import { View, Text, TouchableOpacity, StyleSheet, Easing } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import { useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 const Tab = createBottomTabNavigator();
 const { beige, darkBlue, lightBlue } = colors;
 
@@ -29,36 +25,37 @@ const styles = StyleSheet.create({
 const Tabs = () => {
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator initialRouteName='Home'>
       <Tab.Screen name="Home" component={Home}  
         options={{
           tabBarShowLabel:false,
           headerShown:false,
-          tabBarLabel: "Home",
           tabBarIcon: ({focused}) => (
             <View style={{alignItems:'center', justifyContent:'center', top:8}}>
               <Ionicons name={focused ? 'home' : 'home-outline'} size ={28} color={focused ? darkBlue : lightBlue}/>
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Home</Text>
             </View>
-          )
+          ),
+          tabBarActiveBackgroundColor: beige,
+          tabBarInactiveBackgroundColor: beige,
         }}/>
       <Tab.Screen name="Calendar" component={Calendar} 
         options={{
           tabBarShowLabel:false,
           headerShown:false,
-          tabBarLabel: "Calendar",
           tabBarIcon: ({focused}) => (
             <View style={{alignItems:'center', justifyContent:'center', top:8}}>
               <Ionicons name={focused ? "calendar" : "calendar-outline"} size ={28} color={focused ? darkBlue : lightBlue}/>
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Calendar</Text>
             </View>
-          )
+          ),
+          tabBarActiveBackgroundColor: beige,
+          tabBarInactiveBackgroundColor: beige,
         }}/>
-      <Tab.Screen name="Input" component={Input} 
+      <Tab.Screen name="Input" component={Expense} 
         options={{
           tabBarShowLabel:false,
           headerShown:false,
-          tabBarLabel: "Input",
           tabBarIcon: ({focused}) => (
             <View style={{
               top:-20,
@@ -74,32 +71,35 @@ const Tabs = () => {
           ),
           tabBarButton: props => (
             <TouchableOpacity {...props} />
-          )
+          ),
+          tabBarActiveBackgroundColor: beige,
+          tabBarInactiveBackgroundColor: beige,
         }}/>
       <Tab.Screen name="Stats" component={Stats} 
         options={{
           tabBarShowLabel:false,
           headerShown:false,
-          tabBarLabel: "Stats",
           tabBarIcon: ({focused}) => (
             <View style={{alignItems:'center', justifyContent:'center', top:8}}>
               <Ionicons name={focused ? "bar-chart" : "bar-chart-outline"} size ={28} color={focused ? darkBlue : lightBlue}/>
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Stats</Text>
             </View>
           ),
-          
+          tabBarActiveBackgroundColor: beige,
+          tabBarInactiveBackgroundColor: beige,
         }}/>
       <Tab.Screen name="Other" component={Other} 
         options={{
           tabBarShowLabel:false,
           headerShown:false,
-          tabBarLabel: "Other",
           tabBarIcon: ({focused}) => (
             <View style={{alignItems:'center', justifyContent:'center', top:8}}>
               <Ionicons name={focused ? "ellipsis-horizontal-sharp" : "ellipsis-horizontal-outline"} size={28} color={focused ? darkBlue : lightBlue} />
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Other</Text>
             </View>
-          )
+          ),
+          tabBarActiveBackgroundColor: beige,
+          tabBarInactiveBackgroundColor: beige,
         }}/>
     </Tab.Navigator>
   );

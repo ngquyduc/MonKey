@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import styles from '../components/styles';
-const Input = (props) => {
+import styles from '../../components/styles';
+const Income = (props) => {
   return (
     <View style={styles.mainContainer}>
-      <Text>Input</Text>
+      <Text>Income</Text>
     </View>
   );
 }
 
-export default Input;
+export default Income;
