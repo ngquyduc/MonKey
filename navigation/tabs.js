@@ -7,8 +7,10 @@ import Stats from '../screens/Stats';
 import Other from '../screens/Other';
 import { colors } from '../components/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Animation } from 'react-native-animatable';
+import { View, Text, TouchableOpacity, StyleSheet, Easing } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import { useEffect, useRef } from 'react';
+import { Animated } from 'react-native';
 const Tab = createBottomTabNavigator();
 const { beige, darkBlue, lightBlue } = colors;
 
@@ -24,31 +26,8 @@ const styles = StyleSheet.create({
   }
 })
 
-const CustomInputButton = ({children, onPress}) => {
-  return (
-    <TouchableOpacity 
-      onPress={onPress}
-      style={{
-        top:-20,
-        justifyContent:'center',
-        alignItems:'center',
-        ...styles.shadow,
-      }}>
-        <View style={{
-          width:66,
-          height:66,
-          borderRadius:33,
-          alignItems:'center',
-          justifyContent:'center',
-          backgroundColor:lightBlue,
-        }}>
-          <Entypo name="plus" size ={36} color={beige}/>
-        </View>
-    </TouchableOpacity>
-  )
-}
-
 const Tabs = () => {
+
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={Home}  
