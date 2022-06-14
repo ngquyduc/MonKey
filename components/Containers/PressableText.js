@@ -6,7 +6,8 @@ const {} = colors;
 const PressableText = (props) => {
   return (
     <Pressable 
-    style={{paddingTop: 10, alignSelf:'center'}}>
+    style={{paddingTop: 10, alignSelf:'center'}}
+    onPress={props.onPress}>
       <Text style={styles.blueRegularText}>{props.children}</Text>
     </Pressable>
   )

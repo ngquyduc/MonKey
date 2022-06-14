@@ -7,8 +7,9 @@ import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import LogInButton from '../components/Containers/LogInButton';
 import PressableText from '../components/Containers/PressableText';
 import { handleLogIn } from '../api/authentication';
+import SignUp from './Signup';
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -41,8 +42,9 @@ const Login = () => {
             autoCapitalize = 'none'
             onChangeText={text => setPassword(text)}
           />
-          <LogInButton onPress={() => handleLogIn(email, password)}>Login</LogInButton>
-          <PressableText>New to MonKey? Sign-up here</PressableText>
+          <LogInButton onPress={() => {handleLogIn(email, password)
+          navigation.navigate('Tabs')}}>Login</LogInButton>
+          <PressableText onPress={() => navigation.navigate('SignUp')}>New to MonKey? Sign-up here</PressableText>
           <PressableText>Forgot password?</PressableText>
       </KeyboardAvoidingContainer>
     </MainContainer>
