@@ -5,8 +5,14 @@ import AuthNavigation from './navigation/authNavigation';
 import Expense from './screens/inputScreen/Expense';
 import Tabs from './navigation/tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import CustomDatePicker from './components/Containers/CustomDatePicker';
+import styles from './components/styles';
 export default function App() {
   return (
-    <NavigationContainer><Tabs></Tabs></NavigationContainer>
+    //<NavigationContainer><Tabs></Tabs></NavigationContainer>
+    <View style={{marginTop:50, flex:1 }}>
+      <CustomDatePicker/>
+    </View>
+    
   )
 }

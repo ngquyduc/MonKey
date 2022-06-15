@@ -1,12 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Calendar from '../screens/Calendar';
 import Home from '../screens/Home';
-import Expense from '../screens/inputScreen/Expense';
 import Stats from '../screens/Stats';
 import Other from '../screens/Other';
+import InputScreenNav from './inputScreenNav';
 import { colors } from '../components/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,  } from 'react-native';
 const Tab = createBottomTabNavigator();
 const { beige, darkBlue, lightBlue } = colors;
 
@@ -23,9 +23,8 @@ const styles = StyleSheet.create({
 })
 
 const Tabs = () => {
-
   return (
-    <Tab.Navigator initialRouteName='Home'>
+    <Tab.Navigator>
       <Tab.Screen name="Home" component={Home}  
         options={{
           tabBarShowLabel:false,
@@ -52,7 +51,7 @@ const Tabs = () => {
           tabBarActiveBackgroundColor: beige,
           tabBarInactiveBackgroundColor: beige,
         }}/>
-      <Tab.Screen name="Input" component={Expense} 
+      <Tab.Screen name="Input" component={InputScreenNav} 
         options={{
           tabBarShowLabel:false,
           headerShown:false,
@@ -68,9 +67,6 @@ const Tabs = () => {
             }}>
               <Entypo name="plus" size ={36} color={beige}/>
             </View>
-          ),
-          tabBarButton: props => (
-            <TouchableOpacity {...props} />
           ),
           tabBarActiveBackgroundColor: beige,
           tabBarInactiveBackgroundColor: beige,
@@ -106,4 +102,3 @@ const Tabs = () => {
 }
 
 export default Tabs;
-

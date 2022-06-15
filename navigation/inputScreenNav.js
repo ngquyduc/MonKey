@@ -7,12 +7,10 @@ const Stack = createNativeStackNavigator();
 
 const InputScreenNav = () => {
   return (
-    <NavigationContainer>
       <Stack.Navigator initialRouteName="Expense">
         <Stack.Screen name="Income" component={Income} options={{headerShown:false}}/>
         <Stack.Screen name="Expense" component={Expense} options={{headerShown:false}}/>
       </Stack.Navigator>
-    </NavigationContainer>
   )
 }
 

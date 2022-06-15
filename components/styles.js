@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
   },
   mainContainerInnerScreen: {
     flex: 1,
-    paddingTop: StatusBarHeight-9,
-    backgroundColor: beige,
+    paddingTop: StatusBarHeight-12,
+    backgroundColor:beige
   },
   keyboardAvoidingContainer: {
     flex: 1,
@@ -98,10 +98,9 @@ const styles = StyleSheet.create({
     color: beige,
   },
   inputButton: {
-    padding: 15,
-    backgroundColor: darkBlue,
+    padding: 5,
     flexDirection: 'row',
-    height: 46,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -109,6 +108,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
     color: beige,
+  },
+  boldBlueHeaderText: {
+    fontSize: 34,
+    fontWeight: '300',
+    color: darkBlue,
+    marginBottom: 10,
+    fontWeight: 'bold',
   },
 });
 
