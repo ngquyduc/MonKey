@@ -9,10 +9,10 @@ import CustomDatePicker from './components/Containers/CustomDatePicker';
 import styles from './components/styles';
 export default function App() {
   return (
-    //<NavigationContainer><Tabs></Tabs></NavigationContainer>
-    <View style={{marginTop:50, flex:1 }}>
-      <CustomDatePicker/>
-    </View>
+    <NavigationContainer><Tabs></Tabs></NavigationContainer>
+    // <View style={{marginTop:50, flex:1 }}>
+    //   <CustomDatePicker/>
+    // </View>
     
   )
 }

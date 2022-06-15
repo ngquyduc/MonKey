@@ -109,12 +109,22 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: beige,
   },
+  dateText: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: darkBlue,
+  },
   boldBlueHeaderText: {
     fontSize: 34,
     fontWeight: '300',
     color: darkBlue,
     marginBottom: 10,
     fontWeight: 'bold',
+  },
+  datePickerOffText: {
+    fontSize: 18,
+    fontWeight: '400',
+    color: '#000',
   },
 });
 
