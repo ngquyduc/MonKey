@@ -6,28 +6,23 @@ import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import LogInButton from '../components/Containers/LogInButton';
 import PressableText from '../components/Containers/PressableText';
-import { autoNav, handleLogIn } from '../api/authentication';
+import { autoNav, handleLogIn, sendResetPasswordEmail } from '../api/authentication';
 import SignUp from './Signup';
 
-const Login = ({navigation}) => {
+const ForgotPassword = ({navigation}) => {
   useEffect(() => autoNav(navigation), []);
 
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   return (
     <MainContainer>
       <KeyboardAvoidingContainer>
-        <View 
-          style={{alignItems: 'center' }}>
-          <Text style={styles.appName}>MonKey</Text>
-        </View>
-        <View style={{alignContent: 'left', paddingBottom: 20}}>
-          <Text style={styles.boldBlueText}>Login</Text>
+        <View style={{alignContent: 'center', paddingBottom: 10}}>
+          <Text style={styles.boldBlueText}>Reset your password</Text>
           {/* <Text style={styles.italicText}>Hello, welcome back to your account!</Text> */}
         </View>
           <TextInputWithIcon
-            label='Email address'
+            label='Enter your email address'
             icon='mail'
             placeholder='yourmail@gmail.com'
             keyboardType='email-address'
@@ -35,21 +30,10 @@ const Login = ({navigation}) => {
             autoCapitalize = 'none'
             onChangeText={text => setEmail(text)}
           />
-          <TextInputWithIcon
-            label='Password'
-            icon='lock-open'
-            placeholder='* * * * * * * *'
-            isPassword={true}
-            value={password}
-            autoCapitalize = 'none'
-            onChangeText={text => setPassword(text)}
-          />
-          <LogInButton onPress={() => handleLogIn(email, password)}>Login</LogInButton>
-          <PressableText onPress={() => navigation.navigate('SignUp')}>New to MonKey? Sign-up here</PressableText>
-          <PressableText>Forgot password?</PressableText>
+          <LogInButton onPress={() => sendResetPasswordEmail(email, navigation)}>Send Password Reset Email</LogInButton>
       </KeyboardAvoidingContainer>
     </MainContainer>
   )
 }
 
-export default Login;
+export default ForgotPassword;
