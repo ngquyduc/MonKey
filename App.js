@@ -5,8 +5,13 @@ import AuthNavigation from './navigation/authNavigation';
 import Expense from './screens/inputScreen/Expense';
 import Tabs from './navigation/tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { unsubscribe } from './api/authentication';
+import ForgotPassword from './screens/ForgotPassword';
+
 export default function App() {
   return (
-    <NavigationContainer><Tabs></Tabs></NavigationContainer>
+    // <NavigationContainer><Tabs></Tabs></NavigationContainer>
+    // <AuthNavigation></AuthNavigation>
+    <ForgotPassword></ForgotPassword>
   )
 }
