@@ -321,7 +321,7 @@ const Input = ({ navigation }) => {
                   placeholderTextColor={lightBlue}
                   keyboardType='decimal-pad'
                   value={income}
-                  onChangeText={(value) => income(value)}
+                  onChangeText={(value) => setIncome(value)}
                 />
               </View>
               <View style={{
