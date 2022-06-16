@@ -3,7 +3,7 @@ import Calendar from '../screens/Calendar';
 import Home from '../screens/Home';
 import Stats from '../screens/Stats';
 import Other from '../screens/Other';
-import InputScreenNav from './inputScreenNav';
+import Input from '../screens/Input';
 import { colors } from '../components/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { View, Text, StyleSheet,  } from 'react-native';
@@ -51,7 +51,7 @@ const Tabs = () => {
           tabBarActiveBackgroundColor: beige,
           tabBarInactiveBackgroundColor: beige,
         }}/>
-      <Tab.Screen name="Input" component={InputScreenNav} 
+      <Tab.Screen name="Input" component={Input} 
         options={{
           tabBarShowLabel:false,
           headerShown:false,
