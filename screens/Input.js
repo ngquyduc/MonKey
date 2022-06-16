@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, TouchableOpacity, Platform, Button, TextInput, TouchableWithoutFeedback, Keyboard, StyleSheet} from 'react-native';
 import styles from '../components/styles';
 import { colors } from '../components/colors';
@@ -25,33 +25,34 @@ const Input = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [mode, setMode] = useState('date');
-  const showMode = (currenMode) => {
-    setShow(true);
-    setMode(currenMode);
-  } 
+
   let fDate = date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear();
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(Platform.OS === 'ios');
     setDate(currentDate)
-
-    let tempDate = new Date(currentDate);
-    let formatDate = tempDate.getDate() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getFullYear();
-    console.log(formatDate)
+  }
+  const addOneDay = () => {
+    date.setDate(date.getDate()+1)
   }
 
-  /********** Note Variables **********/
+  const subtractOneDay = () => {
+    date.setDate(date.getDate()-1)
+  }
 
+
+  /********** Note Variables **********/
+  const [note, setNote] = useState('');
 
   /********** Expense Variables **********/
-  const [expense, setExpense] = useState(0);
-  const [income, setIncome] = useState(0);
+  const [amount, setAmount] = useState(0);
+
   /********** Submit **********/
-  const handleExpenseSubmit = () => {
+  const handleExpenseSubmit = (amount, date, note, category) => {
     //call back end
   }
 
-  const handleIncomeSubmit = () => {
+  const handleIncomeSubmit = (amount, date, note, category) => {
     //call back end
   }
 
@@ -99,14 +100,14 @@ const Input = ({ navigation }) => {
                 justifyContent:'center'
               }}>
                 {/************ Add function for these 2 buttons *************/}
-                <TouchableOpacity style={{position: 'absolute'}}>
+                <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneDay}>
                   <Entypo name='chevron-left' size={28} color={darkBlue}/>
                 </TouchableOpacity>
               </View>
               <View style={styless.datePickerView}>
                 <TouchableOpacity onPress={()=>setShow(true)}>
                   <View>
-                    <Text style={styles.dateText}>{fDate}</Text>
+                    <Text style={styles.dateText}>{date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear()}</Text>
                   </View>
                 </TouchableOpacity>
 
@@ -118,7 +119,7 @@ const Input = ({ navigation }) => {
                 justifyContent:'center'
               }}>
                 {/************ Add function for these 2 buttons *************/}
-                <TouchableOpacity style={{position: 'absolute'}}>
+                <TouchableOpacity style={{position: 'absolute'}} onPress={addOneDay}>
                   <Entypo name='chevron-right' size={28} color={darkBlue}/>
                 </TouchableOpacity>
               </View>
@@ -152,7 +153,7 @@ const Input = ({ navigation }) => {
                     display='spinner'
                     onChange ={onChange}
                     minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
-                    maximumDate={new Date(moment().format('YYYY-MM-DD'))}
+                    maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
                   />
                 </View>
               </>
@@ -189,8 +190,8 @@ const Input = ({ navigation }) => {
                   placeholder='0.00'
                   placeholderTextColor={lightBlue}
                   keyboardType='decimal-pad'
-                  value={expense}
-                  onChangeText={(value) => setExpense(value)}
+                  value={amount}
+                  onChangeText={(value) => setAmount(value)}
                 />
               </View>
               <View style={{
@@ -230,7 +231,7 @@ const Input = ({ navigation }) => {
                 justifyContent:'center'
               }}>
                 {/************ Add function for these 2 buttons *************/}
-                <TouchableOpacity style={{position: 'absolute'}}>
+                <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneDay}>
                   <Entypo name='chevron-left' size={28} color={darkBlue}/>
                 </TouchableOpacity>
               </View>
@@ -249,7 +250,7 @@ const Input = ({ navigation }) => {
                 justifyContent:'center'
               }}>
                 {/************ Add function for these 2 buttons *************/}
-                <TouchableOpacity style={{position: 'absolute'}}>
+                <TouchableOpacity style={{position: 'absolute'}} onPress={addOneDay}>
                   <Entypo name='chevron-right' size={28} color={darkBlue}/>
                 </TouchableOpacity>
               </View>
@@ -283,7 +284,7 @@ const Input = ({ navigation }) => {
                     display='spinner'
                     onChange ={onChange}
                     minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
-                    maximumDate={new Date(moment().format('YYYY-MM-DD'))}
+                    maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
                   />
                 </View>
               </>
@@ -320,8 +321,8 @@ const Input = ({ navigation }) => {
                   placeholder='0.00'
                   placeholderTextColor={lightBlue}
                   keyboardType='decimal-pad'
-                  value={income}
-                  onChangeText={(value) => setIncome(value)}
+                  value={amount}
+                  onChangeText={(value) => setAmount(value)}
                 />
               </View>
               <View style={{
