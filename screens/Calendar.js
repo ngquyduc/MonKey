@@ -5,7 +5,7 @@ import styles from '../components/styles';
 const Calendar = (props) => {
   return (
     <View style={styles.mainContainer}>
-      <Text>CalendarConflict2</Text>
+      <Text>Calendar</Text>
     </View>
   );
 }
