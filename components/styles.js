@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
   mainContainerInnerScreen: {
     flex: 1,
-    paddingTop: StatusBarHeight-12,
+    //paddingTop: StatusBarHeight-12,
     backgroundColor:beige
   },
   keyboardAvoidingContainer: {

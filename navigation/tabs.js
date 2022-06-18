@@ -24,7 +24,11 @@ const styles = StyleSheet.create({
 
 const Tabs = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{
+      tabBarStyle: { position: 'absolute' },
+      tabBarBackground:()=>(
+        <View style={{backgroundColor:'#234878'}}/>
+    )}}>
       <Tab.Screen name="Home" component={Home}  
         options={{
           tabBarShowLabel:false,
@@ -35,8 +39,8 @@ const Tabs = () => {
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Home</Text>
             </View>
           ),
-          tabBarActiveBackgroundColor: beige,
-          tabBarInactiveBackgroundColor: beige,
+          // tabBarActiveBackgroundColor: beige,
+          // tabBarInactiveBackgroundColor: beige,
         }}/>
       <Tab.Screen name="Calendar" component={Calendar} 
         options={{
@@ -48,8 +52,8 @@ const Tabs = () => {
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Calendar</Text>
             </View>
           ),
-          tabBarActiveBackgroundColor: beige,
-          tabBarInactiveBackgroundColor: beige,
+          // tabBarActiveBackgroundColor: beige,
+          // tabBarInactiveBackgroundColor: beige,
         }}/>
       <Tab.Screen name="Input" component={Input} 
         options={{
@@ -68,8 +72,8 @@ const Tabs = () => {
               <Entypo name="plus" size ={36} color={beige}/>
             </View>
           ),
-          tabBarActiveBackgroundColor: beige,
-          tabBarInactiveBackgroundColor: beige,
+          // tabBarActiveBackgroundColor: beige,
+          // tabBarInactiveBackgroundColor: beige,
         }}/>
       <Tab.Screen name="Stats" component={Stats} 
         options={{
@@ -81,8 +85,8 @@ const Tabs = () => {
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Stats</Text>
             </View>
           ),
-          tabBarActiveBackgroundColor: beige,
-          tabBarInactiveBackgroundColor: beige,
+          // tabBarActiveBackgroundColor: beige,
+          // tabBarInactiveBackgroundColor: beige,
         }}/>
       <Tab.Screen name="Other" component={Other} 
         options={{
@@ -94,8 +98,8 @@ const Tabs = () => {
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Other</Text>
             </View>
           ),
-          tabBarActiveBackgroundColor: beige,
-          tabBarInactiveBackgroundColor: beige,
+          // tabBarActiveBackgroundColor: beige,
+          // tabBarInactiveBackgroundColor: beige,
         }}/>
     </Tab.Navigator>
   );
