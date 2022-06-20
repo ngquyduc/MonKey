@@ -6,6 +6,7 @@ import { colors } from '../components/colors';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
+import { SafeAreaView } from 'react-native-safe-area-context';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const Input = ({ navigation }) => {
@@ -58,7 +59,8 @@ const Input = ({ navigation }) => {
 
 
   return (
-    <>
+    <SafeAreaView style={{flex:1}} edges={'top'}>
+      {/********** Need to change color of status bar **********/}
       <StatusBar style='dark'/>
       <View style={styles.mainContainerInnerScreen}>
         <View style={styless.header}>
@@ -342,7 +344,7 @@ const Input = ({ navigation }) => {
             </View>
           </View>)}
       </View>
-    </>
+    </SafeAreaView>
   );
 }
 
@@ -355,22 +357,23 @@ const styless = StyleSheet.create({
     paddingTop:3,
   },
   expenseInputButtonView: {
+    alignItems:'center',
+    justifyContent:'center',
     flexDirection:'row',
-    height:70,
-    paddingTop:15,
+    height:60,
     paddingLeft:40,
     paddingRight:40
   },
   dateView: {
     flexDirection:'row',
-    paddingBottom:8,
-    paddingTop:8,
+    paddingBottom:7,
+    paddingTop:7,
     paddingLeft:4,
     borderBottomColor: '#E9E9E9',
     borderTopColor: '#E9E9E9',
     borderBottomWidth:1,
     borderTopWidth:1,            
-    height:60
+    height:52
   },
   datePickerView: {
     flex:55,
@@ -386,18 +389,18 @@ const styless = StyleSheet.create({
     paddingLeft:4,
     borderBottomColor: '#E9E9E9',
     borderTopColor: '#E9E9E9',      
-    height:60
+    height:52
   },
   inputContainer: {
     backgroundColor: '#FDEE87',
     color: darkBlue,
     borderColor: darkBlue,
-    padding: 15,
+    paddingRight: 12,
     width:200,
     borderRadius: 10,
     fontSize: 20,
     fontWeight:'600',
-    height: 44,
+    height: 36,
   },
   submitButton: {
     padding: 5,
