@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   mainContainerInnerScreen: {
     flex: 1,
     //paddingTop: StatusBarHeight-12,
-    backgroundColor:beige
+
   },
   keyboardAvoidingContainer: {
     flex: 1,
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     color: beige,
   },
   dateText: {
-    fontSize: 20,
+    fontSize: 19,
     fontWeight: '600',
     color: darkBlue,
   },
