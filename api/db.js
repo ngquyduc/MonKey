@@ -3,7 +3,7 @@ import {
   getFirestore, collection, getDocs, doc, 
   Timestamp, addDoc, deleteDoc,
   docRef, onSnapshot, 
-} from 'firebase/firestore/lite';
+} from 'firebase/firestore';
 import { Alert } from 'react-native';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
