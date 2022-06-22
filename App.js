@@ -9,10 +9,7 @@ import styles from './components/styles';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 export default function App() {
   return (
- <NavigationContainer><Tabs></Tabs></NavigationContainer>
-    // <View style={{marginTop:50, flex:1 }}>
-    //   <CustomDatePicker/>
-    // </View>
+    <NavigationContainer><Tabs></Tabs></NavigationContainer>
     
   )
 }
