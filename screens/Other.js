@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-web';
 import styles from '../components/styles';
 import PressableText from '../components/Containers/PressableText';
 import { autoNav, getUserEmail, handleSignOut } from '../api/authentication';
+import { handleExpense } from '../api/db';
 
 const Other = ({navigation}) => {
   return (
@@ -15,6 +16,9 @@ const Other = ({navigation}) => {
       <PressableText onPress={() => {
         getUserEmail()
       }}>User</PressableText>
+      <PressableText onPress={() => {
+        handleExpense()
+      }}>Add Data</PressableText>
     </View>
   );
 }

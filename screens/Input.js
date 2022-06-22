@@ -7,6 +7,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { handleExpenseSubmit, handleIncomeSubmit, handleExpense } from '../api/db';
+import { Timestamp } from 'firebase/firestore/lite';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const Input = () => {
@@ -45,15 +47,13 @@ const Input = () => {
   const [note, setNote] = useState('');
 
   /********** Expense Variables **********/
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
 
   /********** Submit **********/
-  const handleExpenseSubmit = (amount, date, note, category) => {
-    //call back end
-  }
-
-  const handleIncomeSubmit = (amount, date, note, category) => {
-    //call back end
+  const resetInput = () => {
+    setDate(moment())
+    setAmount('')
+    setNote('')
   }
 
   const onPress = ()=> {
@@ -219,7 +219,8 @@ const Input = () => {
               <View style={[styless.noteView, {alignItems:'center', justifyContent:'center'}]}>
                 <TouchableOpacity 
                   style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                  onPress={handleExpenseSubmit}>
+                  onPress={() => {handleIncomeSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, 'cat')
+                  resetInput()}}>
                   <Text style={styles.inputText}>Submit</Text>
                 </TouchableOpacity>
               </View>
@@ -357,7 +358,8 @@ const Input = () => {
               <View style={[styless.noteView, {alignItems:'center', justifyContent:'center'}]}>
                 <TouchableOpacity 
                   style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                  onPress={handleIncomeSubmit}>
+                  onPress={() => {handleExpenseSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, 'cat')
+                  resetInput()}}>
                   <Text style={styles.inputText}>Submit</Text>
                 </TouchableOpacity>
               </View>
