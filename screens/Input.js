@@ -8,6 +8,8 @@ import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 import { StatusBarHeight } from '../components/constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { handleExpenseSubmit, handleIncomeSubmit, handleExpense } from '../api/db';
+import { Timestamp } from 'firebase/firestore/lite';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const Input = () => {
@@ -46,7 +48,7 @@ const Input = () => {
   const [note, setNote] = useState('');
 
   /********** Expense Variables **********/
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
 
   /********** Category Variables **********/
   const [chosenCategory, setChosenCategory] = useState('');
@@ -83,20 +85,10 @@ const Input = () => {
   }
   
   /********** Submit **********/
-  const handleExpenseSubmit = (amount, date, note, category) => {
-    //call back end
-    setDate(moment());
-    setAmount(0);
-    setNote('');
-    setChosenCategory('');
-  }
-
-  const handleIncomeSubmit = (amount, date, note, category) => {
-    //call back end
-    setDate(moment());
-    setAmount(0);
-    setNote('');
-    setChosenCategory('');
+  const resetInput = () => {
+    setDate(moment())
+    setAmount('')
+    setNote('')
   }
 
   const onPress = ()=> {
@@ -261,7 +253,8 @@ const Input = () => {
                 <View style={[styless.noteView, {alignItems:'center', justifyContent:'center'}]}>
                   <TouchableOpacity 
                     style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                    onPress={handleExpenseSubmit}>
+                    onPress={() => {handleExpenseSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, 'cat')
+                    resetInput()}}>
                     <Text style={styles.inputText}>Submit</Text>
                   </TouchableOpacity>
                 </View>
@@ -398,9 +391,10 @@ const Input = () => {
                 </View>
                 <View style={[styless.noteView, {alignItems:'center', justifyContent:'center'}]}>
                   <TouchableOpacity 
-                    style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                    onPress={handleIncomeSubmit}>
-                    <Text style={styles.inputText}>Submit</Text>
+                  style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
+                  onPress={() => {handleIncomeSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, 'cat')
+                  resetInput()}}>
+                  <Text style={styles.inputText}>Submit</Text>
                   </TouchableOpacity>
                 </View>
               </View>
