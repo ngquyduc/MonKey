@@ -24,17 +24,13 @@ const styles = StyleSheet.create({
 
 const Tabs = () => {
   return (
-    <Tab.Navigator screenOptions={{
-      tabBarStyle: { position: 'absolute' },
-      tabBarBackground:()=>(
-        <View style={{backgroundColor:'#234878'}}/>
-    )}}>
+    <Tab.Navigator>
       <Tab.Screen name="Home" component={Home}  
         options={{
           tabBarShowLabel:false,
           headerShown:false,
           tabBarIcon: ({focused}) => (
-            <View style={{alignItems:'center', justifyContent:'center', top:8}}>
+            <View style={{alignItems:'center', justifyContent:'center', top:5}}>
               <Ionicons name={focused ? 'home' : 'home-outline'} size ={28} color={focused ? darkBlue : lightBlue}/>
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Home</Text>
             </View>
@@ -47,7 +43,7 @@ const Tabs = () => {
           tabBarShowLabel:false,
           headerShown:false,
           tabBarIcon: ({focused}) => (
-            <View style={{alignItems:'center', justifyContent:'center', top:8}}>
+            <View style={{alignItems:'center', justifyContent:'center', top:5}}>
               <Ionicons name={focused ? "calendar" : "calendar-outline"} size ={28} color={focused ? darkBlue : lightBlue}/>
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Calendar</Text>
             </View>
@@ -80,7 +76,7 @@ const Tabs = () => {
           tabBarShowLabel:false,
           headerShown:false,
           tabBarIcon: ({focused}) => (
-            <View style={{alignItems:'center', justifyContent:'center', top:8}}>
+            <View style={{alignItems:'center', justifyContent:'center', top:5}}>
               <Ionicons name={focused ? "bar-chart" : "bar-chart-outline"} size ={28} color={focused ? darkBlue : lightBlue}/>
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Stats</Text>
             </View>
@@ -93,7 +89,7 @@ const Tabs = () => {
           tabBarShowLabel:false,
           headerShown:false,
           tabBarIcon: ({focused}) => (
-            <View style={{alignItems:'center', justifyContent:'center', top:8}}>
+            <View style={{alignItems:'center', justifyContent:'center', top:5}}>
               <Ionicons name={focused ? "ellipsis-horizontal-sharp" : "ellipsis-horizontal-outline"} size={28} color={focused ? darkBlue : lightBlue} />
               <Text style={{fontSize:11, fontWeight:'600', color:focused ? darkBlue : lightBlue}}>Other</Text>
             </View>
