@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { View, Text, TouchableOpacity, Platform, Button, TextInput, ScrollView, Pressable, TouchableWithoutFeedback, Keyboard, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, Platform, Button, TextInput, ScrollView, Pressable, TouchableWithoutFeedback, Keyboard, StyleSheet, FlatList} from 'react-native';
 import styles from '../components/styles';
 import { colors } from '../components/colors';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -14,15 +14,17 @@ const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const Input = () => {
   /********** Bool to switch screens **********/
-  const [isIncome, setIsIncome] = useState(true);
-  const [isExpense, setIsExpense] = useState(false);
+  const [isIncome, setIsIncome] = useState(false);
+  const [isExpense, setIsExpense] = useState(true);
   const openExpense = () => {
     setIsExpense(true);
     setIsIncome(false);
+    setChosenCategory('');
   }
   const openIncome = () => {
     setIsExpense(false);
-    setIsIncome(true);    
+    setIsIncome(true); 
+    setChosenCategory('');   
   }
   const [isUnderlined, setIsUnderlined] = useState(false);
 
@@ -54,31 +56,31 @@ const Input = () => {
   const [chosenCategory, setChosenCategory] = useState('');
   const [expenseCategory, setExpenseCategoty] = useState([
     {name: 'Add', chosen: false, isAdd: true},
-    {name: 'Food', chosen: false},
-    {name: 'Clothes', chosen: false},
-    {name: 'Entertain', chosen: false},
-    {name: 'Education', chosen: false},
-    {name: 'Subcription', chosen: false},
-    {name: 'Electricity', chosen: false},
-    {name: 'Medical', chosen: false},
-    {name: 'Telephone', chosen: false},
-    {name: 'Travel', chosen: false},
-    {name: 'Cosmestic', chosen: false},
-    {name: 'Internet', chosen: false},
-    {name: 'Fitness', chosen: false}
+    {name: 'Food', chosen: false, isAdd: false},
+    {name: 'Clothes', chosen: false, isAdd: false},
+    {name: 'Entertain', chosen: false, isAdd: false},
+    {name: 'Education', chosen: false, isAdd: false},
+    {name: 'Subcription', chosen: false, isAdd: false},
+    {name: 'Electricity', chosen: false, isAdd: false},
+    {name: 'Medical', chosen: false, isAdd: false},
+    {name: 'Telephone', chosen: false, isAdd: false},
+    {name: 'Travel', chosen: false, isAdd: false},
+    {name: 'Cosmestic', chosen: false, isAdd: false},
+    {name: 'Internet', chosen: false, isAdd: false},
+    {name: 'Fitness', chosen: false, isAdd: false}
   ])
   const [incomeCategory, setIncomeCategoty] = useState([
     {name: 'Add', chosen: false, isAdd: true},
-    {name: 'Salary', chosen: false},
-    {name: 'Awards', chosen: false},
-    {name: 'Grants', chosen: false},
-    {name: 'Sale', chosen: false},
-    {name: 'Scholarship', chosen: false},
-    {name: 'Coupons', chosen: false},
-    {name: 'Stocks', chosen: false},
-    {name: 'Crypto', chosen: false},
-    {name: 'Loterry', chosen: false},
-    {name: 'Refunds', chosen: false},
+    {name: 'Salary', chosen: false, isAdd: false},
+    {name: 'Awards', chosen: false, isAdd: false},
+    {name: 'Grants', chosen: false, isAdd: false},
+    {name: 'Sale', chosen: false, isAdd: false},
+    {name: 'Scholarship', chosen: false, isAdd: false},
+    {name: 'Coupons', chosen: false, isAdd: false},
+    {name: 'Stocks', chosen: false, isAdd: false},
+    {name: 'Crypto', chosen: false, isAdd: false},
+    {name: 'Loterry', chosen: false, isAdd: false},
+    {name: 'Refunds', chosen: false, isAdd: false},
   ])
   const onPressChoose = () => {
 
@@ -250,6 +252,49 @@ const Input = () => {
                     />
                   </View>
                 </View>
+                <View style={styless.noteView}>
+                  <View style={{
+                    flex:22,
+                    paddingLeft:12,
+                    justifyContent:'center'
+                    }}>
+                    <Text style={styles.dateText}>Category</Text>
+                  </View>
+                  <View style={{
+                      flex:80,
+                      alignItems:'center',
+                      justifyContent:'center',
+                      borderBottomWidth:isUnderlined?2:0,
+                      borderBottomColor:darkYellow,
+                    }}>
+                      <Text style={styless.categoryText}>{chosenCategory}</Text>
+                  </View>
+                </View>
+                <View style={{height:160}}>
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{paddingVertical:5}}>
+                    <FlatList
+                      scrollEnabled={false}
+                      contentContainerStyle={{alignSelf: 'flex-start'}}
+                      numColumns={Math.ceil(incomeCategory.length / 3)}
+                      showsHorizontalScrollIndicator={false}
+                      showsVerticalScrollIndicator={false}
+                      data={expenseCategory}
+                      renderItem={({item}) => {
+                        return (
+                          <View style={styless.itemView}>
+                            <TouchableOpacity 
+                              style={styless.itemButton}
+                              onPress={() => setChosenCategory(item.name)}>
+                              <Text style={styless.categoryButtonText}>{item.name}</Text>
+                            </TouchableOpacity>
+                          </View>
+                        )}}/>
+                  </ScrollView>
+                </View>
                 <View style={[styless.noteView, {alignItems:'center', justifyContent:'center'}]}>
                   <TouchableOpacity 
                     style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
@@ -389,6 +434,49 @@ const Input = () => {
                       />
                   </View>
                 </View>
+                <View style={styless.noteView}>
+                  <View style={{
+                    flex:22,
+                    paddingLeft:12,
+                    justifyContent:'center'
+                    }}>
+                    <Text style={styles.dateText}>Category</Text>
+                  </View>
+                  <View style={{
+                      flex:80,
+                      alignItems:'center',
+                      justifyContent:'center',
+                      borderBottomWidth:isUnderlined?2:0,
+                      borderBottomColor:darkYellow,
+                    }}>
+                      <Text style={styless.categoryText}>{chosenCategory}</Text>
+                  </View>
+                </View>
+                <View style={{height:160}}>
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{paddingVertical:5}}>
+                    <FlatList
+                      scrollEnabled={false}
+                      contentContainerStyle={{alignSelf: 'flex-start'}}
+                      numColumns={Math.ceil(incomeCategory.length / 3)}
+                      showsHorizontalScrollIndicator={false}
+                      showsVerticalScrollIndicator={false}
+                      data={incomeCategory}
+                      renderItem={({item}) => {
+                        return (
+                          <View style={styless.itemView}>
+                            <TouchableOpacity 
+                              style={styless.itemButton}
+                              onPress={() => setChosenCategory(item.name)}>
+                              <Text style={styless.categoryButtonText}>{item.name}</Text>
+                            </TouchableOpacity>
+                          </View>
+                        )}}/>
+                  </ScrollView>
+                </View>
                 <View style={[styless.noteView, {alignItems:'center', justifyContent:'center'}]}>
                   <TouchableOpacity 
                   style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
@@ -483,6 +571,34 @@ const styless = StyleSheet.create({
     borderBottomRightRadius:10,
     borderTopRightRadius:10,
     backgroundColor:darkYellow
+  },
+  itemView: {
+    alignItems:'center',
+    justifyContent:'center',
+    height: 50,
+    width:150, 
+  },
+  itemButton: {
+    flexDirection: 'row',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomLeftRadius:10, 
+    borderBottomRightRadius:10,
+    borderTopLeftRadius:10, 
+    borderTopRightRadius:10, 
+    backgroundColor:lightYellow,
+    width:120
+  },
+  categoryText: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: darkBlue,
+  },
+  categoryButtonText: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: darkBlue,
   }
 })
 
