@@ -17,8 +17,10 @@ const ForgotPassword = ({navigation}) => {
   return (
     <MainContainer>
       <KeyboardAvoidingContainer>
-        <View style={{alignContent: 'center', paddingBottom: 10}}>
-          <Text style={styles.boldBlueText}>Reset your password</Text>
+        <View style={{alignContent: 'center', paddingBottom: 20}}>
+          <Text style={styles.boldBlueText}>
+            Reset your password
+          </Text>
           {/* <Text style={styles.italicText}>Hello, welcome back to your account!</Text> */}
         </View>
           <TextInputWithIcon
@@ -30,7 +32,9 @@ const ForgotPassword = ({navigation}) => {
             autoCapitalize = 'none'
             onChangeText={text => setEmail(text)}
           />
-          <LogInButton onPress={() => sendResetPasswordEmail(email, navigation)}>Send Password Reset Email</LogInButton>
+          <LogInButton onPress={() => sendResetPasswordEmail(email, navigation)}>
+            Send Password Reset Email
+          </LogInButton>
       </KeyboardAvoidingContainer>
     </MainContainer>
   )

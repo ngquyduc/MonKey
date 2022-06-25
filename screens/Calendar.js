@@ -1,25 +1,29 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Pressable, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Pressable, FlatList, TouchableOpacity } from 'react-native';
 import styles from '../components/styles';
-import { expenseRef } from '../api/db';
-import { onSnapshot } from 'firebase/firestore';
+import { financeRef, db } from '../api/db';
+import { onSnapshot, query, where, orderBy, deleteDoc, doc } from 'firebase/firestore';
+import { getUserID } from '../api/authentication';
 
 const Calendar = (props) => {
-  const [expenses, setExpenses] = useState([])
+  const [finances, setFinances] = useState([])
 
   useEffect(() => {
-    onSnapshot(expenseRef,
+    const userQuery = query(financeRef, where("user", "==", getUserID()), orderBy("date", "desc"), orderBy("time", "desc"))
+    onSnapshot(userQuery,
       (snapShot) => {
-        const expenses = []
+        const finances = []
         snapShot.forEach((doc) => {
-          expenses.push({
+          finances.push({
             date: doc.data().date,
             amount: doc.data().amount,
             note: doc.data().note,
-            category: doc.data().category
+            category: doc.data().category,
+            type: doc.data().type,
+            id: doc.id,
           })
         })
-        setExpenses(expenses)
+        setFinances(finances)
       }
     )
   }, [])
@@ -28,19 +32,35 @@ const Calendar = (props) => {
     <View style={styles.mainContainer}>
       <FlatList
         style={{height:'100%'}}
-        data={expenses}
+        data={finances}
         numColumns={1}
         renderItem={({item}) => (
-          <Pressable
+          <View
             style={styless.container}
           >
             <View style={styless.innerContainer}>
-              <Text>{item.date}</Text>
-              <Text>{item.category}</Text>
-              <Text>{item.note}</Text>
-              <Text>{item.amount.toString()}</Text>
+              <Text>
+                {item.date}
+              </Text>
+              <Text>{"category: " + item.category}</Text>
+              <Text>{"note: $" + item.note}</Text>
+              <Text
+                style={{
+                  color: item.type=='expense'
+                    ?'red'
+                    :'green',
+                }}
+              >
+                {"amount: " + item.amount.toString()}
+              </Text>
+              <Pressable 
+                style={{alignSelf:'flex-end'}}
+                onPress={() => deleteDoc(doc(db, 'finance', item.id))}
+              >
+                <Text style={{color:'red'}}>Delete note</Text>
+              </Pressable>
             </View>
-          </Pressable>
+          </View>
         )}
       />
     </View>

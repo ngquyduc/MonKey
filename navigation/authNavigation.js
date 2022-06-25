@@ -2,6 +2,7 @@ import Tabs from './tabs';
 import Login from '../screens/Login';
 import SignUp from '../screens/Signup';
 import Other from '../screens/Other';
+import ForgotPassword from '../screens/ForgotPassword';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -12,6 +13,7 @@ const AuthNavigation = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown:false}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
         <Stack.Screen name="Tabs" component={Tabs} options={{headerShown:false}}/>
         <Stack.Screen name="Other" component={Other} options={{headerShown:false}}/>

@@ -3,25 +3,30 @@ import {
   getFirestore, collection, getDocs, doc, 
   Timestamp, addDoc, deleteDoc,
   docRef, onSnapshot, 
+  query, where, orderBy
 } from 'firebase/firestore';
 import { Alert } from 'react-native';
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
+import { getUserID } from './authentication';
 
 // init firestore
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 // collection ref
-const incomeRef = collection(db, 'income')
-const expenseRef = collection(db, 'expense')
+const financeRef = collection(db, 'finance')
+
+// query 
+// export const userQuery = query(financeRef, where("user", "==", getUserID()), orderBy("date", "desc"))
 
 const handleExpenseSubmit = async (date, amount, note, category) => {
   try {
-    const docRef = await addDoc(expenseRef, {
+    const docRef = await addDoc(financeRef, {
       date: date,
       amount: amount,
       note: note,
       category: category,
-      time: Timestamp.now()
+      time: Timestamp.now(),
+      type: 'expense',
+      user: getUserID(),
     })
     console.log('Added %s to expense', docRef.id); 
   } catch (err) {
@@ -31,12 +36,14 @@ const handleExpenseSubmit = async (date, amount, note, category) => {
 
 const handleIncomeSubmit = async (date, amount, note, category) => {
   try {
-    const docRef = await addDoc(incomeRef, {
+    const docRef = await addDoc(financeRef, {
       date: date,
       amount: amount,
       note: note,
       category: category,
-      time: Timestamp.now()
+      time: Timestamp.now(),
+      type: 'income',
+      user: getUserID(),
     })
     console.log('Added %s to income', docRef.id); 
   } catch (err) {
@@ -44,11 +51,4 @@ const handleIncomeSubmit = async (date, amount, note, category) => {
   }
 }
 
-// const unsub = onSnapshot(expenseRef, (snapshot) => {
-//   expenses = []
-//   snapshot.docs.forEach((doc) => {
-//     expenses.push({...doc.data()})
-//   })
-//   console.log(expenses)
-// })
-export {expenseRef, handleExpenseSubmit, handleIncomeSubmit}
+export {financeRef, handleExpenseSubmit, handleIncomeSubmit}

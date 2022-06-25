@@ -44,9 +44,15 @@ const Login = ({navigation}) => {
             autoCapitalize = 'none'
             onChangeText={text => setPassword(text)}
           />
-          <LogInButton onPress={() => handleLogIn(email, password)}>Login</LogInButton>
-          <PressableText onPress={() => navigation.navigate('SignUp')}>New to MonKey? Sign-up here</PressableText>
-          <PressableText>Forgot password?</PressableText>
+          <LogInButton onPress={() => handleLogIn(email, password)}>
+            Login
+          </LogInButton>
+          <PressableText onPress={() => navigation.navigate('SignUp')}>
+            New to MonKey? Sign-up here
+          </PressableText>
+          <PressableText onPress={() => navigation.navigate('ForgotPassword')}>
+            Forgot password?
+          </PressableText>
       </KeyboardAvoidingContainer>
     </MainContainer>
   )

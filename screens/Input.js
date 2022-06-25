@@ -8,7 +8,7 @@ import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 import { StatusBarHeight } from '../components/constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { handleExpenseSubmit, handleIncomeSubmit, handleExpense } from '../api/db';
+import { handleExpenseSubmit, handleIncomeSubmit } from '../api/db';
 import { Timestamp } from 'firebase/firestore/lite';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 

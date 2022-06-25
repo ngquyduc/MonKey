@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-web';
 import styles from '../components/styles';
 import PressableText from '../components/Containers/PressableText';
-import { autoNav, getUserEmail, handleSignOut } from '../api/authentication';
+import { autoNav, displayUserID, handleSignOut } from '../api/authentication';
 import { handleExpense } from '../api/db';
 
 const Other = ({navigation}) => {
@@ -12,13 +12,19 @@ const Other = ({navigation}) => {
       <Text>Other</Text>
       <PressableText onPress={() => {
         handleSignOut(navigation)
-      }}>Sign Out</PressableText>
+      }}>
+        Sign Out
+      </PressableText>
       <PressableText onPress={() => {
-        getUserEmail()
-      }}>User</PressableText>
+        displayUserID()
+      }}>
+        getUserID
+      </PressableText>
       <PressableText onPress={() => {
         handleExpense()
-      }}>Add Data</PressableText>
+      }}>
+        Add Data
+      </PressableText>
     </View>
   );
 }
