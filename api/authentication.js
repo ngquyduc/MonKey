@@ -40,7 +40,7 @@ export const autoNav = (nav) => {
 
 export const handleSignOut = (nav) => {
   signOut(authentication)
-  .then(nav.navigate('Login'))
+  .then(nav.navigate("Login"))
   ;
 }
 

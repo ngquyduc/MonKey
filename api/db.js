@@ -44,11 +44,11 @@ const handleIncomeSubmit = async (date, amount, note, category) => {
   }
 }
 
-const unsub = onSnapshot(expenseRef, (snapshot) => {
-  expenses = []
-  snapshot.docs.forEach((doc) => {
-    expenses.push({...doc.data()})
-  })
-  console.log(expenses)
-})
-export {handleExpenseSubmit, handleIncomeSubmit, unsub}
+// const unsub = onSnapshot(expenseRef, (snapshot) => {
+//   expenses = []
+//   snapshot.docs.forEach((doc) => {
+//     expenses.push({...doc.data()})
+//   })
+//   console.log(expenses)
+// })
+export {expenseRef, handleExpenseSubmit, handleIncomeSubmit}

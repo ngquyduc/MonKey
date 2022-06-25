@@ -91,6 +91,7 @@ const Input = () => {
     setDate(moment())
     setAmount('')
     setNote('')
+    setChosenCategory('')
   }
 
   const onPress = ()=> {
@@ -298,7 +299,7 @@ const Input = () => {
                 <View style={[styless.noteView, {alignItems:'center', justifyContent:'center'}]}>
                   <TouchableOpacity 
                     style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                    onPress={() => {handleExpenseSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, 'cat')
+                    onPress={() => {handleExpenseSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, chosenCategory)
                     resetInput()}}>
                     <Text style={styles.inputText}>Submit</Text>
                   </TouchableOpacity>
@@ -480,7 +481,7 @@ const Input = () => {
                 <View style={[styless.noteView, {alignItems:'center', justifyContent:'center'}]}>
                   <TouchableOpacity 
                   style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                  onPress={() => {handleIncomeSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, 'cat')
+                  onPress={() => {handleIncomeSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, chosenCategory)
                   resetInput()}}>
                   <Text style={styles.inputText}>Submit</Text>
                   </TouchableOpacity>
