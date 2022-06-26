@@ -10,7 +10,6 @@ import { autoNav, handleLogIn, sendResetPasswordEmail } from '../api/authenticat
 import SignUp from './Signup';
 
 const ForgotPassword = ({navigation}) => {
-  useEffect(() => autoNav(navigation), []);
 
   const [email, setEmail] = useState('');
 
