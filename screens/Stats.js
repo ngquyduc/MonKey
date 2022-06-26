@@ -81,13 +81,6 @@ const Stats = (props) => {
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
     },
-    {
-      name: "Moscow",
-      population: 11920000,
-      color: "rgb(0, 0, 255)",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    }
   ];
 
   return (
