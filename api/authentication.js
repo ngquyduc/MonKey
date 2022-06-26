@@ -1,7 +1,5 @@
 import { app } from "./firebase";
-import { 
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail 
-} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 

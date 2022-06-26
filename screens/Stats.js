@@ -84,7 +84,7 @@ const Stats = (props) => {
   ];
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={styles.mainContainerInnerScreen}>
       <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>
       <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>
       <PieChart
@@ -95,7 +95,7 @@ const Stats = (props) => {
         accessor={"population"}
         backgroundColor={"transparent"}
         paddingLeft={"15"}
-        center={[10, 50]}
+        center={[10, 10]}
         absolute
       />
     </View>

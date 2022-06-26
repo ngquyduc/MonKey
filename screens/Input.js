@@ -79,7 +79,7 @@ const Input = () => {
     {name: 'Coupons', chosen: false, isAdd: false},
     {name: 'Stocks', chosen: false, isAdd: false},
     {name: 'Crypto', chosen: false, isAdd: false},
-    {name: 'Loterry', chosen: false, isAdd: false},
+    {name: 'Lottery', chosen: false, isAdd: false},
     {name: 'Refunds', chosen: false, isAdd: false},
   ])
   const onPressChoose = () => {
@@ -170,7 +170,7 @@ const Input = () => {
                   <>
                     <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
                       <View style={{flex:5}}>
-                        <TouchableOpacity onPress={()=> {setShow(false), setDate(new Date())}}>
+                        <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
                           <View>
                             <Text style={styles.datePickerOffText}>Cancel</Text>
                           </View>
@@ -186,7 +186,6 @@ const Input = () => {
                     </View>
                     <View style={{
                       borderBottomColor: '#E9E9E9',
-                      borderBottomWidth:1,
                     }}>
                       <DateTimePicker
                         value={new Date(date)}
@@ -265,22 +264,21 @@ const Input = () => {
                       flex:80,
                       alignItems:'center',
                       justifyContent:'center',
-                      borderBottomWidth:isUnderlined?2:0,
                       borderBottomColor:darkYellow,
                     }}>
                       <Text style={styless.categoryText}>{chosenCategory}</Text>
                   </View>
                 </View>
-                <View style={{height:160}}>
+                <View style={{height:147}}>
                   <ScrollView
                     horizontal
-                    showsHorizontalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={true}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{paddingVertical:5}}>
                     <FlatList
                       scrollEnabled={false}
                       contentContainerStyle={{alignSelf: 'flex-start'}}
-                      numColumns={Math.ceil(incomeCategory.length / 3)}
+                      numColumns={Math.ceil(expenseCategory.length / 3)}
                       showsHorizontalScrollIndicator={false}
                       showsVerticalScrollIndicator={false}
                       data={expenseCategory}
@@ -296,7 +294,7 @@ const Input = () => {
                         )}}/>
                   </ScrollView>
                 </View>
-                <View style={[styless.noteView, {alignItems:'center', justifyContent:'center'}]}>
+                <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                   <TouchableOpacity 
                     style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
                     onPress={() => {handleExpenseSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, chosenCategory)
@@ -354,7 +352,7 @@ const Input = () => {
                   <>
                     <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
                       <View style={{flex:5}}>
-                        <TouchableOpacity onPress={()=> {setShow(false), setDate(new Date())}}>
+                        <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
                           <View>
                             <Text style={styles.datePickerOffText}>Cancel</Text>
                           </View>
@@ -370,7 +368,6 @@ const Input = () => {
                     </View>
                     <View style={{
                       borderBottomColor: '#E9E9E9',
-                      borderBottomWidth:1,
                     }}>
                       <DateTimePicker
                         value={new Date(date)}
@@ -447,16 +444,15 @@ const Input = () => {
                       flex:80,
                       alignItems:'center',
                       justifyContent:'center',
-                      borderBottomWidth:isUnderlined?2:0,
                       borderBottomColor:darkYellow,
                     }}>
                       <Text style={styless.categoryText}>{chosenCategory}</Text>
                   </View>
                 </View>
-                <View style={{height:160}}>
+                <View style={{height:147}}>
                   <ScrollView
                     horizontal
-                    showsHorizontalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={true}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{paddingVertical:5}}>
                     <FlatList
@@ -478,7 +474,7 @@ const Input = () => {
                         )}}/>
                   </ScrollView>
                 </View>
-                <View style={[styless.noteView, {alignItems:'center', justifyContent:'center'}]}>
+                <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                   <TouchableOpacity 
                   style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
                   onPress={() => {handleIncomeSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, chosenCategory)
@@ -519,7 +515,7 @@ const styless = StyleSheet.create({
     borderBottomColor: '#E9E9E9',
     borderTopColor: '#E9E9E9',
     borderTopWidth:1,            
-    height:52
+    height:48
   },
   datePickerView: {
     flex:55,
@@ -536,8 +532,17 @@ const styless = StyleSheet.create({
     borderBottomColor: '#E9E9E9',
     borderTopColor: '#E9E9E9',  
     borderTopWidth:1,      
-    borderBottomWidth:1,    
-    height:52
+    //borderBottomWidth:1,    
+    height:48
+  },
+  submitButtonView: {
+    flexDirection:'row',
+    paddingBottom:4,
+    paddingTop:4,
+    paddingLeft:4,
+    borderBottomColor: '#E9E9E9',
+    borderTopColor: '#E9E9E9',     
+    height:48
   },
   inputContainer: {
     backgroundColor: '#FDEE87',
@@ -576,12 +581,12 @@ const styless = StyleSheet.create({
   itemView: {
     alignItems:'center',
     justifyContent:'center',
-    height: 50,
+    height: 46,
     width:150, 
   },
   itemButton: {
     flexDirection: 'row',
-    height: 40,
+    height: 36,
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomLeftRadius:10, 
