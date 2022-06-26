@@ -45,15 +45,15 @@ const Calendar = (props) => {
 
   return (
     <View style={styles.mainContainer}>
-      <Text style={{color:'green'}}>{"Income: " + income}</Text>
-      <Text style={{color:'red'}}>{"Expense: " + expense}</Text>
+      <Text style={{color:'green'}}>{"Income: $" + income}</Text>
+      <Text style={{color:'red'}}>{"Expense: $" + expense}</Text>
       <Text style={{
                   color: total < 0
                     ?'red'
                     :'green',
                 }}
       >
-        {"Total: " + total}
+        {"Total: $" + total}
       </Text>
       <FlatList
         style={{height:'100%'}}

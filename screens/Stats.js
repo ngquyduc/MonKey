@@ -12,6 +12,15 @@ const Stats = (props) => {
   const [expense, setExpense] = useState({})
   const [totalIncome, setTotalIncome] = useState(0)
   const [totalExpense, setTotalExpense] = useState(0)
+  const [data, setData] = useState([])
+
+  const generateColor = () => {
+    const randomColor = Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, '0');
+    return `#${randomColor}`;
+  };
+  
 
   useEffect(() => {
     const q = query(financeRef, where("user", "==", getUserID()))
@@ -46,42 +55,22 @@ const Stats = (props) => {
         incomes.forEach((amount, cat) => {totalIncome += amount})
         var totalExpense = 0
         expenses.forEach((amount, cat) => {totalExpense += amount})
+        const temp = []
+        expenses.forEach((amount, cat) => temp.push({
+          name: cat,
+          amount: amount,
+          color: generateColor(),
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 15
+        }))
+        setData(temp)
         setTotalIncome(totalIncome)
         setTotalExpense(totalExpense)
       }
     )
   }, [])
 
-  const data = [
-    {
-      name: "Seoul",
-      population: 21500000,
-      color: "rgba(131, 167, 234, 1)",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-    {
-      name: "Toronto",
-      population: 2800000,
-      color: "#F00",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-    {
-      name: "Beijing",
-      population: 527612,
-      color: "red",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-    {
-      name: "New York",
-      population: 8538000,
-      color: "#ffffff",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-  ];
+  
 
   return (
     <View style={styles.mainContainer}>
@@ -90,12 +79,12 @@ const Stats = (props) => {
       <PieChart
         data={data}
         width={ScreenWidth}
-        height={300}
+        height={250}
         chartConfig={chartConfig}
-        accessor={"population"}
+        accessor={"amount"}
         backgroundColor={"transparent"}
         paddingLeft={"15"}
-        center={[10, 50]}
+        center={[10, 10]}
         absolute
       />
     </View>
