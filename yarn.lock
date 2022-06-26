@@ -2561,7 +2561,7 @@
 
 "@react-native-community/datetimepicker@6.1.2":
   version "6.1.2"
-  resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-6.1.2.tgz#a897291bc8ff2394f922721f40692c812f9145a0"
+  resolved "https://registry.npmjs.org/@react-native-community/datetimepicker/-/datetimepicker-6.1.2.tgz"
   integrity sha512-4D21x4eywCY2Ex4BI6tQhUEOOKSruz9uPbGK0azGKZap/etoiPtH3nuG56ACtpmUlu5d1R9zzTlumr02dp39hA==
   dependencies:
     invariant "^2.2.4"
@@ -6433,7 +6433,7 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
 
 moment@^2.29.3:
   version "2.29.3"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.3.tgz#edd47411c322413999f7a5940d526de183c031f3"
+  resolved "https://registry.npmjs.org/moment/-/moment-2.29.3.tgz"
   integrity sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==
 
 ms@2.0.0:
@@ -6922,7 +6922,7 @@ path-type@^4.0.0:
 
 paths-js@^0.4.10:
   version "0.4.11"
-  resolved "https://registry.yarnpkg.com/paths-js/-/paths-js-0.4.11.tgz#b2a9d5f94ee9949aa8fee945f78a12abff44599e"
+  resolved "https://registry.npmjs.org/paths-js/-/paths-js-0.4.11.tgz"
   integrity sha512-3mqcLomDBXOo7Fo+UlaenG6f71bk1ZezPQy2JCmYHy2W2k5VKpP+Jbin9H0bjXynelTbglCqdFhSEkeIkKTYUA==
 
 picocolors@^1.0.0:
@@ -6974,7 +6974,7 @@ pngjs@^3.3.0:
 
 point-in-polygon@^1.0.1:
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/point-in-polygon/-/point-in-polygon-1.1.0.tgz#b0af2616c01bdee341cbf2894df643387ca03357"
+  resolved "https://registry.npmjs.org/point-in-polygon/-/point-in-polygon-1.1.0.tgz"
   integrity sha512-3ojrFwjnnw8Q9242TzgXuTD+eKiutbzyslcq1ydfu82Db2y+Ogbmyrkpv0Hgj31qwT3lbS9+QAAO/pIQM35XRw==
 
 posix-character-classes@^0.1.0:

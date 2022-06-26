@@ -8,6 +8,7 @@ import LogInButton from '../components/Containers/LogInButton';
 import PressableText from '../components/Containers/PressableText';
 import { autoNav, handleLogIn } from '../api/authentication';
 import SignUp from './Signup';
+import { StatusBar } from 'expo-status-bar';
 
 const Login = ({navigation}) => {
   useEffect(() => autoNav(navigation), []);
@@ -16,45 +17,48 @@ const Login = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   return (
-    <MainContainer>
-      <KeyboardAvoidingContainer>
-        <View 
-          style={{alignItems: 'center' }}>
-          <Text style={styles.appName}>MonKey</Text>
-        </View>
-        <View style={{alignContent: 'left', paddingBottom: 20}}>
-          <Text style={styles.boldBlueText}>Login</Text>
-          {/* <Text style={styles.italicText}>Hello, welcome back to your account!</Text> */}
-        </View>
-          <TextInputWithIcon
-            label='Email address'
-            icon='mail'
-            placeholder='yourmail@gmail.com'
-            keyboardType='email-address'
-            value={email}
-            autoCapitalize = 'none'
-            onChangeText={text => setEmail(text)}
-          />
-          <TextInputWithIcon
-            label='Password'
-            icon='lock-open'
-            placeholder='* * * * * * * *'
-            isPassword={true}
-            value={password}
-            autoCapitalize = 'none'
-            onChangeText={text => setPassword(text)}
-          />
-          <LogInButton onPress={() => handleLogIn(email, password)}>
-            Login
-          </LogInButton>
-          <PressableText onPress={() => navigation.navigate('SignUp')}>
-            New to MonKey? Sign-up here
-          </PressableText>
-          <PressableText onPress={() => navigation.navigate('ForgotPassword')}>
-            Forgot password?
-          </PressableText>
-      </KeyboardAvoidingContainer>
-    </MainContainer>
+    <>
+    <StatusBar style='dark'/>
+      <MainContainer>
+        <KeyboardAvoidingContainer>
+          <View 
+            style={{alignItems: 'center' }}>
+            <Text style={styles.appName}>MonKey</Text>
+          </View>
+          <View style={{alignContent: 'left', paddingBottom: 20}}>
+            <Text style={styles.boldBlueText}>Login</Text>
+            {/* <Text style={styles.italicText}>Hello, welcome back to your account!</Text> */}
+          </View>
+            <TextInputWithIcon
+              label='Email address'
+              icon='mail'
+              placeholder='yourmail@gmail.com'
+              keyboardType='email-address'
+              value={email}
+              autoCapitalize = 'none'
+              onChangeText={text => setEmail(text)}
+            />
+            <TextInputWithIcon
+              label='Password'
+              icon='lock-open'
+              placeholder='* * * * * * * *'
+              isPassword={true}
+              value={password}
+              autoCapitalize = 'none'
+              onChangeText={text => setPassword(text)}
+            />
+            <LogInButton onPress={() => handleLogIn(email, password)}>
+              Login
+            </LogInButton>
+            <PressableText onPress={() => navigation.navigate('SignUp')}>
+              New to MonKey? Sign-up here
+            </PressableText>
+            <PressableText onPress={() => navigation.navigate('ForgotPassword')}>
+              Forgot password?
+            </PressableText>
+        </KeyboardAvoidingContainer>
+      </MainContainer>
+    </>
   )
 }
 
