@@ -12,7 +12,8 @@ const Stats = (props) => {
   const [expense, setExpense] = useState({})
   const [totalIncome, setTotalIncome] = useState(0)
   const [totalExpense, setTotalExpense] = useState(0)
-  const [data, setData] = useState([])
+  const [data1, setData1] = useState([])
+  const [data2, setData2] = useState([])
 
   const generateColor = () => {
     const randomColor = Math.floor(Math.random() * 16777215)
@@ -55,16 +56,25 @@ const Stats = (props) => {
         incomes.forEach((amount, cat) => {totalIncome += amount})
         var totalExpense = 0
         expenses.forEach((amount, cat) => {totalExpense += amount})
-        const temp = []
-        expenses.forEach((amount, cat) => temp.push({
+        const temp1 = []
+        incomes.forEach((amount, cat) => temp1.push({
           name: cat,
           amount: amount,
           color: generateColor(),
           legendFontColor: "#7F7F7F",
           legendFontSize: 15
         }))
-        setData(temp)
+        setData1(temp1)
         setTotalIncome(totalIncome)
+        const temp2 = []
+        expenses.forEach((amount, cat) => temp2.push({
+          name: cat,
+          amount: amount,
+          color: generateColor(),
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 15
+        }))
+        setData2(temp2)
         setTotalExpense(totalExpense)
       }
     )
@@ -74,10 +84,21 @@ const Stats = (props) => {
 
   return (
     <View style={styles.mainContainer}>
-      <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>
+      <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>     
+      <PieChart
+        data={data1}
+        width={ScreenWidth}
+        height={250}
+        chartConfig={chartConfig}
+        accessor={"amount"}
+        backgroundColor={"transparent"}
+        paddingLeft={"15"}
+        center={[10, 10]}
+        absolute
+      />
       <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>
       <PieChart
-        data={data}
+        data={data2}
         width={ScreenWidth}
         height={250}
         chartConfig={chartConfig}
