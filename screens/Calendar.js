@@ -7,12 +7,17 @@ import { getUserID } from '../api/authentication';
 
 const Calendar = (props) => {
   const [finances, setFinances] = useState([])
+  const [income, setIncome] = useState(0)
+  const [expense, setExpense] = useState(0)
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
     const userQuery = query(financeRef, where("user", "==", getUserID()), orderBy("date", "desc"), orderBy("time", "desc"))
     onSnapshot(userQuery,
       (snapShot) => {
         const finances = []
+        const expenses = []
+        const incomes = []
         snapShot.forEach((doc) => {
           finances.push({
             date: doc.data().date,
@@ -22,14 +27,34 @@ const Calendar = (props) => {
             type: doc.data().type,
             id: doc.id,
           })
+          if (doc.data().type == 'expense') {
+            expenses.push(doc.data().amount)
+          } else {
+            incomes.push(doc.data().amount)
+          }
         })
         setFinances(finances)
+        const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
+        setIncome(totalIncome)
+        const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
+        setExpense(totalExpense)
+        setTotal(totalIncome - totalExpense)
       }
     )
   }, [])
 
   return (
     <View style={styles.mainContainer}>
+      <Text style={{color:'green'}}>{"Income: " + income}</Text>
+      <Text style={{color:'red'}}>{"Expense: " + expense}</Text>
+      <Text style={{
+                  color: total < 0
+                    ?'red'
+                    :'green',
+                }}
+      >
+        {"Total: " + total}
+      </Text>
       <FlatList
         style={{height:'100%'}}
         data={finances}
@@ -43,7 +68,7 @@ const Calendar = (props) => {
                 {item.date}
               </Text>
               <Text>{"category: " + item.category}</Text>
-              <Text>{"note: $" + item.note}</Text>
+              <Text>{"note: " + item.note}</Text>
               <Text
                 style={{
                   color: item.type=='expense'
@@ -51,7 +76,7 @@ const Calendar = (props) => {
                     :'green',
                 }}
               >
-                {"amount: " + item.amount.toString()}
+                {"amount: $" + item.amount.toString()}
               </Text>
               <Pressable 
                 style={{alignSelf:'flex-end'}}
