@@ -20,7 +20,7 @@ const SignUp = ({navigation}) => {
       <StatusBar style='dark'/>
       <MainContainer>
         <KeyboardAvoidingContainer>
-          <View style={{alignContent: 'left', paddingBottom: 20}}>
+          <View style={{alignContent: 'flex-start', paddingBottom: 20}}>
             <Text style={styles.boldBlueText}>Sign-up</Text>
           </View>
             <TextInputWithIcon

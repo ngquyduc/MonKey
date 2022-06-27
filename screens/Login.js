@@ -25,7 +25,7 @@ const Login = ({navigation}) => {
             style={{alignItems: 'center' }}>
             <Text style={styles.appName}>MonKey</Text>
           </View>
-          <View style={{alignContent: 'left', paddingBottom: 20}}>
+          <View style={{alignContent: 'flex-start', paddingBottom: 20}}>
             <Text style={styles.boldBlueText}>Login</Text>
             {/* <Text style={styles.italicText}>Hello, welcome back to your account!</Text> */}
           </View>
