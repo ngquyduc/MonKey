@@ -1,15 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
-import { View, Text, TouchableOpacity, Platform, Button, TextInput, ScrollView, Pressable, TouchableWithoutFeedback, Keyboard, StyleSheet, FlatList} from 'react-native';
+import React, {useState} from 'react';
+import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert} from 'react-native';
 import styles from '../components/styles';
 import { colors } from '../components/colors';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
-import { StatusBarHeight } from '../components/constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { handleExpenseSubmit, handleIncomeSubmit } from '../api/db';
-import { Timestamp } from 'firebase/firestore/lite';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const Input = () => {
@@ -26,7 +23,6 @@ const Input = () => {
     setIsIncome(true); 
     setChosenCategory('');   
   }
-  const [isUnderlined, setIsUnderlined] = useState(false);
 
   /********** Date Picker Variables **********/
   let [date, setDate] = useState(moment());
@@ -87,16 +83,42 @@ const Input = () => {
   }
   
   /********** Submit **********/
-  const resetInput = () => {
-    setDate(moment())
-    setAmount('')
-    setNote('')
-    setChosenCategory('')
+  const handleExpenseInput = (date, amount, note, chosenCategory) => {
+    if (amount != '' && chosenCategory != '') {
+      handleExpenseSubmit(date, Number(amount), note, chosenCategory)
+      setDate(moment())
+      setAmount('')
+      setNote('')
+      setChosenCategory('')
+    } else if (amount == '') {
+      Alert.alert("Alert", "Please enter the expense amount", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    } else if (chosenCategory == '') {
+      Alert.alert("Alert", "Please choose the category", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    }
   }
 
-  const onPress = ()=> {
-    Keyboard.dismiss();
+  const handleIncomeInput = (date, amount, note, chosenCategory) => {
+    if (amount != '' && chosenCategory != '') {
+      handleIncomeSubmit(date, Number(amount), note, chosenCategory)
+      setDate(moment())
+      setAmount('')
+      setNote('')
+      setChosenCategory('')
+    } else if (amount == '') {
+      Alert.alert("Alert", "Please enter the income amount", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    } else if (chosenCategory == '') {
+      Alert.alert("Alert", "Please choose the category", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    }
   }
+
   return (
     <ScrollView>
       <Pressable onPress={Keyboard.dismiss}>
@@ -240,7 +262,6 @@ const Input = () => {
                     flex:80,
                     alignItems:'center',
                     justifyContent:'center',
-                    borderBottomWidth:isUnderlined?2:0,
                     borderBottomColor:darkYellow,
                   }}>
                     <TextInput
@@ -297,8 +318,7 @@ const Input = () => {
                 <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                   <TouchableOpacity 
                     style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                    onPress={() => {handleExpenseSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, chosenCategory)
-                    resetInput()}}>
+                    onPress={() => {handleExpenseInput(date.format('DD-MM-YYYY').toString(), amount, note, chosenCategory)}}>
                     <Text style={styles.inputText}>Submit</Text>
                   </TouchableOpacity>
                 </View>
@@ -417,19 +437,18 @@ const Input = () => {
                     <Text style={styles.dateText}>Note</Text>
                   </View>
                   <View style={{
-                      flex:80,
-                      alignItems:'center',
-                      justifyContent:'center',
-                      borderBottomWidth:isUnderlined?2:0,
-                      borderBottomColor:darkYellow,
-                    }}>
-                      <TextInput
-                        style={[styless.noteInputContainer, {textAlign:'left'}]}
-                        placeholder='Note'
-                        placeholderTextColor={lightBlue}
-                        value={note}
-                        onChangeText={(value) => setNote(value)}
-                      />
+                    flex:80,
+                    alignItems:'center',
+                    justifyContent:'center',
+                    borderBottomColor:darkYellow,
+                  }}>
+                    <TextInput
+                      style={[styless.noteInputContainer, {textAlign:'left'}]}
+                      placeholder='Note'
+                      placeholderTextColor={lightBlue}
+                      value={note}
+                      onChangeText={(value) => setNote(value)}
+                    />
                   </View>
                 </View>
                 <View style={styless.noteView}>
@@ -477,8 +496,7 @@ const Input = () => {
                 <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                   <TouchableOpacity 
                   style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                  onPress={() => {handleIncomeSubmit(date.format('DD-MM-YYYY').toString(), Number(amount), note, chosenCategory)
-                  resetInput()}}>
+                  onPress={() => {handleIncomeInput(date.format('DD-MM-YYYY').toString(), amount, note, chosenCategory)}}>
                   <Text style={styles.inputText}>Submit</Text>
                   </TouchableOpacity>
                 </View>
