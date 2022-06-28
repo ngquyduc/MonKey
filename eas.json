@@ -3,17 +3,22 @@
     "version": ">= 0.54.1"
   },
   "build": {
-    "preview": {
+    "preview1": {
       "android": {
         "buildType": "apk"
       }
     },
     "preview2": {
+      "ios": {
+        "simulator": true
+      }
+    },
+    "preview3": {
       "android": {
         "gradleCommand": ":app:assembleRelease"
       }
     },
-    "preview3": {
+    "preview4": {
       "developmentClient": true
     },
     "production": {}
