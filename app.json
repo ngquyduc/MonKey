@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "test_project",
-    "slug": "test_project",
+    "name": "MonKey",
+    "slug": "monkey",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,13 +18,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "MonKey",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.monkey",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

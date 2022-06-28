@@ -13,6 +13,9 @@ export const handleSignup = (email, password) => {
   })
   .catch((error) => {
     console.log(error.message);
+    Alert.alert("Warning", error.message, [
+      {text: 'Understand', onPress: () => console.log('Alert closed')}
+    ])
   });
 }
 
@@ -24,6 +27,9 @@ export const handleLogIn = (email, password) => {
   })
   .catch((error) => {
     console.log(error.message);
+    Alert.alert("Warning", error.message, [
+      {text: 'Understand', onPress: () => console.log('Alert closed')}
+    ])
   });
 }
 
@@ -70,5 +76,8 @@ export const sendResetPasswordEmail = (email, nav) => {
     })
     .catch((error) => {
       console.log(error.message)
+      Alert.alert("Warning", error.message, [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ])
     });
 }
