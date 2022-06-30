@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 
 const Tabs = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator initialRouteName="Home">
       <Tab.Screen name="Home" component={Home}  
         options={{
           tabBarShowLabel:false,

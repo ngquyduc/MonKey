@@ -41,8 +41,8 @@ const Other = ({navigation}) => {
         <View style={styles.userView}>
           <View style={styles.imageView}>
             <TouchableOpacity onPress={askChangeAvatar}>
-            {image == '' && <Avatar.Image source={{ uri: "https://cdn.landesa.org/wp-content/uploads/default-user-image.png" }} size={80} />}
-            {image != '' && <Avatar.Image source={{ uri: image }} size={80} />}
+            {image == '' && <Avatar.Image source={{ uri: "https://cdn.landesa.org/wp-content/uploads/default-user-image.png" }} size={75} />}
+            {image != '' && <Avatar.Image source={{ uri: image }} size={75} />}
             </TouchableOpacity>
           </View>
           <View style={styles.usernameView}>

@@ -1,7 +1,6 @@
 import { app } from "./firebase";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 export const authentication = getAuth(app);
 
@@ -36,7 +35,7 @@ export const handleLogIn = (email, password) => {
 export const autoNav = (nav) => {
   onAuthStateChanged(authentication, (user) => {
     if (user) {
-      nav.navigate("Tabs")
+      nav.navigate("InnerScreenNav")
     } else {
       nav.navigate("Login")
     }
