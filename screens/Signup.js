@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import MainContainer from '../components/Containers/Main';
 import KeyboardAvoidingContainer from '../components/Containers/KeyboardAvoiding';
-import { Text, View } from 'react-native';
+import { Text, View, Alert } from 'react-native';
 import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import SignUpButton from '../components/Containers/SignUpButton';
@@ -14,7 +14,24 @@ const SignUp = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cfPassword, setCfPassword] = useState("");
-
+  const handleSignUp = (username, email, pass, confirmPass) => {
+    if (username != '' && email != '' && pass == confirmPass) {
+      handleSignup(email, pass);
+      navigation.navigate('Login')
+    } else if (username == '') {
+      Alert.alert("Alert", "Enter your username", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    } else if (email == '') {
+      Alert.alert("Alert", "Enter your email", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    } else {
+      Alert.alert("Alert", "Check your confirm password", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+  }
   return (
     <>
       <StatusBar style='dark'/>
@@ -58,8 +75,7 @@ const SignUp = ({navigation}) => {
               autoCapitalize = 'none'
               onChangeText={text => setCfPassword(text)}
             />
-            <SignUpButton onPress={() => {handleSignup(email, password)
-            navigation.navigate('Login')}}>Sign-up</SignUpButton>
+            <SignUpButton onPress={() => {handleSignUp(username, email, password, cfPassword)}}>Sign-up</SignUpButton>
         </KeyboardAvoidingContainer>
       </MainContainer>
     </>

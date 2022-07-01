@@ -7,9 +7,12 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 import { handleExpenseSubmit, handleIncomeSubmit } from '../api/db';
+import { StatusBarHeight } from '../components/constants';
+import ExpenseCategory from '../CategoriesList/ExpenseCategory';
+import IncomeCategory from '../CategoriesList/IncomeCategory';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
-const Input = () => {
+const Input = ({navigation}) => {
   /********** Bool to switch screens **********/
   const [isIncome, setIsIncome] = useState(false);
   const [isExpense, setIsExpense] = useState(true);
@@ -50,34 +53,7 @@ const Input = () => {
 
   /********** Category Variables **********/
   const [chosenCategory, setChosenCategory] = useState('');
-  const [expenseCategory, setExpenseCategoty] = useState([
-    {name: 'Add', chosen: false, isAdd: true},
-    {name: 'Food', chosen: false, isAdd: false},
-    {name: 'Clothes', chosen: false, isAdd: false},
-    {name: 'Entertain', chosen: false, isAdd: false},
-    {name: 'Education', chosen: false, isAdd: false},
-    {name: 'Subcription', chosen: false, isAdd: false},
-    {name: 'Electricity', chosen: false, isAdd: false},
-    {name: 'Medical', chosen: false, isAdd: false},
-    {name: 'Telephone', chosen: false, isAdd: false},
-    {name: 'Travel', chosen: false, isAdd: false},
-    {name: 'Cosmestic', chosen: false, isAdd: false},
-    {name: 'Internet', chosen: false, isAdd: false},
-    {name: 'Fitness', chosen: false, isAdd: false}
-  ])
-  const [incomeCategory, setIncomeCategoty] = useState([
-    {name: 'Add', chosen: false, isAdd: true},
-    {name: 'Salary', chosen: false, isAdd: false},
-    {name: 'Awards', chosen: false, isAdd: false},
-    {name: 'Grants', chosen: false, isAdd: false},
-    {name: 'Sale', chosen: false, isAdd: false},
-    {name: 'Scholarship', chosen: false, isAdd: false},
-    {name: 'Coupons', chosen: false, isAdd: false},
-    {name: 'Stocks', chosen: false, isAdd: false},
-    {name: 'Crypto', chosen: false, isAdd: false},
-    {name: 'Lottery', chosen: false, isAdd: false},
-    {name: 'Refunds', chosen: false, isAdd: false},
-  ])
+
   const onPressChoose = () => {
 
   }
@@ -120,285 +96,416 @@ const Input = () => {
   }
 
   return (
-    <ScrollView>
-      <Pressable onPress={Keyboard.dismiss}>
-        <>
-      {/* <SafeAreaView style={{flex:1}} edges={'top'}> */}
-          {/********** Need to change color of status bar **********/}
-          <StatusBar style='dark'/>
-          <View style={styles.mainContainerInnerScreen}>
-            <View style={styless.header}>
-              <Text style={styles.boldBlueHeaderText}>Input</Text>
-            </View>
-            <View style={styless.expenseInputButtonView}>
-              <View style={{flex:0.5}}>
-                <TouchableOpacity 
-                  style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, backgroundColor:isExpense?darkBlue:lightBlue}]} 
-                  onPress={openExpense}>
-                  <Text style={styles.inputText}>Expense</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={{flex:0.5}}>
-                <TouchableOpacity 
-                  style={[styles.inputButton, {borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:isIncome?darkBlue:lightBlue}]} 
-                  onPress={openIncome}>
-                  <Text style={styles.inputText}>Income</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-
-
-            {/********** Main Screens (Expense) **********/}
-            {isExpense && (
-              <View>
-                <View style={styless.dateView}>
-                  <View style={{
-                    flex:20,
-                    paddingLeft:12,
-                    justifyContent:'center'
-                  }}>
-                    <Text style={styles.dateText}>Date</Text>
-                  </View>
-                  <View style={{
-                    flex:15,
-                    alignItems:'center',
-                    justifyContent:'center'
-                  }}>
-                    {/************ Add function for these 2 buttons *************/}
-                    <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneDay}>
-                      <Entypo name='chevron-left' size={28} color={darkBlue}/>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styless.datePickerView}>
-                    <TouchableOpacity onPress={()=>setShow(true)}>
-                      <View>
-                        <Text style={styles.dateText}>{date.format('MMMM Do, YYYY')}</Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{
-                    flex:15,
-                    alignItems:'center',
-                    justifyContent:'center'
-                  }}>
-                    {/************ Add function for these 2 buttons *************/}
-                    <TouchableOpacity style={{position: 'absolute'}} onPress={addOneDay}>
-                      <Entypo name='chevron-right' size={28} color={darkBlue}/>
-                    </TouchableOpacity>
-                  </View>
+    <>
+    <StatusBar style='dark'/>
+      <View style={styless.header}>
+        <Text style={styles.boldBlueHeaderText}>Input</Text>
+      </View>
+      <ScrollView>
+        <Pressable onPress={Keyboard.dismiss}>
+          <>
+            <View style={styles.mainContainerInnerScreen}>
+              <View style={styless.expenseInputButtonView}>
+                <View style={{flex:0.5}}>
+                  <TouchableOpacity 
+                    style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, backgroundColor:isExpense?darkBlue:lightBlue}]} 
+                    onPress={openExpense}>
+                    <Text style={styles.inputText}>Expense</Text>
+                  </TouchableOpacity>
                 </View>
-                {show && (
-                  <>
-                    <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
-                      <View style={{flex:5}}>
-                        <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
-                          <View>
-                            <Text style={styles.datePickerOffText}>Cancel</Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={{flex:5, alignItems:'flex-end'}}>
-                        <TouchableOpacity onPress={()=> setShow(false)}>
-                          <View>
-                            <Text style={styles.datePickerOffText}>Done</Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
+                <View style={{flex:0.5}}>
+                  <TouchableOpacity 
+                    style={[styles.inputButton, {borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:isIncome?darkBlue:lightBlue}]} 
+                    onPress={openIncome}>
+                    <Text style={styles.inputText}>Income</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+
+
+              {/********** Main Screens (Expense) **********/}
+              {isExpense && (
+                <View>
+                  <View style={styless.dateView}>
+                    <View style={{
+                      flex:20,
+                      paddingLeft:12,
+                      justifyContent:'center'
+                    }}>
+                      <Text style={styles.dateText}>Date</Text>
                     </View>
                     <View style={{
-                      borderBottomColor: '#E9E9E9',
+                      flex:15,
+                      alignItems:'center',
+                      justifyContent:'center'
                     }}>
-                      <DateTimePicker
-                        value={new Date(date)}
-                        is24Hour={true}
-                        display='spinner'
-                        onChange ={onChange}
-                        minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
-                        maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
+                      {/************ Add function for these 2 buttons *************/}
+                      <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneDay}>
+                        <Entypo name='chevron-left' size={28} color={darkBlue}/>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styless.datePickerView}>
+                      <TouchableOpacity onPress={()=>setShow(true)}>
+                        <View>
+                          <Text style={styles.dateText}>{date.format('MMMM Do, YYYY')}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{
+                      flex:15,
+                      alignItems:'center',
+                      justifyContent:'center'
+                    }}>
+                      {/************ Add function for these 2 buttons *************/}
+                      <TouchableOpacity style={{position: 'absolute'}} onPress={addOneDay}>
+                        <Entypo name='chevron-right' size={28} color={darkBlue}/>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  {show && (
+                    <>
+                      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
+                        <View style={{flex:5}}>
+                          <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
+                            <View>
+                              <Text style={styles.datePickerOffText}>Cancel</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={{flex:5, alignItems:'flex-end'}}>
+                          <TouchableOpacity onPress={()=> setShow(false)}>
+                            <View>
+                              <Text style={styles.datePickerOffText}>Done</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                      <View style={{
+                        borderBottomColor: '#E9E9E9',
+                      }}>
+                        <DateTimePicker
+                          value={new Date(date)}
+                          is24Hour={true}
+                          display='spinner'
+                          onChange ={onChange}
+                          minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
+                          maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
+                        />
+                      </View>
+                    </>
+                  )}
+
+                  <View style={styless.dateView}>
+                    <View style={{
+                      flex:30,
+                      paddingLeft:12,
+                      justifyContent:'center'
+                      }}>
+                      <Text style={styles.dateText}>Expense</Text>
+                    </View>
+                    <View style={{
+                      flex:5,
+                      }}></View>
+                    <View style={styless.datePickerView}>
+                      <TextInput
+                        style={[styless.inputContainer, {textAlign:'right'}]}
+                        placeholder='0.00'
+                        placeholderTextColor={lightBlue}
+                        keyboardType='decimal-pad'
+                        value={amount}
+                        onChangeText={(value) => setAmount(value)}
                       />
                     </View>
-                  </>
-                )}
-
-                <View style={styless.dateView}>
-                  <View style={{
-                    flex:30,
-                    paddingLeft:12,
-                    justifyContent:'center'
-                    }}>
-                    <Text style={styles.dateText}>Expense</Text>
+                    <View style={{
+                      flex:15, 
+                      justifyContent:'center',
+                      alignItems:'center'
+                      }}>
+                        <Foundation name='dollar' size={34} color={darkBlue}/>
+                    </View>
                   </View>
-                  <View style={{
-                    flex:5,
-                    }}></View>
-                  <View style={styless.datePickerView}>
-                    <TextInput
-                      style={[styless.inputContainer, {textAlign:'right'}]}
-                      placeholder='0.00'
-                      placeholderTextColor={lightBlue}
-                      keyboardType='decimal-pad'
-                      value={amount}
-                      onChangeText={(value) => setAmount(value)}
-                    />
-                  </View>
-                  <View style={{
-                    flex:15, 
-                    justifyContent:'center',
-                    alignItems:'center'
-                    }}>
-                      <Foundation name='dollar' size={34} color={darkBlue}/>
-                  </View>
-                </View>
-                <View style={styless.noteView}>
-                  <View style={{
-                    flex:20,
-                    paddingLeft:12,
-                    justifyContent:'center'
-                    }}>
-                    <Text style={styles.dateText}>Note</Text>
-                  </View>
-                  <View style={{
-                    flex:80,
-                    alignItems:'center',
-                    justifyContent:'center',
-                    borderBottomColor:darkYellow,
-                  }}>
-                    <TextInput
-                      style={[styless.noteInputContainer, {textAlign:'left'}]}
-                      placeholder='Note'
-                      placeholderTextColor={lightBlue}
-                      value={note}
-                      onChangeText={(value) => setNote(value)}
-                    />
-                  </View>
-                </View>
-                <View style={styless.noteView}>
-                  <View style={{
-                    flex:22,
-                    paddingLeft:12,
-                    justifyContent:'center'
-                    }}>
-                    <Text style={styles.dateText}>Category</Text>
-                  </View>
-                  <View style={{
+                  <View style={styless.noteView}>
+                    <View style={{
+                      flex:20,
+                      paddingLeft:12,
+                      justifyContent:'center'
+                      }}>
+                      <Text style={styles.dateText}>Note</Text>
+                    </View>
+                    <View style={{
                       flex:80,
                       alignItems:'center',
                       justifyContent:'center',
                       borderBottomColor:darkYellow,
                     }}>
-                      <Text style={styless.categoryText}>{chosenCategory}</Text>
-                  </View>
-                </View>
-                <View style={{height:147}}>
-                  <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={true}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{paddingVertical:5}}>
-                    <FlatList
-                      scrollEnabled={false}
-                      contentContainerStyle={{alignSelf: 'flex-start'}}
-                      numColumns={Math.ceil(expenseCategory.length / 3)}
-                      showsHorizontalScrollIndicator={false}
-                      showsVerticalScrollIndicator={false}
-                      data={expenseCategory}
-                      renderItem={({item}) => {
-                        return (
-                          <View style={styless.itemView}>
-                            <TouchableOpacity 
-                              style={styless.itemButton}
-                              onPress={() => setChosenCategory(item.name)}>
-                              <Text style={styless.categoryButtonText}>{item.name}</Text>
-                            </TouchableOpacity>
-                          </View>
-                        )}}/>
-                  </ScrollView>
-                </View>
-                <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
-                  <TouchableOpacity 
-                    style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                    onPress={() => {handleExpenseInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory)}}>
-                    <Text style={styles.inputText}>Submit</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>)}
-
-
-
-
-            {/********** Main Screens (Income) **********/}
-            {isIncome && (
-              <View>
-                <View style={styless.dateView}>
-                  <View style={{
-                    flex:20,
-                    paddingLeft:12,
-                    justifyContent:'center'
-                  }}>
-                    <Text style={styles.dateText}>Date</Text>
-                  </View>
-                  <View style={{
-                    flex:15,
-                    alignItems:'center',
-                    justifyContent:'center'
-                  }}>
-                    {/************ Add function for these 2 buttons *************/}
-                    <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneDay}>
-                      <Entypo name='chevron-left' size={28} color={darkBlue}/>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styless.datePickerView}>
-                    <TouchableOpacity onPress={()=>setShow(true)}>
-                      <View>
-                        <Text style={styles.dateText}>{date.format('MMMM Do, YYYY')}</Text>
-                      </View>
-                    </TouchableOpacity>
-
-                    {/* <Button title={fDate} onPress={()=>showMode('date')}/> */}
-                  </View>
-                  <View style={{
-                    flex:15,
-                    alignItems:'center',
-                    justifyContent:'center'
-                  }}>
-                    {/************ Add function for these 2 buttons *************/}
-                    <TouchableOpacity style={{position: 'absolute'}} onPress={addOneDay}>
-                      <Entypo name='chevron-right' size={28} color={darkBlue}/>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                {show && (
-                  <>
-                    <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
-                      <View style={{flex:5}}>
-                        <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
-                          <View>
-                            <Text style={styles.datePickerOffText}>Cancel</Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={{flex:5, alignItems:'flex-end'}}>
-                        <TouchableOpacity onPress={()=> setShow(false)}>
-                          <View>
-                            <Text style={styles.datePickerOffText}>Done</Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                    <View style={{
-                      borderBottomColor: '#E9E9E9',
-                    }}>
-                      <DateTimePicker
-                        value={new Date(date)}
-                        display='spinner'
-                        onChange ={onChange}
-                        minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
-                        maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
+                      <TextInput
+                        style={[styless.noteInputContainer, {textAlign:'left'}]}
+                        placeholder='Note'
+                        placeholderTextColor={lightBlue}
+                        value={note}
+                        onChangeText={(value) => setNote(value)}
                       />
                     </View>
-                  </>
+                  </View>
+                  <View style={styless.noteView}>
+                    <View style={{
+                      flex:22,
+                      paddingLeft:12,
+                      justifyContent:'center'
+                      }}>
+                      <Text style={styles.dateText}>Category</Text>
+                    </View>
+                    <View style={{
+                        flex:80,
+                        alignItems:'center',
+                        justifyContent:'center',
+                        borderBottomColor:darkYellow,
+                      }}>
+                        <Text style={styless.categoryText}>{chosenCategory}</Text>
+                    </View>
+                  </View>
+                  <View style={{height:147}}>
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={true}
+                      showsVerticalScrollIndicator={false}
+                      contentContainerStyle={{paddingVertical:5}}>
+                      <FlatList
+                        scrollEnabled={false}
+                        contentContainerStyle={{alignSelf: 'flex-start'}}
+                        numColumns={Math.ceil(ExpenseCategory.length / 3)}
+                        showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false}
+                        data={ExpenseCategory}
+                        renderItem={({item}) => {
+                          if (!item.isEdit) {
+                            return (
+                              <View style={styless.itemView}>
+                                <TouchableOpacity 
+                                  style={styless.itemButton}
+                                  onPress={() => setChosenCategory(item.name)}>
+                                  <Text style={styless.categoryButtonText}>{item.name}</Text>
+                                </TouchableOpacity>
+                              </View>
+                            )
+                          }
+                          return (
+                            <View style={styless.itemView}>
+                              <TouchableOpacity 
+                                style={styless.itemButton}
+                                onPress={() => navigation.navigate('ListOfExpenseCategory')}>
+                                <Text style={styless.categoryButtonText}>{item.name}</Text>
+                              </TouchableOpacity>
+                            </View>
+                          )
+                          }}/>
+                    </ScrollView>
+                  </View>
+                  <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
+                    <TouchableOpacity 
+                      style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
+                      onPress={() => {handleExpenseInput(date.format('DD-MM-YYYY').toString(), amount, note, chosenCategory)}}>
+                      <Text style={styles.inputText}>Submit</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>)}
+
+
+
+
+              {/********** Main Screens (Income) **********/}
+              {isIncome && (
+                <View>
+                  <View style={styless.dateView}>
+                    <View style={{
+                      flex:20,
+                      paddingLeft:12,
+                      justifyContent:'center'
+                    }}>
+                      <Text style={styles.dateText}>Date</Text>
+                    </View>
+                    <View style={{
+                      flex:15,
+                      alignItems:'center',
+                      justifyContent:'center'
+                    }}>
+                      {/************ Add function for these 2 buttons *************/}
+                      <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneDay}>
+                        <Entypo name='chevron-left' size={28} color={darkBlue}/>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styless.datePickerView}>
+                      <TouchableOpacity onPress={()=>setShow(true)}>
+                        <View>
+                          <Text style={styles.dateText}>{date.format('MMMM Do, YYYY')}</Text>
+                        </View>
+                      </TouchableOpacity>
+
+                      {/* <Button title={fDate} onPress={()=>showMode('date')}/> */}
+                    </View>
+                    <View style={{
+                      flex:15,
+                      alignItems:'center',
+                      justifyContent:'center'
+                    }}>
+                      {/************ Add function for these 2 buttons *************/}
+                      <TouchableOpacity style={{position: 'absolute'}} onPress={addOneDay}>
+                        <Entypo name='chevron-right' size={28} color={darkBlue}/>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  {show && (
+                    <>
+                      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
+                        <View style={{flex:5}}>
+                          <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
+                            <View>
+                              <Text style={styles.datePickerOffText}>Cancel</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={{flex:5, alignItems:'flex-end'}}>
+                          <TouchableOpacity onPress={()=> setShow(false)}>
+                            <View>
+                              <Text style={styles.datePickerOffText}>Done</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                      <View style={{
+                        borderBottomColor: '#E9E9E9',
+                      }}>
+                        <DateTimePicker
+                          value={new Date(date)}
+                          display='spinner'
+                          onChange ={onChange}
+                          minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
+                          maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
+                        />
+                      </View>
+                    </>
+                  )}
+                  <View style={styless.dateView}>
+                    <View style={{
+                      flex:30,
+                      paddingLeft:12,
+                      justifyContent:'center'
+                      }}>
+                      <Text style={styles.dateText}>Income</Text>
+                    </View>
+                    <View style={{
+                      flex:5,
+                      }}></View>
+                    <View style={styless.datePickerView}>
+                      <TextInput
+                        style={[styless.inputContainer, {textAlign:'right'}]}
+                        placeholder='0.00'
+                        placeholderTextColor={lightBlue}
+                        keyboardType='decimal-pad'
+                        value={amount}
+                        onChangeText={(value) => setAmount(value)}
+                      />
+                    </View>
+                    <View style={{
+                      flex:15, 
+                      justifyContent:'center',
+                      alignItems:'center'
+                      }}>
+                        <Foundation name='dollar' size={34} color={darkBlue}/>
+                    </View>
+                  </View>
+                  <View style={styless.noteView}>
+                    <View style={{
+                      flex:20,
+                      paddingLeft:12,
+                      justifyContent:'center'
+                      }}>
+                      <Text style={styles.dateText}>Note</Text>
+                    </View>
+                    <View style={{
+                      flex:80,
+                      alignItems:'center',
+                      justifyContent:'center',
+                      borderBottomColor:darkYellow,
+                    }}>
+                      <TextInput
+                        style={[styless.noteInputContainer, {textAlign:'left'}]}
+                        placeholder='Note'
+                        placeholderTextColor={lightBlue}
+                        value={note}
+                        onChangeText={(value) => setNote(value)}
+                      />
+                    </View>
+                  </View>
+                  <View style={styless.noteView}>
+                    <View style={{
+                      flex:22,
+                      paddingLeft:12,
+                      justifyContent:'center'
+                      }}>
+                      <Text style={styles.dateText}>Category</Text>
+                    </View>
+                    <View style={{
+                        flex:80,
+                        alignItems:'center',
+                        justifyContent:'center',
+                        borderBottomColor:darkYellow,
+                      }}>
+                        <Text style={styless.categoryText}>{chosenCategory}</Text>
+                    </View>
+                  </View>
+                  <View style={{height:147}}>
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={true}
+                      showsVerticalScrollIndicator={false}
+                      contentContainerStyle={{paddingVertical:5}}>
+                      <FlatList
+                        scrollEnabled={false}
+                        contentContainerStyle={{alignSelf: 'flex-start'}}
+                        numColumns={Math.ceil(IncomeCategory.length / 3)}
+                        showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false}
+                        data={IncomeCategory}
+                        renderItem={({item}) => {
+                          if (!item.isEdit) {
+                            return (
+                              <View style={styless.itemView}>
+                                <TouchableOpacity 
+                                  style={styless.itemButton}
+                                  onPress={() => setChosenCategory(item.name)}>
+                                  <Text style={styless.categoryButtonText}>{item.name}</Text>
+                                </TouchableOpacity>
+                              </View>
+                            )
+                          }
+                          return (
+                            <View style={styless.itemView}>
+                              <TouchableOpacity 
+                                style={styless.itemButton}
+                                onPress={() => navigation.navigate('ListOfIncomeCategory')}>
+                                <Text style={styless.categoryButtonText}>{item.name}</Text>
+                              </TouchableOpacity>
+                            </View>
+                          )
+                          }}/>
+                    </ScrollView>
+                  </View>
+                  <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
+                    <TouchableOpacity 
+                    style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
+<<<<<<< HEAD
+                    onPress={() => {handleExpenseInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory)}}>
+=======
+                    onPress={() => {handleIncomeInput(date.format('DD-MM-YYYY').toString(), amount, note, chosenCategory)}}>
+>>>>>>> a4edb6dac8a42eebda11a5dab512ad93a596d2e0
+                    <Text style={styles.inputText}>Submit</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
                 )}
+<<<<<<< HEAD
                 <View style={styless.dateView}>
                   <View style={{
                     flex:30,
@@ -506,16 +613,25 @@ const Input = () => {
           </>
       </Pressable>
     </ScrollView>
+=======
+            </View>
+            </>
+        </Pressable>
+      </ScrollView>
+    </>
+>>>>>>> a4edb6dac8a42eebda11a5dab512ad93a596d2e0
   );
 }
 
 const styless = StyleSheet.create({
   header: {
     alignItems:'center', 
+    justifyContent:'flex-end',
     backgroundColor:'#fff',
     borderBottomColor:'#808080',
     borderBottomWidth:1,
     paddingTop:3,
+    height: StatusBarHeight + 48,
   },
   expenseInputButtonView: {
     alignItems:'center',

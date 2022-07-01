@@ -1,7 +1,6 @@
 import { app } from "./firebase";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 export const authentication = getAuth(app);
 
@@ -13,6 +12,9 @@ export const handleSignup = (email, password) => {
   })
   .catch((error) => {
     console.log(error.message);
+    Alert.alert("Warning", error.message, [
+      {text: 'Understand', onPress: () => console.log('Alert closed')}
+    ])
   });
 }
 
@@ -24,13 +26,16 @@ export const handleLogIn = (email, password) => {
   })
   .catch((error) => {
     console.log(error.message);
+    Alert.alert("Warning", error.message, [
+      {text: 'Understand', onPress: () => console.log('Alert closed')}
+    ])
   });
 }
 
 export const autoNav = (nav) => {
   onAuthStateChanged(authentication, (user) => {
     if (user) {
-      nav.navigate("Tabs")
+      nav.navigate("InnerScreenNav")
     } else {
       nav.navigate("Login")
     }
@@ -70,5 +75,8 @@ export const sendResetPasswordEmail = (email, nav) => {
     })
     .catch((error) => {
       console.log(error.message)
+      Alert.alert("Warning", error.message, [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ])
     });
 }
