@@ -1,11 +1,13 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import { View, Text, StyleSheet, Pressable, FlatList, TouchableOpacity } from 'react-native';
-import styles from '../components/styles';
 import { financeRef, db } from '../api/db';
 import { onSnapshot, query, where, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
 import { Calendar } from 'react-native-calendars';
+import { StatusBarHeight } from '../components/constants';
 import moment from 'moment';
+import { colors } from '../components/colors';
+const {beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 import PressableText from '../components/Containers/PressableText';
 
 const CalendarScreen = (props) => {
@@ -115,7 +117,10 @@ const CalendarScreen = (props) => {
   }, [curDate, incomeDays, expenseDays]);
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={styles.mainContainerInnerScreen}>
+      <View style={styles.header}>
+        <Text style={styles.boldBlueHeaderText}>Calendar</Text>
+      </View>
       <PressableText onPress={() => {
         console.log(incomeDays)
       }}>
@@ -195,7 +200,7 @@ const CalendarScreen = (props) => {
 
 export default CalendarScreen;
 
-const styless = StyleSheet.create({
+const styles = StyleSheet.create({
   container:{
     backgroundColor: '#e5e5e5',
     padding: 15,
@@ -206,5 +211,23 @@ const styless = StyleSheet.create({
   innerContainer:{
     alignItems:'center',
     flexDirection: 'column',
+  },
+  mainContainerInnerScreen: {
+    flex: 1,
+  },
+  header: {
+    alignItems:'center', 
+    justifyContent:'flex-end',
+    backgroundColor:'#fff',
+    borderBottomColor:'#808080',
+    borderBottomWidth:1,
+    paddingTop:3,
+    height: StatusBarHeight + 48,
+  },
+  boldBlueHeaderText: {
+    fontSize: 34,
+    color: darkBlue,
+    marginBottom: 10,
+    fontWeight: 'bold',
   },
 })
