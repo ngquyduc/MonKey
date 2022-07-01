@@ -495,131 +495,17 @@ const Input = ({navigation}) => {
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                     <TouchableOpacity 
                     style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-<<<<<<< HEAD
                     onPress={() => {handleExpenseInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory)}}>
-=======
-                    onPress={() => {handleIncomeInput(date.format('DD-MM-YYYY').toString(), amount, note, chosenCategory)}}>
->>>>>>> a4edb6dac8a42eebda11a5dab512ad93a596d2e0
                     <Text style={styles.inputText}>Submit</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
                 )}
-<<<<<<< HEAD
-                <View style={styless.dateView}>
-                  <View style={{
-                    flex:30,
-                    paddingLeft:12,
-                    justifyContent:'center'
-                    }}>
-                    <Text style={styles.dateText}>Income</Text>
-                  </View>
-                  <View style={{
-                    flex:5,
-                    }}></View>
-                  <View style={styless.datePickerView}>
-                    <TextInput
-                      style={[styless.inputContainer, {textAlign:'right'}]}
-                      placeholder='0.00'
-                      placeholderTextColor={lightBlue}
-                      keyboardType='decimal-pad'
-                      value={amount}
-                      onChangeText={(value) => setAmount(value)}
-                    />
-                  </View>
-                  <View style={{
-                    flex:15, 
-                    justifyContent:'center',
-                    alignItems:'center'
-                    }}>
-                      <Foundation name='dollar' size={34} color={darkBlue}/>
-                  </View>
-                </View>
-                <View style={styless.noteView}>
-                  <View style={{
-                    flex:20,
-                    paddingLeft:12,
-                    justifyContent:'center'
-                    }}>
-                    <Text style={styles.dateText}>Note</Text>
-                  </View>
-                  <View style={{
-                    flex:80,
-                    alignItems:'center',
-                    justifyContent:'center',
-                    borderBottomColor:darkYellow,
-                  }}>
-                    <TextInput
-                      style={[styless.noteInputContainer, {textAlign:'left'}]}
-                      placeholder='Note'
-                      placeholderTextColor={lightBlue}
-                      value={note}
-                      onChangeText={(value) => setNote(value)}
-                    />
-                  </View>
-                </View>
-                <View style={styless.noteView}>
-                  <View style={{
-                    flex:22,
-                    paddingLeft:12,
-                    justifyContent:'center'
-                    }}>
-                    <Text style={styles.dateText}>Category</Text>
-                  </View>
-                  <View style={{
-                      flex:80,
-                      alignItems:'center',
-                      justifyContent:'center',
-                      borderBottomColor:darkYellow,
-                    }}>
-                      <Text style={styless.categoryText}>{chosenCategory}</Text>
-                  </View>
-                </View>
-                <View style={{height:147}}>
-                  <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={true}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{paddingVertical:5}}>
-                    <FlatList
-                      scrollEnabled={false}
-                      contentContainerStyle={{alignSelf: 'flex-start'}}
-                      numColumns={Math.ceil(incomeCategory.length / 3)}
-                      showsHorizontalScrollIndicator={false}
-                      showsVerticalScrollIndicator={false}
-                      data={incomeCategory}
-                      renderItem={({item}) => {
-                        return (
-                          <View style={styless.itemView}>
-                            <TouchableOpacity 
-                              style={styless.itemButton}
-                              onPress={() => setChosenCategory(item.name)}>
-                              <Text style={styless.categoryButtonText}>{item.name}</Text>
-                            </TouchableOpacity>
-                          </View>
-                        )}}/>
-                  </ScrollView>
-                </View>
-                <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
-                  <TouchableOpacity 
-                  style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                  onPress={() => {handleIncomeInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory)}}>
-                  <Text style={styles.inputText}>Submit</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              )}
-          </View>
-          </>
-      </Pressable>
-    </ScrollView>
-=======
             </View>
             </>
         </Pressable>
       </ScrollView>
     </>
->>>>>>> a4edb6dac8a42eebda11a5dab512ad93a596d2e0
   );
 }
 
