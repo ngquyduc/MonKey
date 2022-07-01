@@ -14,13 +14,11 @@ export const db = getFirestore(app);
 // collection ref
 const financeRef = collection(db, 'finance')
 
-// query 
-// export const userQuery = query(financeRef, where("user", "==", getUserID()), orderBy("date", "desc"))
-
 const handleExpenseSubmit = async (date, amount, note, category) => {
   try {
     const docRef = await addDoc(financeRef, {
       date: date,
+      month: date.substring(0, 7), 
       amount: amount,
       note: note,
       category: category,
@@ -28,9 +26,8 @@ const handleExpenseSubmit = async (date, amount, note, category) => {
       type: 'expense',
       user: getUserID(),
     })
-    console.log('Added %s to expense', docRef.id); 
   } catch (err) {
-    Alert.alert(err)
+    Alert.alert(err.message)
   }
 }
 
@@ -38,6 +35,7 @@ const handleIncomeSubmit = async (date, amount, note, category) => {
   try {
     const docRef = await addDoc(financeRef, {
       date: date,
+      month: date.substring(0, 7), 
       amount: amount,
       note: note,
       category: category,
@@ -45,9 +43,8 @@ const handleIncomeSubmit = async (date, amount, note, category) => {
       type: 'income',
       user: getUserID(),
     })
-    console.log('Added %s to income', docRef.id); 
   } catch (err) {
-    Alert.alert(err)
+    Alert.alert(err.message)
   }
 }
 

@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Calendar from '../screens/Calendar';
+import CalendarScreen from '../screens/CalendarScreen';
 import Home from '../screens/Home';
 import Stats from '../screens/Stats';
 import Other from '../screens/Other';
@@ -38,7 +38,7 @@ const Tabs = () => {
           // tabBarActiveBackgroundColor: beige,
           // tabBarInactiveBackgroundColor: beige,
         }}/>
-      <Tab.Screen name="Calendar" component={Calendar} 
+      <Tab.Screen name="Calendar" component={CalendarScreen} 
         options={{
           tabBarShowLabel:false,
           headerShown:false,

@@ -7,7 +7,6 @@ import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import LogInButton from '../components/Containers/LogInButton';
 import PressableText from '../components/Containers/PressableText';
 import { autoNav, handleLogIn, sendResetPasswordEmail } from '../api/authentication';
-import SignUp from './Signup';
 
 const ForgotPassword = ({navigation}) => {
 
