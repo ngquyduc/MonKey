@@ -1,75 +1,89 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert} from 'react-native';
 import styles from '../components/styles';
 import { colors } from '../components/colors';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Entypo, Foundation } from '@expo/vector-icons'
+
 import moment from 'moment';
+import { query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
+import { financeRef,db } from '../api/db';
+import { getUserID } from '../api/authentication';
 // import MonthPicker from 'react-native-month-year-picker';
 
 import { StatusBarHeight } from '../components/constants';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const Home = ({navigation}) => {
-  /********** Bool to switch screens **********/
-  const [isMonth, setIsMonth] = useState(true);
-  const [isAnnual, setIsAnnual] = useState(false);
-  const openMonth = () => {
-    setIsMonth(true);
-    setIsAnnual(false);
-    setDate(moment())
-    setMonth(moment().format('MMMM YYYY'))
-  }
-  const openAnnual = () => {
-    setIsMonth(false);
-    setIsAnnual(true); 
-    setDate(moment())
-    setYear(moment().format('YYYY'))
-  }
-  const [isIncome, setIsIncome] = useState(false);
-  const [isExpense, setIsExpense] = useState(true);
-  const openExpense = () => {
-    setIsExpense(true);
-    setIsIncome(false);
-  }
-  const openIncome = () => {
-    setIsExpense(false);
-    setIsIncome(true); 
 
-  }
-
-  /********** Date Picker Variables **********/
-  let [date, setDate] = useState(moment());
-  let [month, setMonth] = useState(moment().format('MMMM YYYY'));
+  let [date, setDate] = useState(moment().format('YYYY-MM-DD'));
+  let [month, setMonth] = useState(moment().format('YYYY-MM'));
   let [year, setYear] = useState(moment().format('YYYY'))
-  const [show, setShow] = useState(false);
 
-  const onChange = (event, selectedDate) => {
-    setShow(Platform.OS === 'ios');
-    setDate(moment(selectedDate))
-    setMonth(moment(selectedDate).format('MMMM YYYY'))
-  }
+  const [finances, setFinances] = useState([])
+  const [financesMonth, setFinancesMonth] = useState([])
+  const [income, setIncome] = useState(0)
+  const [incomeMonth, setIncomeMonth] = useState(0)
+  const [incomeDays, setIncomeDays] = useState([])
+  const [expense, setExpense] = useState(0)
+  const [expenseMonth, setExpenseMonth] = useState(0)
+  const [total, setTotal] = useState(0)
+  const [expenseDays, setExpenseDays] = useState([])
 
-  const addOneMonth = () => {
-    setDate(moment(date).add(1, 'month'))
-    setMonth(moment(date).add(1, 'month').format('MMMM YYYY'))
-  }
-
-  const addOneYear = () => {
-    setDate(moment(date).add(1, 'year'));
-    setYear(moment(date).add(1, 'year').format('YYYY'))
-  }
-
-  const subtractOneMonth = () => {
-    setDate(moment(date).subtract(1, 'month'))
-    setMonth(moment(date).subtract(1, 'month').format('MMMM YYYY'))
-  }
-
-  const subtractOneYear = () => {
-    setDate(moment(date).subtract(1, 'year'))
-    setYear(moment(date).subtract(1, 'year').format('YYYY'))
-  }
+  useMemo(() => {
+    const dayQuery = query(financeRef, where("user", "==", getUserID()), where('date', '==', date), orderBy("time", "desc"))
+    onSnapshot(dayQuery,
+      (snapShot) => {
+        const finances = []
+        const expenses = []
+        const incomes = []
+        snapShot.forEach((doc) => {
+          finances.push({
+            date: doc.data().date,
+            amount: doc.data().amount,
+            note: doc.data().note,
+            category: doc.data().category,
+            type: doc.data().type,
+            id: doc.id,
+          })
+          if (doc.data().type == 'expense') {
+            expenses.push(doc.data().amount)
+          } else {
+            incomes.push(doc.data().amount)
+          }
+        })
+        setFinances(finances)
+        const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
+        setIncome(totalIncome)
+        const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
+        setExpense(totalExpense)
+      }
+    )
+    const monthQuery = query(financeRef, where("user", "==", getUserID()), where('month', "==", month))
+    onSnapshot(monthQuery,
+      (snapShot) => {
+        const expensesMonth = []
+        const incomesMonth = []
+        const expenseDays = []
+        const incomeDays = []
+        snapShot.forEach((doc) => {
+          if (doc.data().type == 'expense') {
+            expensesMonth.push(doc.data().amount)
+            expenseDays.push(doc.data().date)
+          } else {
+            incomesMonth.push(doc.data().amount)
+            incomeDays.push(doc.data().date)
+          }
+        })
+        const totalIncomeMonth = incomesMonth.reduce((total, current) => total = total + current, 0);
+        setIncomeMonth(totalIncomeMonth)
+        setIncomeDays(incomeDays)
+        setExpenseDays(expenseDays)
+        const totalExpenseMonth = expensesMonth.reduce((total, current) => total = total + current, 0);
+        setExpenseMonth(totalExpenseMonth)
+        setTotal(totalIncomeMonth - totalExpenseMonth)
+      }
+    )
+  }, [])
 
   return (
     <>
@@ -77,154 +91,62 @@ const Home = ({navigation}) => {
       <View style={styless.header}>
         <Text style={styles.boldBlueHeaderText}>Home</Text>
       </View>
-      <ScrollView>
-        <Pressable onPress={Keyboard.dismiss}>
-          <>
-            <View style={styles.mainContainerInnerScreen}>
-              <View style={styless.expenseInputButtonView}>
-                <View style={{flex:0.5}}>
-                  <TouchableOpacity 
-                    style={[styles.inputButton, {
-                      borderBottomLeftRadius:10, 
-                      borderTopLeftRadius:10, 
-                      backgroundColor:isMonth?darkBlue:lightBlue}]} 
-                    onPress={openMonth}>
-                    <Text style={styles.inputText}>
-                      Monthly
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={{flex:0.5}}>
-                  <TouchableOpacity 
-                    style={[styles.inputButton, {
-                      borderBottomRightRadius:10,
-                      borderTopRightRadius:10, 
-                      backgroundColor:isAnnual?darkBlue:lightBlue}]} 
-                    onPress={openAnnual}>
-                    <Text style={styles.inputText}>
-                      Annually
-                    </Text>
-                  </TouchableOpacity>
+      <View>
+        <View>
+          <Text>{"Today: " + date.split('-').reverse().join('-')}</Text>
+          <Text style={{color:'green'}}>{"Income: $" + income}</Text>
+          <Text style={{color:'red'}}>{"Expense: $" + expense}</Text>
+        </View>
+        <ScrollView style={{height: 400}}>
+          <FlatList
+            style={{height:'100%'}}
+            data={finances}
+            numColumns={1}
+            renderItem={({item}) => (
+              <View
+                style={stylesss.container}
+              >
+                <View style={stylesss.innerContainer}>
+                  <Text>
+                    {item.date}
+                  </Text>
+                  <Text>{"category: " + item.category}</Text>
+                  <Text>{"note: " + item.note}</Text>
+                  <Text
+                    style={{
+                      color: item.type=='expense'
+                        ?'red'
+                        :'green',
+                    }}
+                  >
+                    {"amount: $" + item.amount.toString()}
+                  </Text>
+                  <Pressable 
+                    style={{alignSelf:'flex-end'}}
+                    onPress={() => deleteDoc(doc(db, 'finance', item.id))}
+                  >
+                    <Text style={{color:'red'}}>Delete note</Text>
+                  </Pressable>
                 </View>
               </View>
-
-              {/********** Main Screens (Expense) **********/}
-              {isMonth && (
-                <View>
-                  <View style={styless.dateView}>
-                    <View style={{
-                      flex:20,
-                      paddingLeft:12,
-                      justifyContent:'center'}}>
-                      <Text style={styles.dateText}>
-                        Month
-                      </Text>
-                    </View>
-                    <View style={{
-                      flex:15,
-                      alignItems:'center',
-                      justifyContent:'center'
-                      }}>
-                      <TouchableOpacity style={{position: 'absolute'}} 
-                        onPress={subtractOneMonth}>
-                        <Entypo name='chevron-left' size={28} color={darkBlue}/>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styless.datePickerView}>
-                      <TouchableOpacity onPress={()=>setShow(true)}>
-                        <View>
-                          <Text style={styles.dateText}>{month}</Text>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={{
-                      flex:15,
-                      alignItems:'center',
-                      justifyContent:'center'
-                    }}>
-                      {/************ Add function for these 2 buttons *************/}
-                      <TouchableOpacity style={{position: 'absolute'}} 
-                        onPress={addOneMonth}>
-                        <Entypo name='chevron-right' size={28} color={darkBlue}/>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                  {show && (
-                    <>
-                      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
-                        <View style={{flex:5}}>
-                          <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
-                            <View>
-                              <Text style={styles.datePickerOffText}>
-                                Cancel
-                              </Text>
-                            </View>
-                          </TouchableOpacity>
-                        </View>
-                        <View style={{flex:5, alignItems:'flex-end'}}>
-                          <TouchableOpacity onPress={()=> setShow(false)}>
-                            <View>
-                              <Text style={styles.datePickerOffText}>
-                                Done
-                              </Text>
-                            </View>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                      <View style={{
-                        borderBottomColor: '#E9E9E9',
-                      }}>
-                        <DateTimePicker
-                          value={new Date(date)}
-                          display={'spinner'}
-                          onChange ={onChange}
-                        />
-                      </View>
-                    </>
-                  )}
-                </View>)}
-
-              {/********** Main Screens (Income) **********/}
-              {isAnnual && (
-                <View>
-                  <View style={styless.dateView}>
-                    <View style={{
-                      flex:20,
-                      paddingLeft:12,
-                      justifyContent:'center'
-                    }}>
-                      <Text style={styles.dateText}>Year</Text>
-                    </View>
-                    <View style={{
-                      flex:15,
-                      alignItems:'center',
-                      justifyContent:'center'
-                    }}>
-                      {/************ Add function for these 2 buttons *************/}
-                      <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneYear}>
-                        <Entypo name='chevron-left' size={28} color={darkBlue}/>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styless.datePickerView}>            
-                        <Text style={styles.dateText}>{date.format('YYYY')}</Text>
-                    </View>
-                    <View style={{
-                      flex:15,
-                      alignItems:'center',
-                      justifyContent:'center'
-                    }}>
-                      {/************ Add function for these 2 buttons *************/}
-                      <TouchableOpacity style={{position: 'absolute'}} onPress={addOneYear}>
-                        <Entypo name='chevron-right' size={28} color={darkBlue}/>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-                )}
-            </View>
-            </>
-        </Pressable>
+            )}
+          />
       </ScrollView>
+      <Text>
+        This month:
+      </Text>
+      <Text style={{color:'green'}}>{"Income: $" + incomeMonth}</Text>
+      <Text style={{color:'red'}}>{"Expense: $" + expenseMonth}</Text>
+      <Text style={{
+                  color: total < 0
+                    ?'red'
+                    :'green',
+                  marginBottom: 10, 
+                }}
+      >
+        {"Balance: $" + total}
+      </Text> 
+      </View>
     </>
   );
 }
@@ -351,3 +273,35 @@ const styless = StyleSheet.create({
 
 
 export default Home;
+
+const stylesss = StyleSheet.create({
+  container:{
+    backgroundColor: '#e5e5e5',
+    padding: 15,
+    borderRadius: 15,
+    margin: 5,
+    marginHorizontal: 10,
+  },
+  innerContainer:{
+    alignItems:'center',
+    flexDirection: 'column',
+  },
+  mainContainerInnerScreen: {
+    flex: 1,
+  },
+  header: {
+    alignItems:'center', 
+    justifyContent:'flex-end',
+    backgroundColor:'#fff',
+    borderBottomColor:'#808080',
+    borderBottomWidth:1,
+    paddingTop:3,
+    height: StatusBarHeight + 48,
+  },
+  boldBlueHeaderText: {
+    fontSize: 34,
+    color: darkBlue,
+    marginBottom: 10,
+    fontWeight: 'bold',
+  },
+})
