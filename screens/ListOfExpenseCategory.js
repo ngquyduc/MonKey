@@ -117,7 +117,7 @@ const ListOfExpenseCategory = () => {
             // Retore the category that just deleted
           },
         }}>
-        {"You just delete " + {recentDelete} + " category"}
+        {"You just delete a category"}
       </Snackbar>
 
     </>

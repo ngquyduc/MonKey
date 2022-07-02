@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import styles from '../components/styles';
+import { View, Text, StyleSheet } from 'react-native';
 import { PieChart } from "react-native-chart-kit";
 import { ScreenWidth } from '../components/constants';
 import { onSnapshot, query, where } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
 import { financeRef } from '../api/db';
+import { StatusBarHeight } from '../components/constants';
+import { colors } from '../components/colors';
+const {beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
 const Stats = (props) => {
   const [income, setIncome] = useState({})
@@ -84,6 +86,9 @@ const Stats = (props) => {
 
   return (
     <View style={styles.mainContainerInnerScreen}>
+      <View style={styles.header}>
+        <Text style={styles.boldBlueHeaderText}>Statistics</Text>
+      </View>
       <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>     
       <PieChart
         data={data1}
@@ -124,3 +129,35 @@ const chartConfig = {
   barPercentage: 0.5,
   useShadowColorFromDataset: false // optional
 };
+
+const styles = StyleSheet.create({
+  container:{
+    backgroundColor: '#e5e5e5',
+    padding: 15,
+    borderRadius: 15,
+    margin: 5,
+    marginHorizontal: 10,
+  },
+  innerContainer:{
+    alignItems:'center',
+    flexDirection: 'column',
+  },
+  mainContainerInnerScreen: {
+    flex: 1,
+  },
+  header: {
+    alignItems:'center', 
+    justifyContent:'flex-end',
+    backgroundColor:'#fff',
+    borderBottomColor:'#808080',
+    borderBottomWidth:1,
+    paddingTop:3,
+    height: StatusBarHeight + 48,
+  },
+  boldBlueHeaderText: {
+    fontSize: 34,
+    color: darkBlue,
+    marginBottom: 10,
+    fontWeight: 'bold',
+  },
+})
