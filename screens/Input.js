@@ -309,7 +309,8 @@ const Input = ({navigation}) => {
                       <Text style={styles.inputText}>Submit</Text>
                     </TouchableOpacity>
                   </View>
-                </View>)}
+                </View>)
+              }
 
 
 

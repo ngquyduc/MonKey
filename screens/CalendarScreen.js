@@ -9,6 +9,7 @@ import moment from 'moment';
 import { colors } from '../components/colors';
 const {beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 import PressableText from '../components/Containers/PressableText';
+import styles from '../components/styles';
 
 const CalendarScreen = (props) => {
   const [curDate, setCurDate] = useState(moment().format('YYYY-MM-DD'))
@@ -200,7 +201,7 @@ const CalendarScreen = (props) => {
 
 export default CalendarScreen;
 
-const styles = StyleSheet.create({
+const styless = StyleSheet.create({
   container:{
     backgroundColor: '#e5e5e5',
     padding: 15,
