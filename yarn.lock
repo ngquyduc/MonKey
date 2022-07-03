@@ -7318,6 +7318,13 @@ react-is@^16.13.0, react-is@^16.13.1, react-is@^16.7.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-activity-rings@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-activity-rings/-/react-native-activity-rings-1.1.2.tgz#b5ddf2f0c0da0b206594e8aa4769fb9a5264b631"
+  integrity sha512-f98xWVXf3BsUhsC05Y97NJ4beBzABxCr2TvkHosQSgnUvAA4CrYWtLS9gYobfk4HXZCTeSsFF49Ab54oZ6BGMg==
+  dependencies:
+    paths-js "^0.4.10"
+
 react-native-animatable@^1.3.3:
   version "1.3.3"
   resolved "https://registry.npmjs.org/react-native-animatable/-/react-native-animatable-1.3.3.tgz"

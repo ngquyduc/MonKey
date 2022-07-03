@@ -503,7 +503,7 @@ const Input = ({navigation}) => {
                 </View>
                 )}
             </View>
-            </>
+          </>
         </Pressable>
       </ScrollView>
     </>
