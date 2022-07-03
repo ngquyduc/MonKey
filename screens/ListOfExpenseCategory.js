@@ -1,48 +1,73 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, Pressable, FlatList, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity, Animated, Keyboard, Alert, Modal, Pressable } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { colors } from '../components/colors';
 import { StatusBarHeight } from '../components/constants';
 import ExpenseCategory from '../CategoriesList/ExpenseCategory';
-import { Feather, Octicons, Ionicons } from '@expo/vector-icons';
+import { Feather, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Snackbar } from 'react-native-paper';
+import IconList from '../CategoriesList/IconList'
+import ColorList from '../CategoriesList/ColorList'
+import CustomModal from '../components/Containers/CustomModal';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
-const ListOfExpenseCategory = () => {
+/* Things to do
+ * Make onSubmitAdd() function (line 133)
+ * Make onSubmitEdit() function (line 139)
+ * Make restoreRow() function (line 50)
+ * Modify deleteRow() function (line 155)
+ * Create a expense category list on database
+ */
+
+const ListOfExpenseCategory = ({navigation}) => {
+  /*************** Modifying category ***************/
+  const [inprogressCategory, setInprogressCategory] = useState('');
+  const [inprogressIcon, setInprogressIcon] = useState('');
+  const [inprogressColor, setInprogressColor] = useState('#767676');
+  
+  /*************** Visibility of snackbar ***************/
   const [visible, setVisible] = useState(false);
 
-  const [recentDelete, setRecentDelete] = useState('');
+  /*************** Visibility of add modal ***************/
+  const [visibleAdd, setVisibleAdd] = useState(false);
 
-  const onDismissSnackBar = () => setVisible(false);
+  /*************** Visibility of edit modal ***************/
+  const [visibleEdit, setVisibleEdit] = useState(false);
   
   const [listCategories, setListCategories] = useState(
     ExpenseCategory.map((ExpenseCategoryItem, index) => ({
       key: `${ExpenseCategoryItem.name}`,
       title: ExpenseCategoryItem.name,
-      isEdit: ExpenseCategoryItem.isEdit
+      isEdit: ExpenseCategoryItem.isEdit,
+      icon: ExpenseCategoryItem.icon,
     }))
   )
-
+  /*************** Function to edit category ***************/
   const editRow = (rowMap, rowKey) => {
-    
+    //to be implemented
   }
 
-  const deleteRow = (rowMap, rowKey, rowTitle) => {
-    const newData = [...listCategories];
-    const prevIndex = listCategories.findIndex(item => item.key === rowKey);
-    newData.splice(prevIndex,1);
-    setListCategories(newData);
-    setVisible(true);
+  /******** Function to restore category after being deleted ********/
+  const restoreRow = (rowMap, rowKey) => {
+    //to be implemented
   }
 
+  /*************** Function to close row ***************/
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  }
+
+  /*************** Edit/delete button ***************/
   const HiddenItemWithActions = props => {
     const {swipeAnimatedValue, onEdit, onDelete} = props;
     return (
       <View style={styles.rowBack}>
-        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft]} onPress={onEdit}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft, {height:55}]} onPress={onEdit}>
           <Feather name="edit-3" size={25} color="#fff"/>  
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight]} onPress={onDelete}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight,{height:55}]} onPress={onDelete}>
           <Animated.View style={[styles.trash, {
             transform: [
               {
@@ -68,11 +93,10 @@ const ListOfExpenseCategory = () => {
     }
     return (
       <View style={styles.rowFront}>
-        <TouchableOpacity style={styles.rowFrontVisible}>
-          <View>
-            <Text style={styles.title}>{data.item.title}</Text>
-          </View>
-        </TouchableOpacity>
+        <View style={{alignItems:'center', justifyContent:'center', width:50}}>
+          <MaterialCommunityIcons name={data.item.icon} size={24} color="#666"/>
+        </View>
+        <Text style={styles.title}>{data.item.title}</Text>
       </View>
     )
   }
@@ -86,18 +110,84 @@ const ListOfExpenseCategory = () => {
       <HiddenItemWithActions
         data={data}
         rowMap={rowMap}
-        onEdit={()=>editRow(rowMap,data.item.key)}
-        onDelete={()=>deleteRow(rowMap,data.item.key,data.item.title)}
+        onEdit={()=>{setVisibleEdit(true), setInprogressCategory(data.item.title)}}
+        onDelete={()=>alertDelete(rowMap,data.item.key,data.item.title)}
       />
     )
   }
 
+  /*************** Function to close modal ***************/
+  const closeAddModal = () => {
+    setInprogressCategory('')
+    setInprogressColor('#767676')
+    setInprogressIcon('')
+    setVisibleAdd(false)
+  }
+  const closeEditModal = () => {
+    setInprogressCategory('')
+    setInprogressColor('#767676')
+    setInprogressIcon('')
+    setVisibleEdit(false)
+  }
+  /*************** Function when submitting new/edit category ***************/
+  const onSubmitAdd = () => {
+    setInprogressCategory('')
+    setInprogressColor('#767676')
+    setInprogressIcon('')
+    setVisibleAdd(false)
+  }
+  const onSubmitEdit = () => {
+    setInprogressCategory('')
+    setInprogressColor('#767676')
+    setInprogressIcon('')
+    setVisibleEdit(false)
+  }
+
+  /*************** Function to alert when deleting ***************/
+  const alertDelete = (rowMap, rowKey, rowTitle) => {
+    Alert.alert("Delete this category?","", [
+      {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
+      {text: 'Delete', onPress: () => {deleteRow(rowMap, rowKey, rowTitle)}}
+    ]);
+  }
+
+  /*************** Function to delete category ***************/
+  const deleteRow = (rowMap, rowKey, rowTitle) => {
+    const newData = [...listCategories];
+    const prevIndex = listCategories.findIndex(item => item.key === rowKey);
+    newData.splice(prevIndex,1);
+    setListCategories(newData);
+    setVisible(true);
+  }
+
+
   return (
     <>
+      {/*************** Header ***************/}
       <View style={styles.header}>
-        <Text style={styles.boldBlueHeaderText}>Edit category</Text>
+        <View style={{flex:2, paddingLeft:5, paddingBottom:7}}>
+          <TouchableOpacity onPress={()=>navigation.navigate('Input')}>
+            <MaterialCommunityIcons name='chevron-left' size={44} color={darkBlue}/>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex:8,alignItems:'center',justifyContent:'center'}}>
+          <Text style={styles.boldBlueHeaderText}>Expense</Text>
+        </View>
+        <View style={{flex:2}}></View>
       </View>
-      <View style={{alignItems:'center'}}>
+      {/*************** Add category ***************/}
+      <View style={styles.rowFront}>
+        <TouchableOpacity 
+          onPress={() => setVisibleAdd(true)}
+          style={{height:60, alignItems:'center', width:380, flexDirection:'row'}}>
+          <View style={{alignItems:'center', justifyContent:'center', width:50}}>
+            <MaterialCommunityIcons name='pencil-plus' size={24} color={darkYellow}/>
+          </View>
+          <Text style={[styles.title, {color:darkYellow}]}>Add expense category</Text>
+        </TouchableOpacity>
+      </View>
+      {/*************** Edit/delete category ***************/}
+      <View style={{alignItems:'center', paddingBottom:6}}>
         <Text style={{fontStyle:'italic'}}>Swipe left to edit or delete the category</Text>
       </View>
       <SwipeListView
@@ -106,32 +196,234 @@ const ListOfExpenseCategory = () => {
         renderHiddenItem={renderHiddenItem}
         rightOpenValue={-150}
         disableRightSwipe
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={true}
       />
       <Snackbar
         visible={visible}
-        onDismiss={onDismissSnackBar}
+        onDismiss={() => setVisible(false)}
         action={{
           label: 'Undo',
-          onPress: () => {
+          onPress: () => {restoreRow
             // Retore the category that just deleted
           },
         }}>
         {"You just delete a category"}
       </Snackbar>
 
+      {/*************** Modal to add category ***************/}
+      <Modal 
+        visible={visibleAdd} 
+        animationType='slide'
+      >
+        <Pressable onPress={Keyboard.dismiss}>
+          {/*********** Category name ***********/}
+          <CustomModal
+            header='New category'
+            closeModal={closeAddModal}
+          >
+            <TextInput
+              style={[styles.inputContainer, {textAlign:'left'}]}
+              placeholder='Category'
+              placeholderTextColor={lightBlue}
+              value={inprogressCategory}
+              onChangeText={(value) => setInprogressCategory(value)}
+            />
+          </CustomModal>
+          {/*********** Category icon ***********/}
+          <View style={styles.propertyContainer}>
+            <View style={{
+              flex:22,
+              paddingLeft:12,
+              justifyContent:'center'
+              }}>
+              <Text style={styles.propertyText}>Icon</Text>
+            </View>
+            <View style={{
+                flex:80,
+                alignItems:'center',
+                justifyContent:'center',
+              }}>
+              <MaterialCommunityIcons name={inprogressIcon} size={32} color={inprogressColor}/>  
+            </View>
+          </View>
+          <View style={{height:240}}>
+            <FlatList
+              contentContainerStyle={{alignSelf:'center'}}
+              numColumns={5}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={true}
+              data={IconList}
+              renderItem={({item}) => {
+                return (
+                  <View style={styles.itemView}>
+                    <TouchableOpacity 
+                      style={[styles.itemButton, {backgroundColor:'#fff', borderWidth:1, borderColor:'#b2b2b2'}]}
+                      onPress={() => {setInprogressIcon(item.name)}}>
+                      <MaterialCommunityIcons name={item.name} size={27} color='#767676'/>
+                    </TouchableOpacity>
+                  </View>
+                )
+            }}/>
+          </View>
+          {/*********** Category color ***********/}
+          <View style={styles.propertyContainer}>
+            <View style={{
+              flex:22,
+              paddingLeft:12,
+              justifyContent:'center'
+              }}>
+              <Text style={styles.propertyText}>Color</Text>
+            </View>
+            <View style={{
+                flex:80,
+                alignItems:'center',
+                justifyContent:'center',
+                borderBottomColor:darkYellow,
+              }}>
+              <View style={[styles.itemButton, {backgroundColor:inprogressColor, borderWidth:1, borderColor:'#b2b2b2'}]}/>
+            </View>
+          </View>
+          <View style={{height:240}}>
+            <FlatList
+              contentContainerStyle={{alignSelf:'center'}}
+              numColumns={5}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={true}
+              data={ColorList}
+              renderItem={({item}) => {
+                return (
+                  <View style={styles.itemView}>
+                    <TouchableOpacity 
+                      style={[styles.itemButton, {backgroundColor:item.color, borderWidth:1, borderColor:'#b2b2b2'}]}
+                      onPress={() => {setInprogressColor(item.color)}}>
+                    </TouchableOpacity>
+                  </View>
+                )
+            }}/>
+          </View>
+          <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
+            <TouchableOpacity 
+              style={styles.submitButton}
+              onPress={() => {onSubmitAdd}}>
+              <Text style={styles.onSubmitNew}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </Modal>
+
+
+      {/*************** Modal to edit category ***************/}
+      <Modal 
+        visible={visibleEdit} 
+        animationType='slide'
+      >
+        <Pressable onPress={Keyboard.dismiss}>
+          {/*********** Category name ***********/}
+          <CustomModal
+            header='Edit'
+            closeModal={closeEditModal}
+          >
+            <TextInput
+              style={[styles.inputContainer, {textAlign:'left'}]}
+              placeholder='Category'
+              placeholderTextColor={lightBlue}
+              value={inprogressCategory}
+              onChangeText={(value) => setInprogressCategory(value)}
+            />
+          </CustomModal>
+          {/*********** Category icon ***********/}
+          <View style={styles.propertyContainer}>
+            <View style={{
+              flex:22,
+              paddingLeft:12,
+              justifyContent:'center'
+              }}>
+              <Text style={styles.propertyText}>Icon</Text>
+            </View>
+            <View style={{
+                flex:80,
+                alignItems:'center',
+                justifyContent:'center',
+            }}>
+              <MaterialCommunityIcons name={inprogressIcon} size={32} color={inprogressColor}/>  
+            </View>
+          </View>
+          <View style={{height:240}}>
+            <FlatList
+              contentContainerStyle={{alignSelf:'center'}}
+              numColumns={5}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={true}
+              data={IconList}
+              renderItem={({item}) => {
+                return (
+                  <View style={styles.itemView}>
+                    <TouchableOpacity 
+                      style={[styles.itemButton, {backgroundColor:'#fff', borderWidth:1, borderColor:'#b2b2b2'}]}
+                      onPress={() => {setInprogressIcon(item.name)}}>
+                      <MaterialCommunityIcons name={item.name} size={27} color='#767676'/>
+                    </TouchableOpacity>
+                  </View>
+                )
+            }}/>
+          </View>
+          {/*********** Category color ***********/}
+          <View style={styles.propertyContainer}>
+            <View style={{
+              flex:22,
+              paddingLeft:12,
+              justifyContent:'center'
+              }}>
+              <Text style={styles.propertyText}>Color</Text>
+            </View>
+            <View style={{
+                flex:80,
+                alignItems:'center',
+                justifyContent:'center',
+                borderBottomColor:darkYellow,
+              }}>
+              <View style={[styles.itemButton, {backgroundColor:inprogressColor, borderWidth:1, borderColor:'#b2b2b2'}]}/>
+            </View>
+          </View>
+          <View style={{height:240}}>
+            <FlatList
+              contentContainerStyle={{alignSelf:'center'}}
+              numColumns={5}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={true}
+              data={ColorList}
+              renderItem={({item}) => {
+                return (
+                  <View style={styles.itemView}>
+                    <TouchableOpacity 
+                      style={[styles.itemButton, {backgroundColor:item.color, borderWidth:1, borderColor:'#b2b2b2'}]}
+                      onPress={() => {setInprogressColor(item.color)}}>
+                    </TouchableOpacity>
+                  </View>
+                )
+            }}/>
+          </View>
+          <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
+            <TouchableOpacity 
+              style={styles.submitButton}
+              onPress={() => {onSubmitEdit}}>
+              <Text style={styles.submitText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </Modal>
     </>
   )
 }
 
 const styles = StyleSheet.create({
   header: {
-    alignItems:'center', 
-    justifyContent:'flex-end',
+    alignItems:'flex-end', 
+    justifyContent:'center',
+    flexDirection:'row',
     backgroundColor:'#fff',
     borderBottomColor:'#808080',
     borderBottomWidth:1,
-    paddingTop:3,
     height: StatusBarHeight + 48,
   },
   boldBlueHeaderText: {
@@ -141,10 +433,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   rowFront: {
+    flexDirection:'row',
     backgroundColor: '#fff',
-    //justifyContent:'center',
+    alignItems:'center',
     borderRadius:5,
-    height:60,
+    height:55,
     margin:5,
     marginBottom:10,
     shadowColor:'#999',
@@ -156,7 +449,7 @@ const styles = StyleSheet.create({
   rowFrontVisible: {
     backgroundColor:'#fff',
     borderRadius:5,
-    height:60,
+    height:55,
     padding:10,
     marginBottom:15,
   },
@@ -196,12 +489,70 @@ const styles = StyleSheet.create({
   title: {
     fontSize:18,
     fontWeight:'bold',
-    //marginBottom:5,
     color:'#666',
   },
   details: {
     fontSize:12,
     color:'#999',
+  },
+  itemView: {
+    alignItems:'center',
+    justifyContent:'center',
+    height: 38,
+    width:70,
+    margin:5, 
+  },
+  itemButton: {
+    flexDirection: 'row',
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomLeftRadius:10, 
+    borderBottomRightRadius:10,
+    borderTopLeftRadius:10, 
+    borderTopRightRadius:10, 
+    backgroundColor:lightYellow,
+    width:70
+  },
+  inputContainer: {
+    color:darkBlue,
+    borderColor: darkBlue,
+    paddingRight: 12,
+    width:210,
+    borderRadius: 10,
+    borderBottomWidth:1,
+    fontSize: 17,
+    fontWeight:'400',
+    height: 36,
+  },
+  propertyContainer: {
+    flexDirection:'row',
+    paddingBottom:4,
+    paddingTop:4,
+    paddingLeft:4,
+    borderBottomColor: '#E9E9E9',
+    borderTopColor: '#E9E9E9',  
+    borderTopWidth:1,      
+    //borderBottomWidth:1,    
+    height:48
+  }, 
+  propertyText: {
+    fontSize: 19,
+    fontWeight: '600',
+    color: darkBlue,
+  },
+  submitButton: {
+    alignItems:'center', 
+    justifyContent:'center',
+    backgroundColor:darkYellow,
+    height:40,
+    width:100, 
+    borderRadius:5
+  },
+  submitText: {
+    fontSize:20,
+    color:'#fff',
+    fontWeight:'600',
   },
 })
 export default ListOfExpenseCategory;
