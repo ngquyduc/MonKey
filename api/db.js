@@ -19,6 +19,7 @@ const handleExpenseSubmit = async (date, amount, note, category) => {
     const docRef = await addDoc(financeRef, {
       date: date,
       month: date.substring(0, 7), 
+      year: date.substring(0, 4),
       amount: amount,
       note: note,
       category: category,
@@ -36,6 +37,7 @@ const handleIncomeSubmit = async (date, amount, note, category) => {
     const docRef = await addDoc(financeRef, {
       date: date,
       month: date.substring(0, 7), 
+      year: date.substring(0, 4),
       amount: amount,
       note: note,
       category: category,

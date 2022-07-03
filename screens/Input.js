@@ -305,11 +305,12 @@ const Input = ({navigation}) => {
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                     <TouchableOpacity 
                       style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-                      onPress={() => {handleExpenseInput(date.format('DD-MM-YYYY').toString(), amount, note, chosenCategory)}}>
+                      onPress={() => {handleExpenseInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory)}}>
                       <Text style={styles.inputText}>Submit</Text>
                     </TouchableOpacity>
                   </View>
-                </View>)}
+                </View>)
+              }
 
 
 
