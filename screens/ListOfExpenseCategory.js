@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity, Animated, Keyboard, Alert, Modal, Pressable } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { colors } from '../components/colors';
 import { StatusBarHeight } from '../components/constants';
-import ExpenseCategory from '../CategoriesList/ExpenseCategory';
 import { Feather, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Snackbar } from 'react-native-paper';
 import IconList from '../CategoriesList/IconList'
 import ColorList from '../CategoriesList/ColorList'
 import CustomModal from '../components/Containers/CustomModal';
+import { AddExpenseCategory, db, ExpenseCategoryRef } from '../api/db';
+import { query, where, onSnapshot, collection, orderBy } from 'firebase/firestore';
+import { getUserID } from '../api/authentication';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 /* Things to do
@@ -34,14 +36,7 @@ const ListOfExpenseCategory = ({navigation}) => {
   /*************** Visibility of edit modal ***************/
   const [visibleEdit, setVisibleEdit] = useState(false);
   
-  const [listCategories, setListCategories] = useState(
-    ExpenseCategory.map((ExpenseCategoryItem, index) => ({
-      key: `${ExpenseCategoryItem.name}`,
-      title: ExpenseCategoryItem.name,
-      isEdit: ExpenseCategoryItem.isEdit,
-      icon: ExpenseCategoryItem.icon,
-    }))
-  )
+  const [listCategories, setListCategories] = useState([])
   /*************** Function to edit category ***************/
   const editRow = (rowMap, rowKey) => {
     //to be implemented
@@ -130,7 +125,8 @@ const ListOfExpenseCategory = ({navigation}) => {
     setVisibleEdit(false)
   }
   /*************** Function when submitting new/edit category ***************/
-  const onSubmitAdd = () => {
+  const onSubmitAdd = (n, i, c) => {
+    AddExpenseCategory(n, i, c)
     setInprogressCategory('')
     setInprogressColor('#767676')
     setInprogressIcon('')
@@ -160,6 +156,26 @@ const ListOfExpenseCategory = ({navigation}) => {
     setVisible(true);
   }
 
+  useMemo(() => {
+    const ExpenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
+    const q = query(ExpenseCategoryRef, orderBy('name', 'asc'))
+    onSnapshot(q,
+      (snapShot) => {
+        const list = []
+        snapShot.forEach((IncomeCategoryItem) => {
+          list.push(({
+            key: `${IncomeCategoryItem.data().name}`,
+            title: IncomeCategoryItem.data().name,
+            isEdit: false,
+            id: IncomeCategoryItem.id,
+            icon: IncomeCategoryItem.data().icon,
+          }))
+        })
+        setListCategories(list)
+      }
+    )
+    
+  }, [])
 
   return (
     <>
@@ -304,7 +320,7 @@ const ListOfExpenseCategory = ({navigation}) => {
           <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
             <TouchableOpacity 
               style={styles.submitButton}
-              onPress={() => {onSubmitAdd}}>
+              onPress={() => {onSubmitAdd(inprogressCategory, inprogressIcon, inprogressColor)}}>
               <Text style={styles.onSubmitNew}>Submit</Text>
             </TouchableOpacity>
           </View>

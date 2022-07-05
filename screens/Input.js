@@ -210,6 +210,7 @@ const Input = ({navigation}) => {
                     <View style={styless.datePickerView}>
                       <TextInput
                         style={[styless.inputContainer, {textAlign:'right'}]}
+                        maxLength={10}
                         placeholder='0.00'
                         placeholderTextColor={lightBlue}
                         keyboardType='decimal-pad'
@@ -401,6 +402,7 @@ const Input = ({navigation}) => {
                     <View style={styless.datePickerView}>
                       <TextInput
                         style={[styless.inputContainer, {textAlign:'right'}]}
+                        maxLength={10}
                         placeholder='0.00'
                         placeholderTextColor={lightBlue}
                         keyboardType='decimal-pad'
