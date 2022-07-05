@@ -40,6 +40,7 @@ const ListOfIncomeCategory = ({navigation}) => {
       title: IncomeCategoryItem.name,
       isEdit: IncomeCategoryItem.isEdit,
       icon: IncomeCategoryItem.icon,
+      color: ExpenseCategoryItem.color
     }))
   )
   /*************** Function to edit category ***************/
@@ -94,7 +95,7 @@ const ListOfIncomeCategory = ({navigation}) => {
     return (
       <View style={styles.rowFront}>
         <View style={{alignItems:'center', justifyContent:'center', width:50}}>
-          <MaterialCommunityIcons name={data.item.icon} size={24} color="#666"/>
+          <MaterialCommunityIcons name={data.item.icon} size={24} color={data.item.color}/>
         </View>
         <Text style={styles.title}>{data.item.title}</Text>
       </View>

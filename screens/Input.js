@@ -490,7 +490,7 @@ const Input = ({navigation}) => {
                               </TouchableOpacity>
                             </View>
                           )
-                          }}/>
+                      }}/>
                     </ScrollView>
                   </View>
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>

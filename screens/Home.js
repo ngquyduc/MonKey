@@ -1,20 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useMemo} from 'react';
-import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert} from 'react-native';
-import styles from '../components/styles';
+import { View, Text, TouchableOpacity, Alert, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
 import { colors } from '../components/colors';
-
 import moment from 'moment';
 import { query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import { financeRef,db } from '../api/db';
 import { getUserID } from '../api/authentication';
 // import MonthPicker from 'react-native-month-year-picker';
-
+import ActivityRings from "react-native-activity-rings";  
 import { StatusBarHeight } from '../components/constants';
+import { Octicons } from '@expo/vector-icons'
+import { ProgressChart } from 'react-native-chart-kit';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const Home = ({navigation}) => {
-
+  const username = 'Team Grape'
   let [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   let [month, setMonth] = useState(moment().format('YYYY-MM'));
   let [year, setYear] = useState(moment().format('YYYY'))
@@ -28,6 +28,19 @@ const Home = ({navigation}) => {
   const [expenseMonth, setExpenseMonth] = useState(0)
   const [total, setTotal] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
+
+  /*********** Activity ring config ***********/
+  const activityData = [ 
+    //the rings are disappear when the values equal 0 or more than 1
+    { value: expenseMonth/700 > 1 ? 1 : expenseMonth/700, color:darkBlue }, 
+    { value: expense/50 > 1 ? 1 : expense/50, color:darkYellow }, 
+  ];
+
+  const activityConfig = { 
+    width: 150,  
+    height: 150,
+    ringSize:21
+  };
 
   useMemo(() => {
     const dayQuery = query(financeRef, where("user", "==", getUserID()), where('date', '==', date), orderBy("time", "desc"))
@@ -85,31 +98,43 @@ const Home = ({navigation}) => {
     )
   }, [])
 
+  const alertChangeLimit = () => {
+    Alert.alert("Adjust your expense limit?","", [
+      {text: 'Cancel', onPress: () => console.log('Alert closed')},
+      {text: 'Yes', onPress: () => {navigation.navigate('EditLimitScreen')}}
+    ]);
+  }
+
   return (
-    <>
-    <StatusBar style='dark'/>
-      <View style={styless.header}>
-        <Text style={styles.boldBlueHeaderText}>Home</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.boldBlueHeaderText}>Welcome,</Text>
+          <View style={{alignItems:'flex-end'}}>
+            <Text style={styles.boldBlueHeaderText}>{username + " !"}</Text>
+          </View>
+        </View>
       </View>
-      <View>
+      <View style={styles.footer}> 
+        <View style={styles.ringView}>
+          <TouchableOpacity style={{flexDirection:'row'}} onPress={() => {alertChangeLimit()}}>
+            <ActivityRings theme='dark' data={activityData} config={activityConfig}/> 
+          </TouchableOpacity>
+        </View>
         <View>
           <Text>{"Today: " + date.split('-').reverse().join('-')}</Text>
           <Text style={{color:'green'}}>{"Income: $" + income}</Text>
           <Text style={{color:'red'}}>{"Expense: $" + expense}</Text>
         </View>
-        <ScrollView style={{height: 400}}>
+        <View style={{height: 300}}>
           <FlatList
             style={{height:'100%'}}
             data={finances}
             numColumns={1}
             renderItem={({item}) => (
-              <View
-                style={stylesss.container}
-              >
+              <View style={stylesss.container}>
                 <View style={stylesss.innerContainer}>
-                  <Text>
-                    {item.date}
-                  </Text>
+                  <Text>{item.date}</Text>
                   <Text>{"category: " + item.category}</Text>
                   <Text>{"note: " + item.note}</Text>
                   <Text
@@ -131,25 +156,115 @@ const Home = ({navigation}) => {
               </View>
             )}
           />
-      </ScrollView>
-      <Text>
-        This month:
-      </Text>
-      <Text style={{color:'green'}}>{"Income: $" + incomeMonth}</Text>
-      <Text style={{color:'red'}}>{"Expense: $" + expenseMonth}</Text>
-      <Text style={{
-                  color: total < 0
-                    ?'red'
-                    :'green',
-                  marginBottom: 10, 
-                }}
-      >
-        {"Balance: $" + total}
-      </Text> 
+        </View>
       </View>
-    </>
+    </View>
+    // <>
+    // <StatusBar style='dark'/>
+    //   <View style={styless.header}>
+    //     <Text style={styles.boldBlueHeaderText}>Home</Text>
+    //   </View>
+    //   <View>
+    //     <View>
+    //       <Text>{"Today: " + date.split('-').reverse().join('-')}</Text>
+    //       <Text style={{color:'green'}}>{"Income: $" + income}</Text>
+    //       <Text style={{color:'red'}}>{"Expense: $" + expense}</Text>
+    //     </View>
+    //     <View style={{height: 300}}>
+    //       <FlatList
+    //         style={{height:'100%'}}
+    //         data={finances}
+    //         numColumns={1}
+    //         renderItem={({item}) => (
+    //           <View
+    //             style={stylesss.container}
+    //           >
+    //             <View style={stylesss.innerContainer}>
+    //               <Text>
+    //                 {item.date}
+    //               </Text>
+    //               <Text>{"category: " + item.category}</Text>
+    //               <Text>{"note: " + item.note}</Text>
+    //               <Text
+    //                 style={{
+    //                   color: item.type=='expense'
+    //                     ?'red'
+    //                     :'green',
+    //                 }}
+    //               >
+    //                 {"amount: $" + item.amount.toString()}
+    //               </Text>
+    //               <Pressable 
+    //                 style={{alignSelf:'flex-end'}}
+    //                 onPress={() => deleteDoc(doc(db, 'finance', item.id))}
+    //               >
+    //                 <Text style={{color:'red'}}>Delete note</Text>
+    //               </Pressable>
+    //             </View>
+    //           </View>
+    //         )}
+    //       />
+    //   </View>
+    //   <Text>
+    //     This month:
+    //   </Text>
+    //   <Text style={{color:'green'}}>{"Income: $" + incomeMonth}</Text>
+    //   <Text style={{color:'red'}}>{"Expense: $" + expenseMonth}</Text>
+    //   <Text style={{
+    //               color: total < 0
+    //                 ?'red'
+    //                 :'green',
+    //               marginBottom: 10, 
+    //             }}
+    //   >
+    //     {"Balance: $" + total}
+    //   </Text> 
+    //   </View>
+    // </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex:1,
+    backgroundColor: lightBlue,
+  },
+  header: {
+    flex:1,
+    justifyContent:'flex-end',
+    paddingHorizontal:30,
+    paddingBottom:20,
+  },
+  footer: {
+    flex:3.5,
+    backgroundColor:'#fff',
+    borderTopLeftRadius:30,
+    borderTopRightRadius:30,
+    paddingHorizontal:15,
+    paddingVertical:18,
+  },
+  boldBlueHeaderText: {
+    fontSize: 35,
+    color: darkBlue,
+    marginBottom: 10,
+    fontWeight: 'bold',
+  },
+  ringView: {
+    flexDirection:'row',
+    backgroundColor: '#fff',
+    alignItems:'center',
+    borderRadius:25,
+    height:180,
+    margin:5,
+    marginBottom:10,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
+    elevation:5,
+    padding:12
+  },
+})
 
 const styless = StyleSheet.create({
   header: {
