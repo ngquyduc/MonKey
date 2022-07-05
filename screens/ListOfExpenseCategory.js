@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity, Animated, Keyboard, Alert, Modal, Pressable } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { colors } from '../components/colors';
 import { StatusBarHeight } from '../components/constants';
-import ExpenseCategory from '../CategoriesList/ExpenseCategory';
 import { Feather, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Snackbar } from 'react-native-paper';
 import IconList from '../CategoriesList/IconList'
 import ColorList from '../CategoriesList/ColorList'
 import CustomModal from '../components/Containers/CustomModal';
+import { AddExpenseCategory, db, ExpenseCategoryRef } from '../api/db';
+import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { getUserID } from '../api/authentication';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 /* Things to do
@@ -24,6 +26,7 @@ const ListOfExpenseCategory = ({navigation}) => {
   const [inprogressCategory, setInprogressCategory] = useState('');
   const [inprogressIcon, setInprogressIcon] = useState('');
   const [inprogressColor, setInprogressColor] = useState('#767676');
+  const [inprogressId, setInprogressId] = useState('')
   
   /*************** Visibility of snackbar ***************/
   const [visible, setVisible] = useState(false);
@@ -34,15 +37,7 @@ const ListOfExpenseCategory = ({navigation}) => {
   /*************** Visibility of edit modal ***************/
   const [visibleEdit, setVisibleEdit] = useState(false);
   
-  const [listCategories, setListCategories] = useState(
-    ExpenseCategory.map((ExpenseCategoryItem, index) => ({
-      key: `${ExpenseCategoryItem.name}`,
-      title: ExpenseCategoryItem.name,
-      isEdit: ExpenseCategoryItem.isEdit,
-      icon: ExpenseCategoryItem.icon,
-      color: ExpenseCategoryItem.color
-    }))
-  )
+  const [listCategories, setListCategories] = useState([])
   /*************** Function to edit category ***************/
   const editRow = (rowMap, rowKey) => {
     //to be implemented
@@ -111,8 +106,14 @@ const ListOfExpenseCategory = ({navigation}) => {
       <HiddenItemWithActions
         data={data}
         rowMap={rowMap}
-        onEdit={()=>{setVisibleEdit(true), setInprogressCategory(data.item.title)}}
-        onDelete={()=>alertDelete(rowMap,data.item.key,data.item.title)}
+        onEdit={()=>{
+          setVisibleEdit(true) 
+          setInprogressCategory(data.item.title)
+          setInprogressIcon(data.item.icon)
+          setInprogressColor(data.item.color)
+          setInprogressId(data.item.id)
+        }}
+        onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
       />
     )
   }
@@ -131,13 +132,15 @@ const ListOfExpenseCategory = ({navigation}) => {
     setVisibleEdit(false)
   }
   /*************** Function when submitting new/edit category ***************/
-  const onSubmitAdd = () => {
+  const onSubmitAdd = (name, icon, color) => {
+    AddExpenseCategory(name, icon, color)
     setInprogressCategory('')
     setInprogressColor('#767676')
     setInprogressIcon('')
     setVisibleAdd(false)
   }
   const onSubmitEdit = () => {
+    edit(inprogressId)
     setInprogressCategory('')
     setInprogressColor('#767676')
     setInprogressIcon('')
@@ -145,22 +148,50 @@ const ListOfExpenseCategory = ({navigation}) => {
   }
 
   /*************** Function to alert when deleting ***************/
-  const alertDelete = (rowMap, rowKey, rowTitle) => {
+  const alertDelete = (rowMap, rowKey, id) => {
     Alert.alert("Delete this category?","", [
       {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
-      {text: 'Delete', onPress: () => {deleteRow(rowMap, rowKey, rowTitle)}}
+      {text: 'Delete', onPress: () => {deleteRow(id)}}
     ]);
   }
 
   /*************** Function to delete category ***************/
-  const deleteRow = (rowMap, rowKey, rowTitle) => {
-    const newData = [...listCategories];
-    const prevIndex = listCategories.findIndex(item => item.key === rowKey);
-    newData.splice(prevIndex,1);
-    setListCategories(newData);
-    setVisible(true);
+  const deleteRow = (id) => {
+    const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
+    deleteDoc(cat)
   }
 
+  useMemo(() => {
+    const ExpenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
+    const q = query(ExpenseCategoryRef, orderBy('name', 'asc'))
+    onSnapshot(q,
+      (snapShot) => {
+        const list = []
+        snapShot.forEach((ExpenseCategoryItem) => {
+          list.push(({
+            key: `${ExpenseCategoryItem.data().name}`,
+            title: ExpenseCategoryItem.data().name,
+            isEdit: false,
+            id: ExpenseCategoryItem.id,
+            icon: ExpenseCategoryItem.data().icon,
+            color: ExpenseCategoryItem.data().color
+          }))
+        })
+        setListCategories(list)
+      }
+    )
+    
+  }, [])
+
+  const edit = (id) => {
+    const path = 'Input Category/Expense/' + getUserID()
+    const catRef = doc(db, path, id)
+    updateDoc(catRef, {
+      name: inprogressCategory,
+      color: inprogressColor,
+      icon: inprogressIcon,
+    })
+  }
 
   return (
     <>
@@ -305,7 +336,7 @@ const ListOfExpenseCategory = ({navigation}) => {
           <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
             <TouchableOpacity 
               style={styles.submitButton}
-              onPress={() => {onSubmitAdd}}>
+              onPress={() => {onSubmitAdd(inprogressCategory, inprogressIcon, inprogressColor)}}>
               <Text style={styles.onSubmitNew}>Submit</Text>
             </TouchableOpacity>
           </View>
@@ -407,7 +438,7 @@ const ListOfExpenseCategory = ({navigation}) => {
           <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
             <TouchableOpacity 
               style={styles.submitButton}
-              onPress={() => {onSubmitEdit}}>
+              onPress={() => {onSubmitEdit()}}>
               <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>

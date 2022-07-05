@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity, Animated, Keyboard, Alert, Modal, Pressable } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { colors } from '../components/colors';
@@ -9,6 +9,10 @@ import { Snackbar } from 'react-native-paper';
 import IconList from '../CategoriesList/IconList'
 import ColorList from '../CategoriesList/ColorList'
 import CustomModal from '../components/Containers/CustomModal';
+import { AddIncomeCategory } from '../api/db';
+import { getUserID } from '../api/authentication';
+import { collection, orderBy, query, onSnapshot } from 'firebase/firestore';
+import { db } from '../api/db';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 /* Things to do
@@ -34,15 +38,7 @@ const ListOfIncomeCategory = ({navigation}) => {
   /*************** Visibility of edit modal ***************/
   const [visibleEdit, setVisibleEdit] = useState(false);
   
-  const [listCategories, setListCategories] = useState(
-    IncomeCategory.map((IncomeCategoryItem, index) => ({
-      key: `${IncomeCategoryItem.name}`,
-      title: IncomeCategoryItem.name,
-      isEdit: IncomeCategoryItem.isEdit,
-      icon: IncomeCategoryItem.icon,
-      color: ExpenseCategoryItem.color
-    }))
-  )
+  const [listCategories, setListCategories] = useState([])
   /*************** Function to edit category ***************/
   const editRow = (rowMap, rowKey) => {
     //to be implemented
@@ -131,7 +127,8 @@ const ListOfIncomeCategory = ({navigation}) => {
     setVisibleEdit('false')
   }
   /*************** Function when submitting new/edit category ***************/
-  const onSubmitAdd = () => {
+  const onSubmitAdd = (n, i, c) => {
+    AddIncomeCategory(n, i, c)
     setInprogressCategory('')
     setInprogressColor('#767676')
     setInprogressIcon('')
@@ -161,6 +158,27 @@ const ListOfIncomeCategory = ({navigation}) => {
     setVisible(true);
   }
 
+  useMemo(() => {
+    const IncomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
+    const q = query(IncomeCategoryRef, orderBy('name', 'asc'))
+    onSnapshot(q,
+      (snapShot) => {
+        const list = []
+        snapShot.forEach((IncomeCategoryItem) => {
+          list.push(({
+            key: `${IncomeCategoryItem.data().name}`,
+            title: IncomeCategoryItem.data().name,
+            isEdit: false,
+            id: IncomeCategoryItem.id,
+            icon: IncomeCategoryItem.data().icon,
+            color: IncomeCategoryItem.data().color
+          }))
+        })
+        setListCategories(list)
+      }
+    )
+    
+  }, [])
 
   return (
     <>
@@ -305,7 +323,7 @@ const ListOfIncomeCategory = ({navigation}) => {
           <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
             <TouchableOpacity 
               style={styles.submitButton}
-              onPress={() => {onSubmitAdd}}>
+              onPress={() => {onSubmitAdd(inprogressCategory, inprogressIcon, inprogressColor)}}>
               <Text style={styles.onSubmitNew}>Submit</Text>
             </TouchableOpacity>
           </View>

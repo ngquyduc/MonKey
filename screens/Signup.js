@@ -14,9 +14,9 @@ const SignUp = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cfPassword, setCfPassword] = useState("");
-  const handleSignUp = (username, email, pass, confirmPass) => {
+  const handleSignUp1 = (username, email, pass, confirmPass) => {
     if (username != '' && email != '' && pass == confirmPass) {
-      handleSignup(email, pass);
+      handleSignup(username, email, pass);
       navigation.navigate('Login')
     } else if (username == '') {
       Alert.alert("Alert", "Enter your username", [
@@ -75,7 +75,9 @@ const SignUp = ({navigation}) => {
               autoCapitalize = 'none'
               onChangeText={text => setCfPassword(text)}
             />
-            <SignUpButton onPress={() => {handleSignUp(username, email, password, cfPassword)}}>Sign-up</SignUpButton>
+            <SignUpButton onPress={() => {handleSignUp1(username, email, password, cfPassword)}}>
+              Sign-up
+            </SignUpButton>
         </KeyboardAvoidingContainer>
       </MainContainer>
     </>

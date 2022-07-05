@@ -110,7 +110,7 @@ const CalendarScreen = (props) => {
           result[day].dots = [exp]
         }
       } else {
-        result[day] = {dots: [inc]}
+        result[day] = {dots: [exp]}
       }
     }
     )
@@ -160,8 +160,6 @@ const CalendarScreen = (props) => {
       </Text>
       <Text style={{color:'green'}}>{"Income: $" + income}</Text>
       <Text style={{color:'red'}}>{"Expense: $" + expense}</Text>
-      
-      
       <FlatList
         style={{height:'100%'}}
         data={finances}

@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Platform, Alert } from 'react-native';
 import PressableText from '../components/Containers/PressableText';
-import { handleSignOut } from '../api/authentication';
+import { getUserID, handleSignOut } from '../api/authentication';
 import { StatusBarHeight } from '../components/constants';
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../components/colors';
 import { Avatar, Drawer } from 'react-native-paper';
+import { copyDefaultCategory } from '../api/authentication';
+import IncomeCategory from '../CategoriesList/IncomeCategory';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../api/db';
 const {beige, brown, darkBlue, lightBlue, darkYellow, lightYellow} = colors;
 const Other = ({navigation}) => {
   const [image, setImage] = useState('');
@@ -55,9 +59,14 @@ const Other = ({navigation}) => {
           Sign Out
         </PressableText>
         {/* <PressableText onPress={() => {
-          displayUserID()
+          const IncomeDefault = collection(db, 'Input Category/Income/default')
+          IncomeCategory.forEach((doc) => {if (doc.name != 'Edit') addDoc(IncomeDefault, {
+            name: doc.name,
+            icon: doc.icon,
+            color: doc.color
+          })})
         }}>
-          getUserID
+          copyDefaultCategory
         </PressableText> */}
       </ScrollView>
     </>
