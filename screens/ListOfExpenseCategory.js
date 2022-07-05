@@ -9,7 +9,7 @@ import IconList from '../CategoriesList/IconList'
 import ColorList from '../CategoriesList/ColorList'
 import CustomModal from '../components/Containers/CustomModal';
 import { AddExpenseCategory, db, ExpenseCategoryRef } from '../api/db';
-import { query, where, onSnapshot, collection, orderBy } from 'firebase/firestore';
+import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
@@ -26,6 +26,7 @@ const ListOfExpenseCategory = ({navigation}) => {
   const [inprogressCategory, setInprogressCategory] = useState('');
   const [inprogressIcon, setInprogressIcon] = useState('');
   const [inprogressColor, setInprogressColor] = useState('#767676');
+  const [inprogressId, setInprogressId] = useState('')
   
   /*************** Visibility of snackbar ***************/
   const [visible, setVisible] = useState(false);
@@ -105,8 +106,14 @@ const ListOfExpenseCategory = ({navigation}) => {
       <HiddenItemWithActions
         data={data}
         rowMap={rowMap}
-        onEdit={()=>{setVisibleEdit(true), setInprogressCategory(data.item.title)}}
-        onDelete={()=>alertDelete(rowMap,data.item.key,data.item.title)}
+        onEdit={()=>{
+          setVisibleEdit(true) 
+          setInprogressCategory(data.item.title)
+          setInprogressIcon(data.item.icon)
+          setInprogressColor(data.item.color)
+          setInprogressId(data.item.id)
+        }}
+        onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
       />
     )
   }
@@ -125,14 +132,15 @@ const ListOfExpenseCategory = ({navigation}) => {
     setVisibleEdit(false)
   }
   /*************** Function when submitting new/edit category ***************/
-  const onSubmitAdd = (n, i, c) => {
-    AddExpenseCategory(n, i, c)
+  const onSubmitAdd = (name, icon, color) => {
+    AddExpenseCategory(name, icon, color)
     setInprogressCategory('')
     setInprogressColor('#767676')
     setInprogressIcon('')
     setVisibleAdd(false)
   }
   const onSubmitEdit = () => {
+    edit(inprogressId)
     setInprogressCategory('')
     setInprogressColor('#767676')
     setInprogressIcon('')
@@ -140,20 +148,17 @@ const ListOfExpenseCategory = ({navigation}) => {
   }
 
   /*************** Function to alert when deleting ***************/
-  const alertDelete = (rowMap, rowKey, rowTitle) => {
+  const alertDelete = (rowMap, rowKey, id) => {
     Alert.alert("Delete this category?","", [
       {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
-      {text: 'Delete', onPress: () => {deleteRow(rowMap, rowKey, rowTitle)}}
+      {text: 'Delete', onPress: () => {deleteRow(id)}}
     ]);
   }
 
   /*************** Function to delete category ***************/
-  const deleteRow = (rowMap, rowKey, rowTitle) => {
-    const newData = [...listCategories];
-    const prevIndex = listCategories.findIndex(item => item.key === rowKey);
-    newData.splice(prevIndex,1);
-    setListCategories(newData);
-    setVisible(true);
+  const deleteRow = (id) => {
+    const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
+    deleteDoc(cat)
   }
 
   useMemo(() => {
@@ -176,6 +181,16 @@ const ListOfExpenseCategory = ({navigation}) => {
     )
     
   }, [])
+
+  const edit = (id) => {
+    const path = 'Input Category/Expense/' + getUserID()
+    const catRef = doc(db, path, id)
+    updateDoc(catRef, {
+      name: inprogressCategory,
+      color: inprogressColor,
+      icon: inprogressIcon,
+    })
+  }
 
   return (
     <>
@@ -422,7 +437,7 @@ const ListOfExpenseCategory = ({navigation}) => {
           <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
             <TouchableOpacity 
               style={styles.submitButton}
-              onPress={() => {onSubmitEdit}}>
+              onPress={() => {onSubmitEdit()}}>
               <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>
