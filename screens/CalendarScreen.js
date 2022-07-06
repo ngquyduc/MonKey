@@ -119,14 +119,9 @@ const CalendarScreen = (props) => {
 
   return (
     <View style={styles.mainContainerInnerScreen}>
-      <View style={styles.header}>
+      <View style={styless.header}>
         <Text style={styles.boldBlueHeaderText}>Calendar</Text>
       </View>
-      <PressableText onPress={() => {
-        console.log(incomeDays)
-      }}>
-        incomeDays
-      </PressableText>
       <Text>
         {"Month: " + curMonth.split('-').reverse().join('-')}
       </Text>

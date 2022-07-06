@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart } from "react-native-chart-kit";
 import { ScreenWidth } from '../components/constants';
-import { onSnapshot, query, where } from 'firebase/firestore';
+import { collection, onSnapshot, query, where, getDoc, getDocs, addDoc } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
-import { financeRef } from '../api/db';
+import { db, financeRef } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
 import { StatusBar } from 'expo-status-bar';
@@ -12,7 +12,8 @@ import styles from '../components/styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
-// import MonthPicker from 'react-native-month-year-picker';
+
+
 
 const {lightYellow, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
@@ -36,11 +37,22 @@ const Stats = (props) => {
 
   }
 
-  const generateColor = () => {
-    const randomColor = Math.floor(Math.random() * 16777215)
-      .toString(16)
-      .padStart(6, '0');
-    return `#${randomColor}`;
+  const [expenseColor, setExpenseColor] = useState('')
+  const generateExpenseColor = (name) => {
+    const path = 'Input Category/Expense/' + getUserID()
+    const q = query(collection(db, path), where('name', '==', name))
+    const d = getDocs(q)
+    d.then((snap) => snap.docs.forEach((doc) => {
+      setExpenseColor(doc.data().color)
+    }))
+  };
+
+  const generateIncomeColor = (name) => {
+    const path = 'Input Category/Income/' + getUserID()
+    const q = query(collection(db, path), where('name', '==', name))
+    const d = getDocs(q)
+    var color = ''
+    d.then((snap) => snap.docs.forEach((doc) => {return doc.data().color}))
   };
 
   /********** Bool to switch screens **********/
@@ -91,6 +103,31 @@ const Stats = (props) => {
     setYear(moment(date).subtract(1, 'year').format('YYYY'))
   }
   
+  const [expenseCategoryList, setExpenseCategoryList] = useState({})
+  const [incomeCategoryList, setIncomeCategoryList] = useState({})
+
+  useEffect(() => {
+    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
+
+    onSnapshot(expenseCategoryRef, (snapshot) => {
+      let expenseCategories = {}
+      snapshot.docs.forEach((doc) => {
+        expenseCategories[doc.data().name] = doc.data().color
+      })
+      setExpenseCategoryList(expenseCategories)
+      // console.log(expenseCategoryList)
+    })
+
+    const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
+
+    onSnapshot(incomeCategoryRef, (snapshot) => {
+      let incomeCategories = {}
+      snapshot.docs.forEach((doc) => {
+        incomeCategories[doc.data().name] = doc.data().color
+      })
+      setIncomeCategoryList(incomeCategories)
+    })
+  }, [])
 
   useEffect(() => {
     const monthExpQ = query(financeRef, where("user", "==", getUserID()), where('month', '==', month), where('type', '==', 'expense'))
@@ -101,6 +138,7 @@ const Stats = (props) => {
               isMonth && isIncome ? monthIncQ :
               isAnnual && isExpense ? yearExpQ :
               yearIncQ;
+    
     onSnapshot(q,
       (snapShot) => {
         const expenses = new Map()
@@ -136,27 +174,28 @@ const Stats = (props) => {
         incomes.forEach((amount, cat) => temp1.push({
           name: cat,
           amount: amount,
-          color: generateColor(),
+          color: incomeCategoryList[cat],
           legendFontColor: "#7F7F7F",
           legendFontSize: 15
         }))
         setData1(temp1)
         setTotalIncome(totalIncome)
         const temp2 = []
-        expenses.forEach((amount, cat) => temp2.push({
+        expenses.forEach((amount, cat) => {
+          temp2.push({
           name: cat,
           amount: amount,
-          color: generateColor(),
+          color: expenseCategoryList[cat],
           legendFontColor: "#7F7F7F",
           legendFontSize: 15
-        }))
+          })
+        })
         setData2(temp2)
         setTotalExpense(totalExpense)
       }
     )
-  }, [month, year, isMonth, isExpense])
-
-  
+    
+  }, [isMonth, isAnnual, isExpense, isIncome])
 
   return (
     <View style={stylesss.mainContainerInnerScreen}>
@@ -311,6 +350,9 @@ const Stats = (props) => {
                 )}
             </View>
           </>
+          <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>
+          <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>
+          <Text style={{color:'black'}}>{"Income: " + totalIncome}</Text>
         </Pressable>
         <View style={styless.expenseInputButtonView}>
           <View style={{flex:0.5}}>
@@ -330,7 +372,7 @@ const Stats = (props) => {
         </View>
         {isIncome && (
           <View>
-                <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>     
+                    
                 <PieChart
                   data={data1}
                   width={ScreenWidth}
@@ -347,7 +389,7 @@ const Stats = (props) => {
           )
         }
         {isExpense && (<View>
-                <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>
+                
                 <PieChart
                   data={data2}
                   width={ScreenWidth}
@@ -362,7 +404,7 @@ const Stats = (props) => {
                 </View>)
         }
       </ScrollView>
-        
+      
       
     </View>
   );
