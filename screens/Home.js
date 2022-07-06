@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useMemo} from 'react';
-import { View, Text, TouchableOpacity, Alert, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Animated, Modal, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
 import { colors } from '../components/colors';
 import moment from 'moment';
 import { query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
@@ -8,7 +8,7 @@ import { financeRef,db } from '../api/db';
 import { getUserID } from '../api/authentication';
 import ActivityRings from "react-native-activity-rings";  
 import { StatusBarHeight } from '../components/constants';
-import { Octicons, FontAwesome } from '@expo/vector-icons'
+import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { SwipeListView } from 'react-native-swipe-list-view';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
@@ -30,19 +30,10 @@ const Home = ({navigation}) => {
   const [expenseMonth, setExpenseMonth] = useState(0)
   const [total, setTotal] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
-
-  /*********** Activity ring config ***********/
-  const activityData = [ 
-    //the rings are disappear when the values equal 0 or more than 1
-    { value: expenseMonth/monthLimit > 1 ? 1 :(expenseMonth == 0? 0.0000001 : expenseMonth/700), color:darkBlue }, 
-    { value: expense/dayLimit > 1 ? 1 : (expense == 0 ? 0.0000001 : expense/50), color:darkYellow }, 
-  ];
-
-  const activityConfig = { 
-    width: 150,  
-    height: 150,
-    ringSize:20
-  };
+  const [listRecords, setListRecords] = useState([
+    {type: 'expense', category: 'Food', note: 'Banh mi', amount: 3.6},
+    {type: 'income', category: 'Salary', note: 'Shopee intern', amount: 200},
+  ])
 
   useMemo(() => {
     const dayQuery = query(financeRef, where("user", "==", getUserID()), where('date', '==', date), orderBy("time", "desc"))
@@ -100,13 +91,32 @@ const Home = ({navigation}) => {
     )
   }, [])
 
+  /*********** Activity ring config ***********/
+  const activityData = [ 
+    //the rings are disappear when the values equal 0 or more than 1
+    { value: expenseMonth/monthLimit > 1 ? 1 :(expenseMonth == 0? 0.0000001 : expenseMonth/700), color:darkBlue }, 
+    { value: expense/dayLimit > 1 ? 1 : (expense == 0 ? 0.0000001 : expense/50), color:darkYellow }, 
+  ];
+
+  const activityConfig = { 
+    width: 150,  
+    height: 150,
+    ringSize:20
+  };
+
   const alertChangeLimit = () => {
     Alert.alert("Adjust your expense limit?","", [
       {text: 'Cancel', onPress: () => console.log('Alert closed')},
       {text: 'Yes', onPress: () => {navigation.navigate('EditLimitScreen')}}
     ]);
   }
-
+  /*************** Function to alert when deleting ***************/
+  const alertDelete = (rowMap, rowKey, id) => {
+    Alert.alert("Delete this record?","", [
+      {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
+      {text: 'Delete', onPress: () => {deleteRow(id)}}
+    ]);
+  }
   /*************** Function to delete record ***************/
   const deleteRow = (id) => {
     const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
@@ -149,17 +159,41 @@ const Home = ({navigation}) => {
     )
   }
 
+  const renderHiddenItem = (data, rowMap) => {
+    return (
+      <HiddenItemWithActions
+        data={data}
+        rowMap={rowMap}
+        onEdit={()=>{
+          setVisibleEdit(true) 
+          setInprogressCategory(data.item.title)
+          setInprogressIcon(data.item.icon)
+          setInprogressColor(data.item.color)
+          setInprogressId(data.item.id)
+        }}
+        onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
+      />
+    )
+  }
+
   const VisibleItem = props => {
     const {data} = props;
-    if (data.item.isEdit) {
-      return null;
-    }
     return (
-      <View style={styles.rowFront}>
-        <View style={{alignItems:'center', justifyContent:'center', width:50}}>
-          <MaterialCommunityIcons name={data.item.icon} size={24} color={data.item.color}/>
+      <View style={[styles.rowFront, {backgroundColor: data.item.type=='income' ? '#e2f5e2' : '#fdddcf'}]}>
+        <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
+          <View style={{flexDirection:'row', marginBottom:3}}>
+            <View style={{marginRight:10}}>
+              <MaterialCommunityIcons name={data.item.icon} color={data.item.color} size={20}/>
+            </View>
+            <Text style={styles.categoryText}>{data.item.category}</Text>
+          </View>
+          <View>
+            <Text style={styles.noteText}>{data.item.note}</Text>
+          </View>
         </View>
-        <Text style={styles.title}>{data.item.title}</Text>
+        <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+          <Text style={styles.amountText}>{'$' + data.item.amount}</Text>
+        </View>
       </View>
     )
   }
@@ -167,8 +201,10 @@ const Home = ({navigation}) => {
   const renderItem = (data, rowMap) => {
     return <VisibleItem data={data}/>
   }
+
   return (
     <View style={styles.container}>
+      {/************ Header ************/}
       <View style={styles.header}>
         <View>
           <Text style={styles.boldBlueHeaderText}>Welcome,</Text>
@@ -209,7 +245,7 @@ const Home = ({navigation}) => {
         {/************ Today's records ************/}
         <View>
           <View style={{alignItems:'center', justifyContent:'center', paddingBottom:7}}>
-            <Text style={{fontSize:18, fontWeight:'500'}}>{"Today's record(s)"}</Text>
+            <Text style={{fontSize:16, fontWeight:'700', color:darkBlue}}>{"Today: " + moment().format('DD-MM-YYYY')}</Text>
           </View>
           <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
@@ -224,101 +260,16 @@ const Home = ({navigation}) => {
         </View>
         {/************ List ************/}
         <View style={{height: 285}}>
-          <SwipeListView/>
-          {/* <FlatList
-            style={{height:'100%'}}
-            data={finances}
-            numColumns={1}
-            renderItem={({item}) => (
-              <View style={stylesss.container}>
-                <View style={stylesss.innerContainer}>
-                  <Text>{item.date}</Text>
-                  <Text>{"category: " + item.category}</Text>
-                  <Text>{"note: " + item.note}</Text>
-                  <Text
-                    style={{
-                      color: item.type=='expense'
-                        ?'red'
-                        :'green',
-                    }}
-                  >
-                    {"amount: $" + item.amount.toString()}
-                  </Text>
-                  <Pressable 
-                    style={{alignSelf:'flex-end'}}
-                    onPress={() => deleteDoc(doc(db, 'finance', item.id))}
-                  >
-                    <Text style={{color:'red'}}>Delete note</Text>
-                  </Pressable>
-                </View>
-              </View>
-            )}
-          /> */}
+          <SwipeListView //add data={...}
+            renderItem={renderItem}
+            renderHiddenItem={renderHiddenItem}
+            rightOpenValue={-150}
+            disableRightSwipe
+            showsVerticalScrollIndicator={true}
+          />
         </View>
       </View>
     </View>
-    // <>
-    // <StatusBar style='dark'/>
-    //   <View style={styless.header}>
-    //     <Text style={styles.boldBlueHeaderText}>Home</Text>
-    //   </View>
-    //   <View>
-    //     <View>
-    //       <Text>{"Today: " + date.split('-').reverse().join('-')}</Text>
-    //       <Text style={{color:'green'}}>{"Income: $" + income}</Text>
-    //       <Text style={{color:'red'}}>{"Expense: $" + expense}</Text>
-    //     </View>
-    //     <View style={{height: 300}}>
-    //       <FlatList
-    //         style={{height:'100%'}}
-    //         data={finances}
-    //         numColumns={1}
-    //         renderItem={({item}) => (
-    //           <View
-    //             style={stylesss.container}
-    //           >
-    //             <View style={stylesss.innerContainer}>
-    //               <Text>
-    //                 {item.date}
-    //               </Text>
-    //               <Text>{"category: " + item.category}</Text>
-    //               <Text>{"note: " + item.note}</Text>
-    //               <Text
-    //                 style={{
-    //                   color: item.type=='expense'
-    //                     ?'red'
-    //                     :'green',
-    //                 }}
-    //               >
-    //                 {"amount: $" + item.amount.toString()}
-    //               </Text>
-    //               <Pressable 
-    //                 style={{alignSelf:'flex-end'}}
-    //                 onPress={() => deleteDoc(doc(db, 'finance', item.id))}
-    //               >
-    //                 <Text style={{color:'red'}}>Delete note</Text>
-    //               </Pressable>
-    //             </View>
-    //           </View>
-    //         )}
-    //       />
-    //   </View>
-    //   <Text>
-    //     This month:
-    //   </Text>
-    //   <Text style={{color:'green'}}>{"Income: $" + incomeMonth}</Text>
-    //   <Text style={{color:'red'}}>{"Expense: $" + expenseMonth}</Text>
-    //   <Text style={{
-    //               color: total < 0
-    //                 ?'red'
-    //                 :'green',
-    //               marginBottom: 10, 
-    //             }}
-    //   >
-    //     {"Balance: $" + total}
-    //   </Text> 
-    //   </View>
-    // </>
   );
 }
 
@@ -368,139 +319,20 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     borderRadius:10,
     marginHorizontal:7,
+    marginBottom:5,
     height:40,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
     shadowRadius:2,
   },
-  
-})
-
-const styless = StyleSheet.create({
-  header: {
-    alignItems:'center', 
-    justifyContent:'flex-end',
-    backgroundColor:'#fff',
-    borderBottomColor:'#808080',
-    borderBottomWidth:1,
-    paddingTop:3,
-    height: StatusBarHeight + 48,
-  },
-  expenseInputButtonView: {
-    alignItems:'center',
-    justifyContent:'center',
-    flexDirection:'row',
-    height:60,
-    paddingLeft:40,
-    paddingRight:40
-  },
-  dateView: {
-    flexDirection:'row',
-    paddingBottom:7,
-    paddingTop:7,
-    paddingLeft:4,
-    borderBottomColor: '#E9E9E9',
-    borderTopColor: '#E9E9E9',
-    borderTopWidth:1,            
-    height:48
-  },
-  datePickerView: {
-    flex:55,
-    alignItems:'center',
-    justifyContent:'center',
-    backgroundColor:'#FDEE87',
-    borderRadius:10
-  },
-  noteView: {
-    flexDirection:'row',
-    paddingBottom:4,
-    paddingTop:4,
-    paddingLeft:4,
-    borderBottomColor: '#E9E9E9',
-    borderTopColor: '#E9E9E9',  
-    borderTopWidth:1,      
-    //borderBottomWidth:1,    
-    height:48
-  },
-  submitButtonView: {
-    flexDirection:'row',
-    paddingBottom:4,
-    paddingTop:4,
-    paddingLeft:4,
-    borderBottomColor: '#E9E9E9',
-    borderTopColor: '#E9E9E9',     
-    height:48
-  },
-  inputContainer: {
-    backgroundColor: '#FDEE87',
-    color: darkBlue,
-    borderColor: darkBlue,
-    paddingRight: 12,
-    width:200,
-    borderRadius: 10,
-    fontSize: 20,
-    fontWeight:'600',
-    height: 36,
-  },
-  noteInputContainer: {
-    color:darkBlue,
-    borderColor: darkBlue,
-    paddingRight: 12,
-    width:210,
-    borderRadius: 10,
-    borderBottomWidth:1,
-    fontSize: 17,
-    fontWeight:'400',
-    height: 36,
-  },
-  submitButton: {
-    padding: 5,
-    height: 40,
-    width:100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomLeftRadius:10, 
-    borderTopLeftRadius:10, 
-    borderBottomRightRadius:10,
-    borderTopRightRadius:10,
-    backgroundColor:darkYellow
-  },
-  itemView: {
-    alignItems:'center',
-    justifyContent:'center',
-    height: 46,
-    width:150, 
-  },
-  itemButton: {
-    flexDirection: 'row',
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomLeftRadius:10, 
-    borderBottomRightRadius:10,
-    borderTopLeftRadius:10, 
-    borderTopRightRadius:10, 
-    backgroundColor:lightYellow,
-    width:120
-  },
-  categoryText: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: darkBlue,
-  },
-  categoryButtonText: {
-    fontSize: 16,
-    fontWeight: '400',
-    color: darkBlue,
-  },
   rowFront: {
     flexDirection:'row',
     backgroundColor: '#fff',
     alignItems:'center',
-    borderRadius:5,
-    height:55,
-    margin:5,
+    borderRadius:10,
+    height:70,
+    marginHorizontal:15, //can back to 5
     marginBottom:10,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
@@ -511,7 +343,7 @@ const styless = StyleSheet.create({
   rowFrontVisible: {
     backgroundColor:'#fff',
     borderRadius:5,
-    height:55,
+    height:70,
     padding:10,
     marginBottom:15,
   },
@@ -544,40 +376,18 @@ const styless = StyleSheet.create({
     borderTopRightRadius:5,
     borderBottomRightRadius:5,
   },
+  categoryText: {
+    fontSize:20,
+    fontWeight:'bold'
+  },
+  noteText: {
+    fontSize:15,
+    fontWeight:'400'
+  },
+  amountText: {
+    fontSize:24,
+    fontWeight:'bold'
+  }
 })
-
-
 
 export default Home;
-
-const stylesss = StyleSheet.create({
-  container:{
-    backgroundColor: '#e5e5e5',
-    padding: 15,
-    borderRadius: 15,
-    margin: 5,
-    marginHorizontal: 10,
-  },
-  innerContainer:{
-    alignItems:'center',
-    flexDirection: 'column',
-  },
-  mainContainerInnerScreen: {
-    flex: 1,
-  },
-  header: {
-    alignItems:'center', 
-    justifyContent:'flex-end',
-    backgroundColor:'#fff',
-    borderBottomColor:'#808080',
-    borderBottomWidth:1,
-    paddingTop:3,
-    height: StatusBarHeight + 48,
-  },
-  boldBlueHeaderText: {
-    fontSize: 34,
-    color: darkBlue,
-    marginBottom: 10,
-    fontWeight: 'bold',
-  },
-})
