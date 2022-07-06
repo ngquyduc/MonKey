@@ -17,7 +17,7 @@ const CustomModal = (props) => {
         <View style={{flex:4}}>
           <Text></Text>
         </View>
-        <View style={{flex:8}}>
+        <View style={{flex:8, alignItems:'center',justifyContent:'center'}}>
           <Text style={styles.boldBlueHeaderText}>{props.header}</Text>
         </View>
         <View style={{flex:4, alignItems:'center', justifyContent:'center', marginBottom:10}}>

@@ -6,11 +6,10 @@ import moment from 'moment';
 import { query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import { financeRef,db } from '../api/db';
 import { getUserID } from '../api/authentication';
-// import MonthPicker from 'react-native-month-year-picker';
 import ActivityRings from "react-native-activity-rings";  
 import { StatusBarHeight } from '../components/constants';
-import { Octicons } from '@expo/vector-icons'
-import { ProgressChart } from 'react-native-chart-kit';
+import { Octicons, FontAwesome } from '@expo/vector-icons'
+import { SwipeListView } from 'react-native-swipe-list-view';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const Home = ({navigation}) => {
@@ -18,7 +17,10 @@ const Home = ({navigation}) => {
   let [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   let [month, setMonth] = useState(moment().format('YYYY-MM'));
   let [year, setYear] = useState(moment().format('YYYY'))
-
+  /*********** Variables ***********/
+  const [monthLimit, setMonthLimit] = useState(700);
+  const [dayLimit, setDayLimit] = useState(40);
+  /*********** Variables ***********/
   const [finances, setFinances] = useState([])
   const [financesMonth, setFinancesMonth] = useState([])
   const [income, setIncome] = useState(0)
@@ -32,14 +34,14 @@ const Home = ({navigation}) => {
   /*********** Activity ring config ***********/
   const activityData = [ 
     //the rings are disappear when the values equal 0 or more than 1
-    { value: expenseMonth/700 > 1 ? 1 :(expenseMonth == 0? 0.0000001 : expenseMonth/700), color:darkBlue }, 
-    { value: expense/50 > 1 ? 1 : (expense == 0 ? 0.0000001 : expense/50), color:darkYellow }, 
+    { value: expenseMonth/monthLimit > 1 ? 1 :(expenseMonth == 0? 0.0000001 : expenseMonth/700), color:darkBlue }, 
+    { value: expense/dayLimit > 1 ? 1 : (expense == 0 ? 0.0000001 : expense/50), color:darkYellow }, 
   ];
 
   const activityConfig = { 
     width: 150,  
     height: 150,
-    ringSize:21
+    ringSize:20
   };
 
   useMemo(() => {
@@ -105,6 +107,66 @@ const Home = ({navigation}) => {
     ]);
   }
 
+  /*************** Function to delete record ***************/
+  const deleteRow = (id) => {
+    const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
+    deleteDoc(cat)
+  }
+  /*************** Function to edit record ***************/
+  const editRow = (id) => {
+    const path = 'Input Category/Expense/' + getUserID()
+    const catRef = doc(db, path, id)
+    updateDoc(catRef, {
+      name: inprogressCategory,
+      color: inprogressColor,
+      icon: inprogressIcon,
+    })
+  }
+
+  const HiddenItemWithActions = props => {
+    const {swipeAnimatedValue, onEdit, onDelete} = props;
+    return (
+      <View style={styles.rowBack}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft, {height:55}]} onPress={onEdit}>
+          <Feather name="edit-3" size={25} color="#fff"/>  
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight,{height:55}]} onPress={onDelete}>
+          <Animated.View style={[styles.trash, {
+            transform: [
+              {
+                scale:swipeAnimatedValue.interpolate({
+                  inputRange: [-90,-45],
+                  outputRange:[1,0],
+                  extrapolate:'clamp',
+                }),
+              },
+            ],
+          }]}>
+            <Octicons name="trash" size={24} color="#fff"/>
+          </Animated.View>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  const VisibleItem = props => {
+    const {data} = props;
+    if (data.item.isEdit) {
+      return null;
+    }
+    return (
+      <View style={styles.rowFront}>
+        <View style={{alignItems:'center', justifyContent:'center', width:50}}>
+          <MaterialCommunityIcons name={data.item.icon} size={24} color={data.item.color}/>
+        </View>
+        <Text style={styles.title}>{data.item.title}</Text>
+      </View>
+    )
+  }
+
+  const renderItem = (data, rowMap) => {
+    return <VisibleItem data={data}/>
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -116,18 +178,54 @@ const Home = ({navigation}) => {
         </View>
       </View>
       <View style={styles.footer}> 
-        <View style={styles.ringView}>
-          <TouchableOpacity style={{flexDirection:'row'}} onPress={() => {alertChangeLimit()}}>
-            <ActivityRings theme='dark' data={activityData} config={activityConfig}/> 
-          </TouchableOpacity>
-        </View>
+        {/************ Limit ring ************/}
+        <TouchableOpacity style={{flexDirection:'column'}} onPress={() => {alertChangeLimit()}}>
+          <View style={styles.ringView}>
+            <View style={{height:35, alignItems:'center', justifyContent:'center'}}>
+              <Text style={{fontSize:20, fontWeight:'600', color:darkYellow}}>Spending limit</Text>
+            </View>
+            <View style={{flexDirection:'row'}}>
+              <View style={{marginRight:4}}>
+                <ActivityRings theme='dark' data={activityData} config={activityConfig}/>
+              </View> 
+              <View style={{flexDirection:'column', alignContent:'center',justifyContent:'center'}}>
+                <View style={{flexDirection:'row', margin:5}}>
+                  <Octicons name='dot-fill' size={40} color={darkBlue}/>
+                  <View style={{alignContent:'center',justifyContent:'center'}}>
+                    <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + expenseMonth + '/' + monthLimit + '$'}</Text>
+                  </View>
+                </View>
+                <View style={{flexDirection:'row', margin:5}}>
+                  <Octicons name='dot-fill' size={40} color={darkYellow}/>
+                  <View style={{alignContent:'center',justifyContent:'center'}}>
+                    <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + expense + '/' + dayLimit + '$'}</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </TouchableOpacity>
+
+        {/************ Today's records ************/}
         <View>
-          <Text>{"Today: " + date.split('-').reverse().join('-')}</Text>
-          <Text style={{color:'green'}}>{"Income: $" + income}</Text>
-          <Text style={{color:'red'}}>{"Expense: $" + expense}</Text>
+          <View style={{alignItems:'center', justifyContent:'center', paddingBottom:7}}>
+            <Text style={{fontSize:18, fontWeight:'500'}}>{"Today's record(s)"}</Text>
+          </View>
+          <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
+            <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
+              <FontAwesome name='plus-circle' color={'#26b522'} size={21}/>
+              <Text style={{color:'#26b522', fontSize:17, fontWeight:'500'}}>{" Income: $" + income}</Text>
+            </View>
+            <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
+              <FontAwesome name='minus-circle' color={'#ef5011'} size={21}/>
+              <Text style={{color:'#ef5011', fontSize:17, fontWeight:'500'}}>{" Expense: $" + expense}</Text>
+            </View>
+          </View>
         </View>
-        <View style={{height: 300}}>
-          <FlatList
+        {/************ List ************/}
+        <View style={{height: 285}}>
+          <SwipeListView/>
+          {/* <FlatList
             style={{height:'100%'}}
             data={finances}
             numColumns={1}
@@ -155,7 +253,7 @@ const Home = ({navigation}) => {
                 </View>
               </View>
             )}
-          />
+          /> */}
         </View>
       </View>
     </View>
@@ -233,10 +331,10 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:'flex-end',
     paddingHorizontal:30,
-    paddingBottom:20,
+    paddingBottom:14,
   },
   footer: {
-    flex:3.5,
+    flex:3.7,
     backgroundColor:'#fff',
     borderTopLeftRadius:30,
     borderTopRightRadius:30,
@@ -250,11 +348,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   ringView: {
-    flexDirection:'row',
+    flexDirection:'column',
     backgroundColor: '#fff',
-    alignItems:'center',
     borderRadius:25,
-    height:180,
+    height:193,
     margin:5,
     marginBottom:10,
     shadowColor:'#999',
@@ -262,8 +359,22 @@ const styles = StyleSheet.create({
     shadowOpacity:0.8,
     shadowRadius:2,
     elevation:5,
-    padding:12
+    paddingLeft:10
   },
+  incomeexpenseView: {
+    flexDirection:'row',
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius:10,
+    marginHorizontal:7,
+    height:40,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
+  },
+  
 })
 
 const styless = StyleSheet.create({
@@ -382,7 +493,57 @@ const styless = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     color: darkBlue,
-  }
+  },
+  rowFront: {
+    flexDirection:'row',
+    backgroundColor: '#fff',
+    alignItems:'center',
+    borderRadius:5,
+    height:55,
+    margin:5,
+    marginBottom:10,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
+    elevation:5,
+  },
+  rowFrontVisible: {
+    backgroundColor:'#fff',
+    borderRadius:5,
+    height:55,
+    padding:10,
+    marginBottom:15,
+  },
+  rowBack: {
+    alignItems:'center',
+    backgroundColor:'#DDD',
+    flex:1,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    paddingLeft:15,
+    margin:5,
+    marginBottom:15,
+    borderRadius:5,
+  },
+  backRightButton: {
+    bottom:0,
+    alignItems:'center',
+    justifyContent:'center',
+    position:'absolute',
+    top:0,
+    width:75, 
+  },
+  backRightButtonLeft: {
+    backgroundColor:'#1f65ff',
+    right:75,
+  },
+  backRightButtonRight: {
+    backgroundColor:'red',
+    right:0,
+    borderTopRightRadius:5,
+    borderBottomRightRadius:5,
+  },
 })
 
 

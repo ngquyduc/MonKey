@@ -38,10 +38,6 @@ const ListOfExpenseCategory = ({navigation}) => {
   const [visibleEdit, setVisibleEdit] = useState(false);
   
   const [listCategories, setListCategories] = useState([])
-  /*************** Function to edit category ***************/
-  const editRow = (rowMap, rowKey) => {
-    //to be implemented
-  }
 
   /******** Function to restore category after being deleted ********/
   const restoreRow = (rowMap, rowKey) => {
@@ -140,7 +136,7 @@ const ListOfExpenseCategory = ({navigation}) => {
     setVisibleAdd(false)
   }
   const onSubmitEdit = () => {
-    edit(inprogressId)
+    editRow(inprogressId)
     setInprogressCategory('')
     setInprogressColor('#767676')
     setInprogressIcon('')
@@ -159,6 +155,16 @@ const ListOfExpenseCategory = ({navigation}) => {
   const deleteRow = (id) => {
     const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
     deleteDoc(cat)
+  }
+  /*************** Function to edit category ***************/
+  const editRow = (id) => {
+    const path = 'Input Category/Expense/' + getUserID()
+    const catRef = doc(db, path, id)
+    updateDoc(catRef, {
+      name: inprogressCategory,
+      color: inprogressColor,
+      icon: inprogressIcon,
+    })
   }
 
   useMemo(() => {
@@ -182,16 +188,6 @@ const ListOfExpenseCategory = ({navigation}) => {
     )
     
   }, [])
-
-  const edit = (id) => {
-    const path = 'Input Category/Expense/' + getUserID()
-    const catRef = doc(db, path, id)
-    updateDoc(catRef, {
-      name: inprogressCategory,
-      color: inprogressColor,
-      icon: inprogressIcon,
-    })
-  }
 
   return (
     <>
@@ -234,7 +230,7 @@ const ListOfExpenseCategory = ({navigation}) => {
         visible={visible}
         onDismiss={() => setVisible(false)}
         action={{
-          label: 'Undo',
+          label: 'Close',
           onPress: () => {restoreRow
             // Retore the category that just deleted
           },
