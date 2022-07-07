@@ -231,9 +231,7 @@ const ListOfExpenseCategory = ({navigation}) => {
         onDismiss={() => setVisible(false)}
         action={{
           label: 'Close',
-          onPress: () => {restoreRow
-            // Retore the category that just deleted
-          },
+          onPress: () => {},
         }}>
         {"You just delete a category"}
       </Snackbar>

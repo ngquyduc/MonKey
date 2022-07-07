@@ -30,6 +30,13 @@ const Home = ({navigation}) => {
   const [expenseMonth, setExpenseMonth] = useState(0)
   const [total, setTotal] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
+  const [listRecords, setListRecords] = useState([
+    {type: 'expense', category: 'Food', note: 'Banh mi', amount: 3.6},
+    {type: 'income', category: 'Salary', note: 'Shopee intern', amount: 200},
+  ])
+  const [inprogressAmount, setInprogressAmount] = useState(0)
+  const [inprogressNote, setInprogressNote] = useState('')
+  const [inprogressCategory, setInprogressCategory] = useState('')
 
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
@@ -198,9 +205,9 @@ const Home = ({navigation}) => {
         rowMap={rowMap}
         onEdit={()=>{
           setVisibleEdit(true) 
-          setInprogressCategory(data.item.title)
-          setInprogressIcon(data.item.icon)
-          setInprogressColor(data.item.color)
+          setInprogressCategory(data.item.category)
+          setInprogressAmount(data.item.amount)
+          setInprogressNote(data.item.note)
           setInprogressId(data.item.id)
         }}
         onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
