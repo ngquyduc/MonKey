@@ -3,8 +3,8 @@ import React, {useState, useMemo} from 'react';
 import { View, Text, TouchableOpacity, Alert, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
 import { colors } from '../components/colors';
 import moment from 'moment';
-import { query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
-import { financeRef,db } from '../api/db';
+import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../api/db';
 import { getUserID } from '../api/authentication';
 // import MonthPicker from 'react-native-month-year-picker';
 import ActivityRings from "react-native-activity-rings";  
@@ -43,7 +43,9 @@ const Home = ({navigation}) => {
   };
 
   useMemo(() => {
-    const dayQuery = query(financeRef, where("user", "==", getUserID()), where('date', '==', date), orderBy("time", "desc"))
+    const financePath = 'Finance/' + getUserID() + '/' + date.substring(0, 7) // year
+    const financeRef = collection(db, financePath)
+    const dayQuery = query(financeRef, where('date', '==', date))
     onSnapshot(dayQuery,
       (snapShot) => {
         const finances = []
@@ -55,10 +57,9 @@ const Home = ({navigation}) => {
             amount: doc.data().amount,
             note: doc.data().note,
             category: doc.data().category,
-            type: doc.data().type,
             id: doc.id,
           })
-          if (doc.data().type == 'expense') {
+          if (doc.data().amount < 0) {
             expenses.push(doc.data().amount)
           } else {
             incomes.push(doc.data().amount)
@@ -79,7 +80,7 @@ const Home = ({navigation}) => {
         const expenseDays = []
         const incomeDays = []
         snapShot.forEach((doc) => {
-          if (doc.data().type == 'expense') {
+          if (doc.data().amount < 0) {
             expensesMonth.push(doc.data().amount)
             expenseDays.push(doc.data().date)
           } else {
@@ -139,7 +140,7 @@ const Home = ({navigation}) => {
                   <Text>{"note: " + item.note}</Text>
                   <Text
                     style={{
-                      color: item.type=='expense'
+                      color: item.amount < 0
                         ?'red'
                         :'green',
                     }}
@@ -148,7 +149,7 @@ const Home = ({navigation}) => {
                   </Text>
                   <Pressable 
                     style={{alignSelf:'flex-end'}}
-                    onPress={() => deleteDoc(doc(db, 'finance', item.id))}
+                    onPress={() => deleteDoc(doc(db, 'Finance/' + getUserID() + '/' + curMonth, item.id))}
                   >
                     <Text style={{color:'red'}}>Delete note</Text>
                   </Pressable>

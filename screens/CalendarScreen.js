@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import { View, Text, StyleSheet, Pressable, FlatList, TouchableOpacity } from 'react-native';
-import { financeRef, db } from '../api/db';
-import { onSnapshot, query, where, orderBy, deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../api/db';
+import { collection, onSnapshot, query, where, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
 import { Calendar } from 'react-native-calendars';
 import { StatusBarHeight } from '../components/constants';
@@ -24,60 +24,57 @@ const CalendarScreen = (props) => {
   const [total, setTotal] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
 
-  useMemo(() => {
-    const dayQuery = query(financeRef, where("user", "==", getUserID()), where('date', '==', curDate), orderBy("time", "desc"))
-    onSnapshot(dayQuery,
-      (snapShot) => {
-        const finances = []
-        const expenses = []
-        const incomes = []
-        snapShot.forEach((doc) => {
-          finances.push({
-            date: doc.data().date,
-            amount: doc.data().amount,
-            note: doc.data().note,
-            category: doc.data().category,
-            type: doc.data().type,
-            id: doc.id,
-          })
-          if (doc.data().type == 'expense') {
-            expenses.push(doc.data().amount)
-          } else {
-            incomes.push(doc.data().amount)
-          }
+  useEffect(() => {
+    const financePath = 'Finance/' + getUserID() + '/' + curDate.substring(0, 7)
+    const financeRef = collection(db, financePath)
+    const dayFinanceQuery = query(financeRef, where('date', '==', curDate))
+    onSnapshot(dayFinanceQuery, (snapShot) => {
+      const finances = []
+      const expenses = []
+      const incomes = []
+      snapShot.forEach((doc) => {
+        finances.push({
+          id: doc.id,
+          amount: doc.data().amount,
+          note: doc.data().note,
+          category: doc.data().category,
         })
-        setFinances(finances)
-        const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
-        setIncome(totalIncome)
-        const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
-        setExpense(totalExpense)
-      }
-    )
-    const monthQuery = query(financeRef, where("user", "==", getUserID()), where('month', "==", curMonth))
-    onSnapshot(monthQuery,
-      (snapShot) => {
-        const expensesMonth = []
-        const incomesMonth = []
-        const expenseDays = []
-        const incomeDays = []
-        snapShot.forEach((doc) => {
-          if (doc.data().type == 'expense') {
-            expensesMonth.push(doc.data().amount)
-            expenseDays.push(doc.data().date)
-          } else {
-            incomesMonth.push(doc.data().amount)
-            incomeDays.push(doc.data().date)
-          }
-        })
-        const totalIncomeMonth = incomesMonth.reduce((total, current) => total = total + current, 0);
-        setIncomeMonth(totalIncomeMonth)
-        setIncomeDays(incomeDays)
-        setExpenseDays(expenseDays)
-        const totalExpenseMonth = expensesMonth.reduce((total, current) => total = total + current, 0);
-        setExpenseMonth(totalExpenseMonth)
-        setTotal(totalIncomeMonth - totalExpenseMonth)
-      }
-    )
+        if (doc.data().amount < 0) { 
+          expenses.push(doc.data().amount)
+        } else { 
+          incomes.push(doc.data().amount)
+        }
+      })
+      setFinances(finances)
+      console.log(finances)
+      const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
+      setIncome(totalIncome)
+      const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
+      setExpense(totalExpense)
+    })
+    const monthFinanceQuery = query(financeRef, where('month', "==", curMonth.substring(5, 7)))
+    onSnapshot(financeRef, (snapShot) => {
+      const expensesMonth = []
+      const incomesMonth = []
+      const expenseDays = []
+      const incomeDays = []
+      snapShot.forEach((doc) => {
+        if (doc.data().amount < 0) {
+          expensesMonth.push(doc.data().amount)
+          expenseDays.push(doc.data().date)
+        } else {
+          incomesMonth.push(doc.data().amount)
+          incomeDays.push(doc.data().date)
+        }
+      })
+      const totalIncomeMonth = incomesMonth.reduce((total, current) => total = total + current, 0);
+      setIncomeMonth(totalIncomeMonth)
+      setIncomeDays(incomeDays)
+      setExpenseDays(expenseDays)
+      const totalExpenseMonth = expensesMonth.reduce((total, current) => total = total + current, 0);
+      setExpenseMonth(totalExpenseMonth)
+      setTotal(totalIncomeMonth + totalExpenseMonth)
+      })
   }, [curDate, curMonth])
 
   const exp = {color:'red'}
@@ -164,14 +161,11 @@ const CalendarScreen = (props) => {
             style={styless.container}
           >
             <View style={styless.innerContainer}>
-              <Text>
-                {item.date}
-              </Text>
               <Text>{"category: " + item.category}</Text>
               <Text>{"note: " + item.note}</Text>
               <Text
                 style={{
-                  color: item.type=='expense'
+                  color: item.amount < 0 
                     ?'red'
                     :'green',
                 }}
@@ -180,7 +174,7 @@ const CalendarScreen = (props) => {
               </Text>
               <Pressable 
                 style={{alignSelf:'flex-end'}}
-                onPress={() => deleteDoc(doc(db, 'finance', item.id))}
+                onPress={() => deleteDoc(doc(db, 'Finance/' + getUserID() + '/' + curMonth, item.id))}
               >
                 <Text style={{color:'red'}}>Delete note</Text>
               </Pressable>
