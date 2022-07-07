@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import { View, Text, StyleSheet, Pressable, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Pressable, FlatList, TouchableOpacity, Animated } from 'react-native';
 import { db } from '../api/db';
 import { collection, onSnapshot, query, where, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
@@ -10,6 +10,8 @@ import { colors } from '../components/colors';
 const {beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 import PressableText from '../components/Containers/PressableText';
 import styles from '../components/styles';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 
 const CalendarScreen = (props) => {
   const [curDate, setCurDate] = useState(moment().format('YYYY-MM-DD'))
@@ -34,7 +36,8 @@ const CalendarScreen = (props) => {
       const incomes = []
       snapShot.forEach((doc) => {
         finances.push({
-          id: doc.id,
+          key: `${doc.id}`,
+          date: doc.data().date,
           amount: doc.data().amount,
           note: doc.data().note,
           category: doc.data().category,
@@ -114,6 +117,75 @@ const CalendarScreen = (props) => {
     return result
   }, [curDate, incomeDays, expenseDays]);
 
+  const renderItem = (data, rowMap) => {
+    return <VisibleItem data={data}/>
+  }
+
+  const VisibleItem = props => {
+    const {data} = props;
+    return (
+      <View style={[sstyles.rowFront, {backgroundColor: data.item.amount > 0 ? '#e2f5e2' : '#fdddcf'}]}>
+        <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
+          <View style={{flexDirection:'row', marginBottom:3}}>
+            <View style={{marginRight:10}}>
+              <MaterialCommunityIcons name={data.item.icon} color={data.item.color} size={20}/>
+            </View>
+            <Text style={sstyles.categoryText}>{data.item.category}</Text>
+          </View>
+          <View>
+            <Text style={sstyles.noteText}>{data.item.note}</Text>
+          </View>
+        </View>
+        <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+          <Text style={sstyles.amountText}>{'$' + data.item.amount}</Text>
+        </View>
+      </View>
+    )
+  }
+
+  const renderHiddenItem = (data, rowMap) => {
+    return (
+      <HiddenItemWithActions
+        data={data}
+        rowMap={rowMap}
+        onEdit={()=>{
+          setVisibleEdit(true) 
+          setInprogressCategory(data.item.title)
+          setInprogressIcon(data.item.icon)
+          setInprogressColor(data.item.color)
+          setInprogressId(data.item.id)
+        }}
+        onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
+      />
+    )
+  }
+
+  const HiddenItemWithActions = props => {
+    const {swipeAnimatedValue, onEdit, onDelete} = props;
+    return (
+      <View style={sstyles.rowBack}>
+        <TouchableOpacity style={[sstyles.backRightButton, sstyles.backRightButtonLeft, {height:55}]} onPress={onEdit}>
+          <Feather name="edit-3" size={25} color="#fff"/>  
+        </TouchableOpacity>
+        <TouchableOpacity style={[sstyles.backRightButton, sstyles.backRightButtonRight,{height:55}]} onPress={onDelete}>
+          <Animated.View style={[sstyles.trash, {
+            transform: [
+              {
+                scale:swipeAnimatedValue.interpolate({
+                  inputRange: [-90,-45],
+                  outputRange:[1,0],
+                  extrapolate:'clamp',
+                }),
+              },
+            ],
+          }]}>
+            <Octicons name="trash" size={24} color="#fff"/>
+          </Animated.View>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.mainContainerInnerScreen}>
       <View style={styless.header}>
@@ -152,7 +224,7 @@ const CalendarScreen = (props) => {
       </Text>
       <Text style={{color:'green'}}>{"Income: $" + income}</Text>
       <Text style={{color:'red'}}>{"Expense: $" + expense}</Text>
-      <FlatList
+      {/* <FlatList
         style={{height:'100%'}}
         data={finances}
         numColumns={1}
@@ -181,12 +253,140 @@ const CalendarScreen = (props) => {
             </View>
           </View>
         )}
-      />
+      /> */}
+      {/************ List ************/}
+      <View style={{height: 285}}>
+          <SwipeListView 
+            data={finances}
+            renderItem={renderItem}
+            renderHiddenItem={renderHiddenItem}
+            rightOpenValue={-150}
+            disableRightSwipe
+            showsVerticalScrollIndicator={true}
+          />
+        </View>
     </View>
   );
 }
 
 export default CalendarScreen;
+
+const sstyles = StyleSheet.create({
+  container: {
+    flex:1,
+    backgroundColor: lightBlue,
+  },
+  header: {
+    flex:1,
+    justifyContent:'flex-end',
+    paddingHorizontal:30,
+    paddingBottom:14,
+  },
+  footer: {
+    flex:3.7,
+    backgroundColor:'#fff',
+    borderTopLeftRadius:30,
+    borderTopRightRadius:30,
+    paddingHorizontal:15,
+    paddingVertical:18,
+  },
+  boldBlueHeaderText: {
+    fontSize: 35,
+    color: darkBlue,
+    marginBottom: 10,
+    fontWeight: 'bold',
+  },
+  ringView: {
+    flexDirection:'column',
+    backgroundColor: '#fff',
+    borderRadius:25,
+    height:193,
+    margin:5,
+    marginBottom:10,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
+    elevation:5,
+    paddingLeft:10
+  },
+  incomeexpenseView: {
+    flexDirection:'row',
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius:10,
+    marginHorizontal:7,
+    marginBottom:5,
+    height:40,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
+  },
+  rowFront: {
+    flexDirection:'row',
+    backgroundColor: '#fff',
+    alignItems:'center',
+    borderRadius:10,
+    height:70,
+    marginHorizontal: 5, 
+    marginBottom:10,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
+    elevation:5,
+  },
+  rowFrontVisible: {
+    backgroundColor:'#fff',
+    borderRadius:5,
+    height:70,
+    padding:10,
+    marginBottom:15,
+  },
+  rowBack: {
+    alignItems:'center',
+    backgroundColor:'#DDD',
+    flex:1,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    paddingLeft:15,
+    margin:5,
+    marginBottom:15,
+    borderRadius:5,
+  },
+  backRightButton: {
+    bottom:0,
+    alignItems:'center',
+    justifyContent:'center',
+    position:'absolute',
+    top:0,
+    width:75, 
+  },
+  backRightButtonLeft: {
+    backgroundColor:'#1f65ff',
+    right:75,
+  },
+  backRightButtonRight: {
+    backgroundColor:'red',
+    right:0,
+    borderTopRightRadius:5,
+    borderBottomRightRadius:5,
+  },
+  categoryText: {
+    fontSize:20,
+    fontWeight:'bold'
+  },
+  noteText: {
+    fontSize:15,
+    fontWeight:'400'
+  },
+  amountText: {
+    fontSize:24,
+    fontWeight:'bold'
+  }
+})
 
 const styless = StyleSheet.create({
   container:{
