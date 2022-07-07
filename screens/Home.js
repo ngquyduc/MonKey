@@ -34,6 +34,9 @@ const Home = ({navigation}) => {
     {type: 'expense', category: 'Food', note: 'Banh mi', amount: 3.6},
     {type: 'income', category: 'Salary', note: 'Shopee intern', amount: 200},
   ])
+  const [inprogressAmount, setInprogressAmount] = useState(0)
+  const [inprogressNote, setInprogressNote] = useState('')
+  const [inprogressCategory, setInprogressCategory] = useState('')
 
   useMemo(() => {
     const dayQuery = query(financeRef, where("user", "==", getUserID()), where('date', '==', date), orderBy("time", "desc"))
@@ -166,9 +169,9 @@ const Home = ({navigation}) => {
         rowMap={rowMap}
         onEdit={()=>{
           setVisibleEdit(true) 
-          setInprogressCategory(data.item.title)
-          setInprogressIcon(data.item.icon)
-          setInprogressColor(data.item.color)
+          setInprogressCategory(data.item.category)
+          setInprogressAmount(data.item.amount)
+          setInprogressNote(data.item.note)
           setInprogressId(data.item.id)
         }}
         onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}

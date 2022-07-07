@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity, Animated
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { colors } from '../components/colors';
 import { StatusBarHeight } from '../components/constants';
-import IncomeCategory from '../CategoriesList/IncomeCategory';
 import { Feather, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Snackbar } from 'react-native-paper';
 import IconList from '../CategoriesList/IconList'
@@ -221,10 +220,8 @@ const ListOfIncomeCategory = ({navigation}) => {
         visible={visible}
         onDismiss={() => setVisible(false)}
         action={{
-          label: 'Undo',
-          onPress: () => {restoreRow
-            // Retore the category that just deleted
-          },
+          label: 'Close',
+          onPress: () => {},
         }}>
         {"You just delete a category"}
       </Snackbar>

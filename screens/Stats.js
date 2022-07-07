@@ -222,9 +222,9 @@ const Stats = (props) => {
                 <View style={{flex:0.5}}>
                   <TouchableOpacity 
                     style={[styles.inputButton, {
-                      borderBottomRightRadius:10,
-                      borderTopRightRadius:10, 
-                      backgroundColor:isAnnual?darkBlue:lightBlue}]} 
+                    borderBottomRightRadius:10,
+                    borderTopRightRadius:10, 
+                    backgroundColor:isAnnual?darkBlue:lightBlue}]} 
                     onPress={openAnnual}>
                     <Text style={styles.inputText}>
                       Annually
