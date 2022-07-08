@@ -210,7 +210,7 @@ const CalendarScreen = (props) => {
   }
 
   return (
-    <View style={styles.mainContainerInnerScreen}>
+    <View style={styles.container}>
       <View style={[styles.header, {marginBottom:5}]}>
         <Text style={styles.boldBlueHeaderText}>Calendar</Text>
       </View>
@@ -284,7 +284,7 @@ const CalendarScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor: lightBlue,
+    backgroundColor: '#fff',
   },
   calendarView: {
     margin:5,
