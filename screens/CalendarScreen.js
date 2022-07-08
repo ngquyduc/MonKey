@@ -149,7 +149,7 @@ const CalendarScreen = (props) => {
   const VisibleItem = props => {
     const {data} = props;
     return (
-      <View style={[styles.rowFront, {backgroundColor: data.item.amount > 0 ? '#e2f5e2' : '#fdddcf'}]}>
+      <View style={[styles.rowFront, {backgroundColor: '#fff'}]}>
         <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
           <View style={{flexDirection:'row', marginBottom:3}}>
             <View style={{marginRight:10}}>
@@ -157,12 +157,13 @@ const CalendarScreen = (props) => {
             </View>
             <Text style={styles.categoryText}>{data.item.category}</Text>
           </View>
+          {data.item.note != '' && 
           <View>
             <Text style={styles.noteText}>{data.item.note}</Text>
-          </View>
+          </View>}
         </View>
         <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={styles.amountText}>{'$' + data.item.amount}</Text>
+          <Text style={[styles.amountText, {color: data.item.amount > 0 ? '#26b522' : '#ef5011'}]}>{'$' + data.item.amount}</Text>
         </View>
       </View>
     )
@@ -234,15 +235,15 @@ const CalendarScreen = (props) => {
             <View style={{width:318,alignItems:'center', justifyContent:'center'}}>
               <Text style={{fontSize:20, paddingBottom:6, fontWeight:'600'}}>{months[parseInt(curMonth.substring(5,7))-1] + ' ' + curMonth.substring(0,4)}</Text>
               <View style={{flexDirection:'row', marginBottom:10}}>
-                <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
+                <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2',marginHorizontal:3}]}>
                   {/* <FontAwesome name='plus-circle' color={'#26b522'} size={15}/> */}
                   <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + incomeMonth}</Text>
                 </View>
-                <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
+                <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf',marginHorizontal:3}]}>
                   {/* <FontAwesome name='minus-circle' color={'#ef5011'} size={15}/> */}
                   <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + expenseMonth}</Text>
                 </View>
-                <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6'}]}>
+                <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6',marginHorizontal:3}]}>
                   {/* <Entypo name="flickr-with-circle" size={15} color={'#494949'}/> */}
                   <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + total}</Text>
                 </View>
@@ -289,7 +290,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   calendarView: {
-    margin:5,
+    marginVertical:8,
+    marginHorizontal:10,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
@@ -301,10 +303,16 @@ const styles = StyleSheet.create({
     justifyContent:'flex-end',
     backgroundColor:'#fff',
     borderBottomColor:'#808080',
-    borderBottomWidth:1,
+    borderBottomWidth:0,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
     paddingTop:3,
     height: StatusBarHeight + 42,
     backgroundColor: lighterBlue,
+    shadowColor:darkBlue,
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:3,
   },
   footer: {
     flex:3.7,
@@ -355,7 +363,7 @@ const styles = StyleSheet.create({
     borderRadius:10,
     height:70,
     marginHorizontal: 5, 
-    marginBottom:10,
+    marginVertical:5,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
@@ -376,8 +384,8 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     paddingLeft:15,
-    margin:5,
-    marginBottom:15,
+    marginHorizontal:5,
+    marginVertical:10,
     borderRadius:5,
   },
   backRightButton: {

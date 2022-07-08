@@ -8,12 +8,11 @@ import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert} from 'react-native';
-import styles from '../components/styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 
-const {lightYellow, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
+const {lightYellow, lighterBlue, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
 const Stats = (props) => {
   const [income, setIncome] = useState({})
@@ -196,15 +195,15 @@ const Stats = (props) => {
   }, [isMonth, isAnnual, isExpense, isIncome, incomeCategoryList, expenseCategoryList])
 
   return (
-    <View style={stylesss.mainContainerInnerScreen}>
-      <View style={stylesss.header}>
-        <Text style={stylesss.boldBlueHeaderText}>Statistics</Text>
+    <View style={styles.mainContainerInnerScreen}>
+      <View style={styles.header}>
+        <Text style={styles.boldBlueHeaderText}>Statistics</Text>
       </View>
       <ScrollView>
         <Pressable onPress={Keyboard.dismiss}>
           <>
             <View style={styles.mainContainerInnerScreen}>
-              <View style={styless.monthAnnualButtonView}>
+              <View style={styles.monthAnnualButtonView}>
                 <View style={{flex:0.5}}>
                   <TouchableOpacity 
                     style={[styles.inputButton, {
@@ -234,7 +233,7 @@ const Stats = (props) => {
               {/********** Main Screens (Expense) **********/}
               {isMonth && (
                 <View>
-                  <View style={styless.dateView}>
+                  <View style={styles.dateView}>
                     <View style={{
                       flex:20,
                       paddingLeft:12,
@@ -254,7 +253,7 @@ const Stats = (props) => {
                         <Entypo name='chevron-left' size={28} color={darkBlue}/>
                       </TouchableOpacity>
                     </View>
-                    <View style={styless.datePickerView}>
+                    <View style={styles.datePickerView}>
                       <TouchableOpacity onPress={()=>setShow(true)}>
                         <View>
                           <Text style={styles.dateText}>{month}</Text>
@@ -312,7 +311,7 @@ const Stats = (props) => {
               {/********** Main Screens (Income) **********/}
               {isAnnual && (
                 <View>
-                  <View style={styless.dateView}>
+                  <View style={styles.dateView}>
                     <View style={{
                       flex:20,
                       paddingLeft:12,
@@ -330,7 +329,7 @@ const Stats = (props) => {
                         <Entypo name='chevron-left' size={28} color={darkBlue}/>
                       </TouchableOpacity>
                     </View>
-                    <View style={styless.datePickerView}>            
+                    <View style={styles.datePickerView}>            
                         <Text style={styles.dateText}>{date.format('YYYY')}</Text>
                     </View>
                     <View style={{
@@ -352,7 +351,7 @@ const Stats = (props) => {
           <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>
           <Text style={{color:'black'}}>{"Income: " + totalIncome}</Text>
         </Pressable>
-        <View style={styless.expenseInputButtonView}>
+        <View style={styles.expenseInputButtonView}>
           <View style={{flex:0.5}}>
             <TouchableOpacity 
               style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, backgroundColor:isExpense?darkBlue:lightBlue}]} 
@@ -421,7 +420,7 @@ const chartConfig = {
   useShadowColorFromDataset: false // optional
 };
 
-const stylesss = StyleSheet.create({
+const styles = StyleSheet.create({
   container:{
     backgroundColor: '#e5e5e5',
     padding: 15,
@@ -441,9 +440,16 @@ const stylesss = StyleSheet.create({
     justifyContent:'flex-end',
     backgroundColor:'#fff',
     borderBottomColor:'#808080',
-    borderBottomWidth:1,
+    borderBottomWidth:0,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
     paddingTop:3,
-    height: StatusBarHeight + 48,
+    height: StatusBarHeight + 42,
+    backgroundColor: lighterBlue,
+    shadowColor:darkBlue,
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:3,
   },
   boldBlueHeaderText: {
     fontSize: 34,
@@ -451,27 +457,29 @@ const stylesss = StyleSheet.create({
     marginBottom: 10,
     fontWeight: 'bold',
   },
-})
-
-const styless = StyleSheet.create({
-  header: {
-    alignItems:'center', 
-    justifyContent:'flex-end',
-    backgroundColor:'#fff',
-    borderBottomColor:'#808080',
-    borderBottomWidth:1,
-    paddingTop:3,
-    height: StatusBarHeight + 48,
+  inputButton: {
+    padding: 5,
+    flexDirection: 'row',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  inputText: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: beige,
+  },
+  dateText: {
+    fontSize: 19,
+    fontWeight: '600',
+    color: darkBlue,
+  },
+  datePickerOffText: {
+    fontSize: 18,
+    fontWeight: '400',
+    color: lightBlue,
   },
   monthAnnualButtonView: {
-    alignItems:'center',
-    justifyContent:'center',
-    flexDirection:'row',
-    height:60,
-    paddingLeft:40,
-    paddingRight:40
-  },
-  expenseInputButtonView: {
     alignItems:'center',
     justifyContent:'center',
     flexDirection:'row',
@@ -496,86 +504,12 @@ const styless = StyleSheet.create({
     backgroundColor:'#FDEE87',
     borderRadius:10
   },
-  noteView: {
-    flexDirection:'row',
-    paddingBottom:4,
-    paddingTop:4,
-    paddingLeft:4,
-    borderBottomColor: '#E9E9E9',
-    borderTopColor: '#E9E9E9',  
-    borderTopWidth:1,      
-    //borderBottomWidth:1,    
-    height:48
-  },
-  submitButtonView: {
-    flexDirection:'row',
-    paddingBottom:4,
-    paddingTop:4,
-    paddingLeft:4,
-    borderBottomColor: '#E9E9E9',
-    borderTopColor: '#E9E9E9',     
-    height:48
-  },
-  inputContainer: {
-    backgroundColor: '#FDEE87',
-    color: darkBlue,
-    borderColor: darkBlue,
-    paddingRight: 12,
-    width:200,
-    borderRadius: 10,
-    fontSize: 20,
-    fontWeight:'600',
-    height: 36,
-  },
-  noteInputContainer: {
-    color:darkBlue,
-    borderColor: darkBlue,
-    paddingRight: 12,
-    width:210,
-    borderRadius: 10,
-    borderBottomWidth:1,
-    fontSize: 17,
-    fontWeight:'400',
-    height: 36,
-  },
-  submitButton: {
-    padding: 5,
-    height: 40,
-    width:100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomLeftRadius:10, 
-    borderTopLeftRadius:10, 
-    borderBottomRightRadius:10,
-    borderTopRightRadius:10,
-    backgroundColor:darkYellow
-  },
-  itemView: {
+  expenseInputButtonView: {
     alignItems:'center',
     justifyContent:'center',
-    height: 46,
-    width:150, 
+    flexDirection:'row',
+    height:60,
+    paddingLeft:40,
+    paddingRight:40
   },
-  itemButton: {
-    flexDirection: 'row',
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomLeftRadius:10, 
-    borderBottomRightRadius:10,
-    borderTopLeftRadius:10, 
-    borderTopRightRadius:10, 
-    backgroundColor:lightYellow,
-    width:120
-  },
-  categoryText: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: darkBlue,
-  },
-  categoryButtonText: {
-    fontSize: 16,
-    fontWeight: '400',
-    color: darkBlue,
-  }
 })

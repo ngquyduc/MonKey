@@ -123,9 +123,8 @@ const Input = ({navigation}) => {
   , [])
 
   return (
-    <>
-    <StatusBar style='dark'/>
-      <View style={styless.header}>
+    <View style={{flex:1, backgroundColor:'#fff'}}>
+      <View style={[styless.header, {marginBottom:4}]}>
         <Text style={styles.boldBlueHeaderText}>Input</Text>
       </View>
       <ScrollView>
@@ -534,7 +533,7 @@ const Input = ({navigation}) => {
           </>
         </Pressable>
       </ScrollView>
-    </>
+    </View>
   );
 }
 
@@ -544,9 +543,16 @@ const styless = StyleSheet.create({
     justifyContent:'flex-end',
     backgroundColor:'#fff',
     borderBottomColor:'#808080',
-    borderBottomWidth:1,
+    borderBottomWidth:0,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
     paddingTop:3,
     height: StatusBarHeight + 42,
+    backgroundColor: lighterBlue,
+    shadowColor:darkBlue,
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:3,
   },
   expenseInputButtonView: {
     alignItems:'center',
