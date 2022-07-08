@@ -176,10 +176,10 @@ const Home = ({navigation}) => {
     const {swipeAnimatedValue, onEdit, onDelete} = props;
     return (
       <View style={styles.rowBack}>
-        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft, {height:55}]} onPress={onEdit}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft]} onPress={onEdit}>
           <Feather name="edit-3" size={25} color="#fff"/>  
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight,{height:55}]} onPress={onDelete}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight]} onPress={onDelete}>
           <Animated.View style={[styles.trash, {
             transform: [
               {
@@ -409,12 +409,16 @@ const styles = StyleSheet.create({
   backRightButtonLeft: {
     backgroundColor:'#1f65ff',
     right:75,
+    height:70, 
+    marginTop:-5
   },
   backRightButtonRight: {
     backgroundColor:'red',
     right:0,
-    borderTopRightRadius:5,
-    borderBottomRightRadius:5,
+    borderTopRightRadius:11,
+    borderBottomRightRadius:11,
+    height:70, 
+    marginTop:-5
   },
   categoryText: {
     fontSize:20,

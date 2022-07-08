@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import { View, Text, StyleSheet, Pressable, FlatList, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, StyleSheet, Pressable, FlatList, TouchableOpacity, Alert, Animated } from 'react-native';
 import { db } from '../api/db';
 import { collection, onSnapshot, query, where, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
@@ -189,10 +189,10 @@ const CalendarScreen = (props) => {
     const {swipeAnimatedValue, onEdit, onDelete} = props;
     return (
       <View style={styles.rowBack}>
-        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft, {height:55}]} onPress={onEdit}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft]} onPress={onEdit}>
           <Feather name="edit-3" size={25} color="#fff"/>  
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight,{height:55}]} onPress={onDelete}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight]} onPress={onDelete}>
           <Animated.View style={[styles.trash, {
             transform: [
               {
@@ -212,7 +212,7 @@ const CalendarScreen = (props) => {
   }
 
   return (
-    <View style={styles.mainContainerInnerScreen}>
+    <View style={styles.container}>
       <View style={[styles.header, {marginBottom:5}]}>
         <Text style={styles.boldBlueHeaderText}>Calendar</Text>
       </View>
@@ -286,7 +286,7 @@ const CalendarScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor: lightBlue,
+    backgroundColor: '#fff',
   },
   calendarView: {
     margin:5,
@@ -391,12 +391,16 @@ const styles = StyleSheet.create({
   backRightButtonLeft: {
     backgroundColor:'#1f65ff',
     right:75,
+    height:70, 
+    marginTop:-5
   },
   backRightButtonRight: {
     backgroundColor:'red',
     right:0,
-    borderTopRightRadius:5,
-    borderBottomRightRadius:5,
+    borderTopRightRadius:11,
+    borderBottomRightRadius:11,
+    height:70, 
+    marginTop:-5
   },
   categoryText: {
     fontSize:20,
