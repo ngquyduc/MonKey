@@ -30,7 +30,7 @@ const CalendarScreen = (props) => {
   useEffect(() => {
     const financePath = 'Finance/' + getUserID() + '/' + curDate.substring(0, 4)
     const financeRef = collection(db, financePath)
-    const dayFinanceQuery = query(financeRef, where('date', '==', curDate.substring(8, 10)), where('month', '==', curDate.substring(5, 7)))
+    const dayFinanceQuery = query(financeRef, where('date', '==', curDate.substring(8, 10)), where('month', '==', curMonth.substring(5, 7)))
     onSnapshot(dayFinanceQuery, (snapShot) => {
       const finances = []
       const expenses = []
@@ -57,7 +57,7 @@ const CalendarScreen = (props) => {
       const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
       setExpense(totalExpense)
     })
-    const monthFinanceQuery = query(financeRef, where('month', "==", curDate.substring(5, 7)))
+    const monthFinanceQuery = query(financeRef, where('month', "==", curMonth.substring(5, 7)))
     onSnapshot(monthFinanceQuery, (snapShot) => {
       const expensesMonth = []
       const incomesMonth = []
@@ -66,13 +66,13 @@ const CalendarScreen = (props) => {
       snapShot.forEach((doc) => {
         if (doc.data().type == 'expense') {
           expensesMonth.push(doc.data().amount)
-          expenseDays.push(doc.data().year + '-' + doc.data().month + '-' + doc.data().date)
+          expenseDays.push(curDate.substring(0, 4) + '-' + doc.data().month + '-' + doc.data().date)
         } else {
           incomesMonth.push(doc.data().amount)
-          incomeDays.push(doc.data().year + '-' + doc.data().month + '-' + doc.data().date)
+          incomeDays.push(curDate.substring(0, 4) + '-' + doc.data().month + '-' + doc.data().date)
         }
       })
-      console.log(incomeDays)
+      console.log(incomesMonth)
       console.log(expenseDays)
       const totalIncomeMonth = incomesMonth.reduce((total, current) => total = total + current, 0);
       setMonthIncome(totalIncomeMonth)
@@ -229,7 +229,8 @@ const CalendarScreen = (props) => {
           firstDay={1}
           markedDates = {marked}
           markingType = "multi-dot"
-          onMonthChange={month=> {setCurMonth(month.dateString.substring(0, 7))}}
+          onMonthChange={month=> {setCurMonth(month.dateString.substring(0, 7))
+          console.log(curMonth)}}
           enableSwipeMonths={true}
           renderHeader={date => {
             return (
