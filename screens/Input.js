@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert} from 'react-native';
 import styles from '../components/styles';
 import { colors } from '../components/colors';
@@ -9,9 +9,12 @@ import { Entypo, Foundation, MaterialCommunityIcons } from '@expo/vector-icons'
 import moment from 'moment';
 import { handleExpenseSubmit, handleIncomeSubmit } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
-import ExpenseCategory from '../CategoriesList/ExpenseCategory';
+// import ExpenseCategory from '../CategoriesList/ExpenseCategory';
 import IncomeCategory from '../CategoriesList/IncomeCategory';
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { db } from "../api/db";
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
+
 
 const Input = ({navigation}) => {
   /********** Bool to switch screens **********/
@@ -61,6 +64,7 @@ const Input = ({navigation}) => {
 
   }
   
+
   /********** Submit **********/
   const handleExpenseInput = (date, amount, note, chosenCategory) => {
     if (amount != '' && chosenCategory != '') {
@@ -99,6 +103,24 @@ const Input = ({navigation}) => {
       ]);
     }
   }
+
+  const [ExpenseCategory, setExpenseCategory] = useState([])
+  useEffect(() => {
+    const q = collection(db, 'Input Category/Expense/sMXKiA9zaWTx6R2KEv6W3IPubWt1')
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const cities = [];
+      querySnapshot.forEach((doc) => {
+          cities.push({
+            name: doc.data().name,
+            color: doc.data().color,
+            icon: doc.data().icon,
+            isEdit: false
+          });
+      });
+      setExpenseCategory(cities)
+      console.log("list: ", ExpenseCategory);
+    });}
+  , [])
 
   return (
     <>
@@ -272,15 +294,11 @@ const Input = ({navigation}) => {
                     </View>
                   </View>
                   <View style={{height:160}}>
-                    <ScrollView
-                      horizontal
-                      showsHorizontalScrollIndicator={true}
-                      showsVerticalScrollIndicator={false}
-                      contentContainerStyle={{paddingVertical:5}}>
                       <FlatList
-                        scrollEnabled={false}
+                        scrollEnabled={true}
                         contentContainerStyle={{alignSelf: 'flex-start'}}
-                        numColumns={Math.ceil(ExpenseCategory.length / 3)}
+                        // numColumns={Math.ceil(ExpenseCategory.length / 3)}
+                        numColumns={2}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
                         data={ExpenseCategory}
@@ -308,7 +326,6 @@ const Input = ({navigation}) => {
                             </View>
                           )
                           }}/>
-                    </ScrollView>
                   </View>
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                     <TouchableOpacity 
