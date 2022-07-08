@@ -3,7 +3,7 @@ import { PieChart } from "react-native-chart-kit";
 import { ScreenWidth } from '../components/constants';
 import { collection, onSnapshot, query, where, getDoc, getDocs, addDoc } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
-import { db, financeRef } from '../api/db';
+import { db } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
 import { StatusBar } from 'expo-status-bar';
@@ -70,7 +70,7 @@ const Stats = (props) => {
   }
 
   /********** Date Picker Variables **********/
-  let [date, setDate] = useState(moment());
+  let [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   let [month, setMonth] = useState(moment().format('YYYY-MM'));
   let [year, setYear] = useState(moment().format('YYYY'))
   const [show, setShow] = useState(false);
@@ -127,10 +127,11 @@ const Stats = (props) => {
   }, [])
 
   useEffect(() => {
-    const monthExpQ = query(financeRef, where("user", "==", getUserID()), where('month', '==', month), where('type', '==', 'expense'))
-    const monthIncQ = query(financeRef, where("user", "==", getUserID()), where('month', '==', month), where('type', '==', 'income'))
-    const yearExpQ = query(financeRef, where("user", "==", getUserID()), where('year', '==', year), where('type', '==', 'expense'))
-    const yearIncQ = query(financeRef, where("user", "==", getUserID()), where('year', '==', year), where('type', '==', 'income'))
+    const financeRef = collection(db, 'Finance/' + getUserID() + '/' + year)
+    const monthExpQ = query(financeRef, where('month', '==', month.substring(5, 7)), where('amount', '<', 0))
+    const monthIncQ = query(financeRef, where('month', '==', month.substring(5, 7)), where('amount', '>', 0))
+    const yearExpQ = query(financeRef, where('amount', '<', 0))
+    const yearIncQ = query(financeRef, where('amount', '>', 0))
     const q = isMonth && isExpense ? monthExpQ :
               isMonth && isIncome ? monthIncQ :
               isAnnual && isExpense ? yearExpQ :
@@ -141,7 +142,7 @@ const Stats = (props) => {
         const expenses = new Map()
         const incomes = new Map()
         snapShot.forEach((doc) => {
-          if (doc.data().type == 'expense') {
+          if (doc.data().amount < 0) {
             if (expenses.has(doc.data().category)) {
               var temp = expenses.get(doc.data().category)
               temp += doc.data().amount

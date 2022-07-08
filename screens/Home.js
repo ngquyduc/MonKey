@@ -71,9 +71,9 @@ const Home = ({navigation}) => {
   }, [])
 
   useEffect(() => {
-    const financePath = 'Finance/' + getUserID() + '/' + date.substring(0, 7)
+    const financePath = 'Finance/' + getUserID() + '/' + date.substring(0, 4)
     const financeRef = collection(db, financePath)
-    const dayQuery = query(financeRef, where('date', '==', date))
+    const dayQuery = query(financeRef, where('month', '==', date.substring(5, 7)), where('date', '==', date))
     onSnapshot(dayQuery,
       (snapShot) => {
         const finances = []

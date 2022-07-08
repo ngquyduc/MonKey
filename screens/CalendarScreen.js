@@ -27,9 +27,9 @@ const CalendarScreen = (props) => {
   const [expenseDays, setExpenseDays] = useState([])
 
   useEffect(() => {
-    const financePath = 'Finance/' + getUserID() + '/' + curDate.substring(0, 7)
+    const financePath = 'Finance/' + getUserID() + '/' + curDate.substring(0, 4)
     const financeRef = collection(db, financePath)
-    const dayFinanceQuery = query(financeRef, where('date', '==', curDate))
+    const dayFinanceQuery = query(financeRef, where('date', '==', curDate.substring(8, 10)), where('month', '==', curDate.substring(5, 7)), where('year', '==', curDate.substring(0, 4)))
     onSnapshot(dayFinanceQuery, (snapShot) => {
       const finances = []
       const expenses = []
@@ -37,10 +37,11 @@ const CalendarScreen = (props) => {
       snapShot.forEach((doc) => {
         finances.push({
           key: `${doc.id}`,
-          date: doc.data().date,
+          date: doc.data().year + '-' + doc.data().month + '-' + doc.data().date,
           amount: doc.data().amount,
           note: doc.data().note,
           category: doc.data().category,
+          notedAt: doc.data().notedAt
         })
         if (doc.data().amount < 0) { 
           expenses.push(doc.data().amount)
@@ -48,6 +49,7 @@ const CalendarScreen = (props) => {
           incomes.push(doc.data().amount)
         }
       })
+      finances.sort((a, b) => a.notedAt < b.notedAt ? 1 : -1)
       setFinances(finances)
       console.log(finances)
       const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
@@ -64,10 +66,10 @@ const CalendarScreen = (props) => {
       snapShot.forEach((doc) => {
         if (doc.data().amount < 0) {
           expensesMonth.push(doc.data().amount)
-          expenseDays.push(doc.data().date)
+          expenseDays.push(doc.data().year + '-' + doc.data().month + '-' + doc.data().date)
         } else {
           incomesMonth.push(doc.data().amount)
-          incomeDays.push(doc.data().date)
+          incomeDays.push(doc.data().year + '-' + doc.data().month + '-' + doc.data().date)
         }
       })
       const totalIncomeMonth = incomesMonth.reduce((total, current) => total = total + current, 0);
