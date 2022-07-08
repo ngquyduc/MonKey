@@ -10,7 +10,7 @@ import { copyDefaultCategory } from '../api/authentication';
 import IncomeCategory from '../CategoriesList/IncomeCategory';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../api/db';
-const {beige, brown, darkBlue, lightBlue, darkYellow, lightYellow} = colors;
+const {beige, lighterBlue, brown, darkBlue, lightBlue, darkYellow, lightYellow} = colors;
 const Other = ({navigation}) => {
   const [image, setImage] = useState('');
   const [username, setUsername] = useState('Team Grape')
@@ -95,11 +95,18 @@ const styles = StyleSheet.create({
   header: {
     alignItems:'center', 
     justifyContent:'flex-end',
-    backgroundColor:lightYellow,
+    backgroundColor:'#fff',
     borderBottomColor:'#808080',
-    borderBottomWidth:1,
+    borderBottomWidth:0,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
     paddingTop:3,
-    height: StatusBarHeight + 48,
+    height: StatusBarHeight + 42,
+    backgroundColor: lighterBlue,
+    shadowColor:darkBlue,
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:3,
   },
   userView: {
     flexDirection: 'row',

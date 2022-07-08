@@ -226,12 +226,13 @@ const Home = ({navigation}) => {
             </View>
             <Text style={styles.categoryText}>{data.item.category}</Text>
           </View>
+          {data.item.note != '' && 
           <View>
             <Text style={styles.noteText}>{data.item.note}</Text>
-          </View>
+          </View>}
         </View>
         <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={styles.amountText}>{'$' + data.item.amount}</Text>
+          <Text style={[styles.amountText,{color: data.item.amount > 0 ? '#26b522' : '#ef5011'}]}>{'$' + data.item.amount}</Text>
         </View>
       </View>
     )
@@ -298,7 +299,7 @@ const Home = ({navigation}) => {
           </View>
         </View>
         {/************ List ************/}
-        <View style={{height: 285}}>
+        <View style={{height: 340}}>
           <SwipeListView 
             data={finances}
             renderItem={renderItem}
@@ -373,7 +374,7 @@ const styles = StyleSheet.create({
     borderRadius:10,
     height:70,
     marginHorizontal: 5, 
-    marginBottom:10,
+    marginVertical:5,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
@@ -394,7 +395,8 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     paddingLeft:15,
-    margin:5,
+    marginHorizontal:5,
+    marginVertical:10,
     marginBottom:15,
     borderRadius:5,
   },
