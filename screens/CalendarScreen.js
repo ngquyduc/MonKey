@@ -19,7 +19,7 @@ const CalendarScreen = (props) => {
   const [finances, setFinances] = useState([])
   const [financesMonth, setFinancesMonth] = useState([])
   const [income, setIncome] = useState(0)
-  const [incomeMonth, setIncomeMonth] = useState(0)
+  const [incomeMonth, setMonthIncome] = useState(0)
   const [incomeDays, setIncomeDays] = useState([])
   const [expense, setExpense] = useState(0)
   const [expenseMonth, setExpenseMonth] = useState(0)
@@ -27,29 +27,30 @@ const CalendarScreen = (props) => {
   const [balanceDay, setBalanceDay] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
   useEffect(() => {
-    const financePath = 'Finance/' + getUserID() + '/' + curDate.substring(0, 7)
+    const financePath = 'Finance/' + getUserID() + '/' + curDate.substring(0, 4)
     const financeRef = collection(db, financePath)
-    const dayFinanceQuery = query(financeRef, where('date', '==', curDate))
+    const dayFinanceQuery = query(financeRef, where('date', '==', curDate.substring(8, 10)), where('month', '==', curMonth.substring(5, 7)))
     onSnapshot(dayFinanceQuery, (snapShot) => {
       const finances = []
       const expenses = []
       const incomes = []
       snapShot.forEach((doc) => {
-        finances.push({
-          key: `${doc.id}`,
-          date: doc.data().date,
+        finances.push({ 
+          date: doc.data().year + '-' + doc.data().month + '-' + doc.data().date,
           amount: doc.data().amount,
           note: doc.data().note,
           category: doc.data().category,
+          notedAt: doc.data().notedAt,
+          type: doc.data().type
         })
-        if (doc.data().amount < 0) { 
+        if (doc.data().type == 'expense') { 
           expenses.push(doc.data().amount)
         } else { 
           incomes.push(doc.data().amount)
         }
       })
+      finances.sort((a, b) => a.notedAt < b.notedAt ? 1 : -1)
       setFinances(finances)
-      console.log(finances)
       const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
       setIncome(totalIncome)
       const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
@@ -62,26 +63,28 @@ const CalendarScreen = (props) => {
       const expenseDays = []
       const incomeDays = []
       snapShot.forEach((doc) => {
-        if (doc.data().amount < 0) {
+        if (doc.data().type == 'expense') {
           expensesMonth.push(doc.data().amount)
-          expenseDays.push(doc.data().date)
+          expenseDays.push(curDate.substring(0, 4) + '-' + doc.data().month + '-' + doc.data().date)
         } else {
           incomesMonth.push(doc.data().amount)
-          incomeDays.push(doc.data().date)
+          incomeDays.push(curDate.substring(0, 4) + '-' + doc.data().month + '-' + doc.data().date)
         }
       })
+      console.log(incomesMonth)
+      console.log(expenseDays)
       const totalIncomeMonth = incomesMonth.reduce((total, current) => total = total + current, 0);
-      setIncomeMonth(totalIncomeMonth)
+      setMonthIncome(totalIncomeMonth)
       setIncomeDays(incomeDays)
       setExpenseDays(expenseDays)
       const totalExpenseMonth = expensesMonth.reduce((total, current) => total = total + current, 0);
       setExpenseMonth(totalExpenseMonth)
-      setTotal(totalIncomeMonth + totalExpenseMonth)
+      setTotal(totalIncomeMonth - totalExpenseMonth)
       })
   }, [curDate, curMonth])
   /*********** Calendar marked dots config ***********/
   const exp = {color:'red'}
-  const inc = {key:'income', color:'green'}
+  const inc = {color:'green'}
 
   const marked = useMemo(() => {
     const result = {}
@@ -160,7 +163,7 @@ const CalendarScreen = (props) => {
           </View>}
         </View>
         <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={[styles.amountText, {color: data.item.amount > 0 ? '#26b522' : '#ef5011'}]}>{'$' + data.item.amount}</Text>
+          <Text style={[styles.amountText, {color: data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{data.item.type == 'income' ? '$' + data.item.amount : '-$' +data.item.amount}</Text>
         </View>
       </View>
     )

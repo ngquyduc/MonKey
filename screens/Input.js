@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert} from 'react-native';
 import styles from '../components/styles';
 import { colors } from '../components/colors';
@@ -9,9 +9,11 @@ import { Entypo, Foundation, MaterialCommunityIcons } from '@expo/vector-icons'
 import moment from 'moment';
 import { handleExpenseSubmit, handleIncomeSubmit } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
-import ExpenseCategory from '../CategoriesList/ExpenseCategory';
-import IncomeCategory from '../CategoriesList/IncomeCategory';
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { db } from "../api/db";
+import { getUserID } from '../api/authentication';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
+
 
 const Input = ({navigation}) => {
   /********** Bool to switch screens **********/
@@ -61,6 +63,7 @@ const Input = ({navigation}) => {
 
   }
   
+
   /********** Submit **********/
   const handleExpenseInput = (date, amount, note, chosenCategory) => {
     if (amount != '' && chosenCategory != '') {
@@ -99,6 +102,40 @@ const Input = ({navigation}) => {
       ]);
     }
   }
+
+  const [ExpenseCategory, setExpenseCategory] = useState([])
+  const [IncomeCategory, setIncomeCategory] = useState([])
+  useEffect(() => {
+    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
+    onSnapshot(expenseCategoryRef, (snapshot) => {
+      const expenseCategories = [];
+      snapshot.forEach((doc) => {
+          expenseCategories.push({
+            name: doc.data().name,
+            color: doc.data().color,
+            icon: doc.data().icon,
+            isEdit: doc.data().name == 'Edit' ? true : false
+          });
+      });
+      expenseCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      setExpenseCategory(expenseCategories)
+    });
+
+    const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
+    onSnapshot(incomeCategoryRef, (snapshot) => {
+      const incomeCategories = [];
+      snapshot.forEach((doc) => {
+          incomeCategories.push({
+            name: doc.data().name,
+            color: doc.data().color,
+            icon: doc.data().icon,
+            isEdit: doc.data().name == 'Edit' ? true : false
+          });
+      });
+      incomeCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      setIncomeCategory(incomeCategories)
+    });}
+  , [])
 
   return (
     <View style={{flex:1, backgroundColor:'#fff'}}>
@@ -271,17 +308,12 @@ const Input = ({navigation}) => {
                     </View>
                   </View>
                   <View style={{height:160}}>
-                    <ScrollView
-                      horizontal
-                      showsHorizontalScrollIndicator={true}
-                      showsVerticalScrollIndicator={false}
-                      contentContainerStyle={{paddingVertical:5}}>
                       <FlatList
-                        scrollEnabled={false}
+                        scrollEnabled={true}
                         contentContainerStyle={{alignSelf: 'flex-start'}}
-                        numColumns={Math.ceil(ExpenseCategory.length / 3)}
+                        numColumns={3}
                         showsHorizontalScrollIndicator={false}
-                        showsVerticalScrollIndicator={false}
+                        showsVerticalScrollIndicator={true}
                         data={ExpenseCategory}
                         renderItem={({item}) => {
                           if (!item.isEdit) {
@@ -307,7 +339,6 @@ const Input = ({navigation}) => {
                             </View>
                           )
                           }}/>
-                    </ScrollView>
                   </View>
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                     <TouchableOpacity 
@@ -473,7 +504,7 @@ const Input = ({navigation}) => {
                       <FlatList
                         scrollEnabled={false}
                         contentContainerStyle={{alignSelf: 'flex-start'}}
-                        numColumns={Math.ceil(IncomeCategory.length / 3)}
+                        numColumns={3}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
                         data={IncomeCategory}

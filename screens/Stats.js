@@ -3,7 +3,7 @@ import { PieChart } from "react-native-chart-kit";
 import { ScreenWidth } from '../components/constants';
 import { collection, onSnapshot, query, where, getDoc, getDocs, addDoc } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
-import { db, financeRef } from '../api/db';
+import { db } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
 import { StatusBar } from 'expo-status-bar';
@@ -19,6 +19,7 @@ const Stats = (props) => {
   const [expense, setExpense] = useState({})
   const [totalIncome, setTotalIncome] = useState(0)
   const [totalExpense, setTotalExpense] = useState(0)
+  const [balance, setBalance] = useState(0)
   const [data1, setData1] = useState([])
   const [data2, setData2] = useState([])
 
@@ -33,24 +34,6 @@ const Stats = (props) => {
     setIsIncome(true); 
 
   }
-
-  const [expenseColor, setExpenseColor] = useState('')
-  const generateExpenseColor = (name) => {
-    const path = 'Input Category/Expense/' + getUserID()
-    const q = query(collection(db, path), where('name', '==', name))
-    const d = getDocs(q)
-    d.then((snap) => snap.docs.forEach((doc) => {
-      setExpenseColor(doc.data().color)
-    }))
-  };
-
-  const generateIncomeColor = (name) => {
-    const path = 'Input Category/Income/' + getUserID()
-    const q = query(collection(db, path), where('name', '==', name))
-    const d = getDocs(q)
-    var color = ''
-    d.then((snap) => snap.docs.forEach((doc) => {return doc.data().color}))
-  };
 
   /********** Bool to switch screens **********/
   const [isMonth, setIsMonth] = useState(true);
@@ -69,7 +52,7 @@ const Stats = (props) => {
   }
 
   /********** Date Picker Variables **********/
-  let [date, setDate] = useState(moment());
+  let [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   let [month, setMonth] = useState(moment().format('YYYY-MM'));
   let [year, setYear] = useState(moment().format('YYYY'))
   const [show, setShow] = useState(false);
@@ -126,14 +109,12 @@ const Stats = (props) => {
   }, [])
 
   useEffect(() => {
-    const monthExpQ = query(financeRef, where("user", "==", getUserID()), where('month', '==', month), where('type', '==', 'expense'))
-    const monthIncQ = query(financeRef, where("user", "==", getUserID()), where('month', '==', month), where('type', '==', 'income'))
-    const yearExpQ = query(financeRef, where("user", "==", getUserID()), where('year', '==', year), where('type', '==', 'expense'))
-    const yearIncQ = query(financeRef, where("user", "==", getUserID()), where('year', '==', year), where('type', '==', 'income'))
-    const q = isMonth && isExpense ? monthExpQ :
-              isMonth && isIncome ? monthIncQ :
-              isAnnual && isExpense ? yearExpQ :
-              yearIncQ;
+    const financeRef = collection(db, 'Finance/' + getUserID() + '/' + year)
+    const monthQ = query(financeRef, where('month', '==', month.substring(5, 7)))
+    // const monthIncQ = query(financeRef, where('month', '==', month.substring(5, 7)), where('type', '==', 'income'))
+    const yearQ = query(financeRef)
+    // const yearIncQ = query(financeRef, where('type', '==', 'income'))
+    const q = isMonth ? monthQ : yearQ
     
     onSnapshot(q,
       (snapShot) => {
@@ -188,6 +169,7 @@ const Stats = (props) => {
         })
         setData2(temp2)
         setTotalExpense(totalExpense)
+        setBalance(totalIncome - totalExpense)
       }
     )
     
@@ -346,9 +328,9 @@ const Stats = (props) => {
                 )}
             </View>
           </>
-          <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>
           <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>
-          <Text style={{color:'black'}}>{"Income: " + totalIncome}</Text>
+          <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>   
+          <Text style={{color:'black'}}>{"Balance: " + balance}</Text>
         </Pressable>
         <View style={styles.expenseInputButtonView}>
           <View style={{flex:0.5}}>

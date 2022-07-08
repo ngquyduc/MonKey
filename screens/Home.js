@@ -15,8 +15,6 @@ const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = col
 const Home = ({navigation}) => {
   const username = 'Team Grape'
   const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
-  const [month, setMonth] = useState(moment().format('YYYY-MM'));
-  const [year, setYear] = useState(moment().format('YYYY'))
   /*********** Variables ***********/
   const [monthLimit, setMonthLimit] = useState(700);
   const [dayLimit, setDayLimit] = useState(40);
@@ -71,9 +69,9 @@ const Home = ({navigation}) => {
   }, [])
 
   useEffect(() => {
-    const financePath = 'Finance/' + getUserID() + '/' + date.substring(0, 7)
+    const financePath = 'Finance/' + getUserID() + '/' + date.substring(0, 4)
     const financeRef = collection(db, financePath)
-    const dayQuery = query(financeRef, where('date', '==', date))
+    const dayQuery = query(financeRef, where('month', '==', date.substring(5, 7)), where('date', '==', date.substring(8, 10)))
     onSnapshot(dayQuery,
       (snapShot) => {
         const finances = []
@@ -81,26 +79,28 @@ const Home = ({navigation}) => {
         const incomes = []
         snapShot.forEach((doc) => {
           finances.push({
-            key: `${doc.id}`,
+            type: doc.data().type,
             date: doc.data().date,
             amount: doc.data().amount,
             note: doc.data().note,
             category: doc.data().category,
-            icon: doc.data().amount < 0 ? expenseCategoryList[doc.data().category] : incomeCategoryList[doc.data().category],
+            icon: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category] : incomeCategoryList[doc.data().category],
             // color: doc.data().amount < 0 ? expenseCategoryList[doc.data().category][color] : incomeCategoryList[doc.data().category][color],
             id: doc.id,
+            notedAt: doc.data().notedAt
           })
-          if (doc.data().amount < 0) {
+          if (doc.data().type == 'expense') {
             expenses.push(doc.data().amount)
           } else {
             incomes.push(doc.data().amount)
           }
         })
+        finances.sort((x, y) => x.notedAt > y.notedAt ? -1 : 1)
         setFinances(finances)
         const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
         setIncome(totalIncome)
         const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
-        setExpense(-totalExpense)
+        setExpense(totalExpense)
       }
     )
     const monthQuery = query(financeRef)
@@ -111,7 +111,7 @@ const Home = ({navigation}) => {
         const expenseDays = []
         const incomeDays = []
         snapShot.forEach((doc) => {
-          if (doc.data().amount < 0) {
+          if (doc.data().type = 'expense') {
             expensesMonth.push(doc.data().amount)
             expenseDays.push(doc.data().date)
           } else {
@@ -124,7 +124,7 @@ const Home = ({navigation}) => {
         setIncomeDays(incomeDays)
         setExpenseDays(expenseDays)
         const totalExpenseMonth = expensesMonth.reduce((total, current) => total = total + current, 0);
-        setExpenseMonth(-totalExpenseMonth)
+        setExpenseMonth(totalExpenseMonth)
         setTotal(totalIncomeMonth - totalExpenseMonth)
       }
     )
@@ -176,10 +176,10 @@ const Home = ({navigation}) => {
     const {swipeAnimatedValue, onEdit, onDelete} = props;
     return (
       <View style={styles.rowBack}>
-        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft]} onPress={onEdit}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft, {height:55}]} onPress={onEdit}>
           <Feather name="edit-3" size={25} color="#fff"/>  
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight]} onPress={onDelete}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight,{height:55}]} onPress={onDelete}>
           <Animated.View style={[styles.trash, {
             transform: [
               {
@@ -218,7 +218,7 @@ const Home = ({navigation}) => {
   const VisibleItem = props => {
     const {data} = props;
     return (
-      <View style={[styles.rowFront, {backgroundColor: data.item.amount > 0 ? '#e2f5e2' : '#fdddcf'}]}>
+      <View style={[styles.rowFront, {backgroundColor: data.item.type == 'income' ? '#e2f5e2' : '#fdddcf'}]}>
         <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
           <View style={{flexDirection:'row', marginBottom:3}}>
             <View style={{marginRight:10}}>
@@ -226,13 +226,12 @@ const Home = ({navigation}) => {
             </View>
             <Text style={styles.categoryText}>{data.item.category}</Text>
           </View>
-          {data.item.note != '' && 
           <View>
             <Text style={styles.noteText}>{data.item.note}</Text>
-          </View>}
+          </View>
         </View>
         <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={[styles.amountText,{color: data.item.amount > 0 ? '#26b522' : '#ef5011'}]}>{'$' + data.item.amount}</Text>
+          <Text style={styles.amountText}>{'$' + data.item.amount}</Text>
         </View>
       </View>
     )
@@ -374,7 +373,7 @@ const styles = StyleSheet.create({
     borderRadius:10,
     height:70,
     marginHorizontal: 5, 
-    marginVertical:5,
+    marginBottom:10,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
@@ -395,8 +394,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     paddingLeft:15,
-    marginHorizontal:5,
-    marginVertical:10,
+    margin:5,
     marginBottom:15,
     borderRadius:5,
   },
@@ -411,16 +409,12 @@ const styles = StyleSheet.create({
   backRightButtonLeft: {
     backgroundColor:'#1f65ff',
     right:75,
-    height:70, 
-    marginTop:-5
   },
   backRightButtonRight: {
     backgroundColor:'red',
     right:0,
-    borderTopRightRadius:11,
-    borderBottomRightRadius:11,
-    height:70, 
-    marginTop:-5
+    borderTopRightRadius:5,
+    borderBottomRightRadius:5,
   },
   categoryText: {
     fontSize:20,

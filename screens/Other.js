@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../components/colors';
 import { Avatar, Drawer } from 'react-native-paper';
 import { copyDefaultCategory } from '../api/authentication';
-import IncomeCategory from '../CategoriesList/IncomeCategory';
+
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../api/db';
 const {beige, lighterBlue, brown, darkBlue, lightBlue, darkYellow, lightYellow} = colors;

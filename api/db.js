@@ -15,11 +15,13 @@ export const financeRef = collection(db, 'finance')
 
 export const handleExpenseSubmit = async (date, amount, note, category) => {
   try {
-    const expensePath = 'Finance/' + getUserID() + '/' + date.substring(0, 7) // year
+    const expensePath = 'Finance/' + getUserID() + '/' + date.substring(0, 4) // year
     const expenseRef = collection(db, expensePath)
     await addDoc(expenseRef, {
-      date: date, 
-      amount: -amount,
+      type: 'expense',
+      date: date.substring(8, 10),
+      month: date.substring(5, 7), 
+      amount: amount,
       note: note,
       category: category,
       notedAt: Timestamp.now(),
@@ -32,10 +34,12 @@ export const handleExpenseSubmit = async (date, amount, note, category) => {
 
 export const handleIncomeSubmit = async (date, amount, note, category) => {
   try {
-    const incomePath = 'Finance/' + getUserID() + '/' + date.substring(0, 7) // year
+    const incomePath = 'Finance/' + getUserID() + '/' + date.substring(0, 4) // year
     const incomeRef = collection(db, incomePath)
     await addDoc(incomeRef, {
-      date: date,
+      type: 'income',
+      date: date.substring(8, 10),
+      month: date.substring(5, 7), 
       amount: amount,
       note: note,
       category: category,
