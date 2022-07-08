@@ -299,7 +299,7 @@ const Home = ({navigation}) => {
           </View>
         </View>
         {/************ List ************/}
-        <View style={{height: 340}}>
+        <View style={{height: 320}}>
           <SwipeListView 
             data={finances}
             renderItem={renderItem}

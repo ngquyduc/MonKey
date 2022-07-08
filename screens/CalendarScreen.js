@@ -26,7 +26,6 @@ const CalendarScreen = (props) => {
   const [total, setTotal] = useState(0)
   const [balanceDay, setBalanceDay] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   useEffect(() => {
     const financePath = 'Finance/' + getUserID() + '/' + curDate.substring(0, 7)
     const financeRef = collection(db, financePath)
@@ -57,7 +56,7 @@ const CalendarScreen = (props) => {
       setExpense(totalExpense)
     })
     const monthFinanceQuery = query(financeRef, where('month', "==", curMonth.substring(5, 7)))
-    onSnapshot(financeRef, (snapShot) => {
+    onSnapshot(monthFinanceQuery, (snapShot) => {
       const expensesMonth = []
       const incomesMonth = []
       const expenseDays = []
@@ -116,7 +115,7 @@ const CalendarScreen = (props) => {
     }
     )
     return result
-  }, [curDate, incomeDays, expenseDays]);
+  }, [curDate, curMonth, incomeDays, expenseDays]);
 
   /*************** Function to alert when deleting ***************/
   const alertDelete = (rowMap, rowKey, id) => {
@@ -215,42 +214,40 @@ const CalendarScreen = (props) => {
       <View style={[styles.header, {marginBottom:5}]}>
         <Text style={styles.boldBlueHeaderText}>Calendar</Text>
       </View>
-      <View style={styles.calendarView}>
-        <Calendar
-          onDayPress={day => {
-            setCurDate(day.dateString)
-            setCurMonth(day.dateString.substring(0, 7))
+      <View style={[styles.calendarView, {borderRadius:10,backgroundColor:'#fffffd'}]}>
+        <View style={{marginVertical:3,marginHorizontal:5}}>
+          <Calendar
+            theme={{    
+              calendarBackground: '#fffffd'
+            }}
+            onDayPress={day => {
+                setCurDate(day.dateString)
+                setCurMonth(day.dateString.substring(0, 7))
+              }
             }
-          } 
-          hideArrows={false}
-          firstDay={1}
-          markedDates = {marked}
-          markingType = "multi-dot"
-          onMonthChange={month=> {setCurMonth(month.dateString.substring(0, 7))}}
-          enableSwipeMonths={true}
-          renderHeader={date => {
-            return (
-            <View style={{width:318,alignItems:'center', justifyContent:'center'}}>
-              <Text style={{fontSize:20, paddingBottom:6, fontWeight:'600'}}>{months[parseInt(curMonth.substring(5,7))-1] + ' ' + curMonth.substring(0,4)}</Text>
-              <View style={{flexDirection:'row', marginBottom:10}}>
-                <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2',marginHorizontal:3}]}>
-                  {/* <FontAwesome name='plus-circle' color={'#26b522'} size={15}/> */}
-                  <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + incomeMonth}</Text>
-                </View>
-                <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf',marginHorizontal:3}]}>
-                  {/* <FontAwesome name='minus-circle' color={'#ef5011'} size={15}/> */}
-                  <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + expenseMonth}</Text>
-                </View>
-                <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6',marginHorizontal:3}]}>
-                  {/* <Entypo name="flickr-with-circle" size={15} color={'#494949'}/> */}
-                  <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + total}</Text>
-                </View>
-              </View>
-            </View>
-            )
-          }}
-        />
+            disableMonthChange={false}
+            hideArrows={false}
+            firstDay={1}
+            markedDates = {marked}
+            markingType = "multi-dot"
+            onMonthChange={month => {setCurMonth(month.dateString.substring(0,7))}}
+            enableSwipeMonths={true}
+          />
+        </View>
+        <View style={{flexDirection:'row',marginHorizontal:5}}>
+          <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2',marginHorizontal:3}]}>
+            <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + incomeMonth}</Text>
+          </View>
+          <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf',marginHorizontal:3}]}>
+            <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + expenseMonth}</Text>
+          </View>
+          <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6',marginHorizontal:3}]}>
+            <Text style={{color:'#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + total}</Text>
+          </View>
+        </View>
       </View>
+
+      
       <View style={{alignItems:'center', justifyContent:'center', paddingBottom:7}}>
         <Text style={{fontSize:16, fontWeight:'700', color:darkBlue}}>{"Date: " + curDate.split('-').reverse().join('-')}</Text>
       </View>
@@ -268,7 +265,7 @@ const CalendarScreen = (props) => {
         </View>
       </View>
       {/************ List ************/}
-      <View style={{height: 285}}>
+      <View style={{height: 260}}>
         <SwipeListView 
           data={finances}
           renderItem={renderItem}
@@ -347,11 +344,9 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     borderRadius:10,
     marginHorizontal:7,
-    marginBottom:5,
+    marginBottom:9,
     height:40,
-    shadowColor:'#999',
-    shadowOffset: {width:0,height:1},
-    shadowOpacity:0.8,
+  
     shadowRadius:2,
   },
   rowFront: {
