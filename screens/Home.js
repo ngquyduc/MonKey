@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Alert, Animated, Modal, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
 import { colors } from '../components/colors';
 import moment from 'moment';
-import { query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
-import { financeRef,db } from '../api/db';
+import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../api/db';
 import { getUserID } from '../api/authentication';
 import ActivityRings from "react-native-activity-rings";  
 import { StatusBarHeight } from '../components/constants';
@@ -14,14 +14,14 @@ const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = col
 
 const Home = ({navigation}) => {
   const username = 'Team Grape'
-  let [date, setDate] = useState(moment().format('YYYY-MM-DD'));
-  let [month, setMonth] = useState(moment().format('YYYY-MM'));
-  let [year, setYear] = useState(moment().format('YYYY'))
+  const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
+  const [month, setMonth] = useState(moment().format('YYYY-MM'));
+  const [year, setYear] = useState(moment().format('YYYY'))
   /*********** Variables ***********/
   const [monthLimit, setMonthLimit] = useState(700);
   const [dayLimit, setDayLimit] = useState(40);
   /*********** Variables ***********/
-  const [finances, setFinances] = useState([])
+  const [ finances, setFinances] = useState([])
   const [financesMonth, setFinancesMonth] = useState([])
   const [income, setIncome] = useState(0)
   const [incomeMonth, setIncomeMonth] = useState(0)
@@ -38,8 +38,42 @@ const Home = ({navigation}) => {
   const [inprogressNote, setInprogressNote] = useState('')
   const [inprogressCategory, setInprogressCategory] = useState('')
 
-  useMemo(() => {
-    const dayQuery = query(financeRef, where("user", "==", getUserID()), where('date', '==', date), orderBy("time", "desc"))
+  const [expenseCategoryList, setExpenseCategoryList] = useState({})
+  const [incomeCategoryList, setIncomeCategoryList] = useState({})
+
+  useEffect(() => {
+    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
+
+    onSnapshot(expenseCategoryRef, (snapshot) => {
+      let expenseCategories = {}
+      snapshot.docs.forEach((doc) => {
+        expenseCategories[doc.data().name] = doc.data().icon
+
+          // color: doc.data().color,
+          
+      })
+      setExpenseCategoryList(expenseCategories)
+      console.log(expenseCategories)
+    })
+
+    const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
+
+    onSnapshot(incomeCategoryRef, (snapshot) => {
+      let incomeCategories = {}
+      snapshot.docs.forEach((doc) => {
+        incomeCategories[doc.data().name] = doc.data().icon
+          // color: doc.data().color,
+          
+        
+      })
+      setIncomeCategoryList(incomeCategories)
+    })
+  }, [])
+
+  useEffect(() => {
+    const financePath = 'Finance/' + getUserID() + '/' + date.substring(0, 7)
+    const financeRef = collection(db, financePath)
+    const dayQuery = query(financeRef, where('date', '==', date))
     onSnapshot(dayQuery,
       (snapShot) => {
         const finances = []
@@ -47,14 +81,16 @@ const Home = ({navigation}) => {
         const incomes = []
         snapShot.forEach((doc) => {
           finances.push({
+            key: `${doc.id}`,
             date: doc.data().date,
             amount: doc.data().amount,
             note: doc.data().note,
             category: doc.data().category,
-            type: doc.data().type,
+            icon: doc.data().amount < 0 ? expenseCategoryList[doc.data().category] : incomeCategoryList[doc.data().category],
+            // color: doc.data().amount < 0 ? expenseCategoryList[doc.data().category][color] : incomeCategoryList[doc.data().category][color],
             id: doc.id,
           })
-          if (doc.data().type == 'expense') {
+          if (doc.data().amount < 0) {
             expenses.push(doc.data().amount)
           } else {
             incomes.push(doc.data().amount)
@@ -64,10 +100,10 @@ const Home = ({navigation}) => {
         const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
         setIncome(totalIncome)
         const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
-        setExpense(totalExpense)
+        setExpense(-totalExpense)
       }
     )
-    const monthQuery = query(financeRef, where("user", "==", getUserID()), where('month', "==", month))
+    const monthQuery = query(financeRef)
     onSnapshot(monthQuery,
       (snapShot) => {
         const expensesMonth = []
@@ -75,7 +111,7 @@ const Home = ({navigation}) => {
         const expenseDays = []
         const incomeDays = []
         snapShot.forEach((doc) => {
-          if (doc.data().type == 'expense') {
+          if (doc.data().amount < 0) {
             expensesMonth.push(doc.data().amount)
             expenseDays.push(doc.data().date)
           } else {
@@ -88,11 +124,11 @@ const Home = ({navigation}) => {
         setIncomeDays(incomeDays)
         setExpenseDays(expenseDays)
         const totalExpenseMonth = expensesMonth.reduce((total, current) => total = total + current, 0);
-        setExpenseMonth(totalExpenseMonth)
+        setExpenseMonth(-totalExpenseMonth)
         setTotal(totalIncomeMonth - totalExpenseMonth)
       }
     )
-  }, [])
+  }, [incomeCategoryList, expenseCategoryList])
 
   /*********** Activity ring config ***********/
   const activityData = [ 
@@ -182,7 +218,7 @@ const Home = ({navigation}) => {
   const VisibleItem = props => {
     const {data} = props;
     return (
-      <View style={[styles.rowFront, {backgroundColor: data.item.type=='income' ? '#e2f5e2' : '#fdddcf'}]}>
+      <View style={[styles.rowFront, {backgroundColor: data.item.amount > 0 ? '#e2f5e2' : '#fdddcf'}]}>
         <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
           <View style={{flexDirection:'row', marginBottom:3}}>
             <View style={{marginRight:10}}>
@@ -263,7 +299,8 @@ const Home = ({navigation}) => {
         </View>
         {/************ List ************/}
         <View style={{height: 285}}>
-          <SwipeListView //add data={...}
+          <SwipeListView 
+            data={finances}
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}
             rightOpenValue={-150}
@@ -335,7 +372,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     borderRadius:10,
     height:70,
-    marginHorizontal:15, //can back to 5
+    marginHorizontal: 5, 
     marginBottom:10,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},

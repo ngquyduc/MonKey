@@ -13,8 +13,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 
-
-
 const {lightYellow, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
 const Stats = (props) => {
@@ -115,7 +113,6 @@ const Stats = (props) => {
         expenseCategories[doc.data().name] = doc.data().color
       })
       setExpenseCategoryList(expenseCategories)
-      // console.log(expenseCategoryList)
     })
 
     const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
@@ -195,7 +192,7 @@ const Stats = (props) => {
       }
     )
     
-  }, [isMonth, isAnnual, isExpense, isIncome])
+  }, [isMonth, isAnnual, isExpense, isIncome, incomeCategoryList, expenseCategoryList])
 
   return (
     <View style={stylesss.mainContainerInnerScreen}>
