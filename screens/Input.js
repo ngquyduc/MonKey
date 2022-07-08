@@ -9,10 +9,9 @@ import { Entypo, Foundation, MaterialCommunityIcons } from '@expo/vector-icons'
 import moment from 'moment';
 import { handleExpenseSubmit, handleIncomeSubmit } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
-// import ExpenseCategory from '../CategoriesList/ExpenseCategory';
-import IncomeCategory from '../CategoriesList/IncomeCategory';
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../api/db";
+import { getUserID } from '../api/authentication';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 
@@ -105,20 +104,36 @@ const Input = ({navigation}) => {
   }
 
   const [ExpenseCategory, setExpenseCategory] = useState([])
+  const [IncomeCategory, setIncomeCategory] = useState([])
   useEffect(() => {
-    const q = collection(db, 'Input Category/Expense/sMXKiA9zaWTx6R2KEv6W3IPubWt1')
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const cities = [];
-      querySnapshot.forEach((doc) => {
-          cities.push({
+    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
+    onSnapshot(expenseCategoryRef, (snapshot) => {
+      const expenseCategories = [];
+      snapshot.forEach((doc) => {
+          expenseCategories.push({
             name: doc.data().name,
             color: doc.data().color,
             icon: doc.data().icon,
-            isEdit: false
+            isEdit: doc.data().name == 'Edit' ? true : false
           });
       });
-      setExpenseCategory(cities)
-      console.log("list: ", ExpenseCategory);
+      expenseCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      setExpenseCategory(expenseCategories)
+    });
+
+    const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
+    onSnapshot(incomeCategoryRef, (snapshot) => {
+      const incomeCategories = [];
+      snapshot.forEach((doc) => {
+          incomeCategories.push({
+            name: doc.data().name,
+            color: doc.data().color,
+            icon: doc.data().icon,
+            isEdit: doc.data().name == 'Edit' ? true : false
+          });
+      });
+      incomeCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      setIncomeCategory(incomeCategories)
     });}
   , [])
 
@@ -296,10 +311,9 @@ const Input = ({navigation}) => {
                       <FlatList
                         scrollEnabled={true}
                         contentContainerStyle={{alignSelf: 'flex-start'}}
-                        // numColumns={Math.ceil(ExpenseCategory.length / 3)}
-                        numColumns={2}
+                        numColumns={3}
                         showsHorizontalScrollIndicator={false}
-                        showsVerticalScrollIndicator={false}
+                        showsVerticalScrollIndicator={true}
                         data={ExpenseCategory}
                         renderItem={({item}) => {
                           if (!item.isEdit) {
@@ -490,7 +504,7 @@ const Input = ({navigation}) => {
                       <FlatList
                         scrollEnabled={false}
                         contentContainerStyle={{alignSelf: 'flex-start'}}
-                        numColumns={Math.ceil(IncomeCategory.length / 3)}
+                        numColumns={3}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
                         data={IncomeCategory}

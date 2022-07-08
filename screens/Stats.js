@@ -19,6 +19,7 @@ const Stats = (props) => {
   const [expense, setExpense] = useState({})
   const [totalIncome, setTotalIncome] = useState(0)
   const [totalExpense, setTotalExpense] = useState(0)
+  const [balance, setBalance] = useState(0)
   const [data1, setData1] = useState([])
   const [data2, setData2] = useState([])
 
@@ -33,24 +34,6 @@ const Stats = (props) => {
     setIsIncome(true); 
 
   }
-
-  const [expenseColor, setExpenseColor] = useState('')
-  const generateExpenseColor = (name) => {
-    const path = 'Input Category/Expense/' + getUserID()
-    const q = query(collection(db, path), where('name', '==', name))
-    const d = getDocs(q)
-    d.then((snap) => snap.docs.forEach((doc) => {
-      setExpenseColor(doc.data().color)
-    }))
-  };
-
-  const generateIncomeColor = (name) => {
-    const path = 'Input Category/Income/' + getUserID()
-    const q = query(collection(db, path), where('name', '==', name))
-    const d = getDocs(q)
-    var color = ''
-    d.then((snap) => snap.docs.forEach((doc) => {return doc.data().color}))
-  };
 
   /********** Bool to switch screens **********/
   const [isMonth, setIsMonth] = useState(true);
@@ -127,21 +110,18 @@ const Stats = (props) => {
 
   useEffect(() => {
     const financeRef = collection(db, 'Finance/' + getUserID() + '/' + year)
-    const monthExpQ = query(financeRef, where('month', '==', month.substring(5, 7)), where('amount', '<', 0))
-    const monthIncQ = query(financeRef, where('month', '==', month.substring(5, 7)), where('amount', '>', 0))
-    const yearExpQ = query(financeRef, where('amount', '<', 0))
-    const yearIncQ = query(financeRef, where('amount', '>', 0))
-    const q = isMonth && isExpense ? monthExpQ :
-              isMonth && isIncome ? monthIncQ :
-              isAnnual && isExpense ? yearExpQ :
-              yearIncQ;
+    const monthQ = query(financeRef, where('month', '==', month.substring(5, 7)))
+    // const monthIncQ = query(financeRef, where('month', '==', month.substring(5, 7)), where('type', '==', 'income'))
+    const yearQ = query(financeRef)
+    // const yearIncQ = query(financeRef, where('type', '==', 'income'))
+    const q = isMonth ? monthQ : yearQ
     
     onSnapshot(q,
       (snapShot) => {
         const expenses = new Map()
         const incomes = new Map()
         snapShot.forEach((doc) => {
-          if (doc.data().amount < 0) {
+          if (doc.data().type == 'expense') {
             if (expenses.has(doc.data().category)) {
               var temp = expenses.get(doc.data().category)
               temp += doc.data().amount
@@ -189,6 +169,7 @@ const Stats = (props) => {
         })
         setData2(temp2)
         setTotalExpense(totalExpense)
+        setBalance(totalIncome - totalExpense)
       }
     )
     
@@ -347,9 +328,9 @@ const Stats = (props) => {
                 )}
             </View>
           </>
-          <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>
           <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>
-          <Text style={{color:'black'}}>{"Income: " + totalIncome}</Text>
+          <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>   
+          <Text style={{color:'black'}}>{"Balance: " + balance}</Text>
         </Pressable>
         <View style={styles.expenseInputButtonView}>
           <View style={{flex:0.5}}>
