@@ -7,11 +7,11 @@ import { Calendar } from 'react-native-calendars';
 import { StatusBarHeight } from '../components/constants';
 import moment from 'moment';
 import { colors } from '../components/colors';
-const {beige, brown, darkBlue, lightBlue, darkYellow} = colors;
-import PressableText from '../components/Containers/PressableText';
-import styles from '../components/styles';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import PressableText from '../components/Containers/PressableText';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
+const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
+
 
 const CalendarScreen = (props) => {
   const [curDate, setCurDate] = useState(moment().format('YYYY-MM-DD'))
@@ -24,8 +24,9 @@ const CalendarScreen = (props) => {
   const [expense, setExpense] = useState(0)
   const [expenseMonth, setExpenseMonth] = useState(0)
   const [total, setTotal] = useState(0)
+  const [balanceDay, setBalanceDay] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
-
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   useEffect(() => {
     const financePath = 'Finance/' + getUserID() + '/' + curDate.substring(0, 4)
     const financeRef = collection(db, financePath)
@@ -81,7 +82,7 @@ const CalendarScreen = (props) => {
       setTotal(totalIncomeMonth + totalExpenseMonth)
       })
   }, [curDate, curMonth])
-
+  /*********** Calendar marked dots config ***********/
   const exp = {color:'red'}
   const inc = {key:'income', color:'green'}
 
@@ -119,6 +120,28 @@ const CalendarScreen = (props) => {
     return result
   }, [curDate, incomeDays, expenseDays]);
 
+  /*************** Function to alert when deleting ***************/
+  const alertDelete = (rowMap, rowKey, id) => {
+    Alert.alert("Delete this record?","", [
+      {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
+      {text: 'Delete', onPress: () => {deleteRow(id)}}
+    ]);
+  }
+  /*************** Function to delete record ***************/
+  const deleteRow = (id) => {
+    const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
+    deleteDoc(cat)
+  }
+  /*************** Function to edit record ***************/
+  const editRow = (id) => {
+    const path = 'Input Category/Expense/' + getUserID()
+    const catRef = doc(db, path, id)
+    updateDoc(catRef, {
+      name: inprogressCategory,
+      color: inprogressColor,
+      icon: inprogressIcon,
+    })
+  }
   const renderItem = (data, rowMap) => {
     return <VisibleItem data={data}/>
   }
@@ -126,20 +149,20 @@ const CalendarScreen = (props) => {
   const VisibleItem = props => {
     const {data} = props;
     return (
-      <View style={[sstyles.rowFront, {backgroundColor: data.item.amount > 0 ? '#e2f5e2' : '#fdddcf'}]}>
+      <View style={[styles.rowFront, {backgroundColor: data.item.amount > 0 ? '#e2f5e2' : '#fdddcf'}]}>
         <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
           <View style={{flexDirection:'row', marginBottom:3}}>
             <View style={{marginRight:10}}>
               <MaterialCommunityIcons name={data.item.icon} color={data.item.color} size={20}/>
             </View>
-            <Text style={sstyles.categoryText}>{data.item.category}</Text>
+            <Text style={styles.categoryText}>{data.item.category}</Text>
           </View>
           <View>
-            <Text style={sstyles.noteText}>{data.item.note}</Text>
+            <Text style={styles.noteText}>{data.item.note}</Text>
           </View>
         </View>
         <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={sstyles.amountText}>{'$' + data.item.amount}</Text>
+          <Text style={styles.amountText}>{'$' + data.item.amount}</Text>
         </View>
       </View>
     )
@@ -165,12 +188,12 @@ const CalendarScreen = (props) => {
   const HiddenItemWithActions = props => {
     const {swipeAnimatedValue, onEdit, onDelete} = props;
     return (
-      <View style={sstyles.rowBack}>
-        <TouchableOpacity style={[sstyles.backRightButton, sstyles.backRightButtonLeft, {height:55}]} onPress={onEdit}>
+      <View style={styles.rowBack}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft, {height:55}]} onPress={onEdit}>
           <Feather name="edit-3" size={25} color="#fff"/>  
         </TouchableOpacity>
-        <TouchableOpacity style={[sstyles.backRightButton, sstyles.backRightButtonRight,{height:55}]} onPress={onDelete}>
-          <Animated.View style={[sstyles.trash, {
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight,{height:55}]} onPress={onDelete}>
+          <Animated.View style={[styles.trash, {
             transform: [
               {
                 scale:swipeAnimatedValue.interpolate({
@@ -190,99 +213,98 @@ const CalendarScreen = (props) => {
 
   return (
     <View style={styles.mainContainerInnerScreen}>
-      <View style={styless.header}>
+      <View style={[styles.header, {marginBottom:5}]}>
         <Text style={styles.boldBlueHeaderText}>Calendar</Text>
       </View>
-      <Text>
-        {"Month: " + curMonth.split('-').reverse().join('-')}
-      </Text>
-      <Text style={{color:'green'}}>{"Income: $" + incomeMonth}</Text>
-      <Text style={{color:'red'}}>{"Expense: $" + expenseMonth}</Text>
-      <Text style={{
-                  color: total < 0
-                    ?'red'
-                    :'green',
-                  marginBottom: 10, 
-                }}
-      >
-        {"Balance: $" + total}
-      </Text>
-      <Calendar
-        onDayPress={day => {
-          setCurDate(day.dateString)
-          setCurMonth(day.dateString.substring(0, 7))
-          }
-        }
-        firstDay={1}
-        markedDates = {
-          marked
-        }
-        markingType = "multi-dot"
-      />
-      <Text style={
-        {marginTop: 20}
-      }>
-        {"Date: " + curDate.split('-').reverse().join('-')}
-      </Text>
-      <Text style={{color:'green'}}>{"Income: $" + income}</Text>
-      <Text style={{color:'red'}}>{"Expense: $" + expense}</Text>
-      {/* <FlatList
-        style={{height:'100%'}}
-        data={finances}
-        numColumns={1}
-        renderItem={({item}) => (
-          <View
-            style={styless.container}
-          >
-            <View style={styless.innerContainer}>
-              <Text>{"category: " + item.category}</Text>
-              <Text>{"note: " + item.note}</Text>
-              <Text
-                style={{
-                  color: item.amount < 0 
-                    ?'red'
-                    :'green',
-                }}
-              >
-                {"amount: $" + item.amount.toString()}
-              </Text>
-              <Pressable 
-                style={{alignSelf:'flex-end'}}
-                onPress={() => deleteDoc(doc(db, 'Finance/' + getUserID() + '/' + curMonth, item.id))}
-              >
-                <Text style={{color:'red'}}>Delete note</Text>
-              </Pressable>
+      <View style={styles.calendarView}>
+        <Calendar
+          onDayPress={day => {
+            setCurDate(day.dateString)
+            setCurMonth(day.dateString.substring(0, 7))
+            }
+          } 
+          hideArrows={false}
+          firstDay={1}
+          markedDates = {marked}
+          markingType = "multi-dot"
+          onMonthChange={month=> {setCurMonth(month.dateString.substring(0, 7))}}
+          enableSwipeMonths={true}
+          renderHeader={date => {
+            return (
+            <View style={{width:318,alignItems:'center', justifyContent:'center'}}>
+              <Text style={{fontSize:20, paddingBottom:6, fontWeight:'600'}}>{months[parseInt(curMonth.substring(5,7))-1] + ' ' + curMonth.substring(0,4)}</Text>
+              <View style={{flexDirection:'row', marginBottom:10}}>
+                <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
+                  {/* <FontAwesome name='plus-circle' color={'#26b522'} size={15}/> */}
+                  <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + incomeMonth}</Text>
+                </View>
+                <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
+                  {/* <FontAwesome name='minus-circle' color={'#ef5011'} size={15}/> */}
+                  <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + expenseMonth}</Text>
+                </View>
+                <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6'}]}>
+                  {/* <Entypo name="flickr-with-circle" size={15} color={'#494949'}/> */}
+                  <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + total}</Text>
+                </View>
+              </View>
             </View>
+            )
+          }}
+        />
+      </View>
+      <View style={{alignItems:'center', justifyContent:'center', paddingBottom:7}}>
+        <Text style={{fontSize:16, fontWeight:'700', color:darkBlue}}>{"Date: " + curDate.split('-').reverse().join('-')}</Text>
+      </View>
+      <View>
+        <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
+          <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
+            <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + income}</Text>
           </View>
-        )}
-      /> */}
+          <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
+            <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + expense}</Text>
+          </View>
+          <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6'}]}>
+            <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + balanceDay}</Text>
+          </View>
+        </View>
+      </View>
       {/************ List ************/}
       <View style={{height: 285}}>
-          <SwipeListView 
-            data={finances}
-            renderItem={renderItem}
-            renderHiddenItem={renderHiddenItem}
-            rightOpenValue={-150}
-            disableRightSwipe
-            showsVerticalScrollIndicator={true}
-          />
-        </View>
+        <SwipeListView 
+          data={finances}
+          renderItem={renderItem}
+          renderHiddenItem={renderHiddenItem}
+          rightOpenValue={-150}
+          disableRightSwipe
+          showsVerticalScrollIndicator={true}
+        />
+      </View>
     </View>
   );
 }
 
-export default CalendarScreen;
-
-const sstyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex:1,
     backgroundColor: lightBlue,
   },
+  calendarView: {
+    margin:5,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:3,
+    elevation:5,
+  },
   header: {
-    flex:1,
+    alignItems:'center', 
     justifyContent:'flex-end',
-    paddingHorizontal:30,
-    paddingBottom:14,
+    backgroundColor:'#fff',
+    borderBottomColor:'#808080',
+    borderBottomWidth:1,
+    paddingTop:3,
+    height: StatusBarHeight + 42,
+    backgroundColor: lighterBlue,
   },
   footer: {
     flex:3.7,
@@ -389,35 +411,4 @@ const sstyles = StyleSheet.create({
     fontWeight:'bold'
   }
 })
-
-const styless = StyleSheet.create({
-  container:{
-    backgroundColor: '#e5e5e5',
-    padding: 15,
-    borderRadius: 15,
-    margin: 5,
-    marginHorizontal: 10,
-  },
-  innerContainer:{
-    alignItems:'center',
-    flexDirection: 'column',
-  },
-  mainContainerInnerScreen: {
-    flex: 1,
-  },
-  header: {
-    alignItems:'center', 
-    justifyContent:'flex-end',
-    backgroundColor:'#fff',
-    borderBottomColor:'#808080',
-    borderBottomWidth:1,
-    paddingTop:3,
-    height: StatusBarHeight + 48,
-  },
-  boldBlueHeaderText: {
-    fontSize: 34,
-    color: darkBlue,
-    marginBottom: 10,
-    fontWeight: 'bold',
-  },
-})
+export default CalendarScreen;

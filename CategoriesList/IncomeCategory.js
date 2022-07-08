@@ -1,5 +1,4 @@
 export default IncomeCategory = [
-  {name: 'Edit', icon: '', isEdit: true},
   {name: 'Salary', icon: 'credit-card-fast', color: '#4ed807', isEdit: false},
   {name: 'Awards', icon: 'trophy-award', color: '#fd568e', isEdit: false},
   {name: 'Grants', icon: 'cash-plus', color: '#0100c8', isEdit: false},
@@ -10,4 +9,5 @@ export default IncomeCategory = [
   {name: 'Crypto', icon: 'bitcoin', color: '#980ba7', isEdit: false},
   {name: 'Lottery', icon: 'ticket', color: '#fe0500', isEdit: false},
   {name: 'Refunds', icon: 'cash-refund', color: '#0d9ff5', isEdit: false},
+  {name: 'Edit', icon: 'lead-pencil', isEdit: true},
 ];

@@ -10,7 +10,7 @@ import ActivityRings from "react-native-activity-rings";
 import { StatusBarHeight } from '../components/constants';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { SwipeListView } from 'react-native-swipe-list-view';
-const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
+const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 const Home = ({navigation}) => {
   const username = 'Team Grape'
@@ -288,12 +288,12 @@ const Home = ({navigation}) => {
           </View>
           <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
-              <FontAwesome name='plus-circle' color={'#26b522'} size={21}/>
-              <Text style={{color:'#26b522', fontSize:17, fontWeight:'500'}}>{" Income: $" + income}</Text>
+              <FontAwesome name='plus-circle' color={'#26b522'} size={18}/>
+              <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: $" + income}</Text>
             </View>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
-              <FontAwesome name='minus-circle' color={'#ef5011'} size={21}/>
-              <Text style={{color:'#ef5011', fontSize:17, fontWeight:'500'}}>{" Expense: $" + expense}</Text>
+              <FontAwesome name='minus-circle' color={'#ef5011'} size={18}/>
+              <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: $" + expense}</Text>
             </View>
           </View>
         </View>
@@ -316,7 +316,7 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor: lightBlue,
+    backgroundColor: lighterBlue,
   },
   header: {
     flex:1,

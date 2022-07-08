@@ -5,13 +5,13 @@ import styles from '../components/styles';
 import { colors } from '../components/colors';
 import { Snackbar } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Entypo, Foundation } from '@expo/vector-icons'
+import { Entypo, Foundation, MaterialCommunityIcons } from '@expo/vector-icons'
 import moment from 'moment';
 import { handleExpenseSubmit, handleIncomeSubmit } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
 import ExpenseCategory from '../CategoriesList/ExpenseCategory';
 import IncomeCategory from '../CategoriesList/IncomeCategory';
-const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
+const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 const Input = ({navigation}) => {
   /********** Bool to switch screens **********/
@@ -21,11 +21,13 @@ const Input = ({navigation}) => {
     setIsExpense(true);
     setIsIncome(false);
     setChosenCategory('');
+    setColor('');
   }
   const openIncome = () => {
     setIsExpense(false);
     setIsIncome(true); 
-    setChosenCategory('');   
+    setChosenCategory('');  
+    setColor(''); 
   }
 
   /********** Date Picker Variables **********/
@@ -54,7 +56,7 @@ const Input = ({navigation}) => {
 
   /********** Category Variables **********/
   const [chosenCategory, setChosenCategory] = useState('');
-
+  const [colorC, setColor] = useState('');
   const onPressChoose = () => {
 
   }
@@ -67,6 +69,7 @@ const Input = ({navigation}) => {
       setAmount('')
       setNote('')
       setChosenCategory('')
+      setColor('');
     } else if (amount == '') {
       Alert.alert("Alert", "Please enter the expense amount", [
         {text: 'Understand', onPress: () => console.log('Alert closed')}
@@ -85,6 +88,7 @@ const Input = ({navigation}) => {
       setAmount('')
       setNote('')
       setChosenCategory('')
+      setColor('');
     } else if (amount == '') {
       Alert.alert("Alert", "Please enter the income amount", [
         {text: 'Understand', onPress: () => console.log('Alert closed')}
@@ -264,10 +268,10 @@ const Input = ({navigation}) => {
                         justifyContent:'center',
                         borderBottomColor:darkYellow,
                       }}>
-                        <Text style={styless.categoryText}>{chosenCategory}</Text>
+                        <Text style={[styless.categoryText, {color:colorC}]}>{chosenCategory}</Text>
                     </View>
                   </View>
-                  <View style={{height:147}}>
+                  <View style={{height:160}}>
                     <ScrollView
                       horizontal
                       showsHorizontalScrollIndicator={true}
@@ -286,8 +290,9 @@ const Input = ({navigation}) => {
                               <View style={styless.itemView}>
                                 <TouchableOpacity 
                                   style={styless.itemButton}
-                                  onPress={() => setChosenCategory(item.name)}>
-                                  <Text style={styless.categoryButtonText}>{item.name}</Text>
+                                  onPress={() => {setChosenCategory(item.name); setColor(item.color)}}>
+                                  <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
+                                  <Text style={[styless.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
                                 </TouchableOpacity>
                               </View>
                             )
@@ -295,9 +300,10 @@ const Input = ({navigation}) => {
                           return (
                             <View style={styless.itemView}>
                               <TouchableOpacity 
-                                style={styless.itemButton}
+                                style={[styless.itemButton, {backgroundColor:darkBlue, paddingLeft:7, flexDirection:'row'}]}
                                 onPress={() => navigation.navigate('ListOfExpenseCategory')}>
-                                <Text style={styless.categoryButtonText}>{item.name}</Text>
+                                <Text style={[styless.categoryButtonText, {color:'#fff'}]}>{item.name}</Text>
+                                <MaterialCommunityIcons name='chevron-right' size={25} color='#fff'/>
                               </TouchableOpacity>
                             </View>
                           )
@@ -456,10 +462,10 @@ const Input = ({navigation}) => {
                         justifyContent:'center',
                         borderBottomColor:darkYellow,
                       }}>
-                        <Text style={styless.categoryText}>{chosenCategory}</Text>
+                        <Text style={[styless.categoryText, {color:colorC}]}>{chosenCategory}</Text>
                     </View>
                   </View>
-                  <View style={{height:147}}>
+                  <View style={{height:160}}>
                     <ScrollView
                       horizontal
                       showsHorizontalScrollIndicator={true}
@@ -478,8 +484,9 @@ const Input = ({navigation}) => {
                               <View style={styless.itemView}>
                                 <TouchableOpacity 
                                   style={styless.itemButton}
-                                  onPress={() => setChosenCategory(item.name)}>
-                                  <Text style={styless.categoryButtonText}>{item.name}</Text>
+                                  onPress={() => {setChosenCategory(item.name); setColor(item.color)}}>
+                                  <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
+                                  <Text style={[styless.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
                                 </TouchableOpacity>
                               </View>
                             )
@@ -487,9 +494,10 @@ const Input = ({navigation}) => {
                           return (
                             <View style={styless.itemView}>
                               <TouchableOpacity 
-                                style={styless.itemButton}
+                                style={[styless.itemButton, {backgroundColor:darkBlue, paddingLeft:7, flexDirection:'row'}]}
                                 onPress={() => navigation.navigate('ListOfIncomeCategory')}>
-                                <Text style={styless.categoryButtonText}>{item.name}</Text>
+                                <Text style={[styless.categoryButtonText, {color:'#fff'}]}>{item.name}</Text>
+                                <MaterialCommunityIcons name='chevron-right' size={25} color='#fff'/>
                               </TouchableOpacity>
                             </View>
                           )
@@ -521,7 +529,7 @@ const styless = StyleSheet.create({
     borderBottomColor:'#808080',
     borderBottomWidth:1,
     paddingTop:3,
-    height: StatusBarHeight + 48,
+    height: StatusBarHeight + 42,
   },
   expenseInputButtonView: {
     alignItems:'center',
@@ -603,32 +611,32 @@ const styless = StyleSheet.create({
     backgroundColor:darkYellow
   },
   itemView: {
+    flexDirection:'row',
     alignItems:'center',
     justifyContent:'center',
-    height: 46,
-    width:150, 
+    height: 50,
+    width:138, 
   },
   itemButton: {
-    flexDirection: 'row',
-    height: 36,
+    flexDirection: 'column',
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomLeftRadius:10, 
-    borderBottomRightRadius:10,
-    borderTopLeftRadius:10, 
-    borderTopRightRadius:10, 
-    backgroundColor:lightYellow,
-    width:120
+    borderRadius:10,
+    backgroundColor:'#fff',
+    width:128,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
   },
   categoryText: {
     fontSize: 18,
     fontWeight: '500',
-    color: darkBlue,
   },
   categoryButtonText: {
     fontSize: 16,
-    fontWeight: '400',
-    color: darkBlue,
+    fontWeight: '500',
   }
 })
 
