@@ -185,7 +185,7 @@ const CalendarScreen = (props) => {
           setInprogressCategory(data.item.category)
           setInprogressNote(data.item.note)
           setInprogressAmount(data.item.amount)
-          setInprogressDate(data.item.date)
+          setInprogressDate(moment(data.item.date, 'YYYY-MM-DD'))
           setInprogressId(data.item.amount)  
           setInprogressType(data.item.type)
         }}
@@ -223,7 +223,7 @@ const CalendarScreen = (props) => {
   const [inprogressAmount, setInprogressAmount] = useState(0);
   const [inprogressNote, setInprogressNote] = useState('');
   const [inprogressCategory, setInprogressCategory]= useState('');
-  const [inprogressDate, setInprogressDate] = useState('');
+  let [inprogressDate, setInprogressDate] = useState(moment());
   const [inprogressId, setInprogressId] = useState('');
   const [inprogressType, setInprogressType] = useState('')
   const [colorC, setColor] = useState('')
@@ -236,27 +236,26 @@ const CalendarScreen = (props) => {
     }
   }
   /********** Date Picker Variables **********/
-  let [pickedDate, setPickedDate] = useState(moment());
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
     setShow(Platform.OS === 'ios');
-    setPickedDate(moment(selectedDate))
+    setInprogressDate(moment(selectedDate))
   }
 
   const addOneDay = () => {
-    pickedDate = setPickedDate(moment(pickedDate).add(1, 'day'));
+    inprogressDate = setInprogressDate(moment(inprogressDate).add(1, 'day'));
   }
 
   const subtractOneDay = () => {
-    pickedDate = setPickedDate(moment(pickedDate).subtract(1, 'day'));
+    inprogressDate = setInprogressDate(moment(inprogressDate).subtract(1, 'day'));
   }
   /*************** Function to edit record ***************/
   const closeEditModal = () => {
     setInprogressCategory('')
     setInprogressNote('')
     setInprogressAmount(0)
-    setInprogressDate('')
+    setInprogressDate(moment())
     setInprogressId('')  
     setInprogressType('')
     setShow(false)
@@ -267,7 +266,7 @@ const CalendarScreen = (props) => {
     setInprogressCategory('')
     setInprogressNote('')
     setInprogressAmount(0)
-    setInprogressDate('')
+    setInprogressDate(moment())
     setInprogressId('')
     setInprogressType('')
     setShow(false)
@@ -412,7 +411,7 @@ const CalendarScreen = (props) => {
             <View style={styles.datePickerView}>
               <TouchableOpacity onPress={()=>setShow(true)}>
                 <View>
-                  <Text style={styles.dateText}>{pickedDate.format('MMMM Do, YYYY')}</Text>
+                  <Text style={styles.dateText}>{inprogressDate.format('MMMM Do, YYYY')}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -430,7 +429,7 @@ const CalendarScreen = (props) => {
             <>
               <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
                 <View style={{flex:5}}>
-                  <TouchableOpacity onPress={()=> {setShow(false), setPickedDate(moment())}}>
+                  <TouchableOpacity onPress={()=> {setShow(false), setInprogressDate(moment())}}>
                     <View>
                       <Text style={styles.datePickerOffText}>Cancel</Text>
                     </View>
@@ -445,7 +444,7 @@ const CalendarScreen = (props) => {
                 </View>
               </View>
                 <DateTimePicker
-                  value={new Date(pickedDate)}
+                  value={new Date(inprogressDate)}
                   display='spinner'
                   textColor={darkBlue}
                   onChange ={onChange}

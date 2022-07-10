@@ -18,8 +18,8 @@ const Home = ({navigation}) => {
   const username = 'Team Grape'
   const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   /*********** Variables ***********/
-  const [monthLimit, setMonthLimit] = useState(700);
-  const [dayLimit, setDayLimit] = useState(40);
+  const [monthLimit, setMonthLimit] = useState(700); // need to store on Firestore
+  const [dayLimit, setDayLimit] = useState(40); // need to store on Firestore
   const [list, setList] = useState([]);
   /*********** Variables ***********/
   const [ finances, setFinances] = useState([])
@@ -31,11 +31,7 @@ const Home = ({navigation}) => {
   const [expenseMonth, setExpenseMonth] = useState(0)
   const [total, setTotal] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
-  const [listRecords, setListRecords] = useState([
-    {type: 'expense', category: 'Food', note: 'Banh mi', amount: 3.6},
-    {type: 'income', category: 'Salary', note: 'Shopee intern', amount: 200},
-  ])
-
+  
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
 
@@ -149,7 +145,7 @@ const Home = ({navigation}) => {
       {text: 'Yes', onPress: () => {navigation.navigate('EditLimitScreen')}}
     ]);
   }
-
+  /*********** SwipeListView stuffs ***********/
   const HiddenItemWithActions = props => {
     const {swipeAnimatedValue, onEdit, onDelete} = props;
     return (
@@ -186,7 +182,7 @@ const Home = ({navigation}) => {
           setInprogressCategory(data.item.category)
           setInprogressNote(data.item.note)
           setInprogressAmount(data.item.amount)
-          setInprogressDate(moment(data.item.date, "YYYY-MM-DD"))
+          setInprogressDate(moment(data.item.date, "YYYY-MM-DD")) // check this
           setInprogressId(data.item.amount)  
           setInprogressType(data.item.type)
         }}
@@ -221,22 +217,6 @@ const Home = ({navigation}) => {
     return <VisibleItem data={data}/>
   }
 
-  /********** Date Picker Variables **********/
-  const [show, setShow] = useState(false);
-
-  const onChange = (event, selectedDate) => {
-    setShow(Platform.OS === 'ios');
-    setInprogressDate(moment(selectedDate))
-  }
-
-  const addOneDay = () => {
-    inprogressDate = setInprogressDate(moment(inprogressDate).add(1, 'day'));
-  }
-
-  const subtractOneDay = () => {
-    inprogressDate = setInprogressDate(moment(inprogressDate).subtract(1, 'day'));
-  }
-
   /*************** Function to alert when deleting ***************/
   const alertDelete = (rowMap, rowKey, id) => {
     Alert.alert("Delete this record?","", [
@@ -254,6 +234,23 @@ const Home = ({navigation}) => {
       rowMap[rowKey].closeRow();
     }
   }
+  /********** Date Picker Variables **********/
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    setShow(Platform.OS === 'ios');
+    setInprogressDate(moment(selectedDate))
+  }
+
+  const addOneDay = () => {
+    inprogressDate = setInprogressDate(moment(inprogressDate).add(1, 'day'));
+  }
+
+  const subtractOneDay = () => {
+    inprogressDate = setInprogressDate(moment(inprogressDate).subtract(1, 'day'));
+  }
+
+
 
   /*********** Variables to be set when editing ***********/
   const [inprogressAmount, setInprogressAmount] = useState('');
@@ -290,7 +287,7 @@ const Home = ({navigation}) => {
     setInprogressType('')
     setShow(false)
     setVisibleEdit(false)
-    console.log(inprogressDate.format('DD_MM_YYYY'))
+    //console.log(inprogressDate.format('DD_MM_YYYY'))
   }
   const onSubmitEdit = () => {
     editRow(inprogressId)
@@ -588,8 +585,9 @@ const Home = ({navigation}) => {
           {/*********** Submit button ***********/}
           <View style={[styles.submitButtonView, {alignItems:'center', justifyContent:'center', }]}>
             <TouchableOpacity 
-            style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
-            onPress={() => {onSubmitEdit}}>
+            style={[styles.inputButton, {borderRadius:10, backgroundColor:darkYellow,width:120}]} 
+            onPress={() => {onSubmitEdit}}> 
+            {/*********** modify function onSubmitEdit and editRow (Ctrl F) ***********/}
               <Text style={styles.cancelText}>Submit</Text>
             </TouchableOpacity>
           </View>
