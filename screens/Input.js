@@ -228,6 +228,7 @@ const Input = ({navigation}) => {
                         <DateTimePicker
                           value={new Date(date)}
                           is24Hour={true}
+                          textColor={darkBlue}
                           display='spinner'
                           onChange ={onChange}
                           minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
@@ -418,6 +419,7 @@ const Input = ({navigation}) => {
                         <DateTimePicker
                           value={new Date(date)}
                           display='spinner'
+                          textColor={darkBlue}
                           onChange ={onChange}
                           minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
                           maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
@@ -433,9 +435,7 @@ const Input = ({navigation}) => {
                       }}>
                       <Text style={styles.dateText}>Income</Text>
                     </View>
-                    <View style={{
-                      flex:5,
-                      }}></View>
+                    <View style={{flex:5}}></View>
                     <View style={styless.datePickerView}>
                       <TextInput
                         style={[styless.inputContainer, {textAlign:'right'}]}
@@ -538,7 +538,7 @@ const Input = ({navigation}) => {
                     <TouchableOpacity 
                     style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
                     onPress={() => {handleIncomeInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory)}}>
-                    <Text style={styles.inputText}>Submit</Text>
+                      <Text style={styles.inputText}>Submit</Text>
                     </TouchableOpacity>
                   </View>
                 </View>

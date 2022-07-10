@@ -3,12 +3,14 @@ import React, {useState, useMemo, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Alert, Animated, Modal, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
 import { colors } from '../components/colors';
 import moment from 'moment';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Switch } from 'react-native-switch';
 import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../api/db';
 import { getUserID } from '../api/authentication';
 import ActivityRings from "react-native-activity-rings";  
 import { StatusBarHeight } from '../components/constants';
-import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
+import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { SwipeListView } from 'react-native-swipe-list-view';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
@@ -18,6 +20,7 @@ const Home = ({navigation}) => {
   /*********** Variables ***********/
   const [monthLimit, setMonthLimit] = useState(700);
   const [dayLimit, setDayLimit] = useState(40);
+  const [list, setList] = useState([]);
   /*********** Variables ***********/
   const [ finances, setFinances] = useState([])
   const [financesMonth, setFinancesMonth] = useState([])
@@ -32,9 +35,6 @@ const Home = ({navigation}) => {
     {type: 'expense', category: 'Food', note: 'Banh mi', amount: 3.6},
     {type: 'income', category: 'Salary', note: 'Shopee intern', amount: 200},
   ])
-  const [inprogressAmount, setInprogressAmount] = useState(0)
-  const [inprogressNote, setInprogressNote] = useState('')
-  const [inprogressCategory, setInprogressCategory] = useState('')
 
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
@@ -103,7 +103,7 @@ const Home = ({navigation}) => {
         setExpense(totalExpense)
       }
     )
-    const monthQuery = query(financeRef)
+    const monthQuery = query(financeRef, where('month', '==', date.substring(5, 7)))
     onSnapshot(monthQuery,
       (snapShot) => {
         const expensesMonth = []
@@ -149,37 +149,15 @@ const Home = ({navigation}) => {
       {text: 'Yes', onPress: () => {navigation.navigate('EditLimitScreen')}}
     ]);
   }
-  /*************** Function to alert when deleting ***************/
-  const alertDelete = (rowMap, rowKey, id) => {
-    Alert.alert("Delete this record?","", [
-      {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
-      {text: 'Delete', onPress: () => {deleteRow(id)}}
-    ]);
-  }
-  /*************** Function to delete record ***************/
-  const deleteRow = (id) => {
-    const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
-    deleteDoc(cat)
-  }
-  /*************** Function to edit record ***************/
-  const editRow = (id) => {
-    const path = 'Input Category/Expense/' + getUserID()
-    const catRef = doc(db, path, id)
-    updateDoc(catRef, {
-      name: inprogressCategory,
-      color: inprogressColor,
-      icon: inprogressIcon,
-    })
-  }
 
   const HiddenItemWithActions = props => {
     const {swipeAnimatedValue, onEdit, onDelete} = props;
     return (
       <View style={styles.rowBack}>
-        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft, {height:55}]} onPress={onEdit}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonLeft]} onPress={onEdit}>
           <Feather name="edit-3" size={25} color="#fff"/>  
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight,{height:55}]} onPress={onDelete}>
+        <TouchableOpacity style={[styles.backRightButton, styles.backRightButtonRight]} onPress={onDelete}>
           <Animated.View style={[styles.trash, {
             transform: [
               {
@@ -206,9 +184,11 @@ const Home = ({navigation}) => {
         onEdit={()=>{
           setVisibleEdit(true) 
           setInprogressCategory(data.item.category)
-          setInprogressAmount(data.item.amount)
           setInprogressNote(data.item.note)
-          setInprogressId(data.item.id)
+          setInprogressAmount(data.item.amount)
+          setInprogressDate(moment(data.item.date, "YYYY-MM-DD"))
+          setInprogressId(data.item.amount)  
+          setInprogressType(data.item.type)
         }}
         onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
       />
@@ -241,75 +221,381 @@ const Home = ({navigation}) => {
     return <VisibleItem data={data}/>
   }
 
+  /********** Date Picker Variables **********/
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    setShow(Platform.OS === 'ios');
+    setInprogressDate(moment(selectedDate))
+  }
+
+  const addOneDay = () => {
+    inprogressDate = setInprogressDate(moment(inprogressDate).add(1, 'day'));
+  }
+
+  const subtractOneDay = () => {
+    inprogressDate = setInprogressDate(moment(inprogressDate).subtract(1, 'day'));
+  }
+
+  /*************** Function to alert when deleting ***************/
+  const alertDelete = (rowMap, rowKey, id) => {
+    Alert.alert("Delete this record?","", [
+      {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
+      {text: 'Delete', onPress: () => {deleteRow(id)}}
+    ]);
+  }
+  /*************** Function to delete record ***************/
+  const deleteRow = (id) => {
+    const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
+    deleteDoc(cat)
+  }
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  }
+
+  /*********** Variables to be set when editing ***********/
+  const [inprogressAmount, setInprogressAmount] = useState('');
+  const [inprogressNote, setInprogressNote] = useState('');
+  const [inprogressCategory, setInprogressCategory]= useState('');
+  let [inprogressDate, setInprogressDate] = useState(moment());
+  const [inprogressId, setInprogressId] = useState('');
+  const [inprogressType, setInprogressType] = useState('')
+  const [colorC, setColor] = useState('')
+  const [visibleEdit, setVisibleEdit] = useState(false);
+  const switchType = () => {
+    if (inprogressType == 'income') {
+      setInprogressType('expense')
+    } else {
+      setInprogressType('income')
+    }
+  }
+  /*************** Function to edit record ***************/
+  const editRow = (id) => {
+    const path = 'Input Category/Expense/' + getUserID()
+    const catRef = doc(db, path, id)
+    updateDoc(catRef, {
+      name: inprogressCategory,
+      color: inprogressColor,
+      icon: inprogressIcon,
+    })
+  }
+  const closeEditModal = () => {
+    setInprogressCategory('')
+    setInprogressNote('')
+    setInprogressAmount(0)
+    setInprogressDate(moment())
+    setInprogressId('')  
+    setInprogressType('')
+    setShow(false)
+    setVisibleEdit(false)
+    console.log(inprogressDate.format('DD_MM_YYYY'))
+  }
+  const onSubmitEdit = () => {
+    editRow(inprogressId)
+    setInprogressCategory('')
+    setInprogressNote('')
+    setInprogressAmount(0)
+    setInprogressDate(moment())
+    setInprogressId('')
+    setInprogressType('')
+    setShow(false)
+    setVisibleEdit(false)
+  }
   return (
-    <View style={styles.container}>
-      {/************ Header ************/}
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.boldBlueHeaderText}>Welcome,</Text>
-          <View style={{alignItems:'flex-end'}}>
-            <Text style={styles.boldBlueHeaderText}>{username + " !"}</Text>
+    <>
+      <View style={styles.container}>
+        {/************ Header ************/}
+        <View style={styles.header}>
+          <View>
+            <Text style={styles.boldBlueHeaderText}>Welcome,</Text>
+            <View style={{alignItems:'flex-end'}}>
+              <Text style={styles.boldBlueHeaderText}>{username + " !"}</Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.footer}> 
-        {/************ Limit ring ************/}
-        <TouchableOpacity style={{flexDirection:'column'}} onPress={() => {alertChangeLimit()}}>
-          <View style={styles.ringView}>
-            <View style={{height:35, alignItems:'center', justifyContent:'center'}}>
-              <Text style={{fontSize:20, fontWeight:'600', color:darkYellow}}>Spending limit</Text>
-            </View>
-            <View style={{flexDirection:'row'}}>
-              <View style={{marginRight:4}}>
-                <ActivityRings theme='dark' data={activityData} config={activityConfig}/>
-              </View> 
-              <View style={{flexDirection:'column', alignContent:'center',justifyContent:'center'}}>
-                <View style={{flexDirection:'row', margin:5}}>
-                  <Octicons name='dot-fill' size={40} color={darkBlue}/>
-                  <View style={{alignContent:'center',justifyContent:'center'}}>
-                    <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + expenseMonth + '/' + monthLimit + '$'}</Text>
+        <View style={styles.footer}> 
+          {/************ Limit ring ************/}
+          <TouchableOpacity style={{flexDirection:'column'}} onPress={() => {alertChangeLimit()}}>
+            <View style={styles.ringView}>
+              <View style={{height:35, alignItems:'center', justifyContent:'center'}}>
+                <Text style={{fontSize:20, fontWeight:'600', color:darkYellow}}>Spending limit</Text>
+              </View>
+              <View style={{flexDirection:'row'}}>
+                <View style={{marginRight:4}}>
+                  <ActivityRings theme='dark' data={activityData} config={activityConfig}/>
+                </View> 
+                <View style={{flexDirection:'column', alignContent:'center',justifyContent:'center'}}>
+                  <View style={{flexDirection:'row', margin:5}}>
+                    <Octicons name='dot-fill' size={40} color={darkBlue}/>
+                    <View style={{alignContent:'center',justifyContent:'center'}}>
+                      <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + expenseMonth + '/' + monthLimit + '$'}</Text>
+                    </View>
                   </View>
-                </View>
-                <View style={{flexDirection:'row', margin:5}}>
-                  <Octicons name='dot-fill' size={40} color={darkYellow}/>
-                  <View style={{alignContent:'center',justifyContent:'center'}}>
-                    <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + expense + '/' + dayLimit + '$'}</Text>
+                  <View style={{flexDirection:'row', margin:5}}>
+                    <Octicons name='dot-fill' size={40} color={darkYellow}/>
+                    <View style={{alignContent:'center',justifyContent:'center'}}>
+                      <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + expense + '/' + dayLimit + '$'}</Text>
+                    </View>
                   </View>
                 </View>
               </View>
             </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
 
-        {/************ Today's records ************/}
-        <View>
-          <View style={{alignItems:'center', justifyContent:'center', paddingBottom:7}}>
-            <Text style={{fontSize:16, fontWeight:'700', color:darkBlue}}>{"Today: " + moment().format('DD-MM-YYYY')}</Text>
-          </View>
-          <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
-            <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
-              <FontAwesome name='plus-circle' color={'#26b522'} size={18}/>
-              <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: $" + income}</Text>
+          {/************ Today's records ************/}
+          <View>
+            <View style={{alignItems:'center', justifyContent:'center', paddingBottom:7}}>
+              <Text style={{fontSize:16, fontWeight:'700', color:darkBlue}}>{"Today: " + moment().format('DD-MM-YYYY')}</Text>
             </View>
-            <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
-              <FontAwesome name='minus-circle' color={'#ef5011'} size={18}/>
-              <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: $" + expense}</Text>
+            <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
+              <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
+                <FontAwesome name='plus-circle' color={'#26b522'} size={18}/>
+                <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: $" + income}</Text>
+              </View>
+              <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
+                <FontAwesome name='minus-circle' color={'#ef5011'} size={18}/>
+                <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: $" + expense}</Text>
+              </View>
             </View>
           </View>
-        </View>
-        {/************ List ************/}
-        <View style={{height: 320}}>
-          <SwipeListView 
-            data={finances}
-            renderItem={renderItem}
-            renderHiddenItem={renderHiddenItem}
-            rightOpenValue={-150}
-            disableRightSwipe
-            showsVerticalScrollIndicator={true}
-          />
+          {/************ List ************/}
+          <View style={{height: 320}}>
+            <SwipeListView 
+              data={finances}
+              renderItem={renderItem}
+              renderHiddenItem={renderHiddenItem}
+              rightOpenValue={-150}
+              disableRightSwipe
+              showsVerticalScrollIndicator={true}
+            />
+          </View>
         </View>
       </View>
-    </View>
+
+
+
+
+      {/*************** Modal to edit category ***************/}
+      <Modal 
+        visible={visibleEdit} 
+        animationType='slide'
+      >
+        <Pressable onPress={Keyboard.dismiss}>
+          {/*********** Header ***********/}
+          <View style={[styles.headerModal, {flexDirection:'row'}]}>
+            <View style={{flex:4}}>
+              <Text></Text>
+            </View>
+            <View style={{flex:8, alignItems:'center',justifyContent:'center'}}>
+              <Text style={styles.boldBlueHeaderText}>Edit</Text>
+            </View>
+            <View style={{flex:4, alignItems:'center', justifyContent:'center', marginBottom:10}}>
+              <TouchableOpacity 
+                style={{alignItems:'center', justifyContent:'center',backgroundColor:darkYellow,height:30,width:65, borderRadius:5}}
+                onPress={closeEditModal}>
+                <Text style={styles.cancelText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/*********** Type ***********/}
+          <View style={styles.noteView}>
+            <View style={{
+              flex:20,
+              paddingLeft:12,
+              justifyContent:'center'
+              }}>
+              <Text style={styles.dateText}>Type</Text>
+            </View>
+            <View style={{
+              flex:80,
+              alignItems:'center',
+              justifyContent:'center',
+              borderBottomColor:darkYellow,
+            }}>
+              <TouchableOpacity 
+                style={{alignItems:'center',justifyContent:'center', backgroundColor:inprogressType=='income' ? '#e2f5e2' : '#fdddcf', width:210, height:34, borderRadius:20}}
+                onPress={switchType}>
+                <Text style={{color: inprogressType=='income' ? '#26b522' : '#ef5011', fontSize:18, fontWeight:'500'}}>
+                  {inprogressType=='income' ? 'Income' : 'Expense'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/*********** Date ***********/}
+          <View style={styles.dateView}>
+            <View style={{
+              flex:20,
+              paddingLeft:12,
+              justifyContent:'center'
+            }}>
+              <Text style={styles.dateText}>Date</Text>
+            </View>
+            <View style={{
+              flex:15,
+              alignItems:'center',
+              justifyContent:'center'
+            }}>
+              <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneDay}>
+                <Entypo name='chevron-left' size={28} color={darkBlue}/>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.datePickerView}>
+              <TouchableOpacity onPress={()=>setShow(true)}>
+                <View>
+                  <Text style={styles.dateText}>{inprogressDate.format('DD-MM-YYYY')}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={{
+              flex:15,
+              alignItems:'center',
+              justifyContent:'center'
+            }}>
+              <TouchableOpacity style={{position: 'absolute'}} onPress={addOneDay}>
+                <Entypo name='chevron-right' size={28} color={darkBlue}/>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {show && (
+            <>
+              <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
+                <View style={{flex:5}}>
+                  <TouchableOpacity onPress={()=> {setShow(false), setInprogressDate(moment())}}>
+                    <View>
+                      <Text style={styles.datePickerOffText}>Cancel</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View style={{flex:5, alignItems:'flex-end'}}>
+                  <TouchableOpacity onPress={()=> setShow(false)}>
+                    <View>
+                      <Text style={styles.datePickerOffText}>Done</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+                <DateTimePicker
+                  value={new Date(inprogressDate)}
+                  display='spinner'
+                  textColor={darkBlue}
+                  onChange ={onChange}
+                  minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
+                  maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
+                />
+            </>
+          )}
+
+          {/*********** Amount ***********/}
+          <View style={styles.dateView}>
+            <View style={{
+              flex:30,
+              paddingLeft:12,
+              justifyContent:'center'
+              }}>
+              <Text style={styles.dateText}>Income</Text>
+            </View>
+            <View style={{flex:5}}></View>
+            <View style={styles.datePickerView}>
+              <TextInput
+                style={[styles.inputContainer, {textAlign:'right'}]}
+                maxLength={10}
+                placeholder='0.00'
+                placeholderTextColor={lightBlue}
+                keyboardType='decimal-pad'
+                value={inprogressAmount}
+                onChangeText={(value) => setInprogressAmount(value)}
+              />
+            </View>
+            <View style={{
+              flex:15, 
+              justifyContent:'center',
+              alignItems:'center'
+              }}>
+                <Foundation name='dollar' size={34} color={darkBlue}/>
+            </View>
+          </View>
+          {/*********** Note ***********/}
+          <View style={styles.noteView}>
+            <View style={{
+              flex:20,
+              paddingLeft:12,
+              justifyContent:'center'
+              }}>
+              <Text style={styles.dateText}>Note</Text>
+            </View>
+            <View style={{
+              flex:80,
+              alignItems:'center',
+              justifyContent:'center',
+              borderBottomColor:darkYellow,
+            }}>
+              <TextInput
+                style={[styles.noteInputContainer, {textAlign:'left'}]}
+                placeholder='Note'
+                placeholderTextColor={lightBlue}
+                value={inprogressNote}
+                onChangeText={(value) => setInprogressNote(value)}
+              />
+            </View>
+          </View>
+          {/*********** Category ***********/}
+          <View style={styles.noteView}>
+            <View style={{
+              flex:22,
+              paddingLeft:12,
+              justifyContent:'center'
+              }}>
+              <Text style={styles.dateText}>Category</Text>
+            </View>
+            <View style={{
+                flex:80,
+                alignItems:'center',
+                justifyContent:'center',
+                borderBottomColor:darkYellow,
+              }}>
+                <Text style={[styles.categoryText, {color:colorC}]}>{inprogressCategory}</Text>
+            </View>
+          </View>
+          <View style={{height:160}}>
+            <FlatList
+              scrollEnabled={true}
+              contentContainerStyle={{alignSelf: 'flex-start'}}
+              numColumns={3}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={true}
+              data={inprogressType == 'income' ? list : list} //Change this to category list (income or expense)
+              renderItem={({item}) => {
+                if (!item.isEdit) {
+                  return (
+                    <View style={styles.itemView}>
+                      <TouchableOpacity 
+                        style={styles.itemButton}
+                        onPress={() => {setChosenCategory(item.name); setColor(item.color)}}>
+                        <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
+                        <Text style={[styles.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )
+                }
+                return null
+              }}
+            />
+          </View>
+          {/*********** Submit button ***********/}
+          <View style={[styles.submitButtonView, {alignItems:'center', justifyContent:'center', }]}>
+            <TouchableOpacity 
+            style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
+            onPress={() => {onSubmitEdit}}>
+              <Text style={styles.cancelText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </Modal>
+    </>
   );
 }
 
@@ -409,12 +695,16 @@ const styles = StyleSheet.create({
   backRightButtonLeft: {
     backgroundColor:'#1f65ff',
     right:75,
+    height:70, 
+    marginTop:-5
   },
   backRightButtonRight: {
     backgroundColor:'red',
     right:0,
-    borderTopRightRadius:5,
-    borderBottomRightRadius:5,
+    borderTopRightRadius:11,
+    borderBottomRightRadius:11,
+    height:70, 
+    marginTop:-5
   },
   categoryText: {
     fontSize:20,
@@ -427,6 +717,137 @@ const styles = StyleSheet.create({
   amountText: {
     fontSize:24,
     fontWeight:'bold'
+  },
+  headerModal: {
+    alignItems:'flex-end', 
+    justifyContent:'center',
+    backgroundColor:'#fff',
+    borderBottomColor:'#808080',
+    borderBottomWidth:1,
+    height: StatusBarHeight + 48,
+  },
+  cancelText: {
+    fontSize:18,
+    color:'#fff',
+    fontWeight:'500',
+  },
+  submitButtonView: {
+    alignItems:'center',
+    justifyContent:'center',
+    paddingBottom:4,
+    paddingTop:4,
+    paddingLeft:4,
+    borderBottomColor: '#E9E9E9',
+    borderTopColor: '#E9E9E9',     
+    height:48
+  },
+  inputButton: {
+    padding: 5,
+    flexDirection: 'row',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius:10,
+    backgroundColor:darkYellow,
+    width:120
+  },
+  propertiesView: {
+    flexDirection:'row',
+    paddingBottom:7,
+    paddingTop:7,
+    paddingLeft:4,
+    borderBottomColor: '#E9E9E9',
+    borderTopColor: '#E9E9E9',
+    borderTopWidth:1,            
+    height:48
+  },
+  dateView: {
+    flexDirection:'row',
+    paddingBottom:7,
+    paddingTop:7,
+    paddingLeft:4,
+    borderBottomColor: '#E9E9E9',
+    borderTopColor: '#E9E9E9',
+    borderTopWidth:1,            
+    height:48
+  },
+  dateText: {
+    fontSize: 19,
+    fontWeight: '600',
+    color: darkBlue,
+  },
+  datePickerOffText: {
+    fontSize: 18,
+    fontWeight: '400',
+    color: lightBlue,
+  },
+  datePickerView: {
+    flex:55,
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor:'#FDEE87',
+    borderRadius:20
+  },
+  inputContainer: {
+    backgroundColor: '#FDEE87',
+    color: darkBlue,
+    borderColor: darkBlue,
+    paddingRight: 12,
+    width:200,
+    borderRadius: 10,
+    fontSize: 20,
+    fontWeight:'600',
+    height: 36,
+  },
+  noteView: {
+    flexDirection:'row',
+    paddingBottom:4,
+    paddingTop:4,
+    paddingLeft:4,
+    borderBottomColor: '#E9E9E9',
+    borderTopColor: '#E9E9E9',  
+    borderTopWidth:1,      
+    //borderBottomWidth:1,    
+    height:48
+  },
+  noteInputContainer: {
+    color:darkBlue,
+    borderColor: darkBlue,
+    paddingRight: 12,
+    width:210,
+    borderRadius: 10,
+    borderBottomWidth:1,
+    fontSize: 17,
+    fontWeight:'400',
+    height: 36,
+  },
+  categoryText: {
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  itemView: {
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center',
+    height: 50,
+    width:138, 
+  },
+  itemButton: {
+    flexDirection: 'column',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius:10,
+    backgroundColor:'#fff',
+    width:128,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
+  },
+  categoryButtonText: {
+    fontSize: 16,
+    fontWeight: '500',
   }
 })
 

@@ -80,7 +80,7 @@ const ListOfExpenseCategory = ({navigation}) => {
 
   const VisibleItem = props => {
     const {data} = props;
-    if (data.item.isEdit) {
+    if (data.item.title == 'Edit') {
       return null;
     }
     return (
