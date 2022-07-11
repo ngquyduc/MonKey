@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert} from 'react-native';
+import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert, Modal} from 'react-native';
 import styles from '../components/styles';
 import { colors } from '../components/colors';
 import { Snackbar } from 'react-native-paper';
@@ -142,7 +142,7 @@ const Input = ({navigation}) => {
       <View style={[styless.header, {marginBottom:4}]}>
         <Text style={styles.boldBlueHeaderText}>Input</Text>
       </View>
-      <ScrollView>
+      <View>
         <Pressable onPress={Keyboard.dismiss}>
           <>
             <View style={styles.mainContainerInnerScreen}>
@@ -204,39 +204,46 @@ const Input = ({navigation}) => {
                       </TouchableOpacity>
                     </View>
                   </View>
-                  {show && (
-                    <>
-                      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
-                        <View style={{flex:5}}>
-                          <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
-                            <View>
-                              <Text style={styles.datePickerOffText}>Cancel</Text>
-                            </View>
-                          </TouchableOpacity>
+                  <Modal 
+                    visible={show}
+                    transparent={true}
+                    animationType='slide'
+                    style={{backgroundColor:'#fff'}}
+                  >
+                    <View style={styless.modalView}>
+                      <View style={{backgroundColor:'#fff', width:'100%', paddingVertical:15, borderTopRightRadius:20, borderTopLeftRadius:20}}>
+                        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
+                          <View style={{flex:5}}>
+                            <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
+                              <View>
+                                <Text style={styles.datePickerOffText}>Cancel</Text>
+                              </View>
+                            </TouchableOpacity>
+                          </View>
+                          <View style={{flex:5, alignItems:'flex-end'}}>
+                            <TouchableOpacity onPress={()=> setShow(false)}>
+                              <View>
+                                <Text style={styles.datePickerOffText}>Done</Text>
+                              </View>
+                            </TouchableOpacity>
+                          </View>
                         </View>
-                        <View style={{flex:5, alignItems:'flex-end'}}>
-                          <TouchableOpacity onPress={()=> setShow(false)}>
-                            <View>
-                              <Text style={styles.datePickerOffText}>Done</Text>
-                            </View>
-                          </TouchableOpacity>
+                        <View style={{
+                          borderBottomColor: '#E9E9E9',
+                        }}>
+                          <DateTimePicker
+                            value={new Date(date)}
+                            is24Hour={true}
+                            textColor={darkBlue}
+                            display='spinner'
+                            onChange ={onChange}
+                            minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
+                            maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
+                          />
                         </View>
                       </View>
-                      <View style={{
-                        borderBottomColor: '#E9E9E9',
-                      }}>
-                        <DateTimePicker
-                          value={new Date(date)}
-                          is24Hour={true}
-                          textColor={darkBlue}
-                          display='spinner'
-                          onChange ={onChange}
-                          minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
-                          maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
-                        />
-                      </View>
-                    </>
-                  )}
+                    </View>
+                  </Modal>
 
                   <View style={styless.dateView}>
                     <View style={{
@@ -321,37 +328,36 @@ const Input = ({navigation}) => {
                     </View>
                   </View>
                   <View style={{height:160}}>
-                      <FlatList
-                        scrollEnabled={false}
-                        contentContainerStyle={{alignSelf: 'flex-start'}}
-                        numColumns={3}
-                        showsHorizontalScrollIndicator={false}
-                        showsVerticalScrollIndicator={true}
-                        data={ExpenseCategory}
-                        renderItem={({item}) => {
-                          if (!item.isEdit) {
-                            return (
-                              <View style={styless.itemView}>
-                                <TouchableOpacity 
-                                  style={styless.itemButton}
-                                  onPress={() => {setChosenCategory(item.name); setColor(item.color)}}>
-                                  <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
-                                  <Text style={[styless.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
-                                </TouchableOpacity>
-                              </View>
-                            )
-                          }
+                    <FlatList
+                      scrollEnabled={true}
+                      contentContainerStyle={{alignSelf: 'flex-start'}}
+                      numColumns={3}
+                      showsVerticalScrollIndicator={true}
+                      data={ExpenseCategory}
+                      renderItem={({item}) => {
+                        if (!item.isEdit) {
                           return (
                             <View style={styless.itemView}>
                               <TouchableOpacity 
-                                style={[styless.itemButton, {backgroundColor:darkBlue, paddingLeft:7, flexDirection:'row'}]}
-                                onPress={() => navigation.navigate('ListOfExpenseCategory')}>
-                                <Text style={[styless.categoryButtonText, {color:'#fff'}]}>{item.name}</Text>
-                                <MaterialCommunityIcons name='chevron-right' size={25} color='#fff'/>
+                                style={styless.itemButton}
+                                onPress={() => {setChosenCategory(item.name); setColor(item.color)}}>
+                                <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
+                                <Text style={[styless.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
                               </TouchableOpacity>
                             </View>
                           )
-                          }}/>
+                        }
+                        return (
+                          <View style={styless.itemView}>
+                            <TouchableOpacity 
+                              style={[styless.itemButton, {backgroundColor:darkBlue, paddingLeft:7, flexDirection:'row'}]}
+                              onPress={() => navigation.navigate('ListOfExpenseCategory')}>
+                              <Text style={[styless.categoryButtonText, {color:'#fff'}]}>{item.name}</Text>
+                              <MaterialCommunityIcons name='chevron-right' size={25} color='#fff'/>
+                            </TouchableOpacity>
+                          </View>
+                        )
+                        }}/>
                   </View>
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                     <TouchableOpacity 
@@ -382,7 +388,6 @@ const Input = ({navigation}) => {
                       alignItems:'center',
                       justifyContent:'center'
                     }}>
-                      {/************ Add function for these 2 buttons *************/}
                       <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneDay}>
                         <Entypo name='chevron-left' size={28} color={darkBlue}/>
                       </TouchableOpacity>
@@ -393,8 +398,6 @@ const Input = ({navigation}) => {
                           <Text style={styles.dateText}>{date.format('MMMM Do, YYYY')}</Text>
                         </View>
                       </TouchableOpacity>
-
-                      {/* <Button title={fDate} onPress={()=>showMode('date')}/> */}
                     </View>
                     <View style={{
                       flex:15,
@@ -407,38 +410,45 @@ const Input = ({navigation}) => {
                       </TouchableOpacity>
                     </View>
                   </View>
-                  {show && (
-                    <>
-                      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
-                        <View style={{flex:5}}>
-                          <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
-                            <View>
-                              <Text style={styles.datePickerOffText}>Cancel</Text>
-                            </View>
-                          </TouchableOpacity>
+                  <Modal 
+                    visible={show}
+                    transparent={true}
+                    animationType='slide'
+                    style={{backgroundColor:'#fff'}}
+                  >
+                    <View style={styless.modalView}>
+                      <View style={{backgroundColor:'#fff', width:'100%', paddingVertical:15, borderTopRightRadius:20, borderTopLeftRadius:20}}>
+                        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
+                          <View style={{flex:5}}>
+                            <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
+                              <View>
+                                <Text style={styles.datePickerOffText}>Cancel</Text>
+                              </View>
+                            </TouchableOpacity>
+                          </View>
+                          <View style={{flex:5, alignItems:'flex-end'}}>
+                            <TouchableOpacity onPress={()=> setShow(false)}>
+                              <View>
+                                <Text style={styles.datePickerOffText}>Done</Text>
+                              </View>
+                            </TouchableOpacity>
+                          </View>
                         </View>
-                        <View style={{flex:5, alignItems:'flex-end'}}>
-                          <TouchableOpacity onPress={()=> setShow(false)}>
-                            <View>
-                              <Text style={styles.datePickerOffText}>Done</Text>
-                            </View>
-                          </TouchableOpacity>
+                        <View style={{
+                          borderBottomColor: '#E9E9E9',
+                        }}>
+                          <DateTimePicker
+                            value={new Date(date)}
+                            display='spinner'
+                            textColor={darkBlue}
+                            onChange ={onChange}
+                            minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
+                            maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
+                          />
                         </View>
                       </View>
-                      <View style={{
-                        borderBottomColor: '#E9E9E9',
-                      }}>
-                        <DateTimePicker
-                          value={new Date(date)}
-                          display='spinner'
-                          textColor={darkBlue}
-                          onChange ={onChange}
-                          minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
-                          maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
-                        />
-                      </View>
-                    </>
-                  )}
+                    </View>
+                  </Modal>
                   <View style={styless.dateView}>
                     <View style={{
                       flex:30,
@@ -520,43 +530,36 @@ const Input = ({navigation}) => {
                     </View>
                   </View>
                   <View style={{height:160}}>
-                    <ScrollView
-                      horizontal
-                      showsHorizontalScrollIndicator={true}
-                      showsVerticalScrollIndicator={false}
-                      contentContainerStyle={{paddingVertical:5}}>
-                      <FlatList
-                        scrollEnabled={false}
-                        contentContainerStyle={{alignSelf: 'flex-start'}}
-                        numColumns={3}
-                        showsHorizontalScrollIndicator={false}
-                        showsVerticalScrollIndicator={false}
-                        data={IncomeCategory}
-                        renderItem={({item}) => {
-                          if (!item.isEdit) {
-                            return (
-                              <View style={styless.itemView}>
-                                <TouchableOpacity 
-                                  style={styless.itemButton}
-                                  onPress={() => {setChosenCategory(item.name); setColor(item.color)}}>
-                                  <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
-                                  <Text style={[styless.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
-                                </TouchableOpacity>
-                              </View>
-                            )
-                          }
+                    <FlatList
+                      scrollEnabled={true}
+                      contentContainerStyle={{alignSelf: 'flex-start'}}
+                      numColumns={3}
+                      showsVerticalScrollIndicator={true}
+                      data={IncomeCategory}
+                      renderItem={({item}) => {
+                        if (!item.isEdit) {
                           return (
                             <View style={styless.itemView}>
                               <TouchableOpacity 
-                                style={[styless.itemButton, {backgroundColor:darkBlue, paddingLeft:7, flexDirection:'row'}]}
-                                onPress={() => navigation.navigate('ListOfIncomeCategory')}>
-                                <Text style={[styless.categoryButtonText, {color:'#fff'}]}>{item.name}</Text>
-                                <MaterialCommunityIcons name='chevron-right' size={25} color='#fff'/>
+                                style={styless.itemButton}
+                                onPress={() => {setChosenCategory(item.name); setColor(item.color)}}>
+                                <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
+                                <Text style={[styless.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
                               </TouchableOpacity>
                             </View>
                           )
-                      }}/>
-                    </ScrollView>
+                        }
+                        return (
+                          <View style={styless.itemView}>
+                            <TouchableOpacity 
+                              style={[styless.itemButton, {backgroundColor:darkBlue, paddingLeft:7, flexDirection:'row'}]}
+                              onPress={() => navigation.navigate('ListOfIncomeCategory')}>
+                              <Text style={[styless.categoryButtonText, {color:'#fff'}]}>{item.name}</Text>
+                              <MaterialCommunityIcons name='chevron-right' size={25} color='#fff'/>
+                            </TouchableOpacity>
+                          </View>
+                        )
+                    }}/>
                   </View>
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                     <TouchableOpacity 
@@ -570,7 +573,7 @@ const Input = ({navigation}) => {
             </View>
           </>
         </Pressable>
-      </ScrollView>
+      </View>
     </View>
   );
 }
@@ -635,7 +638,7 @@ const styless = StyleSheet.create({
     paddingLeft:4,
     borderBottomColor: '#E9E9E9',
     borderTopColor: '#E9E9E9',     
-    height:48
+    height:48  
   },
   inputContainer: {
     backgroundColor: '#FDEE87',
@@ -698,6 +701,15 @@ const styless = StyleSheet.create({
   categoryButtonText: {
     fontSize: 16,
     fontWeight: '500',
+  },
+  modalView: {
+    flex:1, 
+    justifyContent:'flex-end', 
+    backgroundColor:'transparent',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
+    elevation:5,
   }
 })
 

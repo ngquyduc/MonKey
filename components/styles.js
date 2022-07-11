@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   datePickerOffText: {
     fontSize: 18,
     fontWeight: '400',
-    color: lightBlue,
+    color: '#494949',
   },
 });
 
