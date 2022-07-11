@@ -258,8 +258,8 @@ const Home = ({navigation}) => {
             <Text style={styles.noteText}>{data.item.note}</Text>
           </View>
         </View>
-        <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={styles.amountText}>{'$' + data.item.amount.toFixed(2)}</Text>
+        <View style={{flex:2,alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+          <Text style={[styles.amountText,{color:data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{'$' + data.item.amount.toFixed(2)}</Text>
         </View>
       </View>
     )
@@ -385,17 +385,19 @@ const Home = ({navigation}) => {
                 <View style={{marginRight:4}}>
                   <ActivityRings theme='dark' data={activityData} config={activityConfig}/>
                 </View> 
-                <View style={{flexDirection:'column', alignContent:'center',justifyContent:'center'}}>
+                <View style={{flexDirection:'column', alignContent:'center',justifyContent:'center',width:200}}>
                   <View style={{flexDirection:'row', margin:5}}>
                     <Octicons name='dot-fill' size={40} color={darkBlue}/>
                     <View style={{alignContent:'center',justifyContent:'center'}}>
                       <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + expenseMonth + '/' + monthLimit + '$'}</Text>
+                      {expenseMonth>monthLimit && <Text style={{color:'#ef5011', fontWeight:'bold'}}>{' Exceeded!!!'}</Text>}
                     </View>
                   </View>
                   <View style={{flexDirection:'row', margin:5}}>
                     <Octicons name='dot-fill' size={40} color={darkYellow}/>
                     <View style={{alignContent:'center',justifyContent:'center'}}>
                       <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + expense + '/' + dayLimit + '$'}</Text>
+                      {expense>dayLimit && <Text style={{color:'#ef5011', fontWeight:'bold'}}>{' Exceeded!!!'}</Text>}
                     </View>
                   </View>
                 </View>
@@ -777,7 +779,7 @@ const styles = StyleSheet.create({
     fontWeight:'400'
   },
   amountText: {
-    fontSize:24,
+    fontSize:20,
     fontWeight:'bold'
   },
   headerModal: {

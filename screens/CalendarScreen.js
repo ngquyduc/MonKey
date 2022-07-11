@@ -177,7 +177,7 @@ const CalendarScreen = (props) => {
   const VisibleItem = props => {
     const {data} = props;
     return (
-      <View style={[styles.rowFront, {backgroundColor: '#fff'}]}>
+      <View style={[styles.rowFront, {backgroundColor: data.item.type == 'income' ? '#e2f5e2' : '#fdddcf'}]}>
         <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
           <View style={{flexDirection:'row', marginBottom:3}}>
             <View style={{marginRight:10}}>
@@ -299,7 +299,7 @@ const CalendarScreen = (props) => {
         </View>
       </View>
       {/************ List ************/}
-      <View style={{height: 285}}>
+      <View style={{height: 285, paddingHorizontal:15}}>
 
         {finances.length != 0 && <SwipeListView 
           data={finances}
@@ -310,7 +310,7 @@ const CalendarScreen = (props) => {
           showsVerticalScrollIndicator={true}
         />}
         {finances.length == 0 && 
-        <View style={{alignItems:'center', justifyContent:'center'}}>
+        <View style={{alignItems:'center', justifyContent:'center', paddingTop:20}}>
           <Feather name='x-circle' size={110} color='#e0e0e0'/>
           <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No data yet!</Text>
         </View>}
