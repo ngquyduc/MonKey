@@ -12,6 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
+import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 
 
 const {lightYellow, lighterBlue, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
@@ -94,7 +95,8 @@ const Stats = (props) => {
     onSnapshot(expenseCategoryRef, (snapshot) => {
       let expenseCategories = {}
       snapshot.docs.forEach((doc) => {
-        expenseCategories[doc.data().name] = doc.data().color
+        expenseCategories[doc.data().name + 'color'] = doc.data().color
+        expenseCategories[doc.data().name + 'icon'] = doc.data().icon
       })
       setExpenseCategoryList(expenseCategories)
     })
@@ -104,7 +106,8 @@ const Stats = (props) => {
     onSnapshot(incomeCategoryRef, (snapshot) => {
       let incomeCategories = {}
       snapshot.docs.forEach((doc) => {
-        incomeCategories[doc.data().name] = doc.data().color
+        incomeCategories[doc.data().name + 'color'] = doc.data().color
+        incomeCategories[doc.data().name + 'icon'] = doc.data().icon
       })
       setIncomeCategoryList(incomeCategories)
     })
@@ -155,8 +158,10 @@ const Stats = (props) => {
           percentage: (amount / totalExpense * 100).toFixed(2) + '%',
           text: amount / totalIncome < 0.1 ? '' : cat,
           value: amount,
-          color: incomeCategoryList[cat],
+          color: incomeCategoryList[cat+'color'],
+          icon: incomeCategoryList[cat+'icon']
         }))
+        temp1.sort((a, b) => a.value > b.value ? -1 : 1)
         setData1(temp1)
         setTotalIncome(totalIncome)
         const temp2 = []
@@ -166,10 +171,11 @@ const Stats = (props) => {
           percentage: (amount / totalExpense * 100).toFixed(2) + '%',
           text: amount / totalExpense < 0.1 ? '' : cat, 
           value: amount,
-          color: expenseCategoryList[cat],
-
+          color: expenseCategoryList[cat+'color'],
+          icon: expenseCategoryList[cat+'icon']
           })
         })
+        temp2.sort((a, b) => a.value > b.value ? -1 : 1)
         setData2(temp2)
         setTotalExpense(totalExpense)
         setBalance(totalIncome - totalExpense)
@@ -407,10 +413,25 @@ const Stats = (props) => {
               labelsPosition='outward'
               donut
             />
-            {/* <FlatList
-              data={data1}
-              renderItem={renderItem}
-            /> */}
+            {
+              data1.map((item) => {
+                return (
+                  <View style={[styles.rowFront, {backgroundColor: '#fff'}]}>
+                    <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
+                      <View style={{flexDirection:'row', marginBottom:3}}>
+                        <View style={{marginRight:10}}>
+                          <MaterialCommunityIcons name={item.icon} color={item.color} size={20}/>
+                        </View>
+                        <Text style={[styles.categoryText, {color: item.color}]}>{item.key}</Text>
+                      </View>
+                    </View>
+                    <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+                      <Text style={[styles.amountText, {color: '#26b522'}]}>{'$' +item.value}</Text>
+                    </View>
+                  </View>
+                )
+              })
+            }
             </View>
           )
         }
@@ -438,8 +459,18 @@ const Stats = (props) => {
                 {
                   data2.map((item) => {
                     return (
-                      <View>
-                        <Text>{item.key}</Text>
+                      <View style={[styles.rowFront, {backgroundColor: '#fff'}]}>
+                        <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
+                          <View style={{flexDirection:'row', marginBottom:3}}>
+                            <View style={{marginRight:10}}>
+                              <MaterialCommunityIcons name={item.icon} color={item.color} size={20}/>
+                            </View>
+                            <Text style={[styles.categoryText, {color: item.color}]}>{item.key}</Text>
+                          </View>
+                        </View>
+                        <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+                          <Text style={[styles.amountText, {color: '#ef5011'}]}>{'-$' +item.value}</Text>
+                        </View>
                       </View>
                     )
                   })
