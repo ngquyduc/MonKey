@@ -9,7 +9,12 @@ import moment from 'moment';
 import { colors } from '../components/colors';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import PressableText from '../components/Containers/PressableText';
+<<<<<<< HEAD
+import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
+import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
+=======
 import { Octicons, Entypo, Feather, MaterialCommunityIcons,  Foundation } from '@expo/vector-icons'
+>>>>>>> 4b6d3e1fd04090e4f4c1d54a7de3f007ddf02fdc
 const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
 
 
@@ -135,7 +140,7 @@ const CalendarScreen = (props) => {
   }
   /*************** Function to delete record ***************/
   const deleteRow = (id) => {
-    const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
+    const cat = doc(db, 'Finance/' + getUserID() + '/' + curDate.substring(0, 4), id)
     deleteDoc(cat)
   }
   /*************** Function to edit record ***************/

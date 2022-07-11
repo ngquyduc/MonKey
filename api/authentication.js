@@ -5,11 +5,11 @@ import { db,} from "./db";
 import { collection, addDoc, getDoc, getDocs } from "firebase/firestore";
 
 export const authentication = getAuth(app);
-const userProfileRef = collection(db, 'Users')
+
 
 const createNewUser = (userId, email, userName) => {
-  addDoc(userProfileRef, {
-    userId: userId,
+  const userProfileRef = doc(db, 'Users', userId)
+  setDoc(userProfileRef, {
     email: email,
     userName: userName, 
     profilePhoto: "https://cdn.landesa.org/wp-content/uploads/default-user-image.png"

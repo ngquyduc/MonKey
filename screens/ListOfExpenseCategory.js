@@ -174,15 +174,18 @@ const ListOfExpenseCategory = ({navigation}) => {
       (snapShot) => {
         const list = []
         snapShot.forEach((ExpenseCategoryItem) => {
-          list.push(({
-            key: `${ExpenseCategoryItem.data().name}`,
-            title: ExpenseCategoryItem.data().name,
-            isEdit: false,
-            id: ExpenseCategoryItem.id,
-            icon: ExpenseCategoryItem.data().icon,
-            color: ExpenseCategoryItem.data().color
-          }))
+          if (ExpenseCategoryItem.data().name != 'Edit') {
+            list.push(({
+              key: `${ExpenseCategoryItem.data().name}`,
+              title: ExpenseCategoryItem.data().name,
+              isEdit: false,
+              id: ExpenseCategoryItem.id,
+              icon: ExpenseCategoryItem.data().icon,
+              color: ExpenseCategoryItem.data().color
+            }))
+          }
         })
+
         setListCategories(list)
       }
     )
