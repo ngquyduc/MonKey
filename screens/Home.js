@@ -421,14 +421,20 @@ const Home = ({navigation}) => {
           </View>
           {/************ List ************/}
           <View style={{height: 320}}>
-            <SwipeListView 
+            {finances.length != 0 && <SwipeListView 
               data={finances}
               renderItem={renderItem}
               renderHiddenItem={renderHiddenItem}
               rightOpenValue={-150}
               disableRightSwipe
               showsVerticalScrollIndicator={true}
-            />
+            />}
+            {finances.length == 0 && 
+              <View style={{alignItems:'center', justifyContent:'center', paddingTop:20}}>
+                <Feather name='x-circle' size={110} color='#e0e0e0'/>
+                <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No data yet!</Text>
+              </View>
+            }
           </View>
         </View>
       </View>

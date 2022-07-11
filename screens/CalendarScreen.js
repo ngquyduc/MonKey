@@ -9,7 +9,7 @@ import moment from 'moment';
 import { colors } from '../components/colors';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import PressableText from '../components/Containers/PressableText';
-import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
+import { Octicons, Foundation, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
 
 const CalendarScreen = (props) => {
@@ -300,14 +300,20 @@ const CalendarScreen = (props) => {
       </View>
       {/************ List ************/}
       <View style={{height: 285}}>
-        <SwipeListView 
+
+        {finances.length != 0 && <SwipeListView 
           data={finances}
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           rightOpenValue={-150}
           disableRightSwipe
           showsVerticalScrollIndicator={true}
-        />
+        />}
+        {finances.length == 0 && 
+        <View style={{alignItems:'center', justifyContent:'center'}}>
+          <Feather name='x-circle' size={110} color='#e0e0e0'/>
+          <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No data yet!</Text>
+        </View>}
       </View>
     </View>
   );

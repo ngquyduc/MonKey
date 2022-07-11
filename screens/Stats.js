@@ -605,7 +605,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems:'center',
     borderRadius:10,
-    height:70,
+    height:60,
     marginHorizontal: 5, 
     marginBottom:10,
     shadowColor:'#999',
