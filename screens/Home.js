@@ -319,7 +319,7 @@ const Home = ({navigation}) => {
           <View>
             <Text style={styles.boldBlueHeaderText}>Welcome,</Text>
             <View style={{alignItems:'flex-end'}}>
-              <Text style={styles.boldBlueHeaderText}>{username + " !"}</Text>
+              <Text style={styles.boldBlueHeaderText}>{userName + " !"}</Text>
             </View>
           </View>
         </View>
@@ -328,11 +328,25 @@ const Home = ({navigation}) => {
           <TouchableOpacity style={{flexDirection:'column'}} onPress={() => {alertChangeLimit()}}>
             <View style={styles.ringView}>
               <View style={{height:35, alignItems:'center', justifyContent:'center'}}>
-                <View style={{flexDirection:'row', margin:5}}>
+                <Text style={{fontSize:20, fontWeight:'600', color:darkYellow}}>Spending limit</Text>
+              </View>
+              <View style={{flexDirection:'row'}}>
+                <View style={{marginRight:4}}>
+                  <ActivityRings theme='dark' data={activityData} config={activityConfig}/>
+                </View> 
+                <View style={{flexDirection:'column', alignContent:'center',justifyContent:'center'}}>
+                  <View style={{flexDirection:'row', margin:5}}>
+                    <Octicons name='dot-fill' size={40} color={darkBlue}/>
+                    <View style={{alignContent:'center',justifyContent:'center'}}>
+                      <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + expenseMonth + '/' + monthLimit + '$'}</Text>
+                    </View>
+                  </View>
+                  <View style={{flexDirection:'row', margin:5}}>
                     <Octicons name='dot-fill' size={40} color={darkYellow}/>
                     <View style={{alignContent:'center',justifyContent:'center'}}>
                       <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + expense + '/' + dayLimit + '$'}</Text>
                     </View>
+                  </View>
                 </View>
               </View>
             </View>

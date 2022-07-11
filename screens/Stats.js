@@ -13,7 +13,6 @@ import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
 
-
 const {lightYellow, lighterBlue, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
 const Stats = (props) => {
