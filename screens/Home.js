@@ -33,7 +33,7 @@ const Home = ({navigation}) => {
   const [expenseMonth, setExpenseMonth] = useState(0)
   const [total, setTotal] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
-  
+
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
 
@@ -713,7 +713,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems:'center',
     borderRadius:10,
-    height:70,
+    height:60,
     marginHorizontal: 5, 
     marginBottom:10,
     shadowColor:'#999',
@@ -725,7 +725,7 @@ const styles = StyleSheet.create({
   rowFrontVisible: {
     backgroundColor:'#fff',
     borderRadius:5,
-    height:70,
+    height:60,
     padding:10,
     marginBottom:15,
   },
@@ -751,7 +751,7 @@ const styles = StyleSheet.create({
   backRightButtonLeft: {
     backgroundColor:'#1f65ff',
     right:75,
-    height:70, 
+    height:60, 
     marginTop:-5
   },
   backRightButtonRight: {
@@ -759,7 +759,7 @@ const styles = StyleSheet.create({
     right:0,
     borderTopRightRadius:11,
     borderBottomRightRadius:11,
-    height:70, 
+    height:60, 
     marginTop:-5
   },
   categoryText: {

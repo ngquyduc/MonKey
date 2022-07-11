@@ -151,7 +151,7 @@ const CalendarScreen = (props) => {
   /*************** Function to alert when deleting ***************/
   const alertDelete = (rowMap, rowKey, id) => {
     Alert.alert("Delete this record?","", [
-      {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
+      {text: 'Cancel', onPress: (modal) => {closeRow(rowMap, rowKey)}},
       {text: 'Delete', onPress: () => {deleteRow(id)}}
     ]);
   }
@@ -184,6 +184,7 @@ const CalendarScreen = (props) => {
               <MaterialCommunityIcons name={data.item.icon} color={data.item.color} size={20}/>
             </View>
             <Text style={styles.categoryText}>{data.item.category}</Text>
+            {/* <Text>{' (' + data.item.date + '-' + data.item.month + '-' + curDate.substring(0,4) + ')'}</Text> */}
           </View>
           {data.item.note != '' && 
           <View>
@@ -389,7 +390,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems:'center',
     borderRadius:10,
-    height:70,
+    height:60,
     marginHorizontal: 5, 
     marginVertical:5,
     shadowColor:'#999',
@@ -401,7 +402,7 @@ const styles = StyleSheet.create({
   rowFrontVisible: {
     backgroundColor:'#fff',
     borderRadius:5,
-    height:70,
+    height:60,
     padding:10,
     marginBottom:15,
   },
@@ -427,7 +428,7 @@ const styles = StyleSheet.create({
   backRightButtonLeft: {
     backgroundColor:'#1f65ff',
     right:75,
-    height:70, 
+    height:60, 
     marginTop:-5
   },
   backRightButtonRight: {
@@ -435,7 +436,7 @@ const styles = StyleSheet.create({
     right:0,
     borderTopRightRadius:11,
     borderBottomRightRadius:11,
-    height:70, 
+    height:60, 
     marginTop:-5
   },
   categoryText: {
