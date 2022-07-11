@@ -7438,6 +7438,11 @@ react-native-codegen@^0.0.17:
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
 
+react-native-currency-input@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-currency-input/-/react-native-currency-input-1.0.1.tgz#3118a0d5347dd29568c5031320dbeb34be43415c"
+  integrity sha512-1AbXXMAyNBEV2M0snh6e/B1w+rxRBgu9IARVaeF0tkUuaGX4kl/tQVXzyNa0fV2GX89U8Hyb0HaMvjaIZGniAA==
+
 react-native-dotenv@^3.3.1:
   version "3.3.1"
   resolved "https://registry.npmjs.org/react-native-dotenv/-/react-native-dotenv-3.3.1.tgz"

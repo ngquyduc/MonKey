@@ -5,7 +5,7 @@ import { colors } from '../components/colors';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Switch } from 'react-native-switch';
-import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
+import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 import { getUserID } from '../api/authentication';
 import ActivityRings from "react-native-activity-rings";  
@@ -13,10 +13,11 @@ import { StatusBarHeight } from '../components/constants';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { SwipeListView } from 'react-native-swipe-list-view';
 import CustomModal from '../components/Containers/CustomModal';
+import { Timestamp } from 'firebase/firestore';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 const Home = ({navigation}) => {
-  const [userName, setUserName] = useState('')
+  const [userName, setUserName] = useState('quyduc')
   const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   /*********** Variables ***********/
   const [monthLimit, setMonthLimit] = useState(700); // need to store on Firestore
@@ -36,19 +37,18 @@ const Home = ({navigation}) => {
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
 
+  const [chosenCategory, setChosenCategory] = useState('');
+
   useEffect(() => {
     const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
 
     onSnapshot(expenseCategoryRef, (snapshot) => {
       let expenseCategories = {}
       snapshot.docs.forEach((doc) => {
-        expenseCategories[doc.data().name] = doc.data().icon
-
-          // color: doc.data().color,
-          
+        expenseCategories[doc.data().name + 'color'] = doc.data().color
+        expenseCategories[doc.data().name + 'icon'] = doc.data().icon
       })
       setExpenseCategoryList(expenseCategories)
-      console.log(expenseCategories)
     })
 
     const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
@@ -56,23 +56,62 @@ const Home = ({navigation}) => {
     onSnapshot(incomeCategoryRef, (snapshot) => {
       let incomeCategories = {}
       snapshot.docs.forEach((doc) => {
-        incomeCategories[doc.data().name] = doc.data().icon
-          // color: doc.data().color,
-          
-        
+        incomeCategories[doc.data().name + 'color'] = doc.data().color
+        incomeCategories[doc.data().name + 'icon'] = doc.data().icon
       })
       setIncomeCategoryList(incomeCategories)
     })
   }, [])
 
-  useEffect(async () => {
+  const [ExpenseCategory, setExpenseCategory] = useState([])
+  const [IncomeCategory, setIncomeCategory] = useState([])
+  useEffect(() => {
+    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
+    onSnapshot(expenseCategoryRef, (snapshot) => {
+      const expenseCategories = [];
+      snapshot.forEach((doc) => {
+        if (doc.data().name != 'Edit') {
+          expenseCategories.push({
+            name: doc.data().name,
+            color: doc.data().color,
+            icon: doc.data().icon,
+          });
+        }
+      });
+      expenseCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      setExpenseCategory(expenseCategories)
+    });
+
+    const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
+    onSnapshot(incomeCategoryRef, (snapshot) => {
+      const incomeCategories = [];
+        snapshot.forEach((doc) => {
+          if (doc.data().name != 'Edit') {
+            incomeCategories.push({
+              name: doc.data().name,
+              color: doc.data().color,
+              icon: doc.data().icon,
+            });
+          }
+        });
+
+      incomeCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      setIncomeCategory(incomeCategories)
+    });}
+  , [])
+
+  // get user name to display on screen
+  useEffect(() => {
     const docRef = doc(db, "Users", getUserID());
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      setUserName(docSnap.data().username)
-    } else {
-      setUserName('')
-    }
+    onSnapshot(docRef, (snapShot) => {
+      (snapShot) => {
+        if (snapShot.exists()) {
+          setUserName(snapShot.data().username)
+        } else {
+          setUserName('')
+        }
+      }
+    })
   }, [])
 
   useEffect(() => {
@@ -91,8 +130,8 @@ const Home = ({navigation}) => {
             amount: doc.data().amount,
             note: doc.data().note,
             category: doc.data().category,
-            icon: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category] : incomeCategoryList[doc.data().category],
-            // color: doc.data().amount < 0 ? expenseCategoryList[doc.data().category][color] : incomeCategoryList[doc.data().category][color],
+            icon: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category+'icon'] : incomeCategoryList[doc.data().category+'icon'],
+            color: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category+'color'] : incomeCategoryList[doc.data().category+'color'],
             id: doc.id,
             notedAt: doc.data().notedAt
           })
@@ -105,9 +144,9 @@ const Home = ({navigation}) => {
         finances.sort((x, y) => x.notedAt > y.notedAt ? -1 : 1)
         setFinances(finances)
         const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
-        setIncome(totalIncome)
+        setIncome(totalIncome.toFixed(2))
         const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
-        setExpense(totalExpense)
+        setExpense(totalExpense.toFixed(2))
       }
     )
     const monthQuery = query(financeRef, where('month', '==', date.substring(5, 7)))
@@ -127,11 +166,11 @@ const Home = ({navigation}) => {
           }
         })
         const totalIncomeMonth = incomesMonth.reduce((total, current) => total = total + current, 0);
-        setIncomeMonth(totalIncomeMonth)
+        setIncomeMonth(totalIncomeMonth.toFixed(2))
         setIncomeDays(incomeDays)
         setExpenseDays(expenseDays)
         const totalExpenseMonth = expensesMonth.reduce((total, current) => total = total + current, 0);
-        setExpenseMonth(totalExpenseMonth)
+        setExpenseMonth(totalExpenseMonth.toFixed(2))
         setTotal(totalIncomeMonth - totalExpenseMonth)
       }
     )
@@ -189,13 +228,15 @@ const Home = ({navigation}) => {
         data={data}
         rowMap={rowMap}
         onEdit={()=>{
-          setVisibleEdit(true) 
           setInprogressCategory(data.item.category)
           setInprogressNote(data.item.note)
-          setInprogressAmount(data.item.amount)
-          setInprogressDate(moment(data.item.date, "YYYY-MM-DD")) // check this
-          setInprogressId(data.item.amount)  
+          setInprogressAmount(data.item.amount.toString())
+          setInprogressDate(moment())
+          setInprogressId(data.item.id)  
           setInprogressType(data.item.type)
+          setVisibleEdit(true) 
+          setColor(data.item.color)
+          console.log(inprogressDate)
         }}
         onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
       />
@@ -218,7 +259,7 @@ const Home = ({navigation}) => {
           </View>
         </View>
         <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={styles.amountText}>{'$' + data.item.amount}</Text>
+          <Text style={styles.amountText}>{'$' + data.item.amount.toFixed(2)}</Text>
         </View>
       </View>
     )
@@ -237,7 +278,7 @@ const Home = ({navigation}) => {
   }
   /*************** Function to delete record ***************/
   const deleteRow = (id) => {
-    const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
+    const cat = doc(db, 'Finance/' + getUserID() + '/' + date.substring(0, 4), id)
     deleteDoc(cat)
   }
   const closeRow = (rowMap, rowKey) => {
@@ -267,7 +308,7 @@ const Home = ({navigation}) => {
   const [inprogressAmount, setInprogressAmount] = useState('');
   const [inprogressNote, setInprogressNote] = useState('');
   const [inprogressCategory, setInprogressCategory]= useState('');
-  let [inprogressDate, setInprogressDate] = useState(moment());
+  const [inprogressDate, setInprogressDate] = useState(moment());
   const [inprogressId, setInprogressId] = useState('');
   const [inprogressType, setInprogressType] = useState('')
   const [colorC, setColor] = useState('')
@@ -275,24 +316,34 @@ const Home = ({navigation}) => {
   const switchType = () => {
     if (inprogressType == 'income') {
       setInprogressType('expense')
+      setInprogressCategory('')
     } else {
       setInprogressType('income')
+      setInprogressCategory('')
     }
   }
   /*************** Function to edit record ***************/
   const editRow = (id) => {
-    const path = 'Input Category/Expense/' + getUserID()
+    const path = 'Finance/' + getUserID() + '/' + date.substring(0, 4)
     const catRef = doc(db, path, id)
-    updateDoc(catRef, {
-      name: inprogressCategory,
-      color: inprogressColor,
-      icon: inprogressIcon,
+    deleteDoc(catRef)
+    const newpath = 'Finance/' + getUserID() + '/' + inprogressDate.format('YYYY')
+    const amountNumber = Number(inprogressAmount)
+    setDoc(doc(db, newpath, id), {
+      type: inprogressType, 
+      amount: amountNumber,
+      date: inprogressDate.format('DD'),
+      month: inprogressDate.format('MM'), 
+      note: inprogressNote,
+      category: inprogressCategory,
+      notedAt: Timestamp.now(), 
     })
+    console.log('editted')
   }
   const closeEditModal = () => {
     setInprogressCategory('')
     setInprogressNote('')
-    setInprogressAmount(0)
+    setInprogressAmount('')
     setInprogressDate(moment())
     setInprogressId('')  
     setInprogressType('')
@@ -304,7 +355,7 @@ const Home = ({navigation}) => {
     editRow(inprogressId)
     setInprogressCategory('')
     setInprogressNote('')
-    setInprogressAmount(0)
+    setInprogressAmount('')
     setInprogressDate(moment())
     setInprogressId('')
     setInprogressType('')
@@ -501,7 +552,7 @@ const Home = ({navigation}) => {
               paddingLeft:12,
               justifyContent:'center'
               }}>
-              <Text style={styles.dateText}>Income</Text>
+              <Text style={styles.dateText}>{inprogressType == 'income' ?'Income' : 'Expense'}</Text>
             </View>
             <View style={{flex:5}}></View>
             <View style={styles.datePickerView}>
@@ -572,21 +623,20 @@ const Home = ({navigation}) => {
               numColumns={3}
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={true}
-              data={inprogressType == 'income' ? list : list} //Change this to category list (income or expense)
+              data={inprogressType == 'income' ? IncomeCategory : ExpenseCategory} 
               renderItem={({item}) => {
                 if (!item.isEdit) {
                   return (
                     <View style={styles.itemView}>
                       <TouchableOpacity 
                         style={styles.itemButton}
-                        onPress={() => {setChosenCategory(item.name); setColor(item.color)}}>
+                        onPress={() => {setInprogressCategory(item.name); setColor(item.color)}}>
                         <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
                         <Text style={[styles.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
                       </TouchableOpacity>
                     </View>
                   )
                 }
-                return null
               }}
             />
           </View>
@@ -594,7 +644,7 @@ const Home = ({navigation}) => {
           <View style={[styles.submitButtonView, {alignItems:'center', justifyContent:'center', }]}>
             <TouchableOpacity 
             style={[styles.inputButton, {borderRadius:10, backgroundColor:darkYellow,width:120}]} 
-            onPress={() => {onSubmitEdit}}> 
+            onPress={() => {onSubmitEdit()}}> 
             {/*********** modify function onSubmitEdit and editRow (Ctrl F) ***********/}
               <Text style={styles.cancelText}>Submit</Text>
             </TouchableOpacity>

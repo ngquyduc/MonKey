@@ -12,6 +12,8 @@ import { StatusBarHeight } from '../components/constants';
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../api/db";
 import { getUserID } from '../api/authentication';
+import CurrencyInput from 'react-native-currency-input';
+
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 
@@ -54,22 +56,20 @@ const Input = ({navigation}) => {
   const [note, setNote] = useState('');
 
   /********** Expense Variables **********/
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState(0)
 
   /********** Category Variables **********/
   const [chosenCategory, setChosenCategory] = useState('');
   const [colorC, setColor] = useState('');
   const onPressChoose = () => {
-
   }
-  
 
   /********** Submit **********/
   const handleExpenseInput = (date, amount, note, chosenCategory) => {
     if (amount != '' && chosenCategory != '') {
-      handleExpenseSubmit(date, Number(amount), note, chosenCategory)
+      handleExpenseSubmit(date, amount, note, chosenCategory)
       setDate(moment())
-      setAmount('')
+      setAmount(0)
       setNote('')
       setChosenCategory('')
       setColor('');
@@ -88,7 +88,7 @@ const Input = ({navigation}) => {
     if (amount != '' && chosenCategory != '') {
       handleIncomeSubmit(date, Number(amount), note, chosenCategory)
       setDate(moment())
-      setAmount('')
+      setAmount(0)
       setNote('')
       setChosenCategory('')
       setColor('');
@@ -250,14 +250,26 @@ const Input = ({navigation}) => {
                       flex:5,
                       }}></View>
                     <View style={styless.datePickerView}>
-                      <TextInput
+                      {/* <TextInput
                         style={[styless.inputContainer, {textAlign:'right'}]}
                         maxLength={10}
                         placeholder='0.00'
                         placeholderTextColor={lightBlue}
                         keyboardType='decimal-pad'
                         value={amount}
-                        onChangeText={(value) => setAmount(value)}
+                        onChangeText={(value) => setAmount(currencyFormat(Number(value)))}
+                      /> */}
+                      <CurrencyInput
+                        style={[styless.inputContainer, {textAlign:'right'}]}
+                        value={amount}
+                        onChangeValue={setAmount}
+                        delimiter=","
+                        separator="."
+                        precision={2}
+                        placeholder='0.00'
+                        maxLength={16}
+                        keyboardType='decimal-pad'
+                        placeholderTextColor={lightBlue}
                       />
                     </View>
                     <View style={{
@@ -437,7 +449,7 @@ const Input = ({navigation}) => {
                     </View>
                     <View style={{flex:5}}></View>
                     <View style={styless.datePickerView}>
-                      <TextInput
+                      {/* <TextInput
                         style={[styless.inputContainer, {textAlign:'right'}]}
                         maxLength={10}
                         placeholder='0.00'
@@ -445,6 +457,18 @@ const Input = ({navigation}) => {
                         keyboardType='decimal-pad'
                         value={amount}
                         onChangeText={(value) => setAmount(value)}
+                      /> */}
+                      <CurrencyInput
+                        style={[styless.inputContainer, {textAlign:'right'}]}
+                        value={amount}
+                        onChangeValue={setAmount}
+                        delimiter=","
+                        separator="."
+                        precision={2}
+                        placeholder='0.00'
+                        maxLength={16}
+                        keyboardType='decimal-pad'
+                        placeholderTextColor={lightBlue}
                       />
                     </View>
                     <View style={{
