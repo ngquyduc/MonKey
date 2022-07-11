@@ -39,6 +39,12 @@ const Home = ({navigation}) => {
 
   const [chosenCategory, setChosenCategory] = useState('');
 
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+  })
+
   useEffect(() => {
     const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
 
@@ -144,9 +150,9 @@ const Home = ({navigation}) => {
         finances.sort((x, y) => x.notedAt > y.notedAt ? -1 : 1)
         setFinances(finances)
         const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
-        setIncome(totalIncome.toFixed(2))
+        setIncome(totalIncome)
         const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
-        setExpense(totalExpense.toFixed(2))
+        setExpense(totalExpense)
       }
     )
     const monthQuery = query(financeRef, where('month', '==', date.substring(5, 7)))
@@ -259,7 +265,7 @@ const Home = ({navigation}) => {
           </View>
         </View>
         <View style={{flex:2,alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={[styles.amountText,{color:data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{'$' + data.item.amount.toFixed(2)}</Text>
+          <Text style={[styles.amountText,{color:data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{data.item.type == 'income' ? formatter.format(data.item.amount) : '-' + formatter.format(data.item.amount)}</Text>
         </View>
       </View>
     )
@@ -389,14 +395,14 @@ const Home = ({navigation}) => {
                   <View style={{flexDirection:'row', margin:5}}>
                     <Octicons name='dot-fill' size={40} color={darkBlue}/>
                     <View style={{alignContent:'center',justifyContent:'center'}}>
-                      <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + expenseMonth + '/' + monthLimit + '$'}</Text>
+                      <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + formatter.format(expenseMonth) + '/' + monthLimit}</Text>
                       {expenseMonth>monthLimit && <Text style={{color:'#ef5011', fontWeight:'bold'}}>{' Exceeded!!!'}</Text>}
                     </View>
                   </View>
                   <View style={{flexDirection:'row', margin:5}}>
                     <Octicons name='dot-fill' size={40} color={darkYellow}/>
                     <View style={{alignContent:'center',justifyContent:'center'}}>
-                      <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + expense + '/' + dayLimit + '$'}</Text>
+                      <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + formatter.format(expense) + '/' + dayLimit}</Text>
                       {expense>dayLimit && <Text style={{color:'#ef5011', fontWeight:'bold'}}>{' Exceeded!!!'}</Text>}
                     </View>
                   </View>
@@ -413,11 +419,11 @@ const Home = ({navigation}) => {
             <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
               <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
                 <FontAwesome name='plus-circle' color={'#26b522'} size={18}/>
-                <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: $" + income}</Text>
+                <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: " + formatter.format(income)}</Text>
               </View>
               <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
                 <FontAwesome name='minus-circle' color={'#ef5011'} size={18}/>
-                <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: $" + expense}</Text>
+                <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: " + formatter.format(expense)}</Text>
               </View>
             </View>
           </View>
