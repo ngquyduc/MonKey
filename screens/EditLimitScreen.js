@@ -9,6 +9,8 @@ import { handleSignup } from '../api/authentication';
 import { StatusBar } from 'expo-status-bar';
 
 const EditLimitScreen = () => {
+  const [monthLimit, setMonthLimit] = useState(700); // need to store on Firestore
+  const [dayLimit, setDayLimit] = useState(40); // need to store on Firestore
   return (
     <View style={{justifyContent:'center', alignItems:'center'}}>
       <Text>EditLimitScreen</Text>

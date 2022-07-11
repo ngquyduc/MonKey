@@ -388,10 +388,10 @@ const Home = ({navigation}) => {
                 <Text style={{fontSize:20, fontWeight:'600', color:darkYellow}}>Spending limit</Text>
               </View>
               <View style={{flexDirection:'row'}}>
-                <View style={{marginRight:4}}>
+                <View style={{marginRight:4,flex: 1.3}}>
                   <ActivityRings theme='dark' data={activityData} config={activityConfig}/>
                 </View> 
-                <View style={{flexDirection:'column', alignContent:'center',justifyContent:'center',width:200}}>
+                <View style={{flexDirection:'column', flex: 2, alignContent:'center',justifyContent:'center'}}>
                   <View style={{flexDirection:'row', margin:5}}>
                     <Octicons name='dot-fill' size={40} color={darkBlue}/>
                     <View style={{alignContent:'center',justifyContent:'center'}}>
