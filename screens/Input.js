@@ -309,7 +309,7 @@ const Input = ({navigation}) => {
                   </View>
                   <View style={{height:160}}>
                       <FlatList
-                        scrollEnabled={true}
+                        scrollEnabled={false}
                         contentContainerStyle={{alignSelf: 'flex-start'}}
                         numColumns={3}
                         showsHorizontalScrollIndicator={false}

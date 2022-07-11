@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PieChart } from "react-native-chart-kit";
+// import { PieChart } from "react-native-chart-kit";
 import { ScreenWidth } from '../components/constants';
 import { collection, onSnapshot, query, where, getDoc, getDocs, addDoc } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
@@ -11,6 +11,8 @@ import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressabl
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
+import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
+
 
 const {lightYellow, lighterBlue, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
@@ -149,22 +151,23 @@ const Stats = (props) => {
         expenses.forEach((amount, cat) => {totalExpense += amount})
         const temp1 = []
         incomes.forEach((amount, cat) => temp1.push({
-          name: cat,
-          amount: amount,
+          key: cat,
+          percentage: (amount / totalExpense * 100).toFixed(2) + '%',
+          text: amount / totalIncome < 0.1 ? '' : cat,
+          value: amount,
           color: incomeCategoryList[cat],
-          legendFontColor: "#7F7F7F",
-          legendFontSize: 15
         }))
         setData1(temp1)
         setTotalIncome(totalIncome)
         const temp2 = []
         expenses.forEach((amount, cat) => {
           temp2.push({
-          name: cat,
-          amount: amount,
+          key: cat,
+          percentage: (amount / totalExpense * 100).toFixed(2) + '%',
+          text: amount / totalExpense < 0.1 ? '' : cat, 
+          value: amount,
           color: expenseCategoryList[cat],
-          legendFontColor: "#7F7F7F",
-          legendFontSize: 15
+
           })
         })
         setData2(temp2)
@@ -174,6 +177,47 @@ const Stats = (props) => {
     )
     
   }, [isMonth, isAnnual, isExpense, isIncome, incomeCategoryList, expenseCategoryList])
+
+  const VisibleItem = ({item}) => {
+
+    return (
+      <View style={[styles.rowFront]}>
+        <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
+          <View style={{flexDirection:'row', marginBottom:3}}>
+            <Text style={styles.categoryText}>{item.key}</Text>
+          </View>
+          <View>
+            <Text style={styles.noteText}>{item.name}</Text>
+          </View>
+        </View>
+        <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+          <Text style={styles.amountText}>{'$' + item.amount}</Text>
+        </View>
+      </View>
+    )
+  }
+
+  const renderItem = (data, rowMap) => {
+    return <VisibleItem data={data}/>
+  }
+
+  const data3 = [
+    {
+      color: "#4ed807",
+      key: "Medical",
+      percentage: "90.91%",
+      text: "Medical",
+      value: 500,
+    },
+    {
+      color: "#000000",
+      key: "Telephone",
+      percentage: "3.64%",
+      text: "",
+      value: 20,
+    },
+    
+  ]
 
   return (
     <View style={styles.mainContainerInnerScreen}>
@@ -349,36 +393,57 @@ const Stats = (props) => {
           </View>
         </View>
         {isIncome && (
-          <View>
-                    
-                <PieChart
-                  data={data1}
-                  width={ScreenWidth}
-                  height={250}
-                  chartConfig={chartConfig}
-                  accessor={"amount"}
-                  backgroundColor={"transparent"}
-                  paddingLeft={"15"}
-                  center={[10, 10]}
-                  absolute
-                />
-                
+          <View style={{alignItems: 'center'}}>    
+            <PieChart
+              data={data1}
+              radius={100}
+              onPress={(item, index) => console.log(item)}
+              focusOnPress={true}
+              extraRadiusForFocused={5}
+              shadow={true}
+              showText={true}
+              textColor={'white'}
+              textSize={15}
+              labelsPosition='outward'
+              donut
+            />
+            {/* <FlatList
+              data={data1}
+              renderItem={renderItem}
+            /> */}
             </View>
           )
         }
-        {isExpense && (<View>
+        {isExpense && (<View style={{alignItems: 'center'}}>
                 
-                <PieChart
+                <PieChart 
                   data={data2}
-                  width={ScreenWidth}
-                  height={250}
-                  chartConfig={chartConfig}
-                  accessor={"amount"}
-                  backgroundColor={"transparent"}
-                  paddingLeft={"15"}
-                  center={[10, 10]}
-                  absolute
+                  radius={100}
+                  onPress={(item, index) => console.log(item)}
+                  focusOnPress={true}
+                  extraRadiusForFocused={3}
+                  shadow={true}
+                  showText={true}
+                  textColor={'white'}
+                  textSize={15}
+                  labelsPosition='outward'
+                  donut
                 />
+                {/* <FlatList
+                  data={data2}
+                  renderItem={({item}) => (
+                    <Text>{item.key}</Text>
+                  )}
+                /> */}
+                {
+                  data2.map((item) => {
+                    return (
+                      <View>
+                        <Text>{item.key}</Text>
+                      </View>
+                    )
+                  })
+                }
                 </View>)
         }
       </ScrollView>
@@ -492,5 +557,31 @@ const styles = StyleSheet.create({
     height:60,
     paddingLeft:40,
     paddingRight:40
+  },
+  categoryText: {
+    fontSize:20,
+    fontWeight:'bold'
+  },
+  noteText: {
+    fontSize:15,
+    fontWeight:'400'
+  },
+  amountText: {
+    fontSize:24,
+    fontWeight:'bold'
+  },
+  rowFront: {
+    flexDirection:'row',
+    backgroundColor: '#fff',
+    alignItems:'center',
+    borderRadius:10,
+    height:70,
+    marginHorizontal: 5, 
+    marginBottom:10,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
+    elevation:5,
   },
 })

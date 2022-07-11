@@ -38,6 +38,8 @@
     "react-native-calendars": "^1.1284.0",
     "react-native-chart-kit": "^6.12.0",
     "react-native-dotenv": "^3.3.1",
+    "react-native-gifted-charts": "^1.2.41",
+    "react-native-linear-gradient": "^2.6.2",
     "react-native-month-view-calendar": "^1.0.0",
     "react-native-month-year-picker": "^1.8.1",
     "react-native-paper": "^4.12.1",

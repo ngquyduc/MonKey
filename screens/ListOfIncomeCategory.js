@@ -163,15 +163,17 @@ const ListOfIncomeCategory = ({navigation}) => {
     onSnapshot(q,
       (snapShot) => {
         const list = []
-        snapShot.forEach((IncomeCategoryItem) => {
-          list.push(({
-            key: `${IncomeCategoryItem.data().name}`,
-            title: IncomeCategoryItem.data().name,
-            isEdit: false,
-            id: IncomeCategoryItem.id,
-            icon: IncomeCategoryItem.data().icon,
-            color: IncomeCategoryItem.data().color
-          }))
+          snapShot.forEach((IncomeCategoryItem) => {
+          if (IncomeCategoryItem.data().name != 'Edit') (
+            list.push(({
+              key: `${IncomeCategoryItem.data().name}`,
+              title: IncomeCategoryItem.data().name,
+              isEdit: false,
+              id: IncomeCategoryItem.id,
+              icon: IncomeCategoryItem.data().icon,
+              color: IncomeCategoryItem.data().color
+            }))
+          )
         })
         setListCategories(list)
       }

@@ -3,17 +3,18 @@ import React, {useState, useMemo, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Alert, Animated, Modal, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
 import { colors } from '../components/colors';
 import moment from 'moment';
-import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
+import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc, addDoc, Timestamp, getDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 import { getUserID } from '../api/authentication';
 import ActivityRings from "react-native-activity-rings";  
 import { StatusBarHeight } from '../components/constants';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { SwipeListView } from 'react-native-swipe-list-view';
+import CustomModal from '../components/Containers/CustomModal';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 const Home = ({navigation}) => {
-  const username = 'Team Grape'
+  const [userName, setUserName] = useState('')
   const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   /*********** Variables ***********/
   const [monthLimit, setMonthLimit] = useState(700);
@@ -32,6 +33,11 @@ const Home = ({navigation}) => {
     {type: 'expense', category: 'Food', note: 'Banh mi', amount: 3.6},
     {type: 'income', category: 'Salary', note: 'Shopee intern', amount: 200},
   ])
+
+  const [visibleEdit, setVisibleEdit] = useState(false)
+
+  const [inprogressType, setInprogressType] = useState('')
+  const [inprogressDate, setInprogressDate] = useState(date)
   const [inprogressAmount, setInprogressAmount] = useState(0)
   const [inprogressNote, setInprogressNote] = useState('')
   const [inprogressCategory, setInprogressCategory] = useState('')
@@ -66,6 +72,16 @@ const Home = ({navigation}) => {
       })
       setIncomeCategoryList(incomeCategories)
     })
+  }, [])
+
+  useEffect(async () => {
+    const docRef = doc(db, "Users", getUserID());
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setUserName(docSnap.data().username)
+    } else {
+      setUserName('')
+    }
   }, [])
 
   useEffect(() => {
@@ -156,19 +172,32 @@ const Home = ({navigation}) => {
       {text: 'Delete', onPress: () => {deleteRow(id)}}
     ]);
   }
+  // close the record
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  }
   /*************** Function to delete record ***************/
   const deleteRow = (id) => {
-    const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
+    const cat = doc(db, 'Finance/' + getUserID() + '/' + date.substring(0, 4), id)
     deleteDoc(cat)
   }
   /*************** Function to edit record ***************/
   const editRow = (id) => {
-    const path = 'Input Category/Expense/' + getUserID()
+    const path = 'Finance/' + getUserID() + '/' + date.substring(0, 4)
     const catRef = doc(db, path, id)
-    updateDoc(catRef, {
-      name: inprogressCategory,
-      color: inprogressColor,
-      icon: inprogressIcon,
+    deleteDoc(catRef)
+    const newPath = 'Finance/' + getUserID() + '/' + inprogressDate.substring(0, 4)
+    const newCollectionRef = collection(db, newPath)
+    addDoc(newCollectionRef, {
+      type: inprogressType,
+      date: inprogressDate.substring(8, 10),
+      month: inprogressDate.substring(5, 7),
+      amount: inprogressAmount,
+      note: inprogressNote,
+      category: inprogressCategory,
+      notedAt: Timestamp(),
     })
   }
 
@@ -205,10 +234,11 @@ const Home = ({navigation}) => {
         rowMap={rowMap}
         onEdit={()=>{
           setVisibleEdit(true) 
-          setInprogressCategory(data.item.category)
+          setInprogressType(data.item.type)
           setInprogressAmount(data.item.amount)
           setInprogressNote(data.item.note)
-          setInprogressId(data.item.id)
+          setInprogressCategory(data.item.category)
+          // setInprogressId(data.item.id)
         }}
         onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
       />
@@ -241,14 +271,19 @@ const Home = ({navigation}) => {
     return <VisibleItem data={data}/>
   }
 
+  const closeEditModal = () => {
+    setVisibleEdit(false)
+  }
+
   return (
+    <>
     <View style={styles.container}>
       {/************ Header ************/}
       <View style={styles.header}>
         <View>
           <Text style={styles.boldBlueHeaderText}>Welcome,</Text>
           <View style={{alignItems:'flex-end'}}>
-            <Text style={styles.boldBlueHeaderText}>{username + " !"}</Text>
+            <Text style={styles.boldBlueHeaderText}>{userName + " !"}</Text>
           </View>
         </View>
       </View>
@@ -310,6 +345,16 @@ const Home = ({navigation}) => {
         </View>
       </View>
     </View>
+    {/*************** Modal to edit category ***************/}
+    <Modal 
+    visible={visibleEdit} 
+    animationType='slide'
+  >
+    <Pressable onPress={Keyboard.dismiss}>
+      
+    </Pressable>
+  </Modal>
+  </>
   );
 }
 
