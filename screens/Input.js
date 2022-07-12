@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressabl
 import styles from '../components/styles';
 import { colors } from '../components/colors';
 import { Snackbar } from 'react-native-paper';
+import { ScreenWidth } from '../components/constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo, Foundation, MaterialCommunityIcons } from '@expo/vector-icons'
 import moment from 'moment';
@@ -679,7 +680,7 @@ const styless = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     height: 50,
-    width:133, 
+    width:ScreenWidth/3, 
   },
   itemButton: {
     flexDirection: 'column',
@@ -688,7 +689,7 @@ const styless = StyleSheet.create({
     alignItems: 'center',
     borderRadius:10,
     backgroundColor:'#fff',
-    width:122,
+    width:ScreenWidth/3-2,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
