@@ -5,6 +5,7 @@ import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { collection, onSnapshot, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../api/db';
+import { ScreenWidth } from '../components/constants';
 import { getUserID } from '../api/authentication'; 
 import { StatusBarHeight } from '../components/constants';
 import { MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
@@ -491,7 +492,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     height: 50,
-    width:133, 
+    width:(ScreenWidth-15)/3, 
   },
   itemButton: {
     flexDirection: 'column',
@@ -500,7 +501,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius:10,
     backgroundColor:'#fff',
-    width:122,
+    width:ScreenWidth/3-15,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
