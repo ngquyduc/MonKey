@@ -241,42 +241,38 @@ const CalendarScreen = ({navigation}) => {
       <View style={[styles.header, {marginBottom:5}]}>
         <Text style={styles.boldBlueHeaderText}>Calendar</Text>
       </View>
-      <View style={styles.calendarView}>
-        <Calendar
-          onDayPress={day => {
-            setCurDate(day.dateString)
-            setCurMonth(day.dateString.substring(0, 7))
-            }
-          } 
-          hideArrows={false}
-          firstDay={1}
-          markedDates = {marked}
-          markingType = "multi-dot"
-          onMonthChange={month=> {setCurMonth(month.dateString.substring(0, 7))}}
-          enableSwipeMonths={true}
-          renderHeader={date => {
-            return (
-            <View style={{width:318,alignItems:'center', justifyContent:'center'}}>
-              <Text style={{fontSize:20, paddingBottom:6, fontWeight:'600'}}>{months[parseInt(curMonth.substring(5,7))-1] + ' ' + curMonth.substring(0,4)}</Text>
-              <View style={{flexDirection:'row', marginBottom:10}}>
-                <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2',marginHorizontal:3}]}>
-                  {/* <FontAwesome name='plus-circle' color={'#26b522'} size={15}/> */}
-                  <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + monthIncome}</Text>
-                </View>
-                <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf',marginHorizontal:3}]}>
-                  {/* <FontAwesome name='minus-circle' color={'#ef5011'} size={15}/> */}
-                  <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + expenseMonth}</Text>
-                </View>
-                <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6',marginHorizontal:3}]}>
-                  {/* <Entypo name="flickr-with-circle" size={15} color={'#494949'}/> */}
-                  <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + total}</Text>
-                </View>
-              </View>
+      <View style={[styles.calendarView, {borderRadius:10,backgroundColor:'#fffffd'}]}>
+          <View style={{marginVertical:3,marginHorizontal:5}}>
+            <Calendar
+              theme={{    
+                calendarBackground: '#fffffd'
+              }}
+              onDayPress={day => {
+                  setCurDate(day.dateString)
+                  setCurMonth(day.dateString.substring(0, 7))
+                }
+              }
+              disableMonthChange={false}
+              hideArrows={false}
+              firstDay={1}
+              markedDates = {marked}
+              markingType = "multi-dot"
+              onMonthChange={month => {setCurMonth(month.dateString.substring(0,7))}}
+              enableSwipeMonths={true}
+            />
+          </View>
+          <View style={{flexDirection:'row',marginHorizontal:5}}>
+            <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2',marginHorizontal:3}]}>
+              <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + monthIncome}</Text>
             </View>
-            )
-          }}
-        />
-      </View>
+            <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf',marginHorizontal:3}]}>
+              <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + expenseMonth}</Text>
+            </View>
+            <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6',marginHorizontal:3}]}>
+              <Text style={{color:'#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + total}</Text>
+            </View>
+          </View>
+        </View>
       <View style={{alignItems:'center', justifyContent:'center', paddingBottom:7}}>
         <Text style={{fontSize:16, fontWeight:'700', color:darkBlue}}>{"Date: " + curDate.split('-').reverse().join('-')}</Text>
       </View>
