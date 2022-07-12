@@ -254,9 +254,10 @@ const Home = ({navigation}) => {
             </View>
             <Text style={styles.categoryText}>{data.item.category}</Text>
           </View>
+          {data.item.note != '' && 
           <View>
             <Text style={styles.noteText}>{data.item.note}</Text>
-          </View>
+          </View>}
         </View>
         <View style={{flex:3,alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
           <Text style={[styles.amountText,{color:data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{'$' + data.item.amount.toFixed(2)}</Text>
@@ -593,7 +594,7 @@ const styles = StyleSheet.create({
   },
   categoryText: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   itemView: {
     flexDirection:'row',

@@ -183,7 +183,7 @@ const CalendarScreen = ({navigation}) => {
           </View>}
         </View>
         <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={[styles.amountText, {color: data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{data.item.type == 'income' ? '$' + data.item.amount : '-$' +data.item.amount}</Text>
+          <Text style={[styles.amountText, {color: data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{'$' + data.item.amount.toFixed(2)}</Text>
         </View>
       </View>
     )
@@ -441,8 +441,8 @@ const styles = StyleSheet.create({
     marginTop:-5
   },
   categoryText: {
-    fontSize:20,
-    fontWeight:'bold'
+    fontSize: 18,
+    fontWeight: '600',
   },
   noteText: {
     fontSize:15,

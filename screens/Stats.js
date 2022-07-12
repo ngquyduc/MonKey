@@ -424,8 +424,8 @@ const Stats = (props) => {
                         <Text style={[styles.categoryText, {color: item.color}]}>{item.key}</Text>
                       </View>
                     </View>
-                    <View style={{flex:2, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-                      <Text style={[styles.amountText, {color: '#26b522'}]}>{'$' +item.value}</Text>
+                    <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+                      <Text style={[styles.amountText, {color: '#26b522'}]}>{'$' +item.value.toFixed(2)}</Text>
                     </View>
                   </View>
                 )
@@ -467,8 +467,8 @@ const Stats = (props) => {
                             <Text style={[styles.categoryText, {color: item.color}]}>{item.key}</Text>
                           </View>
                         </View>
-                        <View style={{flex:2, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-                          <Text style={[styles.amountText, {color: '#ef5011'}]}>{'-$' +item.value}</Text>
+                        <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+                          <Text style={[styles.amountText, {color: '#ef5011'}]}>{'$' +item.value.toFixed(2)}</Text>
                         </View>
                       </View>
                     )
@@ -559,7 +559,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     flexDirection:'row',
-    height:60,
+    height:55,
     paddingLeft:40,
     paddingRight:40
   },
@@ -584,7 +584,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     flexDirection:'row',
-    height:60,
+    height:55,
     paddingLeft:40,
     paddingRight:40
   },
@@ -605,8 +605,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems:'center',
     borderRadius:10,
-    height:60,
-    marginHorizontal: 5, 
+    height:55,
+    marginHorizontal: 12, 
     marginBottom:10,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
