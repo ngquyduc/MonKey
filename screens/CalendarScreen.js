@@ -10,6 +10,7 @@ import { colors } from '../components/colors';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import PressableText from '../components/Containers/PressableText';
 import { Octicons, Foundation, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
+import { formatter } from '../api/formatCurrency';
 const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
 
 const CalendarScreen = (props) => {
@@ -266,15 +267,15 @@ const CalendarScreen = (props) => {
               <View style={{flexDirection:'row', marginBottom:10}}>
                 <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2',marginHorizontal:3}]}>
                   {/* <FontAwesome name='plus-circle' color={'#26b522'} size={15}/> */}
-                  <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + monthIncome}</Text>
+                  <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: " + formatter.format(monthIncome)}</Text>
                 </View>
                 <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf',marginHorizontal:3}]}>
                   {/* <FontAwesome name='minus-circle' color={'#ef5011'} size={15}/> */}
-                  <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + expenseMonth}</Text>
+                  <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: " + formatter.format(expenseMonth)}</Text>
                 </View>
                 <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6',marginHorizontal:3}]}>
                   {/* <Entypo name="flickr-with-circle" size={15} color={'#494949'}/> */}
-                  <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + total}</Text>
+                  <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: " + formatter.format(total)}</Text>
                 </View>
               </View>
             </View>

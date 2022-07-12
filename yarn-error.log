@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add react-native-switch
+  /usr/local/bin/node /usr/local/bin/yarn add @miblanchard/react-native-slider
 
 PATH: 
   /Users/quyduc/Library/Android/sdk:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/quyduc/Library/Android/sdk/platform-tools:/Users/quyduc/Library/Android/sdk:/opt/homebrew/bin:/opt/homebrew/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin arm64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/quyduc/Documents/Orbital/MonKey/node_modules/@types/prop-types/LICENSE'
+  Error: EACCES: permission denied, unlink '/Users/quyduc/Documents/Orbital/MonKey/node_modules/@types/react/README.md'
 
 npm manifest: 
   {
@@ -56,6 +56,7 @@ npm manifest:
       "react-native-animatable": "^1.3.3",
       "react-native-calendars": "^1.1284.0",
       "react-native-chart-kit": "^6.12.0",
+      "react-native-currency-input": "^1.0.1",
       "react-native-dotenv": "^3.3.1",
       "react-native-gifted-charts": "^1.2.41",
       "react-native-linear-gradient": "^2.6.2",
@@ -7521,6 +7522,11 @@ Lockfile:
       flow-parser "^0.121.0"
       jscodeshift "^0.13.1"
       nullthrows "^1.1.1"
+  
+  react-native-currency-input@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/react-native-currency-input/-/react-native-currency-input-1.0.1.tgz#3118a0d5347dd29568c5031320dbeb34be43415c"
+    integrity sha512-1AbXXMAyNBEV2M0snh6e/B1w+rxRBgu9IARVaeF0tkUuaGX4kl/tQVXzyNa0fV2GX89U8Hyb0HaMvjaIZGniAA==
   
   react-native-dotenv@^3.3.1:
     version "3.3.1"

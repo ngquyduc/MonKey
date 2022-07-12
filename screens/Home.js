@@ -14,6 +14,7 @@ import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundat
 import { SwipeListView } from 'react-native-swipe-list-view';
 import CustomModal from '../components/Containers/CustomModal';
 import { Timestamp } from 'firebase/firestore';
+import { formatter } from '../api/formatCurrency';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 const Home = ({navigation}) => {
@@ -39,11 +40,7 @@ const Home = ({navigation}) => {
 
   const [chosenCategory, setChosenCategory] = useState('');
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2
-  })
+  
 
   useEffect(() => {
     const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
