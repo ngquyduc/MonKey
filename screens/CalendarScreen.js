@@ -20,7 +20,6 @@ const CalendarScreen = ({navigation}) => {
   const [curDate, setCurDate] = useState(moment().format('YYYY-MM-DD'))
   const [curMonth, setCurMonth] = useState(moment().format('YYYY-MM-DD').substring(0, 7))
   const [finances, setFinances] = useState([])
-  const [financesMonth, setFinancesMonth] = useState([])
   const [income, setIncome] = useState(0)
   const [monthIncome, setMonthIncome] = useState(0)
   const [incomeDays, setIncomeDays] = useState([])

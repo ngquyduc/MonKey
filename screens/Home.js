@@ -21,8 +21,8 @@ const Home = ({navigation}) => {
   // User name
   const [userName, setUserName] = useState('')
   /*********** Limit Ring ***********/
-  const [monthLimit, setMonthLimit] = useState(700); 
-  const [dayLimit, setDayLimit] = useState(40); 
+  const [monthLimit, setMonthLimit] = useState(0); 
+  const [dayLimit, setDayLimit] = useState(0); 
   const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   const [monthExpense, setMonthExpense] = useState(0)
   const [dayExpense, setDayExpense] = useState(0)
