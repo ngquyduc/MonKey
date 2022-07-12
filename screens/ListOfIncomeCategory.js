@@ -318,7 +318,7 @@ const ListOfIncomeCategory = ({navigation}) => {
             <TouchableOpacity 
               style={styles.submitButton}
               onPress={() => {onSubmitAdd(inprogressCategory, inprogressIcon, inprogressColor)}}>
-              <Text style={styles.onSubmitNew}>Submit</Text>
+              <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>
         </Pressable>

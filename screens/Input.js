@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert, Modal, TouchableWithoutFeedback} from 'react-native';
 import styles from '../components/styles';
@@ -34,7 +33,9 @@ const Input = ({navigation}) => {
     setChosenCategory('');  
     setColor(''); 
   }
-
+  /********** SnackBar Variables **********/
+  const [visibleExpense, setVisibleExpense] = useState(false)
+  const [visibleIncome, setVisibleIncome] = useState(false)
   /********** Date Picker Variables **********/
   let [date, setDate] = useState(moment());
   const [show, setShow] = useState(false);
@@ -69,6 +70,7 @@ const Input = ({navigation}) => {
   const handleExpenseInput = (date, amount, note, chosenCategory) => {
     if (amount != '' && chosenCategory != '') {
       handleExpenseSubmit(date, amount, note, chosenCategory)
+      setVisibleExpense(true)
       setDate(moment())
       setAmount(0)
       setNote('')
@@ -88,6 +90,7 @@ const Input = ({navigation}) => {
   const handleIncomeInput = (date, amount, note, chosenCategory) => {
     if (amount != '' && chosenCategory != '') {
       handleIncomeSubmit(date, Number(amount), note, chosenCategory)
+      setVisibleIncome(true)
       setDate(moment())
       setAmount(0)
       setNote('')
@@ -360,8 +363,8 @@ const Input = ({navigation}) => {
                       <Text style={styles.inputText}>Submit</Text>
                     </TouchableOpacity>
                   </View>
-                </View>)
-              }
+                </View>
+              )}
 
 
 
@@ -564,6 +567,32 @@ const Input = ({navigation}) => {
                   </View>
                 </View>
                 )}
+              <View style={{justifyContent:'flex-end'}}>
+                <Snackbar
+                  visible={visibleIncome}
+                  onDismiss={()=>setVisibleIncome(false)}
+                  action={{
+                    label: 'Close',
+                    onPress: () => {
+                      // Do something
+                    },
+                  }}
+                  duration={200}>
+                  Income noted!
+                </Snackbar>
+                <Snackbar
+                    visible={visibleExpense}
+                    onDismiss={()=>setVisibleExpense(false)}
+                    action={{
+                      label: 'Close',
+                      onPress: () => {
+                        // Do something
+                      },
+                    }}
+                    duration={200}>
+                    Expense noted!
+                  </Snackbar>
+              </View>
             </View>
           </>
         </Pressable>
