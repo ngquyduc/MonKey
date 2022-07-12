@@ -29,10 +29,13 @@ export const copyDefaultCategory = (userId) => {
   .catch((err) => console.log(err.message))
 }
 
-// export const creatDefaultSpendingLimit = (userId) => {
-//   const defaultSpendingLimitRef = doc(db, 'Spending Limit', 'default')
-//   setDoc(spendingLimitRef, )
-// }
+export const createDefaultSpendingLimit = (userId) => {
+  // const defaultSpendingLimitRef = doc(db, 'Spending Limit', 'default')
+  setDoc(spendingLimitRef, {
+    monthLimit: 3000,
+    dayLimit: 100
+  })
+}
 
 export const handleSignup = (userName, email, password) => {
   createUserWithEmailAndPassword(authentication, email, password)
@@ -40,6 +43,7 @@ export const handleSignup = (userName, email, password) => {
     const userId = userCredential.user.uid;
     createNewUser(userId, email, userName)
     copyDefaultCategory(userId)
+    createDefaultSpendingLimit(userId)
     Alert.alert('Signed up successfully. Automatically logged in.')
   })
   .catch((error) => {
