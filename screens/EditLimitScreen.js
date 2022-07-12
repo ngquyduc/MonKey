@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import MainContainer from '../components/Containers/Main';
 import KeyboardAvoidingContainer from '../components/Containers/KeyboardAvoiding';
-import { Text, View, Alert, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { Text, View, Alert, StyleSheet, TouchableOpacity, TextInput, Pressable, Keyboard } from 'react-native';
 import { Feather, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
 import { StatusBarHeight } from '../components/constants';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
@@ -18,130 +18,132 @@ const EditLimitScreen = ({navigation}) => {
   return (
     <View style={{backgroundColor:'#fff', flex:1}}>
       {/*********** Header ***********/}
-      <View style={styles.header}>
-        <View style={{flex:2, paddingLeft:5, paddingBottom:7}}>
-          <TouchableOpacity onPress={()=>navigation.goBack()}>
-            <MaterialCommunityIcons name='chevron-left' size={44} color={darkBlue}/>
+      <Pressable onPress={Keyboard.dismiss} style={{flex:1}}>
+        <View style={styles.header}>
+          <View style={{flex:2, paddingLeft:5, paddingBottom:7}}>
+            <TouchableOpacity onPress={()=>navigation.goBack()}>
+              <MaterialCommunityIcons name='chevron-left' size={44} color={darkBlue}/>
+            </TouchableOpacity>
+          </View>
+          <View style={{flex:8,alignItems:'center',justifyContent:'center'}}>
+            <Text style={styles.boldBlueHeaderText}>Change limit</Text>
+          </View>
+          <View style={{flex:2}}></View>
+        </View>
+
+        
+        {/*********** Month limit ***********/}
+        <View style={[styles.noteView,{paddingTop:8}]}>
+          <View style={{
+            flex:50,
+            paddingLeft:12,
+            justifyContent:'center'
+            }}>
+            <Text style={styles.dateText}>Month limit</Text>
+          </View>
+          <View style={{
+            flex:80,
+            alignItems:'center',
+            justifyContent:'center',
+            borderBottomColor:darkYellow,
+          }}>
+            <TextInput
+              style={[styles.inputContainer, {textAlign:'right'}]}
+              maxLength={10}
+              placeholder='0'
+              placeholderTextColor={lightBlue}
+              keyboardType='decimal-pad'
+              value={monthLimit}
+              onChangeText={(value) => setMonthLimit(value)}
+            />
+          </View>
+          <View style={{flex:15, justifyContent:'center',alignItems:'center'}}>
+            <Foundation name='dollar' size={34} color={darkBlue}/>
+          </View>
+        </View>
+        <View style={{marginHorizontal:5, flexDirection:'row', justifyContent:'space-evenly'}}>
+          <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
+            <Text style={{color:darkYellow, fontWeight:'bold'}}>100</Text>
+          </View>
+          <View style={{flex:9}}>
+            <Slider
+              value={parseFloat(monthLimit)}
+              minimumValue={100}
+              maximumValue={2000}
+              onValueChange={value => {setMonthLimit(value.toString())}}
+              step={20}
+              minimumTrackTintColor={darkYellow}
+              maximumTrackTintColor={lighterBlue}
+              thumbStyle={{backgroundColor:darkYellow}}
+            />
+          </View>
+          <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
+            <Text style={{color:darkYellow, fontWeight:'bold'}}> 2000</Text>
+          </View>
+        </View>
+
+
+
+          {/*********** Day limit ***********/}
+        <View style={styles.noteView}>
+          <View style={{
+            flex:50,
+            paddingLeft:12,
+            justifyContent:'center'
+            }}>
+            <Text style={styles.dateText}>Day limit</Text>
+          </View>
+          <View style={{
+            flex:80,
+            alignItems:'center',
+            justifyContent:'center',
+            borderBottomColor:darkYellow,
+          }}>
+            <TextInput
+              style={[styles.inputContainer, {textAlign:'right'}]}
+              maxLength={10}
+              placeholder='0'
+              placeholderTextColor={lightBlue}
+              keyboardType='decimal-pad'
+              value={dayLimit}
+              onChangeText={(value) => setDayLimit(value)}
+            />
+          </View>
+          <View style={{flex:15, justifyContent:'center',alignItems:'center'}}>
+            <Foundation name='dollar' size={34} color={darkBlue}/>
+          </View>
+        </View>
+        <View style={{marginHorizontal:5, flexDirection:'row', justifyContent:'space-evenly'}}>
+          <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
+            <Text style={{color:darkYellow, fontWeight:'bold'}}>5</Text>
+          </View>
+          <View style={{flex:9}}>
+            <Slider
+              value={parseFloat(dayLimit)}
+              minimumValue={5}
+              maximumValue={200}
+              onValueChange={value => {setDayLimit(value.toString())}}
+              step={1}
+              minimumTrackTintColor={darkYellow}
+              maximumTrackTintColor={lighterBlue}
+              thumbStyle={{backgroundColor:darkYellow}}
+            />
+          </View>
+          <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
+            <Text style={{color:darkYellow, fontWeight:'bold'}}> 200</Text>
+          </View>
+        </View>
+
+
+        {/*********** Submit button ***********/}
+        <View style={[styles.submitButtonView, {alignItems:'center', justifyContent:'center', }]}>
+          <TouchableOpacity 
+          style={[styles.inputButton, {borderRadius:10, backgroundColor:darkYellow,width:120}]} 
+          onPress={() => {onSubmit(parseFloat(monthLimit), parseFloat(dayLimit)); navigation.goBack()}}> 
+            <Text style={styles.cancelText}>Submit</Text>
           </TouchableOpacity>
         </View>
-        <View style={{flex:8,alignItems:'center',justifyContent:'center'}}>
-          <Text style={styles.boldBlueHeaderText}>Change limit</Text>
-        </View>
-        <View style={{flex:2}}></View>
-      </View>
-
-      
-      {/*********** Month limit ***********/}
-      <View style={[styles.noteView,{paddingTop:8}]}>
-        <View style={{
-          flex:50,
-          paddingLeft:12,
-          justifyContent:'center'
-          }}>
-          <Text style={styles.dateText}>Month limit</Text>
-        </View>
-        <View style={{
-          flex:80,
-          alignItems:'center',
-          justifyContent:'center',
-          borderBottomColor:darkYellow,
-        }}>
-          <TextInput
-            style={[styles.inputContainer, {textAlign:'right'}]}
-            maxLength={10}
-            placeholder='0'
-            placeholderTextColor={lightBlue}
-            keyboardType='decimal-pad'
-            value={monthLimit}
-            onChangeText={(value) => setMonthLimit(value)}
-          />
-        </View>
-        <View style={{flex:15, justifyContent:'center',alignItems:'center'}}>
-          <Foundation name='dollar' size={34} color={darkBlue}/>
-        </View>
-      </View>
-      <View style={{marginHorizontal:5, flexDirection:'row', justifyContent:'space-evenly'}}>
-        <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
-          <Text style={{color:darkYellow, fontWeight:'bold'}}>100</Text>
-        </View>
-        <View style={{flex:9}}>
-          <Slider
-            value={parseFloat(monthLimit)}
-            minimumValue={100}
-            maximumValue={2000}
-            onValueChange={value => {setMonthLimit(value.toString())}}
-            step={20}
-            minimumTrackTintColor={darkYellow}
-            maximumTrackTintColor={lighterBlue}
-            thumbStyle={{backgroundColor:darkYellow}}
-          />
-        </View>
-        <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
-          <Text style={{color:darkYellow, fontWeight:'bold'}}> 2000</Text>
-        </View>
-      </View>
-
-
-
-        {/*********** Day limit ***********/}
-      <View style={styles.noteView}>
-        <View style={{
-          flex:50,
-          paddingLeft:12,
-          justifyContent:'center'
-          }}>
-          <Text style={styles.dateText}>Day limit</Text>
-        </View>
-        <View style={{
-          flex:80,
-          alignItems:'center',
-          justifyContent:'center',
-          borderBottomColor:darkYellow,
-        }}>
-          <TextInput
-            style={[styles.inputContainer, {textAlign:'right'}]}
-            maxLength={10}
-            placeholder='0'
-            placeholderTextColor={lightBlue}
-            keyboardType='decimal-pad'
-            value={dayLimit}
-            onChangeText={(value) => setDayLimit(value)}
-          />
-        </View>
-        <View style={{flex:15, justifyContent:'center',alignItems:'center'}}>
-          <Foundation name='dollar' size={34} color={darkBlue}/>
-        </View>
-      </View>
-      <View style={{marginHorizontal:5, flexDirection:'row', justifyContent:'space-evenly'}}>
-        <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
-          <Text style={{color:darkYellow, fontWeight:'bold'}}>5</Text>
-        </View>
-        <View style={{flex:9}}>
-          <Slider
-            value={parseFloat(dayLimit)}
-            minimumValue={5}
-            maximumValue={200}
-            onValueChange={value => {setDayLimit(value.toString())}}
-            step={1}
-            minimumTrackTintColor={darkYellow}
-            maximumTrackTintColor={lighterBlue}
-            thumbStyle={{backgroundColor:darkYellow}}
-          />
-        </View>
-        <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
-          <Text style={{color:darkYellow, fontWeight:'bold'}}> 200</Text>
-        </View>
-      </View>
-
-
-      {/*********** Submit button ***********/}
-      <View style={[styles.submitButtonView, {alignItems:'center', justifyContent:'center', }]}>
-        <TouchableOpacity 
-        style={[styles.inputButton, {borderRadius:10, backgroundColor:darkYellow,width:120}]} 
-        onPress={() => {onSubmit(parseFloat(monthLimit), parseFloat(dayLimit)); navigation.goBack()}}> 
-          <Text style={styles.cancelText}>Submit</Text>
-        </TouchableOpacity>
-      </View>
+      </Pressable>
     </View>
   )
 }

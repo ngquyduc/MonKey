@@ -207,23 +207,7 @@ const Stats = (props) => {
     return <VisibleItem data={data}/>
   }
 
-  const data3 = [
-    {
-      color: "#4ed807",
-      key: "Medical",
-      percentage: "90.91%",
-      text: "Medical",
-      value: 500,
-    },
-    {
-      color: "#000000",
-      key: "Telephone",
-      percentage: "3.64%",
-      text: "",
-      value: 20,
-    },
-    
-  ]
+
 
   return (
     <View style={styles.mainContainerInnerScreen}>
@@ -378,9 +362,22 @@ const Stats = (props) => {
                 )}
             </View>
           </>
-          <Text style={{color:'green'}}>{"Income: " + formatter.format(totalIncome)}</Text>
-          <Text style={{color:'red'}}>{"Expense: -" + formatter.format(totalExpense)}</Text>   
-          <Text style={{color:'black'}}>{"Balance: " + formatter.format(balance)}</Text>
+          {/* <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>
+          <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>   
+          <Text style={{color:'black'}}>{"Balance: " + balance}</Text> */}
+        <View>
+          <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
+            <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
+              <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + totalIncome}</Text>
+            </View>
+            <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
+              <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + totalExpense}</Text>
+            </View>
+            <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6'}]}>
+              <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + balance}</Text>
+            </View>
+          </View>
+        </View>
         </Pressable>
         <View style={styles.expenseInputButtonView}>
           <View style={{flex:0.5}}>
@@ -425,8 +422,8 @@ const Stats = (props) => {
                         <Text style={[styles.categoryText, {color: item.color}]}>{item.key}</Text>
                       </View>
                     </View>
-                    <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-                      <Text style={[styles.amountText, {color: '#26b522'}]}>{formatter.format(item.value)}</Text>
+                    <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+                      <Text style={[styles.amountText, {color: '#26b522'}]}>{'$' +item.value.toFixed(2)}</Text>
                     </View>
                   </View>
                 )
@@ -468,8 +465,8 @@ const Stats = (props) => {
                             <Text style={[styles.categoryText, {color: item.color}]}>{item.key}</Text>
                           </View>
                         </View>
-                        <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-                          <Text style={[styles.amountText, {color: '#ef5011'}]}>{'-' + formatter.format(item.value)}</Text>
+                        <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+                          <Text style={[styles.amountText, {color: '#ef5011'}]}>{'$' +item.value.toFixed(2)}</Text>
                         </View>
                       </View>
                     )
@@ -560,7 +557,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     flexDirection:'row',
-    height:60,
+    height:55,
     paddingLeft:40,
     paddingRight:40
   },
@@ -585,7 +582,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     flexDirection:'row',
-    height:60,
+    height:55,
     paddingLeft:40,
     paddingRight:40
   },
@@ -606,13 +603,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems:'center',
     borderRadius:10,
-    height:60,
-    marginHorizontal: 5, 
+    height:55,
+    marginHorizontal: 12, 
     marginBottom:10,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
     shadowRadius:2,
     elevation:5,
+  },
+  incomeexpenseView: {
+    flexDirection:'row',
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius:10,
+    marginHorizontal:4,
+    marginBottom:5,
+    height:40,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
   },
 })
