@@ -10,23 +10,16 @@ import ColorList from '../CategoriesList/ColorList'
 import CustomModal from '../components/Containers/CustomModal';
 import { AddIncomeCategory } from '../api/db';
 import { getUserID } from '../api/authentication';
-import { collection, orderBy, query, onSnapshot } from 'firebase/firestore';
+import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
-
-/* Things to do
- * Make onSubmitAdd() function (line 133)
- * Make onSubmitEdit() function (line 139)
- * Make restoreRow() function (line 50)
- * Modify deleteRow() function (line 155)
- * Create a income category list on database
- */
 
 const ListOfIncomeCategory = ({navigation}) => {
   /*************** Modifying category ***************/
   const [inprogressCategory, setInprogressCategory] = useState('');
   const [inprogressIcon, setInprogressIcon] = useState('');
   const [inprogressColor, setInprogressColor] = useState('#767676');
+  const [inprogressId, setInprogressId] = useState('')
   
   /*************** Visibility of snackbar ***************/
   const [visible, setVisible] = useState(false);
@@ -39,13 +32,14 @@ const ListOfIncomeCategory = ({navigation}) => {
   
   const [listCategories, setListCategories] = useState([])
   /*************** Function to edit category ***************/
-  const editRow = (rowMap, rowKey) => {
-    //to be implemented
-  }
-
-  /******** Function to restore category after being deleted ********/
-  const restoreRow = (rowMap, rowKey) => {
-    //to be implemented
+  const editRow = (id) => {
+    const path = 'Input Category/Income/' + getUserID()
+    const catRef = doc(db, path, id)
+    updateDoc(catRef, {
+      name: inprogressCategory,
+      color: inprogressColor,
+      icon: inprogressIcon,
+    })
   }
 
   /*************** Function to close row ***************/
@@ -84,9 +78,6 @@ const ListOfIncomeCategory = ({navigation}) => {
 
   const VisibleItem = props => {
     const {data} = props;
-    if (data.item.title == 'Edit') {
-      return null;
-    }
     return (
       <View style={styles.rowFront}>
         <View style={{alignItems:'center', justifyContent:'center', width:50}}>
@@ -106,8 +97,14 @@ const ListOfIncomeCategory = ({navigation}) => {
       <HiddenItemWithActions
         data={data}
         rowMap={rowMap}
-        onEdit={()=>{setVisibleEdit(true), setInprogressCategory(data.item.title)}}
-        onDelete={()=>alertDelete(rowMap,data.item.key,data.item.title)}
+        onEdit={()=>{
+          setVisibleEdit(true) 
+          setInprogressCategory(data.item.title)
+          setInprogressIcon(data.item.icon)
+          setInprogressColor(data.item.color)
+          setInprogressId(data.item.id)
+        }}
+        onDelete={()=>alertDelete(rowMap,data.item.key,data.item.id)}
       />
     )
   }
@@ -123,17 +120,19 @@ const ListOfIncomeCategory = ({navigation}) => {
     setInprogressCategory('')
     setInprogressColor('#767676')
     setInprogressIcon('')
-    setVisibleEdit('false')
+    setVisibleEdit(false)
   }
   /*************** Function when submitting new/edit category ***************/
-  const onSubmitAdd = (n, i, c) => {
-    AddIncomeCategory(n, i, c)
+  const onSubmitAdd = (name, icon, color) => {
+    AddIncomeCategory(name, icon, color)
     setInprogressCategory('')
     setInprogressColor('#767676')
     setInprogressIcon('')
     setVisibleAdd(false)
   }
+
   const onSubmitEdit = () => {
+    editRow(inprogressId)
     setInprogressCategory('')
     setInprogressColor('#767676')
     setInprogressIcon('')
@@ -141,22 +140,18 @@ const ListOfIncomeCategory = ({navigation}) => {
   }
 
   /*************** Function to alert when deleting ***************/
-  const alertDelete = (rowMap, rowKey, rowTitle) => {
+  const alertDelete = (rowMap, rowKey, id) => {
     Alert.alert("Delete this category?","", [
       {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
-      {text: 'Delete', onPress: () => {deleteRow(rowMap, rowKey, rowTitle)}}
+      {text: 'Delete', onPress: () => {deleteRow(id)}}
     ]);
   }
 
   /*************** Function to delete category ***************/
-  const deleteRow = (rowMap, rowKey, rowTitle) => {
-    const newData = [...listCategories];
-    const prevIndex = listCategories.findIndex(item => item.key === rowKey);
-    newData.splice(prevIndex,1);
-    setListCategories(newData);
-    setVisible(true);
+  const deleteRow = (id) => {
+    const cat = doc(db, 'Input Category/Income/' + getUserID(), id)
+    deleteDoc(cat)
   }
-
   useMemo(() => {
     const IncomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
     const q = query(IncomeCategoryRef, orderBy('name', 'asc'))
@@ -424,7 +419,7 @@ const ListOfIncomeCategory = ({navigation}) => {
           <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
             <TouchableOpacity 
               style={styles.submitButton}
-              onPress={() => {onSubmitEdit}}>
+              onPress={() => {onSubmitEdit()}}>
               <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>
@@ -573,4 +568,5 @@ const styles = StyleSheet.create({
     fontWeight:'600',
   },
 })
-export default ListOfIncomeCategory;
+
+export default ListOfIncomeCategory

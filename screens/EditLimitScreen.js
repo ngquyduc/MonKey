@@ -3,18 +3,38 @@ import MainContainer from '../components/Containers/Main';
 import KeyboardAvoidingContainer from '../components/Containers/KeyboardAvoiding';
 import { Text, View, Alert, StyleSheet, TouchableOpacity, TextInput, Pressable, Keyboard } from 'react-native';
 import { Feather, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
+import { getUserID } from '../api/authentication';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { db } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import { colors } from '../components/colors';
 import {Slider} from '@miblanchard/react-native-slider';
+import CurrencyInput from 'react-native-currency-input';
 const { lightYellow, lighterBlue, lightBlue, darkBlue, darkYellow } = colors
 
 
 const EditLimitScreen = ({navigation}) => {
-  const [monthLimit, setMonthLimit] = useState('700'); // need to store on Firestore
-  const [dayLimit, setDayLimit] = useState('40'); // need to store on Firestore
-  const onSubmit = (limitMonth, limitDay) => {
+  const [monthLimit, setMonthLimit] = useState(0); // need to store on Firestore
+  const [dayLimit, setDayLimit] = useState(0); // need to store on Firestore
+  
+  // get monthlimit and daylimit
+  useEffect(() => {
+    const spendingLimitRef = doc(db, "Spending Limit", getUserID())
+    onSnapshot(spendingLimitRef, (snapShot) => {
+      setMonthLimit(snapShot.data().monthLimit)
+      setDayLimit(snapShot.data().dayLimit)
+    })
+  }, [])
+
+  const onSubmit = () => {
+    const spendingLimitRef = doc(db, "Spending Limit", getUserID())
+    setDoc(spendingLimitRef, {
+      monthLimit: monthLimit, 
+      dayLimit: dayLimit
+    })
   }
+
   return (
     <View style={{backgroundColor:'#fff', flex:1}}>
       {/*********** Header ***********/}
@@ -47,29 +67,32 @@ const EditLimitScreen = ({navigation}) => {
             justifyContent:'center',
             borderBottomColor:darkYellow,
           }}>
-            <TextInput
+            <CurrencyInput
               style={[styles.inputContainer, {textAlign:'right'}]}
-              maxLength={10}
-              placeholder='0'
-              placeholderTextColor={lightBlue}
-              keyboardType='decimal-pad'
               value={monthLimit}
-              onChangeText={(value) => setMonthLimit(value)}
+              onChangeValue={setMonthLimit}
+              delimiter=","
+              separator="."
+              precision={2}
+              placeholder='0.00'
+              maxLength={16}
+              keyboardType='decimal-pad'
+              placeholderTextColor={lightBlue}
             />
           </View>
           <View style={{flex:15, justifyContent:'center',alignItems:'center'}}>
             <Foundation name='dollar' size={34} color={darkBlue}/>
           </View>
         </View>
-        <View style={{marginHorizontal:5, flexDirection:'row', justifyContent:'space-evenly'}}>
+        {/* <View style={{marginHorizontal:5, flexDirection:'row', justifyContent:'space-evenly'}}>
           <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
             <Text style={{color:darkYellow, fontWeight:'bold'}}>100</Text>
           </View>
           <View style={{flex:9}}>
             <Slider
               value={parseFloat(monthLimit)}
-              minimumValue={100}
-              maximumValue={2000}
+              minimumValue={0}
+              maximumValue={10000000000}
               onValueChange={value => {setMonthLimit(value.toString())}}
               step={20}
               minimumTrackTintColor={darkYellow}
@@ -80,12 +103,12 @@ const EditLimitScreen = ({navigation}) => {
           <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
             <Text style={{color:darkYellow, fontWeight:'bold'}}> 2000</Text>
           </View>
-        </View>
+        </View> */}
 
 
 
           {/*********** Day limit ***********/}
-        <View style={styles.noteView}>
+        <View style={[styles.noteView]}>
           <View style={{
             flex:50,
             paddingLeft:12,
@@ -99,21 +122,24 @@ const EditLimitScreen = ({navigation}) => {
             justifyContent:'center',
             borderBottomColor:darkYellow,
           }}>
-            <TextInput
+            <CurrencyInput
               style={[styles.inputContainer, {textAlign:'right'}]}
-              maxLength={10}
-              placeholder='0'
-              placeholderTextColor={lightBlue}
-              keyboardType='decimal-pad'
               value={dayLimit}
-              onChangeText={(value) => setDayLimit(value)}
+              onChangeValue={setDayLimit}
+              delimiter=","
+              separator="."
+              precision={2}
+              placeholder='0.00'
+              maxLength={16}
+              keyboardType='decimal-pad'
+              placeholderTextColor={lightBlue}
             />
           </View>
           <View style={{flex:15, justifyContent:'center',alignItems:'center'}}>
             <Foundation name='dollar' size={34} color={darkBlue}/>
           </View>
         </View>
-        <View style={{marginHorizontal:5, flexDirection:'row', justifyContent:'space-evenly'}}>
+        {/* <View style={{marginHorizontal:5, flexDirection:'row', justifyContent:'space-evenly'}}>
           <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
             <Text style={{color:darkYellow, fontWeight:'bold'}}>5</Text>
           </View>
@@ -132,14 +158,14 @@ const EditLimitScreen = ({navigation}) => {
           <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
             <Text style={{color:darkYellow, fontWeight:'bold'}}> 200</Text>
           </View>
-        </View>
+        </View> */}
 
 
         {/*********** Submit button ***********/}
         <View style={[styles.submitButtonView, {alignItems:'center', justifyContent:'center', }]}>
           <TouchableOpacity 
           style={[styles.inputButton, {borderRadius:10, backgroundColor:darkYellow,width:120}]} 
-          onPress={() => {onSubmit(parseFloat(monthLimit), parseFloat(dayLimit)); navigation.goBack()}}> 
+          onPress={() => {onSubmit(); navigation.goBack()}}> 
             <Text style={styles.cancelText}>Submit</Text>
           </TouchableOpacity>
         </View>
@@ -166,6 +192,7 @@ const styles = StyleSheet.create({
   },
   noteView: {
     flexDirection:'row',
+    marginBottom: 6,
     paddingBottom:4,
     paddingTop:4,
     paddingLeft:4,
@@ -173,7 +200,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#E9E9E9',  
     borderTopWidth:1,      
     //borderBottomWidth:1,    
-    height:48
+    height:60 
   },
   dateText: {
     fontSize: 19,

@@ -1,8 +1,8 @@
 import { app } from "./firebase";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "firebase/auth";
-import { Alert } from "react-native";
+import { Alert, SegmentedControlIOS } from "react-native";
 import { db,} from "./db";
-import { collection, addDoc, getDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDoc, getDocs, setDoc } from "firebase/firestore";
 
 export const authentication = getAuth(app);
 
@@ -28,6 +28,11 @@ export const copyDefaultCategory = (userId) => {
   snapshot.docs.forEach((doc) => addDoc(collection(db, incomeCategoryPath), doc.data())))
   .catch((err) => console.log(err.message))
 }
+
+// export const creatDefaultSpendingLimit = (userId) => {
+//   const defaultSpendingLimitRef = doc(db, 'Spending Limit', 'default')
+//   setDoc(spendingLimitRef, )
+// }
 
 export const handleSignup = (userName, email, password) => {
   createUserWithEmailAndPassword(authentication, email, password)

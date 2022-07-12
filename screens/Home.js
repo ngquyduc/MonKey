@@ -14,36 +14,99 @@ import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundat
 import { SwipeListView } from 'react-native-swipe-list-view';
 import CustomModal from '../components/Containers/CustomModal';
 import { Timestamp } from 'firebase/firestore';
+import { formatter } from '../api/formatCurrency';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 const Home = ({navigation}) => {
-  const [userName, setUserName] = useState('quyduc')
+  // User name
+  const [userName, setUserName] = useState('')
+  /*********** Limit Ring ***********/
+  const [monthLimit, setMonthLimit] = useState(0); 
+  const [dayLimit, setDayLimit] = useState(0); 
   const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
-  /*********** Variables ***********/
-  const [monthLimit, setMonthLimit] = useState(700); // need to store on Firestore
-  const [dayLimit, setDayLimit] = useState(40); // need to store on Firestore
-  const [list, setList] = useState([]);
-  /*********** Variables ***********/
-  const [ finances, setFinances] = useState([])
-  const [financesMonth, setFinancesMonth] = useState([])
-  const [income, setIncome] = useState(0)
-  const [incomeMonth, setIncomeMonth] = useState(0)
-  const [incomeDays, setIncomeDays] = useState([])
-  const [expense, setExpense] = useState(0)
-  const [expenseMonth, setExpenseMonth] = useState(0)
-  const [total, setTotal] = useState(0)
-  const [expenseDays, setExpenseDays] = useState([])
-
+  const [monthExpense, setMonthExpense] = useState(0)
+  const [dayExpense, setDayExpense] = useState(0)
+  /*********** display today's expense & income ***********/
+  const [finances, setFinances] = useState([])
+  const [dayIncome, setDayIncome] = useState(0)
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
 
-  const [chosenCategory, setChosenCategory] = useState('');
+  // get user name to display on screen
+  useEffect(() => {
+    const userRef = doc(db, "Users", getUserID());
+    onSnapshot(userRef, (snapShot) => {
+      setUserName(snapShot.data().username)
+    })
+  }, [])
 
+  // get monthlimit and daylimit
+  useEffect(() => {
+    const financeRef = doc(db, "Spending Limit", getUserID())
+    onSnapshot(financeRef, (snapShot) => {
+      setMonthLimit(snapShot.data().monthLimit)
+      setDayLimit(snapShot.data().dayLimit)
+    })
+  }, [])
+
+  // get month expense and today expense & income
+  useEffect(() => {
+    const financePath = 'Finance/' + getUserID() + '/' + date.substring(0, 4)
+    const financeRef = collection(db, financePath)
+    const dayQuery = query(financeRef, where('month', '==', date.substring(5, 7)), where('date', '==', date.substring(8, 10)))
+    onSnapshot(dayQuery,
+      (snapShot) => {
+        const dayFinances = []
+        const dayExpenses = []
+        const dayIncomes = []
+        snapShot.forEach((doc) => {
+          dayFinances.push({
+            id: doc.id,
+            type: doc.data().type,
+            date: doc.data().date,
+            amount: doc.data().amount,
+            note: doc.data().note,
+            category: doc.data().category,
+            icon: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category+'icon'] : incomeCategoryList[doc.data().category+'icon'],
+            color: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category+'color'] : incomeCategoryList[doc.data().category+'color'],
+            notedAt: doc.data().notedAt
+          })
+          if (doc.data().type == 'expense') {
+            dayExpenses.push(doc.data().amount)
+          } else {
+            dayIncomes.push(doc.data().amount)
+          }
+        })
+        dayFinances.sort((x, y) => x.notedAt > y.notedAt ? -1 : 1)
+        setFinances(dayFinances)
+        const dayIncome = dayIncomes.reduce((total, current) => total = total + current, 0);
+        setDayIncome(dayIncome)
+        const dayExpense = dayExpenses.reduce((total, current) => total = total + current, 0);
+        setDayExpense(dayExpense)
+      }
+    )
+
+    const monthQuery = query(financeRef, where('month', '==', date.substring(5, 7)))
+    onSnapshot(monthQuery,
+      (snapShot) => {
+        const monthExpenses = []
+        snapShot.forEach((doc) => {
+          if (doc.data().type = 'expense') {
+            monthExpenses.push(doc.data().amount)
+          } 
+        })
+        const monthExpense = monthExpenses.reduce((total, current) => total = total + current, 0);
+        setMonthExpense(monthExpense)
+      }
+    )
+  }, [incomeCategoryList, expenseCategoryList])
+
+  // create a map for categories
   useEffect(() => {
     const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
 
     onSnapshot(expenseCategoryRef, (snapshot) => {
-      let expenseCategories = {}
+      const expenseCategories = {}
       snapshot.docs.forEach((doc) => {
         expenseCategories[doc.data().name + 'color'] = doc.data().color
         expenseCategories[doc.data().name + 'icon'] = doc.data().icon
@@ -54,7 +117,7 @@ const Home = ({navigation}) => {
     const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
 
     onSnapshot(incomeCategoryRef, (snapshot) => {
-      let incomeCategories = {}
+      const incomeCategories = {}
       snapshot.docs.forEach((doc) => {
         incomeCategories[doc.data().name + 'color'] = doc.data().color
         incomeCategories[doc.data().name + 'icon'] = doc.data().icon
@@ -100,87 +163,15 @@ const Home = ({navigation}) => {
     });}
   , [])
 
-  // get user name to display on screen
-  useEffect(() => {
-    const docRef = doc(db, "Users", getUserID());
-    onSnapshot(docRef, (snapShot) => {
-      (snapShot) => {
-        if (snapShot.exists()) {
-          setUserName(snapShot.data().username)
-        } else {
-          setUserName('')
-        }
-      }
-    })
-  }, [])
+  
 
-  useEffect(() => {
-    const financePath = 'Finance/' + getUserID() + '/' + date.substring(0, 4)
-    const financeRef = collection(db, financePath)
-    const dayQuery = query(financeRef, where('month', '==', date.substring(5, 7)), where('date', '==', date.substring(8, 10)))
-    onSnapshot(dayQuery,
-      (snapShot) => {
-        const finances = []
-        const expenses = []
-        const incomes = []
-        snapShot.forEach((doc) => {
-          finances.push({
-            type: doc.data().type,
-            date: doc.data().date,
-            amount: doc.data().amount,
-            note: doc.data().note,
-            category: doc.data().category,
-            icon: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category+'icon'] : incomeCategoryList[doc.data().category+'icon'],
-            color: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category+'color'] : incomeCategoryList[doc.data().category+'color'],
-            id: doc.id,
-            notedAt: doc.data().notedAt
-          })
-          if (doc.data().type == 'expense') {
-            expenses.push(doc.data().amount)
-          } else {
-            incomes.push(doc.data().amount)
-          }
-        })
-        finances.sort((x, y) => x.notedAt > y.notedAt ? -1 : 1)
-        setFinances(finances)
-        const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
-        setIncome(totalIncome.toFixed(2))
-        const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
-        setExpense(totalExpense.toFixed(2))
-      }
-    )
-    const monthQuery = query(financeRef, where('month', '==', date.substring(5, 7)))
-    onSnapshot(monthQuery,
-      (snapShot) => {
-        const expensesMonth = []
-        const incomesMonth = []
-        const expenseDays = []
-        const incomeDays = []
-        snapShot.forEach((doc) => {
-          if (doc.data().type = 'expense') {
-            expensesMonth.push(doc.data().amount)
-            expenseDays.push(doc.data().date)
-          } else {
-            incomesMonth.push(doc.data().amount)
-            incomeDays.push(doc.data().date)
-          }
-        })
-        const totalIncomeMonth = incomesMonth.reduce((total, current) => total = total + current, 0);
-        setIncomeMonth(totalIncomeMonth.toFixed(2))
-        setIncomeDays(incomeDays)
-        setExpenseDays(expenseDays)
-        const totalExpenseMonth = expensesMonth.reduce((total, current) => total = total + current, 0);
-        setExpenseMonth(totalExpenseMonth.toFixed(2))
-        setTotal(totalIncomeMonth - totalExpenseMonth)
-      }
-    )
-  }, [incomeCategoryList, expenseCategoryList])
+  
 
   /*********** Activity ring config ***********/
   const activityData = [ 
     //the rings are disappear when the values equal 0 or more than 1
-    { value: expenseMonth/monthLimit > 1 ? 1 :(expenseMonth == 0? 0.0000001 : expenseMonth/700), color:darkBlue }, 
-    { value: expense/dayLimit > 1 ? 1 : (expense == 0 ? 0.0000001 : expense/50), color:darkYellow }, 
+    { value: monthExpense/monthLimit > 1 ? 1 :(monthExpense == 0? 0.0000001 : monthExpense/monthLimit), color:darkBlue }, 
+    { value: dayExpense/dayLimit > 1 ? 1 : (dayExpense == 0 ? 0.0000001 : dayExpense/dayLimit), color:darkYellow }, 
   ];
 
   const activityConfig = { 
@@ -259,8 +250,8 @@ const Home = ({navigation}) => {
             <Text style={styles.noteText}>{data.item.note}</Text>
           </View>}
         </View>
-        <View style={{flex:3,alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={[styles.amountText,{color:data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{'$' + data.item.amount.toFixed(2)}</Text>
+        <View style={{flex:2,alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+          <Text style={[styles.amountText,{color:data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{data.item.type == 'income' ? formatter.format(data.item.amount) : '-' + formatter.format(data.item.amount)}</Text>
         </View>
       </View>
     )
@@ -315,15 +306,15 @@ const Home = ({navigation}) => {
                   <View style={{flexDirection:'row', margin:5}}>
                     <Octicons name='dot-fill' size={40} color={darkBlue}/>
                     <View style={{alignContent:'center',justifyContent:'center'}}>
-                      <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + expenseMonth + '/' + monthLimit + '$'}</Text>
-                      {expenseMonth>monthLimit && <Text style={{color:'#ef5011', fontWeight:'bold'}}>{' Exceeded!!!'}</Text>}
+                      <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + formatter.format(monthExpense) + '/' + monthLimit}</Text>
+                      {monthExpense>monthLimit && <Text style={{color:'#ef5011', fontWeight:'bold'}}>{' Exceeded!!!'}</Text>}
                     </View>
                   </View>
                   <View style={{flexDirection:'row', margin:5}}>
                     <Octicons name='dot-fill' size={40} color={darkYellow}/>
                     <View style={{alignContent:'center',justifyContent:'center'}}>
-                      <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + expense + '/' + dayLimit + '$'}</Text>
-                      {expense>dayLimit && <Text style={{color:'#ef5011', fontWeight:'bold'}}>{' Exceeded!!!'}</Text>}
+                      <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + formatter.format(dayExpense) + '/' + dayLimit}</Text>
+                      {dayExpense>dayLimit && <Text style={{color:'#ef5011', fontWeight:'bold'}}>{' Exceeded!!!'}</Text>}
                     </View>
                   </View>
                 </View>
@@ -339,11 +330,11 @@ const Home = ({navigation}) => {
             <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
               <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
                 <FontAwesome name='plus-circle' color={'#26b522'} size={18}/>
-                <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: $" + income}</Text>
+                <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: " + formatter.format(dayIncome)}</Text>
               </View>
               <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
                 <FontAwesome name='minus-circle' color={'#ef5011'} size={18}/>
-                <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: $" + expense}</Text>
+                <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: " + formatter.format(dayExpense)}</Text>
               </View>
             </View>
           </View>

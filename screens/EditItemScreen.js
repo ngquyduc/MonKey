@@ -10,6 +10,7 @@ import { getUserID } from '../api/authentication';
 import { StatusBarHeight } from '../components/constants';
 import { MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { Timestamp } from 'firebase/firestore';
+import CurrencyInput from 'react-native-currency-input';
 const { lightBlue, darkBlue, darkYellow } = colors
 
 const EditItemScreen = ({route, navigation}) => {
@@ -255,14 +256,17 @@ const EditItemScreen = ({route, navigation}) => {
           </View>
           <View style={{flex:5}}></View>
           <View style={styles.datePickerView}>
-            <TextInput
+            <CurrencyInput
               style={[styles.inputContainer, {textAlign:'right'}]}
-              maxLength={10}
-              placeholder='0.00'
-              placeholderTextColor={lightBlue}
-              keyboardType='decimal-pad'
               value={inprogressAmount}
-              onChangeText={(value) => setInprogressAmount(value)}
+              onChangeValue={setInprogressAmount}
+              delimiter=","
+              separator="."
+              precision={2}
+              placeholder='0.00'
+              maxLength={16}
+              keyboardType='decimal-pad'
+              placeholderTextColor={lightBlue}
             />
           </View>
           <View style={{

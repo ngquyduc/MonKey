@@ -39,11 +39,6 @@ const ListOfExpenseCategory = ({navigation}) => {
   
   const [listCategories, setListCategories] = useState([])
 
-  /******** Function to restore category after being deleted ********/
-  const restoreRow = (rowMap, rowKey) => {
-    //to be implemented
-  }
-
   /*************** Function to close row ***************/
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -80,9 +75,6 @@ const ListOfExpenseCategory = ({navigation}) => {
 
   const VisibleItem = props => {
     const {data} = props;
-    if (data.item.title == 'Edit') {
-      return null;
-    }
     return (
       <View style={styles.rowFront}>
         <View style={{alignItems:'center', justifyContent:'center', width:50}}>
@@ -173,15 +165,15 @@ const ListOfExpenseCategory = ({navigation}) => {
     onSnapshot(q,
       (snapShot) => {
         const list = []
-        snapShot.forEach((ExpenseCategoryItem) => {
-          if (ExpenseCategoryItem.data().name != 'Edit') {
+        snapShot.forEach((cat) => {
+          if (cat.data().name != 'Edit') {
             list.push(({
-              key: `${ExpenseCategoryItem.data().name}`,
-              title: ExpenseCategoryItem.data().name,
+              key: `${cat.data().name}`,
+              title: cat.data().name,
               isEdit: false,
-              id: ExpenseCategoryItem.id,
-              icon: ExpenseCategoryItem.data().icon,
-              color: ExpenseCategoryItem.data().color
+              id: cat.id,
+              icon: cat.data().icon,
+              color: cat.data().color
             }))
           }
         })

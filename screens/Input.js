@@ -3,8 +3,8 @@ import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressabl
 import styles from '../components/styles';
 import { colors } from '../components/colors';
 import { Snackbar } from 'react-native-paper';
-import { ScreenWidth } from '../components/constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { ScreenWidth } from '../components/constants';
 import { Entypo, Foundation, MaterialCommunityIcons } from '@expo/vector-icons'
 import moment from 'moment';
 import { handleExpenseSubmit, handleIncomeSubmit } from '../api/db';
@@ -141,6 +141,8 @@ const Input = ({navigation}) => {
     });}
   , [])
 
+  
+
   return (
     <View style={{flex:1, backgroundColor:'#fff'}}>
       <View style={[styless.header, {marginBottom:4}]}>
@@ -261,15 +263,6 @@ const Input = ({navigation}) => {
                       flex:5,
                       }}></View>
                     <View style={styless.datePickerView}>
-                      {/* <TextInput
-                        style={[styless.inputContainer, {textAlign:'right'}]}
-                        maxLength={10}
-                        placeholder='0.00'
-                        placeholderTextColor={lightBlue}
-                        keyboardType='decimal-pad'
-                        value={amount}
-                        onChangeText={(value) => setAmount(currencyFormat(Number(value)))}
-                      /> */}
                       <CurrencyInput
                         style={[styless.inputContainer, {textAlign:'right'}]}
                         value={amount}
