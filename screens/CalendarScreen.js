@@ -12,7 +12,7 @@ import PressableText from '../components/Containers/PressableText';
 import { Octicons, Foundation, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
 
-const CalendarScreen = (props) => {
+const CalendarScreen = ({navigation}) => {
   const [curDate, setCurDate] = useState(moment().format('YYYY-MM-DD'))
   const [curMonth, setCurMonth] = useState(moment().format('YYYY-MM-DD').substring(0, 7))
   const [finances, setFinances] = useState([])
@@ -160,16 +160,7 @@ const CalendarScreen = (props) => {
     const cat = doc(db, 'Finance/' + getUserID() + '/' + curDate.substring(0, 4), id)
     deleteDoc(cat)
   }
-  /*************** Function to edit record ***************/
-  const editRow = (id) => {
-    const path = 'Input Category/Expense/' + getUserID()
-    const catRef = doc(db, path, id)
-    updateDoc(catRef, {
-      name: inprogressCategory,
-      color: inprogressColor,
-      icon: inprogressIcon,
-    })
-  }
+
   const renderItem = (data, rowMap) => {
     return <VisibleItem data={data}/>
   }
@@ -191,7 +182,7 @@ const CalendarScreen = (props) => {
             <Text style={styles.noteText}>{data.item.note}</Text>
           </View>}
         </View>
-        <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+        <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
           <Text style={[styles.amountText, {color: data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{data.item.type == 'income' ? '$' + data.item.amount : '-$' +data.item.amount}</Text>
         </View>
       </View>
@@ -204,11 +195,15 @@ const CalendarScreen = (props) => {
         data={data}
         rowMap={rowMap}
         onEdit={()=>{
-          setVisibleEdit(true) 
-          setInprogressCategory(data.item.title)
-          setInprogressIcon(data.item.icon)
-          setInprogressColor(data.item.color)
-          setInprogressId(data.item.id)
+            navigation.navigate('EditItemScreen', {
+            inprogressAmount:data.item.amount.toString(),
+            inprogressCategory:data.item.category,
+            inprogressDate:curDate,
+            inprogressNote:data.item.note,
+            inprogressType:data.item.type,
+            inprogressId:data.item.id,
+            color:data.item.color,
+          })
         }}
         onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
       />
@@ -396,7 +391,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems:'center',
     borderRadius:10,
-    height:60,
+    height:55,
     marginHorizontal: 5, 
     marginVertical:5,
     shadowColor:'#999',
@@ -408,7 +403,7 @@ const styles = StyleSheet.create({
   rowFrontVisible: {
     backgroundColor:'#fff',
     borderRadius:5,
-    height:60,
+    height:55,
     padding:10,
     marginBottom:15,
   },
@@ -434,7 +429,7 @@ const styles = StyleSheet.create({
   backRightButtonLeft: {
     backgroundColor:'#1f65ff',
     right:75,
-    height:60, 
+    height:55, 
     marginTop:-5
   },
   backRightButtonRight: {
@@ -442,7 +437,7 @@ const styles = StyleSheet.create({
     right:0,
     borderTopRightRadius:11,
     borderBottomRightRadius:11,
-    height:60, 
+    height:55, 
     marginTop:-5
   },
   categoryText: {
@@ -454,7 +449,7 @@ const styles = StyleSheet.create({
     fontWeight:'400'
   },
   amountText: {
-    fontSize:24,
+    fontSize:20,
     fontWeight:'bold'
   }
 })

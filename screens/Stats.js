@@ -424,7 +424,7 @@ const Stats = (props) => {
                         <Text style={[styles.categoryText, {color: item.color}]}>{item.key}</Text>
                       </View>
                     </View>
-                    <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+                    <View style={{flex:2, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
                       <Text style={[styles.amountText, {color: '#26b522'}]}>{'$' +item.value}</Text>
                     </View>
                   </View>
@@ -467,7 +467,7 @@ const Stats = (props) => {
                             <Text style={[styles.categoryText, {color: item.color}]}>{item.key}</Text>
                           </View>
                         </View>
-                        <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
+                        <View style={{flex:2, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
                           <Text style={[styles.amountText, {color: '#ef5011'}]}>{'-$' +item.value}</Text>
                         </View>
                       </View>
@@ -597,7 +597,7 @@ const styles = StyleSheet.create({
     fontWeight:'400'
   },
   amountText: {
-    fontSize:24,
+    fontSize:20,
     fontWeight:'bold'
   },
   rowFront: {
