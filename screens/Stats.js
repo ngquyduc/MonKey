@@ -13,6 +13,7 @@ import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
+import { formatter } from '../api/formatCurrency';
 
 const {lightYellow, lighterBlue, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
@@ -377,9 +378,9 @@ const Stats = (props) => {
                 )}
             </View>
           </>
-          <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>
-          <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>   
-          <Text style={{color:'black'}}>{"Balance: " + balance}</Text>
+          <Text style={{color:'green'}}>{"Income: " + formatter.format(totalIncome)}</Text>
+          <Text style={{color:'red'}}>{"Expense: -" + formatter.format(totalExpense)}</Text>   
+          <Text style={{color:'black'}}>{"Balance: " + formatter.format(balance)}</Text>
         </Pressable>
         <View style={styles.expenseInputButtonView}>
           <View style={{flex:0.5}}>
@@ -425,7 +426,7 @@ const Stats = (props) => {
                       </View>
                     </View>
                     <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-                      <Text style={[styles.amountText, {color: '#26b522'}]}>{'$' +item.value}</Text>
+                      <Text style={[styles.amountText, {color: '#26b522'}]}>{formatter.format(item.value)}</Text>
                     </View>
                   </View>
                 )
@@ -468,7 +469,7 @@ const Stats = (props) => {
                           </View>
                         </View>
                         <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-                          <Text style={[styles.amountText, {color: '#ef5011'}]}>{'-$' +item.value}</Text>
+                          <Text style={[styles.amountText, {color: '#ef5011'}]}>{'-' + formatter.format(item.value)}</Text>
                         </View>
                       </View>
                     )
