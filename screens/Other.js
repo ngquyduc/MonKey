@@ -8,12 +8,20 @@ import { colors } from '../components/colors';
 import { Avatar, Drawer } from 'react-native-paper';
 import { copyDefaultCategory } from '../api/authentication';
 
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 const {beige, lighterBlue, brown, darkBlue, lightBlue, darkYellow, lightYellow} = colors;
 const Other = ({navigation}) => {
   const [image, setImage] = useState('');
-  const [username, setUsername] = useState('Team Grape')
+  const [username, setUsername] = useState('')
+
+  const changePicture = (pictureURI) => {
+    const userRef = doc(db, 'Users', getUserID())
+    updateDoc(userRef, {
+      profilePhoto: pictureURI
+    })
+  }
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -23,18 +31,27 @@ const Other = ({navigation}) => {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
-      setImage(result.uri);
+      changePicture(result.uri)
     }
+    
   };
+
   const askChangeAvatar = () => {
     Alert.alert("Change avatar?", "", [
       {text: 'No', onPress: () => console.log('Alert closed')},
       {text: 'Yes', onPress: pickImage}
     ]);
   }
+
+  useEffect(() => {
+    const userRef = doc(db, 'Users', getUserID())
+    onSnapshot(userRef, (snapshot) => {
+      setUsername(snapshot.data().username)
+      setImage(snapshot.data().profilePhoto)
+    })
+  }, [])
+
 
   return (
     <>
@@ -58,16 +75,6 @@ const Other = ({navigation}) => {
         }}>
           Sign Out
         </PressableText>
-        {/* <PressableText onPress={() => {
-          const IncomeDefault = collection(db, 'Input Category/Income/default')
-          IncomeCategory.forEach((doc) => {if (doc.name != 'Edit') addDoc(IncomeDefault, {
-            name: doc.name,
-            icon: doc.icon,
-            color: doc.color
-          })})
-        }}>
-          copyDefaultCategory
-        </PressableText> */}
       </ScrollView>
     </>
   );

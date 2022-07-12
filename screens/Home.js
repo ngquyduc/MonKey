@@ -170,8 +170,8 @@ const Home = ({navigation}) => {
   /*********** Activity ring config ***********/
   const activityData = [ 
     //the rings are disappear when the values equal 0 or more than 1
-    { value: monthExpense/monthLimit > 1 ? 1 :(monthExpense == 0? 0.0000001 : monthExpense/700), color:darkBlue }, 
-    { value: dayExpense/dayLimit > 1 ? 1 : (dayExpense == 0 ? 0.0000001 : dayExpense/50), color:darkYellow }, 
+    { value: monthExpense/monthLimit > 1 ? 1 :(monthExpense == 0? 0.0000001 : monthExpense/monthLimit), color:darkBlue }, 
+    { value: dayExpense/dayLimit > 1 ? 1 : (dayExpense == 0 ? 0.0000001 : dayExpense/dayLimit), color:darkYellow }, 
   ];
 
   const activityConfig = { 
