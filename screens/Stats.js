@@ -598,7 +598,7 @@ const styles = StyleSheet.create({
     fontWeight:'400'
   },
   amountText: {
-    fontSize:24,
+    fontSize:20,
     fontWeight:'bold'
   },
   rowFront: {

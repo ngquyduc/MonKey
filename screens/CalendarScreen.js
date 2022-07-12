@@ -16,7 +16,7 @@ import { Timestamp } from 'firebase/firestore';
 
 const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
 
-const CalendarScreen = (props) => {
+const CalendarScreen = ({navigation}) => {
   const [curDate, setCurDate] = useState(moment().format('YYYY-MM-DD'))
   const [curMonth, setCurMonth] = useState(moment().format('YYYY-MM-DD').substring(0, 7))
   const [finances, setFinances] = useState([])
@@ -164,24 +164,6 @@ const CalendarScreen = (props) => {
     const cat = doc(db, 'Finance/' + getUserID() + '/' + curDate.substring(0, 4), id)
     deleteDoc(cat)
   }
-  /*************** Function to edit record ***************/
-  const editRow = (id) => {
-    const path = 'Finance/' + getUserID() + '/' + curDate.substring(0, 4)
-    const catRef = doc(db, path, id)
-    deleteDoc(catRef)
-    const newpath = 'Finance/' + getUserID() + '/' + inprogressDate.format('YYYY')
-    const amountNumber = Number(inprogressAmount)
-    setDoc(doc(db, newpath, id), {
-      type: inprogressType, 
-      amount: amountNumber,
-      date: inprogressDate.format('DD'),
-      month: inprogressDate.format('MM'), 
-      note: inprogressNote,
-      category: inprogressCategory,
-      notedAt: Timestamp.now(), 
-    })
-    console.log('editted')
-  }
   const renderItem = (data, rowMap) => {
     return <VisibleItem data={data}/>
   }
@@ -216,15 +198,15 @@ const CalendarScreen = (props) => {
         data={data}
         rowMap={rowMap}
         onEdit={()=>{
-          setInprogressCategory(data.item.category)
-          setInprogressNote(data.item.note)
-          setInprogressAmount(data.item.amount.toString())
-          setInprogressDate(moment())
-          setInprogressId(data.item.id)  
-          setInprogressType(data.item.type)
-          setVisibleEdit(true) 
-          setColor(data.item.color)
-          console.log(inprogressDate)
+            navigation.navigate('EditItemScreen', {
+            inprogressAmount:data.item.amount.toString(),
+            inprogressCategory:data.item.category,
+            inprogressDate:curDate,
+            inprogressNote:data.item.note,
+            inprogressType:data.item.type,
+            inprogressId:data.item.id,
+            color:data.item.color,
+          })
         }}
         onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
       />
@@ -726,7 +708,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems:'center',
     borderRadius:10,
-    height:60,
+    height:55,
     marginHorizontal: 5, 
     marginVertical:5,
     shadowColor:'#999',
@@ -738,7 +720,7 @@ const styles = StyleSheet.create({
   rowFrontVisible: {
     backgroundColor:'#fff',
     borderRadius:5,
-    height:60,
+    height:55,
     padding:10,
     marginBottom:15,
   },
@@ -764,7 +746,7 @@ const styles = StyleSheet.create({
   backRightButtonLeft: {
     backgroundColor:'#1f65ff',
     right:75,
-    height:60, 
+    height:55, 
     marginTop:-5
   },
   backRightButtonRight: {
@@ -772,7 +754,7 @@ const styles = StyleSheet.create({
     right:0,
     borderTopRightRadius:11,
     borderBottomRightRadius:11,
-    height:60, 
+    height:55, 
     marginTop:-5
   },
   categoryText: {
@@ -784,7 +766,7 @@ const styles = StyleSheet.create({
     fontWeight:'400'
   },
   amountText: {
-    fontSize:24,
+    fontSize:20,
     fontWeight:'bold'
   },
   headerModal: {

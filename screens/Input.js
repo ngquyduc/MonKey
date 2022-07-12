@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert, Modal} from 'react-native';
+import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList, Alert, Modal, TouchableWithoutFeedback} from 'react-native';
 import styles from '../components/styles';
 import { colors } from '../components/colors';
 import { Snackbar } from 'react-native-paper';
@@ -209,7 +209,7 @@ const Input = ({navigation}) => {
                   <Modal 
                     visible={show}
                     transparent={true}
-                    animationType='slide'
+                    animationType='fade'
                     style={{backgroundColor:'#fff'}}
                   >
                     <View style={styless.modalView}>
@@ -329,7 +329,7 @@ const Input = ({navigation}) => {
                         <Text style={[styless.categoryText, {color:colorC}]}>{chosenCategory}</Text>
                     </View>
                   </View>
-                  <View style={{height:160}}>
+                  <View style={{height:160, alignItems:'center'}}>
                     <FlatList
                       scrollEnabled={true}
                       contentContainerStyle={{alignSelf: 'flex-start'}}
@@ -415,7 +415,7 @@ const Input = ({navigation}) => {
                   <Modal 
                     visible={show}
                     transparent={true}
-                    animationType='slide'
+                    animationType='fade'
                     style={{backgroundColor:'#fff'}}
                   >
                     <View style={styless.modalView}>
@@ -531,7 +531,7 @@ const Input = ({navigation}) => {
                         <Text style={[styless.categoryText, {color:colorC}]}>{chosenCategory}</Text>
                     </View>
                   </View>
-                  <View style={{height:160}}>
+                  <View style={{height:160, alignItems:'center'}}>
                     <FlatList
                       scrollEnabled={true}
                       contentContainerStyle={{alignSelf: 'flex-start'}}
@@ -681,7 +681,7 @@ const styless = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     height: 50,
-    width:138, 
+    width:133, 
   },
   itemButton: {
     flexDirection: 'column',
@@ -690,7 +690,7 @@ const styless = StyleSheet.create({
     alignItems: 'center',
     borderRadius:10,
     backgroundColor:'#fff',
-    width:128,
+    width:122,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
@@ -707,7 +707,7 @@ const styless = StyleSheet.create({
   modalView: {
     flex:1, 
     justifyContent:'flex-end', 
-    backgroundColor:'transparent',
+    backgroundColor:'#000000aa',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
     shadowRadius:2,
