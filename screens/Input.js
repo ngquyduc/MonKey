@@ -680,7 +680,7 @@ const styless = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     height: 50,
-    width:ScreenWidth/3, 
+    width:(ScreenWidth-15)/3, 
   },
   itemButton: {
     flexDirection: 'column',
@@ -689,7 +689,7 @@ const styless = StyleSheet.create({
     alignItems: 'center',
     borderRadius:10,
     backgroundColor:'#fff',
-    width:ScreenWidth/3-2,
+    width:ScreenWidth/3-15,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
