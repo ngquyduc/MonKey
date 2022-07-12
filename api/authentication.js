@@ -11,7 +11,7 @@ const createNewUser = (userId, email, userName) => {
   const userProfileRef = doc(db, 'Users', userId)
   setDoc(userProfileRef, {
     email: email,
-    userName: userName, 
+    username: userName, 
     profilePhoto: "https://cdn.landesa.org/wp-content/uploads/default-user-image.png"
   })
 }
