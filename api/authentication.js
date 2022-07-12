@@ -2,7 +2,7 @@ import { app } from "./firebase";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { Alert, SegmentedControlIOS } from "react-native";
 import { db,} from "./db";
-import { collection, addDoc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, addDoc, getDoc, getDocs, setDoc, doc } from "firebase/firestore";
 
 export const authentication = getAuth(app);
 
@@ -14,6 +14,7 @@ const createNewUser = (userId, email, userName) => {
     username: userName, 
     profilePhoto: "https://cdn.landesa.org/wp-content/uploads/default-user-image.png"
   })
+  console.log('created new user')
 }
 
 export const copyDefaultCategory = (userId) => {
@@ -30,7 +31,7 @@ export const copyDefaultCategory = (userId) => {
 }
 
 export const createDefaultSpendingLimit = (userId) => {
-  // const defaultSpendingLimitRef = doc(db, 'Spending Limit', 'default')
+  const spendingLimitRef = doc(db, 'Spending Limit', userId)
   setDoc(spendingLimitRef, {
     monthLimit: 3000,
     dayLimit: 100

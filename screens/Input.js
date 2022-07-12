@@ -144,6 +144,7 @@ const Input = ({navigation}) => {
   
 
   return (
+    <>
     <View style={{flex:1, backgroundColor:'#fff'}}>
       <View style={[styless.header, {marginBottom:4}]}>
         <Text style={styles.boldBlueHeaderText}>Input</Text>
@@ -324,7 +325,7 @@ const Input = ({navigation}) => {
                         <Text style={[styless.categoryText, {color:colorC}]}>{chosenCategory}</Text>
                     </View>
                   </View>
-                  <View style={{height:160, alignItems:'center'}}>
+                  <View style={{height:200, alignItems:'center', marginBottom: 10}}>
                     <FlatList
                       scrollEnabled={true}
                       contentContainerStyle={{alignSelf: 'flex-start'}}
@@ -526,7 +527,7 @@ const Input = ({navigation}) => {
                         <Text style={[styless.categoryText, {color:colorC}]}>{chosenCategory}</Text>
                     </View>
                   </View>
-                  <View style={{height:160, alignItems:'center'}}>
+                  <View style={{height:200, alignItems:'center', marginBottom: 10}}>
                     <FlatList
                       scrollEnabled={true}
                       contentContainerStyle={{alignSelf: 'flex-start'}}
@@ -567,37 +568,42 @@ const Input = ({navigation}) => {
                   </View>
                 </View>
                 )}
-              <View style={{justifyContent:'flex-end'}}>
-                <Snackbar
-                  visible={visibleIncome}
-                  onDismiss={()=>setVisibleIncome(false)}
-                  action={{
-                    label: 'Close',
-                    onPress: () => {
-                      // Do something
-                    },
-                  }}
-                  duration={200}>
-                  Income noted!
-                </Snackbar>
-                <Snackbar
-                    visible={visibleExpense}
-                    onDismiss={()=>setVisibleExpense(false)}
-                    action={{
-                      label: 'Close',
-                      onPress: () => {
-                        // Do something
-                      },
-                    }}
-                    duration={200}>
-                    Expense noted!
-                  </Snackbar>
-              </View>
+              
             </View>
+            
           </>
         </Pressable>
+        
       </View>
+      
     </View>
+    <View style={{justifyContent:'flex-end'}}>
+    <Snackbar
+      visible={visibleIncome}
+      onDismiss={()=>setVisibleIncome(false)}
+      action={{
+        label: 'Close',
+        onPress: () => {
+          // Do something
+        },
+      }}
+      duration={200}>
+      Income noted!
+    </Snackbar>
+    <Snackbar
+        visible={visibleExpense}
+        onDismiss={()=>setVisibleExpense(false)}
+        action={{
+          label: 'Close',
+          onPress: () => {
+            // Do something
+          },
+        }}
+        duration={200}>
+        Expense noted!
+      </Snackbar>
+  </View>
+  </>
   );
 }
 
