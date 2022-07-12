@@ -26,7 +26,7 @@ export const handleExpenseSubmit = async (date, amount, note, category) => {
       category: category,
       notedAt: Timestamp.now(),
     })
-    .then(Alert.alert('Expense noted'))
+    .then()
   } catch (err) {
     Alert.alert(err.message)
   }
@@ -45,7 +45,7 @@ export const handleIncomeSubmit = async (date, amount, note, category) => {
       category: category,
       notedAt: Timestamp.now(),
     })
-    .then(Alert.alert('Income noted'))
+    .then()
   } catch (err) {
     Alert.alert(err.message)
   }
