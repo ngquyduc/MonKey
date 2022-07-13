@@ -124,19 +124,47 @@ const ListOfIncomeCategory = ({navigation}) => {
   }
   /*************** Function when submitting new/edit category ***************/
   const onSubmitAdd = (name, icon, color) => {
-    AddIncomeCategory(name, icon, color)
-    setInprogressCategory('')
-    setInprogressColor('#767676')
-    setInprogressIcon('')
-    setVisibleAdd(false)
+    if (name != '' && icon != '' && color != '') {
+      AddIncomeCategory(name, icon, color)
+      setInprogressCategory('')
+      setInprogressColor('#767676')
+      setInprogressIcon('')
+      setVisibleAdd(false)
+    } else if (name == '') {
+      Alert.alert("Alert", "Please enter the name for this category", [
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
+      ]);
+    } else if (icon == '') {
+      Alert.alert("Alert", "Please choose icon for this category", [
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
+      ]);
+    } else if (color == '') {
+      Alert.alert("Alert", "Please choose the color for this category", [
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
+      ]);
+    }
   }
 
-  const onSubmitEdit = () => {
-    editRow(inprogressId)
-    setInprogressCategory('')
-    setInprogressColor('#767676')
-    setInprogressIcon('')
-    setVisibleEdit(false)
+  const onSubmitEdit = (name, icon, color) => {
+    if (name != '' && icon != '' && color != '') {
+      editRow(inprogressId)
+      setInprogressCategory('')
+      setInprogressColor('#767676')
+      setInprogressIcon('')
+      setVisibleEdit(false)
+    } else if (name == '') {
+      Alert.alert("Alert", "Please enter the name for new category", [
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
+      ]);
+    } else if (icon == '') {
+      Alert.alert("Alert", "Please choose icon for new category", [
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
+      ]);
+    } else if (color == '') {
+      Alert.alert("Alert", "Please choose the color for new category", [
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
+      ]);
+    }
   }
 
   /*************** Function to alert when deleting ***************/
@@ -419,7 +447,7 @@ const ListOfIncomeCategory = ({navigation}) => {
           <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
             <TouchableOpacity 
               style={styles.submitButton}
-              onPress={() => {onSubmitEdit()}}>
+              onPress={() => {onSubmitEdit(inprogressCategory, inprogressIcon, inprogressColor)}}>
               <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>

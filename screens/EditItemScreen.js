@@ -113,7 +113,7 @@ const EditItemScreen = ({route, navigation}) => {
     //console.log(inprogressDate.format('DD_MM_YYYY'))
   }
   const onSubmitEdit = () => {
-    if (inprogressAmount != '' && inprogressCategory != '') {
+    if (inprogressAmount != null && inprogressCategory != '') {
       editRow(inprogressId)
       setInprogressCategory('')
       setInprogressNote('')
@@ -123,7 +123,7 @@ const EditItemScreen = ({route, navigation}) => {
       setInprogressType('')
       setShow(false)
       navigation.goBack();
-    } else if (inprogressAmount == '') {
+    } else if (inprogressAmount == null) {
       Alert.alert("Alert", "Please enter the amount", [
         {text: 'Understand', onPress: () => console.log('Alert closed')}
       ]);
