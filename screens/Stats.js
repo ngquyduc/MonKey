@@ -403,7 +403,7 @@ const Stats = (props) => {
               data={data1}
               radius={100}
               onPress={(item, index) => {
-                if (currentItem.key == undefined) {
+                if (currentItem.key == undefined || item.key != currentItem.key) {
                   setCurrentItem(item)
                 } else {
                   setCurrentItem({})
@@ -458,7 +458,7 @@ const Stats = (props) => {
                   data={data2}
                   radius={100}
                   onPress={(item, index) => {
-                    if (currentItem.key == undefined) {
+                    if (currentItem.key == undefined || item.key != currentItem.key) {
                       setCurrentItem(item)
                     } else {
                       setCurrentItem({})
