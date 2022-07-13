@@ -72,15 +72,16 @@ export const handleLogIn = (email, password) => {
 export const autoNav = (nav) => {
   onAuthStateChanged(authentication, (user) => {
     if (user) {
-      nav.navigate("InnerScreenNav")
-    } else {
-      nav.navigate("Login")
+      nav.replace("InnerScreenNav")
     }
   });
 }
 
 export const handleSignOut = (nav) => {
   signOut(authentication)
+    .then(
+      nav.replace('Login')
+    )
     .catch((error) => {
       console.log(error.message);
     })
