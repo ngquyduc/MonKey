@@ -14,6 +14,7 @@ import moment from 'moment';
 import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { formatter } from '../api/formatCurrency';
+import { current } from '@reduxjs/toolkit';
 
 const {lightYellow, lighterBlue, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
@@ -25,6 +26,7 @@ const Stats = (props) => {
   const [balance, setBalance] = useState(0)
   const [data1, setData1] = useState([])
   const [data2, setData2] = useState([])
+  const [currentItem, setCurrentItem] = useState({})
 
   const [isIncome, setIsIncome] = useState(false);
   const [isExpense, setIsExpense] = useState(true);
@@ -400,13 +402,31 @@ const Stats = (props) => {
             <PieChart
               data={data1}
               radius={100}
-              onPress={(item, index) => console.log(item)}
+              onPress={(item, index) => {
+                if (currentItem.key == undefined) {
+                  setCurrentItem(item)
+                } else {
+                  setCurrentItem({})
+                }
+              }}
               focusOnPress={true}
               extraRadiusForFocused={5}
               shadow={true}
               showText={true}
               textColor={'white'}
-              textSize={15}
+              textSize={14}
+              textColor={'black'}
+              fontWeight={'bold'}
+              centerLabelComponent={() => 
+                <View>
+                  <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.key: ''}
+                  </Text>
+                  <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? formatter.format(currentItem.value) : ''}
+                  </Text>
+                  <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.percentage: ''}
+                  </Text>
+                </View>
+              }
               labelsPosition='outward'
               donut
             />
@@ -437,22 +457,34 @@ const Stats = (props) => {
                 <PieChart 
                   data={data2}
                   radius={100}
-                  onPress={(item, index) => console.log(item)}
+                  onPress={(item, index) => {
+                    if (currentItem.key == undefined) {
+                      setCurrentItem(item)
+                    } else {
+                      setCurrentItem({})
+                    }
+                  }}
                   focusOnPress={true}
-                  extraRadiusForFocused={3}
+                  extraRadiusForFocused={5}
                   shadow={true}
                   showText={true}
                   textColor={'white'}
-                  textSize={15}
+                  textSize={14}
+                  textColor={'black'}
+                  fontWeight={'bold'}
+                  centerLabelComponent={() => 
+                    <View>
+                      <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.key: ''}
+                      </Text>
+                      <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? formatter.format(currentItem.value) : ''}
+                      </Text>
+                      <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.percentage: ''}
+                      </Text>
+                    </View>
+                  }
                   labelsPosition='outward'
                   donut
                 />
-                {/* <FlatList
-                  data={data2}
-                  renderItem={({item}) => (
-                    <Text>{item.key}</Text>
-                  )}
-                /> */}
                 {
                   data2.map((item) => {
                     return (
@@ -626,4 +658,9 @@ const styles = StyleSheet.create({
     shadowOpacity:0.8,
     shadowRadius:2,
   },
+  pieChartDetail: {
+    justifyContent:'center',
+    alignSelf:'center',
+    fontWeight:'bold'
+  }
 })
