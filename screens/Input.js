@@ -67,16 +67,9 @@ const Input = ({navigation}) => {
   }
 
   /********** Submit **********/
+  
   const handleExpenseInput = (date, amount, note, chosenCategory) => {
-    if (amount != '' && chosenCategory != '') {
-      handleExpenseSubmit(date, amount, note, chosenCategory)
-      setVisibleExpense(true)
-      setDate(moment())
-      setAmount('')
-      setNote('')
-      setChosenCategory('')
-      setColor('');
-    } else if (amount == '') {
+    if (amount == null || amount == 0) {
       Alert.alert("Alert", "Please enter the expense amount", [
         {text: 'Understand', onPress: () => console.log('Alert closed')}
       ]);
@@ -84,27 +77,35 @@ const Input = ({navigation}) => {
       Alert.alert("Alert", "Please choose the category", [
         {text: 'Understand', onPress: () => console.log('Alert closed')}
       ]);
-    }
-  }
-
-  const handleIncomeInput = (date, amount, note, chosenCategory) => {
-    if (amount != '' && chosenCategory != '') {
-      handleIncomeSubmit(date, Number(amount), note, chosenCategory)
-      setVisibleIncome(true)
+    } else if (amount != '' && chosenCategory != '') {
+      handleExpenseSubmit(date, amount, note, chosenCategory)
+      setVisibleExpense(true)
       setDate(moment())
-      setAmount(0)
+      setAmount('')
       setNote('')
       setChosenCategory('')
       setColor('');
-    } else if (amount == '') {
-      Alert.alert("Alert", "Please enter the income amount", [
-        {text: 'Okay', onPress: () => console.log('Alert closed')}
+    } 
+  }
+
+  const handleIncomeInput = (date, amount, note, chosenCategory) => {
+    if (amount == null || amount == 0) {
+      Alert.alert("Alert", "Please enter the expense amount", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
       ]);
     } else if (chosenCategory == '') {
       Alert.alert("Alert", "Please choose the category", [
-        {text: 'Okay', onPress: () => console.log('Alert closed')}
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
       ]);
-    }
+    } else if (amount != '' && chosenCategory != '') {
+      handleExpenseSubmit(date, amount, note, chosenCategory)
+      setVisibleExpense(true)
+      setDate(moment())
+      setAmount('')
+      setNote('')
+      setChosenCategory('')
+      setColor('');
+    } 
   }
 
   const [ExpenseCategory, setExpenseCategory] = useState([])
@@ -121,7 +122,7 @@ const Input = ({navigation}) => {
             isEdit: doc.data().name == 'Edit' ? true : false
           });
       });
-      expenseCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      expenseCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setExpenseCategory(expenseCategories)
     });
 
@@ -136,7 +137,7 @@ const Input = ({navigation}) => {
             isEdit: doc.data().name == 'Edit' ? true : false
           });
       });
-      incomeCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      incomeCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setIncomeCategory(incomeCategories)
     });}
   , [])
