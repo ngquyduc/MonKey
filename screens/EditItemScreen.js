@@ -87,19 +87,31 @@ const EditItemScreen = ({route, navigation}) => {
   const editRow = (id) => {
     const path = 'Finance/' + getUserID() + '/' + date.substring(0, 4)
     const catRef = doc(db, path, id)
-    deleteDoc(catRef)
-    const newpath = 'Finance/' + getUserID() + '/' + inprogressDate.format('YYYY')
     const amountNumber = Number(inprogressAmount)
-    setDoc(doc(db, newpath, id), {
-      type: inprogressType, 
-      amount: amountNumber,
-      date: inprogressDate.format('DD'),
-      month: inprogressDate.format('MM'), 
-      note: inprogressNote,
-      category: inprogressCategory,
-      notedAt: Timestamp.now(), 
-    })
-    console.log('editted')
+    if (inprogressDate.format('YYYY-MM-DD') == date) {
+      setDoc(catRef, {
+        type: inprogressType, 
+        date: inprogressDate.format('DD'),
+        month: inprogressDate.format('MM'), 
+        amount: amountNumber,
+        note: inprogressNote,
+        category: inprogressCategory,
+        notedAt: Timestamp.now(), 
+      })
+    }
+    else {
+      deleteDoc(catRef)
+      const newpath = 'Finance/' + getUserID() + '/' + inprogressDate.format('YYYY')
+      setDoc(doc(db, newpath, id), {
+        type: inprogressType, 
+        amount: amountNumber,
+        date: inprogressDate.format('DD'),
+        month: inprogressDate.format('MM'), 
+        note: inprogressNote,
+        category: inprogressCategory,
+        notedAt: Timestamp.now(), 
+      })
+    }
   }
   const closeEditModal = () => {
     setInprogressCategory('')
@@ -113,7 +125,17 @@ const EditItemScreen = ({route, navigation}) => {
     //console.log(inprogressDate.format('DD_MM_YYYY'))
   }
   const onSubmitEdit = () => {
-    if (inprogressAmount != '' && inprogressCategory != '') {
+    if (inprogressAmount == null || inprogressAmount == 0) {
+      Alert.alert("Alert", "Please enter the amount", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+    else if (inprogressCategory == '') {
+      Alert.alert("Alert", "Please choose the category", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+    else if (inprogressAmount != '' && inprogressCategory != '') {
       editRow(inprogressId)
       setInprogressCategory('')
       setInprogressNote('')
@@ -123,15 +145,8 @@ const EditItemScreen = ({route, navigation}) => {
       setInprogressType('')
       setShow(false)
       navigation.goBack();
-    } else if (inprogressAmount == '') {
-      Alert.alert("Alert", "Please enter the amount", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
-      ]);
-    } else if (inprogressCategory == '') {
-      Alert.alert("Alert", "Please choose the category", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
-      ]);
-    }
+    } 
+    
   }
 
   return (
@@ -329,7 +344,7 @@ const EditItemScreen = ({route, navigation}) => {
               <Text style={[styles.categoryText, {color:colorC}]}>{inprogressCategory}</Text>
           </View>
         </View>
-        <View style={{height:160, alignItems:'center'}}>
+        <View style={{height:200, alignItems:'center'}}>
           <FlatList
             scrollEnabled={true}
             contentContainerStyle={{alignSelf: 'flex-start'}}
@@ -404,6 +419,7 @@ const styles = StyleSheet.create({
     fontWeight:'500',
   },
   submitButtonView: {
+    marginTop: 10, 
     alignItems:'center',
     justifyContent:'center',
     paddingBottom:4,

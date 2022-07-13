@@ -59,7 +59,7 @@ const CalendarScreen = ({navigation}) => {
   useEffect(() => {
     const financePath = 'Finance/' + getUserID() + '/' + curDate.substring(0, 4)
     const financeRef = collection(db, financePath)
-    const dayFinanceQuery = query(financeRef, where('date', '==', curDate.substring(8, 10)), where('month', '==', curMonth.substring(5, 7)))
+    const dayFinanceQuery = query(financeRef, where('date', '==', curDate.substring(8, 10)), where('month', '==', curDate.substring(5, 7)))
     onSnapshot(dayFinanceQuery, (snapShot) => {
       const finances = []
       const expenses = []
