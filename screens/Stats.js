@@ -368,13 +368,13 @@ const Stats = (props) => {
         <View>
           <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
-              <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + totalIncome}</Text>
+              <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: " + formatter.format(totalIncome)}</Text>
             </View>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
-              <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + totalExpense}</Text>
+              <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: " + formatter.format(totalExpense)}</Text>
             </View>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6'}]}>
-              <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + balance}</Text>
+              <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: " + formatter.format(balance)}</Text>
             </View>
           </View>
         </View>

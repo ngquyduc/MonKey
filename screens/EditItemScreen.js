@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity,  Modal, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
+import { View, Text, TouchableOpacity,  Modal, TextInput, Alert, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
 import { colors } from '../components/colors';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -113,15 +113,25 @@ const EditItemScreen = ({route, navigation}) => {
     //console.log(inprogressDate.format('DD_MM_YYYY'))
   }
   const onSubmitEdit = () => {
-    editRow(inprogressId)
-    setInprogressCategory('')
-    setInprogressNote('')
-    setInprogressAmount('')
-    setInprogressDate(moment())
-    setInprogressId('')
-    setInprogressType('')
-    setShow(false)
-    navigation.goBack();
+    if (inprogressAmount != '' && inprogressCategory != '') {
+      editRow(inprogressId)
+      setInprogressCategory('')
+      setInprogressNote('')
+      setInprogressAmount('')
+      setInprogressDate(moment())
+      setInprogressId('')
+      setInprogressType('')
+      setShow(false)
+      navigation.goBack();
+    } else if (inprogressAmount == '') {
+      Alert.alert("Alert", "Please enter the amount", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    } else if (inprogressCategory == '') {
+      Alert.alert("Alert", "Please choose the category", [
+        {text: 'Understand', onPress: () => console.log('Alert closed')}
+      ]);
+    }
   }
 
   return (
@@ -294,7 +304,7 @@ const EditItemScreen = ({route, navigation}) => {
           }}>
             <TextInput
               style={[styles.noteInputContainer, {textAlign:'left'}]}
-              placeholder='Note'
+              placeholder='Note (optional)'
               placeholderTextColor={lightBlue}
               value={inprogressNote}
               onChangeText={(value) => setInprogressNote(value)}

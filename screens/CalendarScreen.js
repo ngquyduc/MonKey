@@ -75,6 +75,7 @@ const CalendarScreen = ({navigation}) => {
           notedAt: doc.data().notedAt,
           type: doc.data().type,
           id: doc.id,
+          key: doc.id
         })
         if (doc.data().type == 'expense') { 
           expenses.push(doc.data().amount)
@@ -154,7 +155,7 @@ const CalendarScreen = ({navigation}) => {
   /*************** Function to alert when deleting ***************/
   const alertDelete = (rowMap, rowKey, id) => {
     Alert.alert("Delete this record?","", [
-      {text: 'Cancel', onPress: (modal) => {closeRow(rowMap, rowKey)}},
+      {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
       {text: 'Delete', onPress: () => {deleteRow(id)}}
     ]);
   }
@@ -238,61 +239,10 @@ const CalendarScreen = ({navigation}) => {
     )
   }
 
-  const [visibleEdit, setVisibleEdit] = useState(false);
-  const [inprogressAmount, setInprogressAmount] = useState('');
-  const [inprogressNote, setInprogressNote] = useState('');
-  const [inprogressCategory, setInprogressCategory]= useState('');
-  let [inprogressDate, setInprogressDate] = useState(moment());
-  const [inprogressId, setInprogressId] = useState('');
-  const [inprogressType, setInprogressType] = useState('')
-  const [colorC, setColor] = useState('')
-  const switchType = () => {
-    if (inprogressType == 'income') {
-      setInprogressType('expense')
-      setInprogressCategory('')
-    } else {
-      setInprogressType('income')
-      setInprogressCategory('')
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
     }
-  }
-
-  const closeEditModal = () => {
-    setInprogressCategory('')
-    setInprogressNote('')
-    setInprogressAmount('')
-    setInprogressDate(moment())
-    setInprogressId('')  
-    setInprogressType('')
-    setShow(false)
-    setVisibleEdit(false)
-    //console.log(inprogressDate.format('DD_MM_YYYY'))
-  }
-  const onSubmitEdit = () => {
-    editRow(inprogressId)
-    setInprogressCategory('')
-    setInprogressNote('')
-    setInprogressAmount('')
-    setInprogressDate(moment())
-    setInprogressId('')
-    setInprogressType('')
-    setShow(false)
-    setVisibleEdit(false)
-  }
-
-  /********** Date Picker Variables **********/
-  const [show, setShow] = useState(false);
-
-  const onChange = (event, selectedDate) => {
-    setShow(Platform.OS === 'ios');
-    setInprogressDate(moment(selectedDate))
-  }
-
-  const addOneDay = () => {
-    inprogressDate = setInprogressDate(moment(inprogressDate).add(1, 'day'));
-  }
-
-  const subtractOneDay = () => {
-    inprogressDate = setInprogressDate(moment(inprogressDate).subtract(1, 'day'));
   }
 
   const [ExpenseCategory, setExpenseCategory] = useState([])
@@ -358,15 +308,15 @@ const CalendarScreen = ({navigation}) => {
               enableSwipeMonths={true}
             />
           </View>
-          <View style={{flexDirection:'row',marginHorizontal:5}}>
+          <View style={{flexDirection:'row',marginHorizontal:5, marginBottom:5}}>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2',marginHorizontal:3}]}>
-              <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: $" + monthIncome}</Text>
+              <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income:$" + formatter.format(monthIncome)}</Text>
             </View>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf',marginHorizontal:3}]}>
-              <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: $" + expenseMonth}</Text>
+              <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: " + formatter.format(expenseMonth)}</Text>
             </View>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6',marginHorizontal:3}]}>
-              <Text style={{color:'#494949', fontSize:14, fontWeight:'500'}}>{" Balance: $" + total}</Text>
+              <Text style={{color:'#494949', fontSize:14, fontWeight:'500'}}>{" Balance: " + formatter.format(total)}</Text>
             </View>
           </View>
         </View>
@@ -404,224 +354,6 @@ const CalendarScreen = ({navigation}) => {
         </View>}
       </View>
     </View>
-    {/*************** Modal to edit category ***************/}
-    <Modal 
-    visible={visibleEdit} 
-    animationType='slide'
-  >
-    <Pressable onPress={Keyboard.dismiss}>
-      {/*********** Header ***********/}
-      <View style={[styles.headerModal, {flexDirection:'row'}]}>
-        <View style={{flex:4}}>
-          <Text></Text>
-        </View>
-        <View style={{flex:8, alignItems:'center',justifyContent:'center'}}>
-          <Text style={styles.boldBlueHeaderText}>Edit</Text>
-        </View>
-        <View style={{flex:4, alignItems:'center', justifyContent:'center', marginBottom:10}}>
-          <TouchableOpacity 
-            style={{alignItems:'center', justifyContent:'center',backgroundColor:darkYellow,height:30,width:65, borderRadius:5}}
-            onPress={closeEditModal}>
-            <Text style={styles.cancelText}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/*********** Type ***********/}
-      <View style={styles.noteView}>
-        <View style={{
-          flex:20,
-          paddingLeft:12,
-          justifyContent:'center'
-          }}>
-          <Text style={styles.dateText}>Type</Text>
-        </View>
-        <View style={{
-          flex:80,
-          alignItems:'center',
-          justifyContent:'center',
-          borderBottomColor:darkYellow,
-        }}>
-          <TouchableOpacity 
-            style={{alignItems:'center',justifyContent:'center', backgroundColor:inprogressType=='income' ? '#e2f5e2' : '#fdddcf', width:210, height:34, borderRadius:20}}
-            onPress={switchType}>
-            <Text style={{color: inprogressType=='income' ? '#26b522' : '#ef5011', fontSize:18, fontWeight:'500'}}>
-              {inprogressType=='income' ? 'Income' : 'Expense'}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/*********** Date ***********/}
-      <View style={styles.dateView}>
-        <View style={{
-          flex:20,
-          paddingLeft:12,
-          justifyContent:'center'
-        }}>
-          <Text style={styles.dateText}>Date</Text>
-        </View>
-        <View style={{
-          flex:15,
-          alignItems:'center',
-          justifyContent:'center'
-        }}>
-          <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneDay}>
-            <Entypo name='chevron-left' size={28} color={darkBlue}/>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.datePickerView}>
-          <TouchableOpacity onPress={()=>setShow(true)}>
-            <View>
-              <Text style={styles.dateText}>{inprogressDate.format('DD-MM-YYYY')}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{
-          flex:15,
-          alignItems:'center',
-          justifyContent:'center'
-        }}>
-          <TouchableOpacity style={{position: 'absolute'}} onPress={addOneDay}>
-            <Entypo name='chevron-right' size={28} color={darkBlue}/>
-          </TouchableOpacity>
-        </View>
-      </View>
-      {show && (
-        <>
-          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
-            <View style={{flex:5}}>
-              <TouchableOpacity onPress={()=> {setShow(false), setInprogressDate(moment())}}>
-                <View>
-                  <Text style={styles.datePickerOffText}>Cancel</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={{flex:5, alignItems:'flex-end'}}>
-              <TouchableOpacity onPress={()=> setShow(false)}>
-                <View>
-                  <Text style={styles.datePickerOffText}>Done</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-            <DateTimePicker
-              value={new Date(inprogressDate)}
-              display='spinner'
-              textColor={darkBlue}
-              onChange ={onChange}
-              minimumDate={new Date(moment().subtract(50, 'years').format('YYYY-MM-DD'))}
-              maximumDate={new Date(moment().add(50, 'years').format('YYYY-MM-DD'))}
-            />
-        </>
-      )}
-
-      {/*********** Amount ***********/}
-      <View style={styles.dateView}>
-        <View style={{
-          flex:30,
-          paddingLeft:12,
-          justifyContent:'center'
-          }}>
-          <Text style={styles.dateText}>{inprogressType == 'income' ?'Income' : 'Expense'}</Text>
-        </View>
-        <View style={{flex:5}}></View>
-        <View style={styles.datePickerView}>
-          <TextInput
-            style={[styles.inputContainer, {textAlign:'right'}]}
-            maxLength={10}
-            placeholder='0.00'
-            placeholderTextColor={lightBlue}
-            keyboardType='decimal-pad'
-            value={inprogressAmount}
-            onChangeText={(value) => setInprogressAmount(value)}
-          />
-        </View>
-        <View style={{
-          flex:15, 
-          justifyContent:'center',
-          alignItems:'center'
-          }}>
-            <Foundation name='dollar' size={34} color={darkBlue}/>
-        </View>
-      </View>
-      {/*********** Note ***********/}
-      <View style={styles.noteView}>
-        <View style={{
-          flex:20,
-          paddingLeft:12,
-          justifyContent:'center'
-          }}>
-          <Text style={styles.dateText}>Note</Text>
-        </View>
-        <View style={{
-          flex:80,
-          alignItems:'center',
-          justifyContent:'center',
-          borderBottomColor:darkYellow,
-        }}>
-          <TextInput
-            style={[styles.noteInputContainer, {textAlign:'left'}]}
-            placeholder='Note'
-            placeholderTextColor={lightBlue}
-            value={inprogressNote}
-            onChangeText={(value) => setInprogressNote(value)}
-          />
-        </View>
-      </View>
-      {/*********** Category ***********/}
-      <View style={styles.noteView}>
-        <View style={{
-          flex:22,
-          paddingLeft:12,
-          justifyContent:'center'
-          }}>
-          <Text style={styles.dateText}>Category</Text>
-        </View>
-        <View style={{
-            flex:80,
-            alignItems:'center',
-            justifyContent:'center',
-            borderBottomColor:darkYellow,
-          }}>
-            <Text style={[styles.categoryText, {color:colorC}]}>{inprogressCategory}</Text>
-        </View>
-      </View>
-      <View style={{height:160}}>
-        <FlatList
-          scrollEnabled={true}
-          contentContainerStyle={{alignSelf: 'flex-start'}}
-          numColumns={3}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={true}
-          data={inprogressType == 'income' ? IncomeCategory : ExpenseCategory} 
-          renderItem={({item}) => {
-            if (!item.isEdit) {
-              return (
-                <View style={styles.itemView}>
-                  <TouchableOpacity 
-                    style={styles.itemButton}
-                    onPress={() => {setInprogressCategory(item.name); setColor(item.color)}}>
-                    <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
-                    <Text style={[styles.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
-                  </TouchableOpacity>
-                </View>
-              )
-            }
-          }}
-        />
-      </View>
-      {/*********** Submit button ***********/}
-      <View style={[styles.submitButtonView, {alignItems:'center', justifyContent:'center', }]}>
-        <TouchableOpacity 
-        style={[styles.inputButton, {borderRadius:10, backgroundColor:darkYellow,width:120}]} 
-        onPress={() => {onSubmitEdit()}}> 
-        {/*********** modify function onSubmitEdit and editRow (Ctrl F) ***********/}
-          <Text style={styles.cancelText}>Submit</Text>
-        </TouchableOpacity>
-      </View>
-    </Pressable>
-  </Modal>
   </>
   );
 }

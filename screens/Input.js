@@ -58,7 +58,7 @@ const Input = ({navigation}) => {
   const [note, setNote] = useState('');
 
   /********** Expense Variables **********/
-  const [amount, setAmount] = useState(0)
+  const [amount, setAmount] = useState('')
 
   /********** Category Variables **********/
   const [chosenCategory, setChosenCategory] = useState('');
@@ -72,7 +72,7 @@ const Input = ({navigation}) => {
       handleExpenseSubmit(date, amount, note, chosenCategory)
       setVisibleExpense(true)
       setDate(moment())
-      setAmount(0)
+      setAmount('')
       setNote('')
       setChosenCategory('')
       setColor('');
@@ -98,11 +98,11 @@ const Input = ({navigation}) => {
       setColor('');
     } else if (amount == '') {
       Alert.alert("Alert", "Please enter the income amount", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     } else if (chosenCategory == '') {
       Alert.alert("Alert", "Please choose the category", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     }
   }
@@ -301,7 +301,7 @@ const Input = ({navigation}) => {
                     }}>
                       <TextInput
                         style={[styless.noteInputContainer, {textAlign:'left'}]}
-                        placeholder='Note'
+                        placeholder='Note (optional)'
                         placeholderTextColor={lightBlue}
                         value={note}
                         onChangeText={(value) => setNote(value)}
