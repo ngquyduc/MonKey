@@ -58,7 +58,7 @@ const Input = ({navigation}) => {
   const [note, setNote] = useState('');
 
   /********** Expense Variables **********/
-  const [amount, setAmount] = useState(0)
+  const [amount, setAmount] = useState('')
 
   /********** Category Variables **********/
   const [chosenCategory, setChosenCategory] = useState('');
@@ -72,7 +72,7 @@ const Input = ({navigation}) => {
       handleExpenseSubmit(date, amount, note, chosenCategory)
       setVisibleExpense(true)
       setDate(moment())
-      setAmount(0)
+      setAmount('')
       setNote('')
       setChosenCategory('')
       setColor('');
@@ -92,7 +92,7 @@ const Input = ({navigation}) => {
       handleIncomeSubmit(date, Number(amount), note, chosenCategory)
       setVisibleIncome(true)
       setDate(moment())
-      setAmount(0)
+      setAmount('')
       setNote('')
       setChosenCategory('')
       setColor('');
@@ -121,7 +121,7 @@ const Input = ({navigation}) => {
             isEdit: doc.data().name == 'Edit' ? true : false
           });
       });
-      expenseCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      expenseCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setExpenseCategory(expenseCategories)
     });
 
@@ -136,7 +136,7 @@ const Input = ({navigation}) => {
             isEdit: doc.data().name == 'Edit' ? true : false
           });
       });
-      incomeCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      incomeCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setIncomeCategory(incomeCategories)
     });}
   , [])

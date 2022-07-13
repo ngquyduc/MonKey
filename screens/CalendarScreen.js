@@ -177,7 +177,6 @@ const CalendarScreen = ({navigation}) => {
               <MaterialCommunityIcons name={data.item.icon} color={data.item.color} size={20}/>
             </View>
             <Text style={styles.categoryText}>{data.item.category}</Text>
-            {/* <Text>{' (' + data.item.date + '-' + data.item.month + '-' + curDate.substring(0,4) + ')'}</Text> */}
           </View>
           {data.item.note != '' && 
           <View>
@@ -185,7 +184,7 @@ const CalendarScreen = ({navigation}) => {
           </View>}
         </View>
         <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={[styles.amountText, {color: data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{data.item.type == 'income' ? formatter.format(data.item.amount) : '-' + formatter.format(data.item.amount)}</Text>
+          <Text style={[styles.amountText, {color: data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{formatter.format(data.item.amount)}</Text>
         </View>
       </View>
     )

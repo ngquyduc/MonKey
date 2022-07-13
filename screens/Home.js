@@ -87,18 +87,16 @@ const Home = ({navigation}) => {
     )
 
     const monthQuery = query(financeRef, where('month', '==', date.substring(5, 7)))
-    onSnapshot(monthQuery,
-      (snapShot) => {
+    onSnapshot(monthQuery, (snapShot) => {
         const monthExpenses = []
         snapShot.forEach((doc) => {
-          if (doc.data().type = 'expense') {
+          if (doc.data().type == 'expense') {
             monthExpenses.push(doc.data().amount)
           } 
         })
         const monthExpense = monthExpenses.reduce((total, current) => total = total + current, 0);
         setMonthExpense(monthExpense)
-      }
-    )
+    })
   }, [incomeCategoryList, expenseCategoryList])
 
   // create a map for categories
@@ -251,7 +249,7 @@ const Home = ({navigation}) => {
           </View>}
         </View>
         <View style={{flex:2,alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={[styles.amountText,{color:data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{data.item.type == 'income' ? formatter.format(data.item.amount) : '-' + formatter.format(data.item.amount)}</Text>
+          <Text style={[styles.amountText,{color:data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{formatter.format(data.item.amount)}</Text>
         </View>
       </View>
     )
