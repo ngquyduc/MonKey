@@ -98,11 +98,11 @@ const Input = ({navigation}) => {
       setColor('');
     } else if (amount == '') {
       Alert.alert("Alert", "Please enter the income amount", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     } else if (chosenCategory == '') {
       Alert.alert("Alert", "Please choose the category", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     }
   }
@@ -301,7 +301,7 @@ const Input = ({navigation}) => {
                     }}>
                       <TextInput
                         style={[styless.noteInputContainer, {textAlign:'left'}]}
-                        placeholder='Note'
+                        placeholder='Note (optional)'
                         placeholderTextColor={lightBlue}
                         value={note}
                         onChangeText={(value) => setNote(value)}

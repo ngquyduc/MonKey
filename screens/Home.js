@@ -61,6 +61,7 @@ const Home = ({navigation}) => {
         const dayIncomes = []
         snapShot.forEach((doc) => {
           dayFinances.push({
+            key: doc.id,
             id: doc.id,
             type: doc.data().type,
             date: doc.data().date,
