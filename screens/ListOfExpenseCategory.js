@@ -128,6 +128,16 @@ const ListOfExpenseCategory = ({navigation}) => {
         {text: 'OK', onPress: () => console.log('Alert closed')}
       ]);
     }
+    else if (icon == '') {
+      Alert.alert("Alert", "No icon selected. Please choose an icon.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+    else if (color == '') {
+      Alert.alert("Alert", "No color selected yet. Please choose a color.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    }
     else if (existedcategories.includes(name)) {
       Alert.alert("Alert", "This category is already existed. Please choose another name.", [
         {text: 'OK', onPress: () => console.log('Alert closed')}
@@ -461,7 +471,7 @@ const ListOfExpenseCategory = ({navigation}) => {
           <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
             <TouchableOpacity 
               style={styles.submitButton}
-              onPress={() => {onSubmitEdit()}}>
+              onPress={() => {onSubmitEdit(inprogressCategory, inprogressIcon, inprogressColor)}}>
               <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>

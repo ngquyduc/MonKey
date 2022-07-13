@@ -504,7 +504,7 @@ const Input = ({navigation}) => {
                     }}>
                       <TextInput
                         style={[styless.noteInputContainer, {textAlign:'left'}]}
-                        placeholder='Note'
+                        placeholder='Note (optional)'
                         placeholderTextColor={lightBlue}
                         value={note}
                         onChangeText={(value) => setNote(value)}

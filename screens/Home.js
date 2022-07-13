@@ -350,7 +350,7 @@ const Home = ({navigation}) => {
             {finances.length == 0 && 
               <View style={{alignItems:'center', justifyContent:'center', paddingTop:20}}>
                 <Feather name='x-circle' size={110} color='#e0e0e0'/>
-                <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No data yet!</Text>
+                <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No record!</Text>
               </View>
             }
           </View>
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
     paddingBottom:14,
   },
   footer: {
-    flex:3.7,
+    flex:3.8,
     backgroundColor:'#fff',
     borderTopLeftRadius:30,
     borderTopRightRadius:30,

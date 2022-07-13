@@ -349,7 +349,7 @@ const CalendarScreen = ({navigation}) => {
         {finances.length == 0 && 
         <View style={{alignItems:'center', justifyContent:'center', paddingTop:20}}>
           <Feather name='x-circle' size={110} color='#e0e0e0'/>
-          <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No data yet!</Text>
+          <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No records!</Text>
         </View>}
       </View>
     </View>
