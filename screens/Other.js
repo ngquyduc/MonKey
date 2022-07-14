@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Platform, Alert } from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform, Alert } from 'react-native';
 import PressableText from '../components/Containers/PressableText';
 import { getUserID, handleSignOut } from '../api/authentication';
 import { StatusBarHeight } from '../components/constants';
@@ -62,6 +62,19 @@ const Other = ({navigation}) => {
     })
   }, [])
 
+  const URL = 'https://docs.google.com/document/d/1zk38ozwSbzv1nOYVJ0l_zQG_MHjvM1UZOu_qnUJOm3A/edit?usp=sharing'
+  const handlePress = useCallback(async () => {
+    // Checking if the link is supported for links with custom URL scheme.
+    const supported = await Linking.canOpenURL(URL);
+
+    if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+      // by some browser in the mobile
+      await Linking.openURL(URL);
+    } else {
+      Alert.alert(`Cannot open the instructions URL: ${URL}`);
+    }
+  }, [URL]);
 
   return (
     <View style={styles.mainContainer}>
@@ -85,31 +98,37 @@ const Other = ({navigation}) => {
         <SectionContainer
           title='Set expense limit'
           onPress={() => navigation.navigate('EditLimitScreen')}
+          iconName='circle-edit-outline'
         />
         {/************ Modify expense category list ************/}
         <SectionContainer
           title='Edit income categories list'
           onPress={() => navigation.navigate('ListOfIncomeCategory')}
+          iconName='playlist-edit'
         />
         {/************ Modify income category list ************/}
         <SectionContainer
           title='Edit expense categories list'
           onPress={() => navigation.navigate('ListOfExpenseCategory')}
+          iconName='playlist-edit'
         />
         {/************ Help ************/}
         <SectionContainer
           title='Help'
-          onPress={() => navigation.navigate('HelpScreen')}
+          onPress={handlePress}
+          iconName='help-circle-outline'
         />
         {/************ About us ************/}
         <SectionContainer
           title='About us'
           onPress={() => navigation.navigate('AboutUs')}
+          iconName='information-outline'
         />
         {/************ Rating ************/}
         <SectionContainer
           title='Rate this app'
           onPress={() => navigation.navigate('RateScreen')}
+          iconName='star-outline'
         />
         {/************ Sign out ************/}
         <PressableText onPress={() => {
