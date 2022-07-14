@@ -9,20 +9,17 @@ import IconList from '../CategoriesList/IconList'
 import ColorList from '../CategoriesList/ColorList'
 import CustomModal from '../components/Containers/CustomModal';
 import { AddExpenseCategory, db, ExpenseCategoryRef } from '../api/db';
-import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc, getDocs } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
-const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
+import moment from 'moment';
 
-/* Things to do
- * Make onSubmitAdd() function (line 133)
- * Make onSubmitEdit() function (line 139)
- * Make restoreRow() function (line 50)
- * Modify deleteRow() function (line 155)
- * Create a expense category list on database
- */
+const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const ListOfExpenseCategory = ({navigation}) => {
   /*************** Modifying category ***************/
+  const [fromCategory, setFromCategory] = useState('')
+  const [fromIcon, setFromIcon] = useState('')
+  const [fromColor, setFromColor] = useState('')
   const [inprogressCategory, setInprogressCategory] = useState('');
   const [inprogressIcon, setInprogressIcon] = useState('');
   const [inprogressColor, setInprogressColor] = useState('#767676');
@@ -96,12 +93,16 @@ const ListOfExpenseCategory = ({navigation}) => {
         rowMap={rowMap}
         onEdit={()=>{
           setVisibleEdit(true) 
+          setInprogressId(data.item.id)
           setInprogressCategory(data.item.title)
           setInprogressIcon(data.item.icon)
           setInprogressColor(data.item.color)
-          setInprogressId(data.item.id)
+          setFromCategory(data.item.title)
+          setFromIcon(data.item.icon)
+          setFromColor(data.item.color)
+          
         }}
-        onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
+        onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id, data.item.title)}
       />
     )
   }
@@ -150,52 +151,70 @@ const ListOfExpenseCategory = ({navigation}) => {
       setVisibleAdd(false)
     } 
   }
-  const onSubmitEdit = () => {
+  const onSubmitEdit = (id, name, icon, color) => {
     const existedcategories = []
     listCategories.forEach((cat) => existedcategories.push(cat.title))
-    if (inprogressCategory == '' || inprogressCategory == null) {
+    if (name == '' || name == null) {
       Alert.alert("Alert", "Invalid category name. Please choose another name.", [
         {text: 'OK', onPress: () => console.log('Alert closed')}
       ]);
     }
-    else if (existedcategories.includes(inprogressCategory)) {
-      Alert.alert("Alert", "This category is already existed. Please choose another name.", [
-        {text: 'OK', onPress: () => console.log('Alert closed')}
-      ]);
-    } else {
-      editRow(inprogressId, inprogressCategory)
-      setInprogressCategory('')
-      setInprogressColor('#767676')
-      setInprogressIcon('')
-      setVisibleEdit(false)
-    }  
+    else {
+      const index = existedcategories.indexOf(name)
+      if (index > -1) { // only splice array when item is found
+        existedcategories.splice(index, 1); // 2nd parameter means remove one item only
+      }
+      if (existedcategories.includes(name)) {
+        Alert.alert("Alert", "This category is already existed. Please choose another name.", [
+          {text: 'OK', onPress: () => console.log('Alert closed')}
+        ]);
+      } else {
+        editRow(id, name, icon, color)
+        setInprogressId('')
+        setInprogressCategory('')
+        setInprogressColor('#767676')
+        setInprogressIcon('')
+        setVisibleEdit(false)
+      } 
+    }
+    
+    const colRef = collection(db, 'Finance/' + getUserID() + '/' + moment().format('YYYY'))
+    const queryE = query(colRef, where('category', '==', fromCategory))
+    onSnapshot(queryE, (snapShot) => {
+      snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/' + moment().format('YYYY'), ex.id), {category: name}))
+    })
   }
 
   /*************** Function to alert when deleting ***************/
-  const alertDelete = (rowMap, rowKey, id) => {
+  const alertDelete = (rowMap, rowKey, id, name) => {
     Alert.alert("Delete this category?","", [
       {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
-      {text: 'Delete', onPress: () => {deleteRow(id)}}
+      {text: 'Delete', onPress: () => {deleteRow(id, name)}}
     ]);
   }
 
   /*************** Function to delete category ***************/
-  const deleteRow = (id) => {
+  const deleteRow = (id, name) => {
     const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
     deleteDoc(cat)
+    const colRef = collection(db, 'Finance/' + getUserID() + '/' + moment().format('YYYY'))
+    const queryE = query(colRef, where('category', '==', name))
+    onSnapshot(queryE, (snapShot) => {
+      snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/' + moment().format('YYYY'), ex.id), {category: 'Deleted Category'}))
+    })
   }
   /*************** Function to edit category ***************/
-  const editRow = (name, id) => {
+  const editRow = (id, name, icon, color) => {
       const path = 'Input Category/Expense/' + getUserID()
       const catRef = doc(db, path, id)
       updateDoc(catRef, {
-        name: inprogressCategory,
-        color: inprogressColor,
-        icon: inprogressIcon,
+        name: name,
+        icon: icon,
+        color: color,
       })
   }
 
-  useMemo(() => {
+  useEffect(() => {
     const ExpenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
     const q = query(ExpenseCategoryRef, orderBy('name', 'asc'))
     onSnapshot(q,
@@ -211,15 +230,20 @@ const ListOfExpenseCategory = ({navigation}) => {
               icon: cat.data().icon,
               color: cat.data().color
             }))
+            
           }
         })
-
         setListCategories(list)
+        console.log(list)
       }
     )
+
+    
+    
     
   }, [])
 
+  
   return (
     <>
       {/*************** Header ***************/}
@@ -463,7 +487,7 @@ const ListOfExpenseCategory = ({navigation}) => {
           <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
             <TouchableOpacity 
               style={styles.submitButton}
-              onPress={() => {onSubmitEdit(inprogressCategory, inprogressIcon, inprogressColor)}}>
+              onPress={() => onSubmitEdit(inprogressId, inprogressCategory, inprogressIcon, inprogressColor)}>
               <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>
