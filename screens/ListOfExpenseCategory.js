@@ -186,13 +186,6 @@ const ListOfExpenseCategory = ({navigation}) => {
   }
   /*************** Function to edit category ***************/
   const editRow = (name, id) => {
-    const existedcategories = []
-    listCategories.forEach((cat) => existedcategories.push(cat.title))
-    if (existedcategories.includes(name)) {
-      Alert.alert("Alert", "This category is already existed. Please choose another name.", [
-        {text: 'OK', onPress: () => console.log('Alert closed')}
-      ]);
-    } else {
       const path = 'Input Category/Expense/' + getUserID()
       const catRef = doc(db, path, id)
       updateDoc(catRef, {
@@ -200,7 +193,6 @@ const ListOfExpenseCategory = ({navigation}) => {
         color: inprogressColor,
         icon: inprogressIcon,
       })
-    }
   }
 
   useMemo(() => {

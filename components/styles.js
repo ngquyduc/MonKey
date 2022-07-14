@@ -109,11 +109,11 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 19,
-    fontWeight: '600',
-    color: darkBlue,
+    fontWeight: '500',
+    color: '#494949',
   },
   boldBlueHeaderText: {
-    fontSize: 34,
+    fontSize: 28,
     fontWeight: '300',
     color: darkBlue,
     marginBottom: 10,

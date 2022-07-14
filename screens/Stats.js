@@ -470,7 +470,7 @@ const Stats = (props) => {
                   showText={true}
                   textColor={'white'}
                   textSize={14}
-                  textColor={'black'}
+                  textColor={'white'}
                   fontWeight={'bold'}
                   centerLabelComponent={() => 
                     <View>
