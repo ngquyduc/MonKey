@@ -6,7 +6,7 @@ import { StatusBarHeight } from '../components/constants';
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../components/colors';
 import { Avatar, Drawer } from 'react-native-paper';
-import { Entypo, Foundation, Feather, FontAwesome  } from '@expo/vector-icons'
+import { MaterialCommunityIcons  } from '@expo/vector-icons'
 import SectionContainer from '../components/Containers/SectionContainer';
 import { copyDefaultCategory } from '../api/authentication';
 
@@ -94,24 +94,30 @@ const Other = ({navigation}) => {
             <Text style={styles.boldBlackHeaderText}>{username}</Text>
           </View>
         </View>
+        <View style={styles.divider}>
+          <Text style={{color:'#b2b2b2', fontSize:16}}>Personalize</Text>
+        </View>
         {/************ Set limit ************/}
         <SectionContainer
-          title='Set expense limit'
+          title='Expense limit setting'
           onPress={() => navigation.navigate('EditLimitScreen')}
           iconName='circle-edit-outline'
         />
         {/************ Modify expense category list ************/}
         <SectionContainer
-          title='Edit income categories list'
+          title='Income category setting'
           onPress={() => navigation.navigate('ListOfIncomeCategory')}
           iconName='playlist-edit'
         />
         {/************ Modify income category list ************/}
         <SectionContainer
-          title='Edit expense categories list'
+          title='Expense category setting'
           onPress={() => navigation.navigate('ListOfExpenseCategory')}
           iconName='playlist-edit'
         />
+        <View style={styles.divider}>
+          <Text style={{color:'#b2b2b2', fontSize:16}}>MonKey</Text>
+        </View>
         {/************ Help ************/}
         <SectionContainer
           title='Help'
@@ -124,18 +130,29 @@ const Other = ({navigation}) => {
           onPress={() => navigation.navigate('AboutUs')}
           iconName='information-outline'
         />
+        <View style={styles.divider}>
+          <Text style={{color:'#b2b2b2', fontSize:16}}>Feedback</Text>
+        </View>
         {/************ Rating ************/}
         <SectionContainer
-          title='Rate this app'
+          title='Rate this MonKey'
           onPress={() => navigation.navigate('RateScreen')}
           iconName='star-outline'
         />
+        <View style={styles.divider}>
+          <Text style={{color:'#b2b2b2', fontSize:16}}>Sign out</Text>
+        </View>
         {/************ Sign out ************/}
-        <PressableText onPress={() => {
-          handleSignOut(navigation)
-        }}>
-          Sign Out
-        </PressableText>
+        <View style={styles.sectionView}>
+          <TouchableOpacity onPress={() => handleSignOut(navigation)}>
+            <View style={{flexDirection:'row'}}>
+              <View style={{flexDirection:'row', justifyContent:'flex-start', alignItems:'center'}}>
+                <MaterialCommunityIcons name='logout' size={24} color='#494949'/>
+                <Text style={{fontSize:16, color: '#494949', fontWeight:'bold'}}>  Sign out</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
@@ -149,7 +166,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     marginTop:6,
-    backgroundColor: '#fff',
+    backgroundColor: '#f3f3f3',
   }, 
   boldBlueHeaderText: {
     fontSize: 34,
@@ -160,7 +177,7 @@ const styles = StyleSheet.create({
   boldBlackHeaderText: {
     fontSize: 30,
     fontWeight: '500',
-    color: darkYellow,
+    color: '#494949',
     marginBottom: 10,
   },
   header: {
@@ -180,10 +197,13 @@ const styles = StyleSheet.create({
     shadowRadius:3,
   },
   userView: {
+    backgroundColor:'#fff',
     flexDirection: 'row',
     paddingTop:12,
     paddingBottom:15,
-    paddingLeft:20
+    paddingLeft:20,
+    borderBottomColor: '#E9E9E9',  
+    borderBottomWidth:1,  
   },
   imageView: {
     flex: 3,
@@ -192,8 +212,30 @@ const styles = StyleSheet.create({
   usernameView: {
     flex: 7,
     paddingLeft:0,
-    alignItems:'flex-start',
+    alignItems:'center',
     justifyContent:'center',
+  },
+  divider: {
+    backgroundColor:'#f3f3f3', 
+    flexDirection:'row', 
+    height:36,
+    borderTopColor: '#E9E9E9',  
+    borderTopWidth:1,     
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  sectionView: {
+    backgroundColor:'#fff',
+    justifyContent:'center',
+    paddingBottom:4,
+    paddingTop:4,
+    paddingLeft:12,
+    paddingRight:16,
+    borderTopColor: '#E9E9E9',  
+    borderBottomColor: '#E9E9E9', 
+    borderTopWidth:1,  
+    borderBottomWidth:1,     
+    height:48,
   },
 })
 

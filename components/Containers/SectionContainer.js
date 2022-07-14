@@ -10,7 +10,7 @@ const SectionContainer = (props) => {
         <View style={{flexDirection:'row'}}>
           <View style={{flex:8, flexDirection:'row', justifyContent:'flex-start', alignItems:'center'}}>
             <MaterialCommunityIcons name={iconName} size={24} color='#494949'/>
-            <Text style={{fontSize:16}}>{'   ' + title}</Text>
+            <Text style={{fontSize:16, color: '#494949',}}>{'  ' + title}</Text>
             {props.children}
           </View>
           <View style={{flex:2, flexDirection:'row', justifyContent:'flex-end', alignItems:'center'}}>
@@ -24,6 +24,7 @@ const SectionContainer = (props) => {
 
 const styles = StyleSheet.create({
   sectionView: {
+    backgroundColor:'#fff',
     justifyContent:'center',
     paddingBottom:4,
     paddingTop:4,
