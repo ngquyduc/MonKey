@@ -225,7 +225,7 @@ const ListOfExpenseCategory = ({navigation}) => {
       {/*************** Header ***************/}
       <View style={styles.header}>
         <View style={{flex:2, paddingLeft:5, paddingBottom:7}}>
-          <TouchableOpacity onPress={()=>navigation.navigate('Input')}>
+          <TouchableOpacity onPress={()=>navigation.goBack()}>
             <MaterialCommunityIcons name='chevron-left' size={44} color={darkBlue}/>
           </TouchableOpacity>
         </View>

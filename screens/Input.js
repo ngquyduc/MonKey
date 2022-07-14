@@ -98,7 +98,7 @@ const Input = ({navigation}) => {
         {text: 'Understand', onPress: () => console.log('Alert closed')}
       ]);
     } else if (amount != '' && chosenCategory != '') {
-      handleExpenseSubmit(date, amount, note, chosenCategory)
+      handleIncomeSubmit(date, amount, note, chosenCategory)
       setVisibleExpense(true)
       setDate(moment())
       setAmount('')

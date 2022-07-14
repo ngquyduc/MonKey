@@ -6,19 +6,29 @@ import { StatusBarHeight } from '../components/constants';
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../components/colors';
 import { Avatar, Drawer } from 'react-native-paper';
+import { Entypo, Foundation, Feather, FontAwesome  } from '@expo/vector-icons'
+import SectionContainer from '../components/Containers/SectionContainer';
 import { copyDefaultCategory } from '../api/authentication';
 
 import { addDoc, collection, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 const {beige, lighterBlue, brown, darkBlue, lightBlue, darkYellow, lightYellow} = colors;
+
 const Other = ({navigation}) => {
   const [image, setImage] = useState('');
   const [username, setUsername] = useState('')
-
+  const [isChangeUsername, setIsChangeUsername] = useState(false);
   const changePicture = (pictureURI) => {
     const userRef = doc(db, 'Users', getUserID())
     updateDoc(userRef, {
       profilePhoto: pictureURI
+    })
+  }
+
+  const changeUsername = (userName) => {
+    const userRef = doc(db, 'Users', getUserID())
+    updateDoc(userRef, {
+      username: userName
     })
   }
 
@@ -54,38 +64,73 @@ const Other = ({navigation}) => {
 
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <View style={styles.header}>
         <Text style={styles.boldBlueHeaderText}>Other</Text>
       </View>
-      <ScrollView>
+      <ScrollView style={styles.scrollContainer}>
+        {/************ User image + name ************/}
         <View style={styles.userView}>
           <View style={styles.imageView}>
             <TouchableOpacity onPress={askChangeAvatar}>
-            {image == '' && <Avatar.Image source={{ uri: "https://cdn.landesa.org/wp-content/uploads/default-user-image.png" }} size={75} />}
-            {image != '' && <Avatar.Image source={{ uri: image }} size={75} />}
+            {image == '' && <Avatar.Image source={{ uri: "https://cdn.landesa.org/wp-content/uploads/default-user-image.png" }} size={100} />}
+            {image != '' && <Avatar.Image source={{ uri: image }} size={100} />}
             </TouchableOpacity>
           </View>
           <View style={styles.usernameView}>
             <Text style={styles.boldBlackHeaderText}>{username}</Text>
           </View>
         </View>
+        {/************ Set limit ************/}
+        <SectionContainer
+          title='Set expense limit'
+          onPress={() => navigation.navigate('EditLimitScreen')}
+        />
+        {/************ Modify expense category list ************/}
+        <SectionContainer
+          title='Edit income categories list'
+          onPress={() => navigation.navigate('ListOfIncomeCategory')}
+        />
+        {/************ Modify income category list ************/}
+        <SectionContainer
+          title='Edit expense categories list'
+          onPress={() => navigation.navigate('ListOfExpenseCategory')}
+        />
+        {/************ Help ************/}
+        <SectionContainer
+          title='Help'
+          onPress={() => navigation.navigate('HelpScreen')}
+        />
+        {/************ About us ************/}
+        <SectionContainer
+          title='About us'
+          onPress={() => navigation.navigate('AboutUs')}
+        />
+        {/************ Rating ************/}
+        <SectionContainer
+          title='Rate this app'
+          onPress={() => navigation.navigate('RateScreen')}
+        />
+        {/************ Sign out ************/}
         <PressableText onPress={() => {
           handleSignOut(navigation)
         }}>
           Sign Out
         </PressableText>
       </ScrollView>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    padding: 25,
-    paddingTop: StatusBarHeight + 30,
-    backgroundColor: beige,
+    backgroundColor: '#fff',
+  }, 
+  scrollContainer: {
+    flex: 1,
+    marginTop:6,
+    backgroundColor: '#fff',
   }, 
   boldBlueHeaderText: {
     fontSize: 34,
@@ -94,9 +139,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   boldBlackHeaderText: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: '500',
-    color: '#000',
+    color: darkYellow,
     marginBottom: 10,
   },
   header: {
@@ -117,19 +162,20 @@ const styles = StyleSheet.create({
   },
   userView: {
     flexDirection: 'row',
-    height:120,
+    paddingTop:12,
+    paddingBottom:15,
     paddingLeft:20
   },
   imageView: {
     flex: 3,
-    justifyContent:'center'
+    justifyContent:'center', 
   },
   usernameView: {
     flex: 7,
     paddingLeft:0,
     alignItems:'flex-start',
     justifyContent:'center',
-  }
+  },
 })
 
 export default Other;

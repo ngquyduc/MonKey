@@ -171,7 +171,7 @@ const CalendarScreen = ({navigation}) => {
   const VisibleItem = props => {
     const {data} = props;
     return (
-      <View style={[styles.rowFront, {backgroundColor: data.item.type == 'income' ? '#e2f5e2' : '#fdddcf'}]}>
+      <View style={[styles.rowFront, {backgroundColor: '#fff'}]}>
         <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
           <View style={{flexDirection:'row', marginBottom:3}}>
             <View style={{marginRight:10}}>
@@ -288,55 +288,50 @@ const CalendarScreen = ({navigation}) => {
         <Text style={styles.boldBlueHeaderText}>Calendar</Text>
       </View>
       <View style={[styles.calendarView, {borderRadius:10,backgroundColor:'#fffffd'}]}>
-          <View style={{marginVertical:3,marginHorizontal:5}}>
-            <Calendar
-              theme={{    
-                calendarBackground: '#fffffd'
-              }}
-              onDayPress={day => {
-                  setCurDate(day.dateString)
-                  setCurMonth(day.dateString.substring(0, 7))
-                }
+        <View style={{marginVertical:3,marginHorizontal:5}}>
+          <Calendar
+            theme={{    
+              calendarBackground: '#fffffd'
+            }}
+            onDayPress={day => {
+                setCurDate(day.dateString)
+                setCurMonth(day.dateString.substring(0, 7))
               }
-              disableMonthChange={false}
-              hideArrows={false}
-              firstDay={1}
-              markedDates = {marked}
-              markingType = "multi-dot"
-              onMonthChange={month => {setCurMonth(month.dateString.substring(0,7))}}
-              enableSwipeMonths={true}
-            />
+            }
+            disableMonthChange={false}
+            hideArrows={false}
+            firstDay={1}
+            markedDates = {marked}
+            markingType = "multi-dot"
+            onMonthChange={month => {setCurMonth(month.dateString.substring(0,7))}}
+            enableSwipeMonths={true}
+          />
+        </View>
+        <View style={{flexDirection:'row',marginHorizontal:7, marginBottom:5}}>
+          <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2',marginHorizontal:3}]}>
+            <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{formatter.format(monthIncome)}</Text>
           </View>
-          <View style={{flexDirection:'row',marginHorizontal:5, marginBottom:5}}>
-            <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2',marginHorizontal:3}]}>
-              <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income:$" + formatter.format(monthIncome)}</Text>
-            </View>
-            <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf',marginHorizontal:3}]}>
-              <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: " + formatter.format(expenseMonth)}</Text>
-            </View>
-            <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6',marginHorizontal:3}]}>
-              <Text style={{color:'#494949', fontSize:14, fontWeight:'500'}}>{" Balance: " + formatter.format(total)}</Text>
-            </View>
+          <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf',marginHorizontal:3}]}>
+            <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{formatter.format(expenseMonth)}</Text>
           </View>
         </View>
-      <View style={{alignItems:'center', justifyContent:'center', paddingBottom:7}}>
-        <Text style={{fontSize:16, fontWeight:'700', color:darkBlue}}>{"Date: " + curDate.split('-').reverse().join('-')}</Text>
+        <View style={[styles.balanceView, {backgroundColor:'#e6e6e6',marginHorizontal:10,}]}>
+          <Text style={{color:'#494949', fontSize:14, fontWeight:'500'}}>{" Balance: " + formatter.format(total)}</Text>
+        </View>
       </View>
       <View>
-        <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
-          <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
-            <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{"Income: " + formatter.format(income)}</Text>
-          </View>
-          <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
-            <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{"Expense: " + formatter.format(expense)}</Text>
+        <View style={{flexDirection:'row', marginHorizontal:15, marginBottom:10, paddingTop:7}}>
+          <View style={{alignItems:'center', justifyContent:'center', flexDirection:'row'}}>
+            <Text style={{fontSize:16, fontWeight:'700', color:'#494949'}}>{"Date: " + curDate.split('-').reverse().join('-')}</Text>
+            <Text style={{fontSize:16, fontWeight:'700', color:'#494949'}}>'s balance: </Text>
           </View>
           <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6'}]}>
-            <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{"Balance: " + formatter.format(balanceDay)}</Text>
+            <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{formatter.format(balanceDay)}</Text>
           </View>
         </View>
       </View>
       {/************ List ************/}
-      <View style={{height: 285, paddingHorizontal:15}}>
+      <View style={{height: 275, marginHorizontal:15}}>
 
         {finances.length != 0 && <SwipeListView 
           data={finances}
@@ -422,8 +417,21 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     borderRadius:10,
     marginHorizontal:4,
-    marginBottom:5,
-    height:40,
+    marginBottom:2,
+    height:32,
+    shadowColor:'#999',
+    shadowOffset: {width:0,height:1},
+    shadowOpacity:0.8,
+    shadowRadius:2,
+  },
+  balanceView: {
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius:10,
+    marginHorizontal:4,
+    marginBottom:8,
+    height:32,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,

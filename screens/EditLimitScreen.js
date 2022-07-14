@@ -1,13 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import MainContainer from '../components/Containers/Main';
-import KeyboardAvoidingContainer from '../components/Containers/KeyboardAvoiding';
 import { Text, View, Alert, StyleSheet, TouchableOpacity, TextInput, Pressable, Keyboard } from 'react-native';
 import { Feather, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
 import { getUserID } from '../api/authentication';
 import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
-import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import { colors } from '../components/colors';
 import {Slider} from '@miblanchard/react-native-slider';
 import CurrencyInput from 'react-native-currency-input';
