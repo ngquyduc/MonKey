@@ -236,7 +236,7 @@ const Home = ({navigation}) => {
   const VisibleItem = props => {
     const {data} = props;
     return (
-      <View style={[styles.rowFront, {backgroundColor: data.item.type == 'income' ? '#e2f5e2' : '#fdddcf'}]}>
+      <View style={[styles.rowFront, {backgroundColor: '#fff'}]}>
         <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
           <View style={{flexDirection:'row', marginBottom:3}}>
             <View style={{marginRight:10}}>
@@ -321,38 +321,40 @@ const Home = ({navigation}) => {
             </View>
           </TouchableOpacity>
 
-          {/************ Today's records ************/}
-          <View>
-            <View style={{alignItems:'center', justifyContent:'center', paddingBottom:7}}>
-              <Text style={{fontSize:16, fontWeight:'700', color:darkBlue}}>{"Today: " + moment().format('DD-MM-YYYY')}</Text>
+            {/************ Today's records ************/}
+          <View> 
+            <View style={{paddingBottom:7}}>
+              <View style={{alignItems:'center', justifyContent:'center', paddingBottom:7}}>
+                <Text style={{fontSize:16, fontWeight:'700', color:darkBlue}}>{"Today: " + moment().format('DD-MM-YYYY')}</Text>
+              </View>
+              <View style={{flexDirection:'row', marginBottom:10}}>
+                <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
+                  <FontAwesome name='plus-circle' color={'#26b522'} size={18}/>
+                  <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: " + formatter.format(dayIncome)}</Text>
+                </View>
+                <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
+                  <FontAwesome name='minus-circle' color={'#ef5011'} size={18}/>
+                  <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: " + formatter.format(dayExpense)}</Text>
+                </View>
+              </View>
             </View>
-            <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
-              <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
-                <FontAwesome name='plus-circle' color={'#26b522'} size={18}/>
-                <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: " + formatter.format(dayIncome)}</Text>
-              </View>
-              <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
-                <FontAwesome name='minus-circle' color={'#ef5011'} size={18}/>
-                <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: " + formatter.format(dayExpense)}</Text>
-              </View>
+            {/************ List ************/}
+            <View style={{height:318}}>
+              {finances.length != 0 && <SwipeListView 
+                data={finances}
+                renderItem={renderItem}
+                renderHiddenItem={renderHiddenItem}
+                rightOpenValue={-150}
+                disableRightSwipe
+                showsVerticalScrollIndicator={true}
+              />}
+              {finances.length == 0 && 
+                <View style={{alignItems:'center', justifyContent:'center', paddingTop:20}}>
+                  <Feather name='x-circle' size={110} color='#e0e0e0'/>
+                  <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No record!</Text>
+                </View>
+              }
             </View>
-          </View>
-          {/************ List ************/}
-          <View style={{height: 320}}>
-            {finances.length != 0 && <SwipeListView 
-              data={finances}
-              renderItem={renderItem}
-              renderHiddenItem={renderHiddenItem}
-              rightOpenValue={-150}
-              disableRightSwipe
-              showsVerticalScrollIndicator={true}
-            />}
-            {finances.length == 0 && 
-              <View style={{alignItems:'center', justifyContent:'center', paddingTop:20}}>
-                <Feather name='x-circle' size={110} color='#e0e0e0'/>
-                <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No record!</Text>
-              </View>
-            }
           </View>
         </View>
       </View>
@@ -390,7 +392,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius:25,
     height:193,
-    margin:5,
     marginBottom:10,
     shadowColor:'#999',
     shadowOffset: {width:0,height:1},

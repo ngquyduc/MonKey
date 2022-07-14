@@ -214,7 +214,7 @@ const Stats = (props) => {
       <View style={styles.header}>
         <Text style={styles.boldBlueHeaderText}>Statistics</Text>
       </View>
-      <ScrollView>
+      <ScrollView style={{backgroundColor:'#fff'}}>
         <Pressable onPress={Keyboard.dismiss}>
           <>
             <View style={styles.mainContainerInnerScreen}>
@@ -508,6 +508,7 @@ const styles = StyleSheet.create({
   },
   mainContainerInnerScreen: {
     flex: 1,
+    backgroundColor:'#fff'
   },
   header: {
     alignItems:'center', 
