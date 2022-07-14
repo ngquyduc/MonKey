@@ -275,7 +275,7 @@ const Input = ({navigation}) => {
                         placeholder='0.00'
                         maxLength={16}
                         keyboardType='decimal-pad'
-                        placeholderTextColor={lightBlue}
+                        placeholderTextColor={'#49494950'}
                       />
                     </View>
                     <View style={{
@@ -303,7 +303,7 @@ const Input = ({navigation}) => {
                       <TextInput
                         style={[styless.noteInputContainer, {textAlign:'left'}]}
                         placeholder='Note (optional)'
-                        placeholderTextColor={lightBlue}
+                        placeholderTextColor={'#49494950'}
                         value={note}
                         onChangeText={(value) => setNote(value)}
                       />
@@ -326,7 +326,7 @@ const Input = ({navigation}) => {
                         <Text style={[styless.categoryText, {color:colorC}]}>{chosenCategory}</Text>
                     </View>
                   </View>
-                  <View style={{height:200, alignItems:'center', marginBottom: 10}}>
+                  <View style={{height:280, alignItems:'center', marginBottom: 10}}>
                     <FlatList
                       scrollEnabled={true}
                       contentContainerStyle={{alignSelf: 'flex-start'}}
@@ -341,7 +341,7 @@ const Input = ({navigation}) => {
                                 style={styless.itemButton}
                                 onPress={() => {setChosenCategory(item.name); setColor(item.color)}}>
                                 <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
-                                <Text style={[styless.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
+                                <Text ellipsizeMode='tail' numberOfLines={1}style={[styless.categoryButtonText]}>{' ' + item.name}</Text>
                               </TouchableOpacity>
                             </View>
                           )
@@ -351,7 +351,7 @@ const Input = ({navigation}) => {
                             <TouchableOpacity 
                               style={[styless.itemButton, {backgroundColor:darkBlue, paddingLeft:7, flexDirection:'row'}]}
                               onPress={() => navigation.navigate('ListOfExpenseCategory')}>
-                              <Text style={[styless.categoryButtonText, {color:'#fff'}]}>{item.name}</Text>
+                              <Text style={[styless.categoryButtonText, {fontWeight: '500', color:'#fff'}]}>{item.name}</Text>
                               <MaterialCommunityIcons name='chevron-right' size={25} color='#fff'/>
                             </TouchableOpacity>
                           </View>
@@ -360,7 +360,7 @@ const Input = ({navigation}) => {
                   </View>
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                     <TouchableOpacity 
-                      style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
+                      style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkBlue,width:200}]} 
                       onPress={() => {handleExpenseInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory)}}>
                       <Text style={styles.inputText}>Submit</Text>
                     </TouchableOpacity>
@@ -458,15 +458,6 @@ const Input = ({navigation}) => {
                     </View>
                     <View style={{flex:5}}></View>
                     <View style={styless.datePickerView}>
-                      {/* <TextInput
-                        style={[styless.inputContainer, {textAlign:'right'}]}
-                        maxLength={10}
-                        placeholder='0.00'
-                        placeholderTextColor={lightBlue}
-                        keyboardType='decimal-pad'
-                        value={amount}
-                        onChangeText={(value) => setAmount(value)}
-                      /> */}
                       <CurrencyInput
                         style={[styless.inputContainer, {textAlign:'right'}]}
                         value={amount}
@@ -477,7 +468,7 @@ const Input = ({navigation}) => {
                         placeholder='0.00'
                         maxLength={16}
                         keyboardType='decimal-pad'
-                        placeholderTextColor={lightBlue}
+                        placeholderTextColor={'#49494950'}
                       />
                     </View>
                     <View style={{
@@ -505,7 +496,7 @@ const Input = ({navigation}) => {
                       <TextInput
                         style={[styless.noteInputContainer, {textAlign:'left'}]}
                         placeholder='Note (optional)'
-                        placeholderTextColor={lightBlue}
+                        placeholderTextColor={'#49494950'}
                         value={note}
                         onChangeText={(value) => setNote(value)}
                       />
@@ -528,7 +519,7 @@ const Input = ({navigation}) => {
                         <Text style={[styless.categoryText, {color:colorC}]}>{chosenCategory}</Text>
                     </View>
                   </View>
-                  <View style={{height:200, alignItems:'center', marginBottom: 10}}>
+                  <View style={{height:280, alignItems:'center', marginBottom: 10}}>
                     <FlatList
                       scrollEnabled={true}
                       contentContainerStyle={{alignSelf: 'flex-start'}}
@@ -543,7 +534,7 @@ const Input = ({navigation}) => {
                                 style={styless.itemButton}
                                 onPress={() => {setChosenCategory(item.name); setColor(item.color)}}>
                                 <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
-                                <Text style={[styless.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
+                                <Text ellipsizeMode='tail' numberOfLines={1} style={[styless.categoryButtonText]}>{' ' + item.name}</Text>
                               </TouchableOpacity>
                             </View>
                           )
@@ -553,7 +544,7 @@ const Input = ({navigation}) => {
                             <TouchableOpacity 
                               style={[styless.itemButton, {backgroundColor:darkBlue, paddingLeft:7, flexDirection:'row'}]}
                               onPress={() => navigation.navigate('ListOfIncomeCategory')}>
-                              <Text style={[styless.categoryButtonText, {color:'#fff'}]}>{item.name}</Text>
+                              <Text style={[styless.categoryButtonText, {color:'#fff', fontWeight: '500'}]}>{item.name}</Text>
                               <MaterialCommunityIcons name='chevron-right' size={25} color='#fff'/>
                             </TouchableOpacity>
                           </View>
@@ -562,7 +553,7 @@ const Input = ({navigation}) => {
                   </View>
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                     <TouchableOpacity 
-                    style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkYellow,width:120}]} 
+                    style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkBlue,width:200}]} 
                     onPress={() => {handleIncomeInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory)}}>
                       <Text style={styles.inputText}>Submit</Text>
                     </TouchableOpacity>
@@ -611,14 +602,14 @@ const Input = ({navigation}) => {
 const styless = StyleSheet.create({
   header: {
     alignItems:'center', 
-    justifyContent:'flex-end',
+    justifyContent: 'flex-end',
     backgroundColor:'#fff',
     borderBottomColor:'#808080',
     borderBottomWidth:0,
     borderBottomLeftRadius:20,
     borderBottomRightRadius:20,
-    paddingTop:3,
-    height: StatusBarHeight + 42,
+    paddingTop: 33,
+    height: StatusBarHeight + 30,
     backgroundColor: lighterBlue,
     shadowColor:darkBlue,
     shadowOffset: {width:0,height:1},
@@ -641,13 +632,13 @@ const styless = StyleSheet.create({
     borderBottomColor: '#E9E9E9',
     borderTopColor: '#E9E9E9',
     borderTopWidth:1,            
-    height:48
+    height:48,
   },
   datePickerView: {
     flex:55,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#FDEE87',
+    backgroundColor: lighterBlue,
     borderRadius:10
   },
   noteView: {
@@ -671,8 +662,8 @@ const styless = StyleSheet.create({
     height:48  
   },
   inputContainer: {
-    backgroundColor: '#FDEE87',
-    color: darkBlue,
+    backgroundColor: lighterBlue,
+    color: '#494949',
     borderColor: darkBlue,
     paddingRight: 12,
     width:200,
@@ -682,15 +673,15 @@ const styless = StyleSheet.create({
     height: 36,
   },
   noteInputContainer: {
-    color:darkBlue,
-    borderColor: darkBlue,
+    color:'#494949',
+    backgroundColor: '#fff',
     paddingRight: 12,
-    width:210,
+    width:200,
     borderRadius: 10,
-    borderBottomWidth:1,
     fontSize: 17,
-    fontWeight:'400',
+    fontWeight:'500',
     height: 36,
+    paddingHorizontal: 5
   },
   submitButton: {
     padding: 5,
@@ -702,18 +693,19 @@ const styless = StyleSheet.create({
     borderTopLeftRadius:10, 
     borderBottomRightRadius:10,
     borderTopRightRadius:10,
-    backgroundColor:darkYellow
+    backgroundColor:lighterBlue
   },
   itemView: {
     flexDirection:'row',
     alignItems:'center',
     justifyContent:'center',
     height: 50,
-    width:(ScreenWidth-15)/3, 
+    width:(ScreenWidth-15)/3,
+    marginTop: 20 
   },
   itemButton: {
     flexDirection: 'column',
-    height: 40,
+    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:10,
@@ -723,6 +715,9 @@ const styless = StyleSheet.create({
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
     shadowRadius:2,
+    marginTop: -20,
+    paddingLeft: 5,
+    paddingRight: 5
   },
   categoryText: {
     fontSize: 18,
@@ -730,7 +725,8 @@ const styless = StyleSheet.create({
   },
   categoryButtonText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '300',
+    
   },
   modalView: {
     flex:1, 
