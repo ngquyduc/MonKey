@@ -121,46 +121,54 @@ const ListOfExpenseCategory = ({navigation}) => {
   }
   /*************** Function when submitting new/edit category ***************/
   const onSubmitAdd = (name, icon, color) => {
-    if (name != '' && icon != '' && color != '') {
+    const existedcategories = []
+    listCategories.forEach((cat) => existedcategories.push(cat.title))
+    if (name == '' || name == null) {
+      Alert.alert("Alert", "Invalid category name. Please choose another name.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+    else if (icon == '') {
+      Alert.alert("Alert", "No icon selected. Please choose an icon.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+    else if (color == '') {
+      Alert.alert("Alert", "No color selected yet. Please choose a color.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+    else if (existedcategories.includes(name)) {
+      Alert.alert("Alert", "This category is already existed. Please choose another name.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    } else {
       AddExpenseCategory(name, icon, color)
       setInprogressCategory('')
       setInprogressColor('#767676')
       setInprogressIcon('')
       setVisibleAdd(false)
-    } else if (name == '') {
-      Alert.alert("Alert", "Please enter the name for new category", [
-        {text: 'Okay', onPress: () => console.log('Alert closed')}
-      ]);
-    } else if (icon == '') {
-      Alert.alert("Alert", "Please choose icon for new category", [
-        {text: 'Okay', onPress: () => console.log('Alert closed')}
-      ]);
-    } else if (color == '') {
-      Alert.alert("Alert", "Please choose the color for new category", [
-        {text: 'Okay', onPress: () => console.log('Alert closed')}
+    } 
+  }
+  const onSubmitEdit = () => {
+    const existedcategories = []
+    listCategories.forEach((cat) => existedcategories.push(cat.title))
+    if (inprogressCategory == '' || inprogressCategory == null) {
+      Alert.alert("Alert", "Invalid category name. Please choose another name.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
       ]);
     }
-  }
-  const onSubmitEdit = (name, icon, color) => {
-    if (name != '' && icon != '' && color != '') {
-      editRow(inprogressId)
+    else if (existedcategories.includes(inprogressCategory)) {
+      Alert.alert("Alert", "This category is already existed. Please choose another name.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    } else {
+      editRow(inprogressId, inprogressCategory)
       setInprogressCategory('')
       setInprogressColor('#767676')
       setInprogressIcon('')
       setVisibleEdit(false)
-    } else if (name == '') {
-      Alert.alert("Alert", "Please enter the name for this category", [
-        {text: 'Okay', onPress: () => console.log('Alert closed')}
-      ]);
-    } else if (icon == '') {
-      Alert.alert("Alert", "Please choose icon for this category", [
-        {text: 'Okay', onPress: () => console.log('Alert closed')}
-      ]);
-    } else if (color == '') {
-      Alert.alert("Alert", "Please choose the color for this category", [
-        {text: 'Okay', onPress: () => console.log('Alert closed')}
-      ]);
-    }
+    }  
   }
 
   /*************** Function to alert when deleting ***************/
@@ -177,14 +185,22 @@ const ListOfExpenseCategory = ({navigation}) => {
     deleteDoc(cat)
   }
   /*************** Function to edit category ***************/
-  const editRow = (id) => {
-    const path = 'Input Category/Expense/' + getUserID()
-    const catRef = doc(db, path, id)
-    updateDoc(catRef, {
-      name: inprogressCategory,
-      color: inprogressColor,
-      icon: inprogressIcon,
-    })
+  const editRow = (name, id) => {
+    const existedcategories = []
+    listCategories.forEach((cat) => existedcategories.push(cat.title))
+    if (existedcategories.includes(name)) {
+      Alert.alert("Alert", "This category is already existed. Please choose another name.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    } else {
+      const path = 'Input Category/Expense/' + getUserID()
+      const catRef = doc(db, path, id)
+      updateDoc(catRef, {
+        name: inprogressCategory,
+        color: inprogressColor,
+        icon: inprogressIcon,
+      })
+    }
   }
 
   useMemo(() => {
