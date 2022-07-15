@@ -5,7 +5,7 @@ import { getUserID, handleSignOut } from '../api/authentication';
 import { StatusBarHeight } from '../components/constants';
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../components/colors';
-import { Avatar, Drawer } from 'react-native-paper';
+import { Avatar } from 'react-native-paper';
 import { MaterialCommunityIcons  } from '@expo/vector-icons'
 import SectionContainer from '../components/Containers/SectionContainer';
 import { copyDefaultCategory } from '../api/authentication';
@@ -63,18 +63,7 @@ const Other = ({navigation}) => {
   }, [])
 
   const URL = 'https://docs.google.com/document/d/1zk38ozwSbzv1nOYVJ0l_zQG_MHjvM1UZOu_qnUJOm3A/edit?usp=sharing'
-  const handlePress = useCallback(async () => {
-    // Checking if the link is supported for links with custom URL scheme.
-    const supported = await Linking.canOpenURL(URL);
 
-    if (supported) {
-      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-      // by some browser in the mobile
-      await Linking.openURL(URL);
-    } else {
-      Alert.alert(`Cannot open the instructions URL: ${URL}`);
-    }
-  }, [URL]);
 
   return (
     <View style={styles.mainContainer}>
@@ -121,7 +110,7 @@ const Other = ({navigation}) => {
         {/************ Help ************/}
         <SectionContainer
           title='Help'
-          onPress={handlePress}
+          onPress={() => Linking.openURL(URL)}
           iconName='help-circle-outline'
         />
         {/************ About us ************/}
