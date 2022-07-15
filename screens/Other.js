@@ -9,6 +9,7 @@ import { Avatar } from 'react-native-paper';
 import { MaterialCommunityIcons  } from '@expo/vector-icons'
 import SectionContainer from '../components/Containers/SectionContainer';
 import { copyDefaultCategory } from '../api/authentication';
+import moment from 'moment';
 
 import { addDoc, collection, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../api/db';
@@ -64,7 +65,23 @@ const Other = ({navigation}) => {
 
   const URL = 'https://docs.google.com/document/d/1zk38ozwSbzv1nOYVJ0l_zQG_MHjvM1UZOu_qnUJOm3A/edit?usp=sharing'
 
+  const Greetings = () => {
 
+    let currentHour = moment().format("HH");
+  
+    if (currentHour >= 3 && currentHour < 12){
+        return <Text style={styles.greetingText}>Good morning!</Text>;
+    } else if (currentHour >= 12 && currentHour < 15){
+        return <Text style={styles.greetingText}>Good afternoon!</Text>;
+    }   else if (currentHour >= 15 && currentHour < 20){
+        return <Text style={styles.greetingText}>Good evening!</Text>;
+    } else if (currentHour >= 20 || currentHour < 3){
+        return <Text style={styles.greetingText}>Good night!</Text>;
+    } else {
+       return <Text style={styles.greetingText}>Hello!</Text>;
+    }
+  
+  }
   return (
     <View style={styles.mainContainer}>
       <View style={styles.header}>
@@ -80,12 +97,18 @@ const Other = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.usernameView}>
+            <Greetings/>
             <Text style={styles.boldBlackHeaderText}>{username}</Text>
           </View>
         </View>
         <View style={styles.divider}>
           <Text style={{color:'#b2b2b2', fontSize:16}}>Personalize</Text>
         </View>
+        <SectionContainer
+          title='Edit username'
+          onPress={() => navigation.navigate('EditUsernameScreen')}
+          iconName='account-edit-outline'
+        />
         {/************ Set limit ************/}
         <SectionContainer
           title='Expense limit setting'
@@ -167,7 +190,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '500',
     color: '#494949',
-    marginBottom: 10,
   },
   header: {
     alignItems:'center', 
@@ -226,6 +248,11 @@ const styles = StyleSheet.create({
     borderBottomWidth:1,     
     height:48,
   },
+  greetingText: {
+    fontSize: 24,
+    fontWeight: '500',
+    color: darkYellow,
+  }
 })
 
 export default Other;

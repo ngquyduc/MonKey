@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     height: 36,
   },
   inputContainer: {
-    backgroundColor: '#FDEE87',
+    backgroundColor: lighterBlue,
     color: darkBlue,
     borderColor: darkBlue,
     paddingRight: 12,
