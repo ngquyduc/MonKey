@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   usernameView: {
     flex: 7,
     paddingLeft:0,
-    alignItems:'center',
+    alignItems:'flex-start',
     justifyContent:'center',
   },
   divider: {

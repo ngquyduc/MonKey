@@ -301,6 +301,8 @@ const Input = ({navigation}) => {
                       borderBottomColor:darkYellow,
                     }}>
                       <TextInput
+                        multiline={true}
+                        scrollEnabled={true}
                         style={[styless.noteInputContainer, {textAlign:'left'}]}
                         placeholder='Note (optional)'
                         placeholderTextColor={'#49494950'}
@@ -494,6 +496,8 @@ const Input = ({navigation}) => {
                       borderBottomColor:darkYellow,
                     }}>
                       <TextInput
+                        multiline={true}
+                        scrollEnabled={true}
                         style={[styless.noteInputContainer, {textAlign:'left'}]}
                         placeholder='Note (optional)'
                         placeholderTextColor={'#49494950'}
@@ -579,7 +583,7 @@ const Input = ({navigation}) => {
           // Do something
         },
       }}
-      duration={200}>
+      duration={1000}>
       Income noted!
     </Snackbar>
     <Snackbar
@@ -591,10 +595,10 @@ const Input = ({navigation}) => {
             // Do something
           },
         }}
-        duration={200}>
+        duration={1000}>
         Expense noted!
       </Snackbar>
-  </View>
+    </View>
   </>
   );
 }
