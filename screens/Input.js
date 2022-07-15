@@ -674,7 +674,6 @@ const styless = StyleSheet.create({
     borderRadius: 10,
     fontSize: 20,
     fontWeight:'600',
-    height: 36,
   },
   noteInputContainer: {
     color:'#494949',

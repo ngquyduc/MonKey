@@ -11,7 +11,7 @@ import { StatusBarHeight } from '../components/constants';
 import { MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { Timestamp } from 'firebase/firestore';
 import CurrencyInput from 'react-native-currency-input';
-const { lightBlue, darkBlue, darkYellow } = colors
+const { lightBlue, darkBlue, darkYellow,lighterBlue } = colors
 
 const EditItemScreen = ({route, navigation}) => {
   const [ExpenseCategory, setExpenseCategory] = useState([])
@@ -215,7 +215,7 @@ const EditItemScreen = ({route, navigation}) => {
           <View style={styles.datePickerView}>
             <TouchableOpacity onPress={()=>setShow(true)}>
               <View>
-                <Text style={styles.dateText}>{inprogressDate.format('DD-MM-YYYY')}</Text>
+                <Text style={styles.dateText}>{inprogressDate.format('MMMM Do, YYYY')}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -318,9 +318,11 @@ const EditItemScreen = ({route, navigation}) => {
             borderBottomColor:darkYellow,
           }}>
             <TextInput
+              multiline={true}
+              scrollEnabled={true}
               style={[styles.noteInputContainer, {textAlign:'left'}]}
               placeholder='Note (optional)'
-              placeholderTextColor={lightBlue}
+              placeholderTextColor={'#49494950'}
               value={inprogressNote}
               onChangeText={(value) => setInprogressNote(value)}
             />
@@ -344,7 +346,7 @@ const EditItemScreen = ({route, navigation}) => {
               <Text style={[styles.categoryText, {color:colorC}]}>{inprogressCategory}</Text>
           </View>
         </View>
-        <View style={{height:200, alignItems:'center'}}>
+        <View style={{height:280, alignItems:'center'}}>
           <FlatList
             scrollEnabled={true}
             contentContainerStyle={{alignSelf: 'flex-start'}}
@@ -360,7 +362,7 @@ const EditItemScreen = ({route, navigation}) => {
                       style={styles.itemButton}
                       onPress={() => {setInprogressCategory(item.name); setColor(item.color)}}>
                       <MaterialCommunityIcons name={item.icon} size={20} color={item.color}/>
-                      <Text style={[styles.categoryButtonText, {color:item.color}]}>{' ' + item.name}</Text>
+                      <Text style={[styles.categoryButtonText]}>{' ' + item.name}</Text>
                     </TouchableOpacity>
                   </View>
                 )
@@ -371,7 +373,7 @@ const EditItemScreen = ({route, navigation}) => {
         {/*********** Submit button ***********/}
         <View style={[styles.submitButtonView, {alignItems:'center', justifyContent:'center', }]}>
           <TouchableOpacity 
-          style={[styles.inputButton, {borderRadius:10, backgroundColor:darkYellow,width:120}]} 
+          style={[styles.inputButton]} 
           onPress={() => {onSubmitEdit()}}> 
           {/*********** modify function onSubmitEdit and editRow (Ctrl F) ***********/}
             <Text style={styles.cancelText}>Submit</Text>
@@ -418,17 +420,6 @@ const styles = StyleSheet.create({
     color:'#fff',
     fontWeight:'500',
   },
-  submitButtonView: {
-    marginTop: 10, 
-    alignItems:'center',
-    justifyContent:'center',
-    paddingBottom:4,
-    paddingTop:4,
-    paddingLeft:4,
-    borderBottomColor: '#E9E9E9',
-    borderTopColor: '#E9E9E9',     
-    height:48
-  },
   inputButton: {
     padding: 5,
     flexDirection: 'row',
@@ -436,8 +427,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:10,
-    backgroundColor:darkYellow,
-    width:120
+    backgroundColor:darkBlue,
+    width:200,
   },
   propertiesView: {
     flexDirection:'row',
@@ -461,8 +452,8 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 19,
-    fontWeight: '600',
-    color: darkBlue,
+    fontWeight: '500',
+    color: '#494949',
   },
   datePickerOffText: {
     fontSize: 18,
@@ -473,19 +464,18 @@ const styles = StyleSheet.create({
     flex:55,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#FDEE87',
-    borderRadius:20
+    backgroundColor: lighterBlue,
+    borderRadius:10
   },
   inputContainer: {
-    backgroundColor: '#FDEE87',
-    color: darkBlue,
+    backgroundColor: lighterBlue,
+    color: '#494949',
     borderColor: darkBlue,
     paddingRight: 12,
     width:200,
     borderRadius: 10,
     fontSize: 20,
     fontWeight:'600',
-    height: 36,
   },
   noteView: {
     flexDirection:'row',
@@ -499,15 +489,15 @@ const styles = StyleSheet.create({
     height:48
   },
   noteInputContainer: {
-    color:darkBlue,
-    borderColor: darkBlue,
+    color:'#494949',
+    backgroundColor: '#fff',
     paddingRight: 12,
-    width:210,
+    width:200,
     borderRadius: 10,
-    borderBottomWidth:1,
     fontSize: 17,
-    fontWeight:'400',
+    fontWeight:'500',
     height: 36,
+    paddingHorizontal: 5
   },
   categoryText: {
     fontSize: 18,
@@ -518,11 +508,12 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     height: 50,
-    width:(ScreenWidth-15)/3, 
+    width:(ScreenWidth-15)/3,
+    marginTop: 20 
   },
   itemButton: {
     flexDirection: 'column',
-    height: 40,
+    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:10,
@@ -532,10 +523,34 @@ const styles = StyleSheet.create({
     shadowOffset: {width:0,height:1},
     shadowOpacity:0.8,
     shadowRadius:2,
+    marginTop: -20,
+    paddingLeft: 5,
+    paddingRight: 5
   },
   categoryButtonText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '300',
+  },
+  submitButtonView: {
+    flexDirection:'row',
+    paddingBottom:4,
+    paddingTop:4,
+    paddingLeft:4,
+    borderBottomColor: '#E9E9E9',
+    borderTopColor: '#E9E9E9',     
+    height:48  
+  },
+  submitButton: {
+    padding: 5,
+    height: 40,
+    width:100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomLeftRadius:10, 
+    borderTopLeftRadius:10, 
+    borderBottomRightRadius:10,
+    borderTopRightRadius:10,
+    backgroundColor:lighterBlue
   },
   modalView: {
     flex:1, 
