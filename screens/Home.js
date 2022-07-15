@@ -31,7 +31,7 @@ const Home = ({navigation}) => {
   const [dayIncome, setDayIncome] = useState(0)
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
-
+  const [visible, setVisible] = useState(false)
   // get user name to display on screen
   useEffect(() => {
     const userRef = doc(db, "Users", getUserID());

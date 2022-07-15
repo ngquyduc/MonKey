@@ -28,7 +28,7 @@ const CalendarScreen = ({navigation}) => {
   const [total, setTotal] = useState(0)
   const [balanceDay, setBalanceDay] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const [visible, setVisible] = useState(false)
 
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
@@ -322,11 +322,10 @@ const CalendarScreen = ({navigation}) => {
       <View>
         <View style={{flexDirection:'row', marginHorizontal:15, marginBottom:10, paddingTop:7}}>
           <View style={{alignItems:'center', justifyContent:'center', flexDirection:'row'}}>
-            <Text style={{fontSize:16, fontWeight:'700', color:'#494949'}}>{"Date: " + curDate.split('-').reverse().join('-')}</Text>
-            <Text style={{fontSize:16, fontWeight:'700', color:'#494949'}}>'s balance: </Text>
+            <Text style={{fontSize:16, fontWeight:'700', color:'#494949'}}>{"Date (" + curDate.split('-').reverse().join('-') + '):'}</Text>
           </View>
-          <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6'}]}>
-            <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{formatter.format(balanceDay)}</Text>
+          <View style={{flex:1,justifyContent:'center',alignItems:'flex-end'}}>
+            <Text style={{color: balanceDay<0?'#ef5011':(balanceDay>0?'#26b522':'#494949'), fontSize:18, fontWeight:'500'}}>{formatter.format(balanceDay)}</Text>
           </View>
         </View>
       </View>

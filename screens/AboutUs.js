@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#fff',
     borderBottomColor:'#808080',
     borderBottomWidth:1,
-    height: StatusBarHeight + 48,
+    height: StatusBarHeight + 42,
   },
   boldBlueHeaderText: {
     fontSize: 34,
