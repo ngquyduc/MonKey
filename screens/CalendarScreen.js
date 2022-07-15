@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import { View, Text, TouchableOpacity, Alert, Animated, Modal, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Animated, StyleSheet, FlatList } from 'react-native';
 import { db } from '../api/db';
 import { collection, onSnapshot, query, where, orderBy, deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
@@ -8,10 +8,8 @@ import { StatusBarHeight } from '../components/constants';
 import moment from 'moment';
 import { colors } from '../components/colors';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import PressableText from '../components/Containers/PressableText';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { formatter } from '../api/formatCurrency';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { Timestamp } from 'firebase/firestore';
 
 const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
@@ -28,7 +26,6 @@ const CalendarScreen = ({navigation}) => {
   const [total, setTotal] = useState(0)
   const [balanceDay, setBalanceDay] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
-  const [visible, setVisible] = useState(false)
 
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})

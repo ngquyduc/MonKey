@@ -1,10 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
 import React, {useState, useMemo, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Alert, Animated, Modal, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
 import { colors } from '../components/colors';
 import moment from 'moment';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Switch } from 'react-native-switch';
+import { Snackbar } from 'react-native-paper';
 import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 import { getUserID } from '../api/authentication';
@@ -12,7 +10,6 @@ import ActivityRings from "react-native-activity-rings";
 import { StatusBarHeight } from '../components/constants';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { SwipeListView } from 'react-native-swipe-list-view';
-import CustomModal from '../components/Containers/CustomModal';
 import { Timestamp } from 'firebase/firestore';
 import { formatter } from '../api/formatCurrency';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
@@ -31,7 +28,6 @@ const Home = ({navigation}) => {
   const [dayIncome, setDayIncome] = useState(0)
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
-  const [visible, setVisible] = useState(false)
   // get user name to display on screen
   useEffect(() => {
     const userRef = doc(db, "Users", getUserID());
