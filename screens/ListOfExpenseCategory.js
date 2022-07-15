@@ -121,35 +121,35 @@ const ListOfExpenseCategory = ({navigation}) => {
     setVisibleEdit(false)
   }
   /*************** Function when submitting new/edit category ***************/
-  const onSubmitAdd = (name, icon, color) => {
-    const existedcategories = []
-    listCategories.forEach((cat) => existedcategories.push(cat.title))
-    if (name == '' || name == null) {
-      Alert.alert("Alert", "Invalid category name. Please choose another name.", [
-        {text: 'OK', onPress: () => console.log('Alert closed')}
-      ]);
-    }
-    else if (icon == '') {
-      Alert.alert("Alert", "No icon selected. Please choose an icon.", [
-        {text: 'OK', onPress: () => console.log('Alert closed')}
-      ]);
-    }
-    else if (color == '') {
-      Alert.alert("Alert", "No color selected yet. Please choose a color.", [
-        {text: 'OK', onPress: () => console.log('Alert closed')}
-      ]);
-    }
-    else if (existedcategories.includes(name)) {
-      Alert.alert("Alert", "This category is already existed. Please choose another name.", [
-        {text: 'OK', onPress: () => console.log('Alert closed')}
-      ]);
-    } else {
-      AddExpenseCategory(name, icon, color)
-      setInprogressCategory('')
-      setInprogressColor('#767676')
-      setInprogressIcon('')
-      setVisibleAdd(false)
-    } 
+  const onSubmitAdd = async (name, icon, color) => {
+    // const existedcategories = []
+    // listCategories.forEach((cat) => existedcategories.push(cat.title))
+    // if (name == '' || name == null) {
+    //   Alert.alert("Alert", "Invalid category name. Please choose another name.", [
+    //     {text: 'OK', onPress: () => console.log('Alert closed')}
+    //   ]);
+    // }
+    // else if (icon == '') {
+    //   Alert.alert("Alert", "No icon selected. Please choose an icon.", [
+    //     {text: 'OK', onPress: () => console.log('Alert closed')}
+    //   ]);
+    // }
+    // else if (color == '') {
+    //   Alert.alert("Alert", "No color selected yet. Please choose a color.", [
+    //     {text: 'OK', onPress: () => console.log('Alert closed')}
+    //   ]);
+    // }
+    // else if (existedcategories.includes(name)) {
+    //   Alert.alert("Alert", "This category is already existed. Please choose another name.", [
+    //     {text: 'OK', onPress: () => console.log('Alert closed')}
+    //   ]);
+    // } else {
+    //   AddExpenseCategory(name, icon, color)
+    //   setInprogressCategory('')
+    //   setInprogressColor('#767676')
+    //   setInprogressIcon('')
+    //   setVisibleAdd(false)
+    // } 
   }
   const onSubmitEdit = (id, name, icon, color) => {
     const existedcategories = []

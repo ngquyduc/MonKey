@@ -25,6 +25,8 @@ const Home = ({navigation}) => {
   const [dayExpense, setDayExpense] = useState(0)
   /*********** display today's expense & income ***********/
   const [finances, setFinances] = useState([])
+  const [dayIncomes, setDayIncomes] = useState([])
+  const [dayExpenses, setDayExpenses] = useState([])
   const [dayIncome, setDayIncome] = useState(0)
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
@@ -47,54 +49,69 @@ const Home = ({navigation}) => {
 
   // get month expense and today expense & income
   useEffect(() => {
-    const financePath = 'Finance/' + getUserID() + '/' + date.substring(0, 4)
-    const financeRef = collection(db, financePath)
-    const dayQuery = query(financeRef, where('month', '==', date.substring(5, 7)), where('date', '==', date.substring(8, 10)))
-    onSnapshot(dayQuery,
-      (snapShot) => {
-        const dayFinances = []
-        const dayExpenses = []
-        const dayIncomes = []
-        snapShot.forEach((doc) => {
-          dayFinances.push({
+    const dayFinances = []
+    const expensePath = 'Finance/' + getUserID() + '/Expense'
+    const expenseRef = collection(db, expensePath)
+    const dayExpenseQuery = query(expenseRef, where('year', '==', date.substring(0,4)), where('month', '==', date.substring(5, 7)))
+    onSnapshot(dayExpenseQuery, (snapShot) => {
+      const dayExpenses = []
+      let dayExpense = 0
+      let monthExpense = 0
+      snapShot.forEach((doc) => {
+        monthExpense += doc.data().amount
+        if (doc.data().date == date.substring(8, 10)) {
+          dayExpense += doc.data().amount
+          dayExpenses.push({
             key: doc.id,
             id: doc.id,
-            type: doc.data().type,
-            date: doc.data().date,
+            type: 'expense',
             amount: doc.data().amount,
             note: doc.data().note,
             category: doc.data().category,
-            icon: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category+'icon'] : incomeCategoryList[doc.data().category+'icon'],
-            color: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category+'color'] : incomeCategoryList[doc.data().category+'color'],
+            icon: expenseCategoryList[doc.data().category+'icon'],
+            color: expenseCategoryList[doc.data().category+'color'],
             notedAt: doc.data().notedAt
           })
-          if (doc.data().type == 'expense') {
-            dayExpenses.push(doc.data().amount)
-          } else {
-            dayIncomes.push(doc.data().amount)
-          }
-        })
-        dayFinances.sort((x, y) => x.notedAt > y.notedAt ? -1 : 1)
-        setFinances(dayFinances)
-        const dayIncome = dayIncomes.reduce((total, current) => total = total + current, 0);
-        setDayIncome(dayIncome)
-        const dayExpense = dayExpenses.reduce((total, current) => total = total + current, 0);
+        }
+        setDayExpenses(dayExpenses)
         setDayExpense(dayExpense)
-      }
-    )
-
-    const monthQuery = query(financeRef, where('month', '==', date.substring(5, 7)))
-    onSnapshot(monthQuery, (snapShot) => {
-        const monthExpenses = []
-        snapShot.forEach((doc) => {
-          if (doc.data().type == 'expense') {
-            monthExpenses.push(doc.data().amount)
-          } 
-        })
-        const monthExpense = monthExpenses.reduce((total, current) => total = total + current, 0);
         setMonthExpense(monthExpense)
+        console.log(dayExpenses)
+      })
+    })
+
+    const incomePath = 'Finance/' + getUserID() + '/Income'
+    const incomeRef = collection(db, incomePath)
+    const dayIncomeQuery = query(incomeRef, where('year', '==', date.substring(0,4)), where('month', '==', date.substring(5, 7)), where('date', '==', date.substring(8, 10)))
+    onSnapshot(dayIncomeQuery, (snapShot) => {
+      const dayIncomes = []
+      let dayIncome = 0
+      snapShot.forEach((doc) => {
+        dayIncomes.push({
+          key: doc.id,
+          id: doc.id,
+          type: 'income', 
+          amount: doc.data().amount,
+          note: doc.data().note,
+          category: doc.data().category,
+          icon: incomeCategoryList[doc.data().category+'icon'],
+          color: incomeCategoryList[doc.data().category+'color'],
+          notedAt: doc.data().notedAt
+        })
+        dayIncome += doc.data().amount
+      })
+      setDayIncomes(dayIncomes)
+      setDayIncome(dayIncome)
+      console.log(dayIncomes)
     })
   }, [incomeCategoryList, expenseCategoryList])
+
+  useEffect(() => {
+    const finances = dayIncomes.concat(dayExpenses)
+    finances.sort((a, b) => a.notedAt > b.notedAt ? 1 : -1)
+    setFinances(finances)
+    console.log(finances)
+  }, [dayExpenses, dayIncomes])
 
   // create a map for categories
   useEffect(() => {
