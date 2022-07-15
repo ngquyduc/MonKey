@@ -10,17 +10,14 @@ import { getUserID } from './authentication';
 
 export const db = getFirestore(app);
 
-// collection ref
-export const financeRef = collection(db, 'finance')
-
 export const handleExpenseSubmit = async (date, amount, note, category) => {
   try {
-    const expensePath = 'Finance/' + getUserID() + '/' + date.substring(0, 4) // year
+    const expensePath = 'Finance/' + getUserID() + '/Expense'
     const expenseRef = collection(db, expensePath)
     await addDoc(expenseRef, {
-      type: 'expense',
       date: date.substring(8, 10),
       month: date.substring(5, 7), 
+      year: date.substring(0, 4), 
       amount: amount,
       note: note,
       category: category,
@@ -34,12 +31,12 @@ export const handleExpenseSubmit = async (date, amount, note, category) => {
 
 export const handleIncomeSubmit = async (date, amount, note, category) => {
   try {
-    const incomePath = 'Finance/' + getUserID() + '/' + date.substring(0, 4) // year
+    const incomePath = 'Finance/' + getUserID() + '/Income'
     const incomeRef = collection(db, incomePath)
     await addDoc(incomeRef, {
-      type: 'income',
       date: date.substring(8, 10),
       month: date.substring(5, 7), 
+      year: date.substring(0, 4),
       amount: amount,
       note: note,
       category: category,
