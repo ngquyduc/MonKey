@@ -127,12 +127,12 @@ const EditItemScreen = ({route, navigation}) => {
   const onSubmitEdit = () => {
     if (inprogressAmount == null || inprogressAmount == 0) {
       Alert.alert("Alert", "Please enter the amount", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     }
     else if (inprogressCategory == '') {
       Alert.alert("Alert", "Please choose the category", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     }
     else if (inprogressAmount != '' && inprogressCategory != '') {
@@ -315,7 +315,6 @@ const EditItemScreen = ({route, navigation}) => {
             flex:80,
             alignItems:'center',
             justifyContent:'center',
-            borderBottomColor:darkYellow,
           }}>
             <TextInput
               multiline={true}

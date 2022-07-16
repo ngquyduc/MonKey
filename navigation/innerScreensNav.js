@@ -5,6 +5,7 @@ import EditLimitScreen from '../screens/EditLimitScreen';
 import EditItemScreen from '../screens/EditItemScreen';
 import AboutUs from '../screens/AboutUs';
 import RateScreen from '../screens/RateScreen';
+import EditUsernameScreen from '../screens/EditUsernameScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
@@ -19,7 +20,7 @@ const InnerScreenNav = () => {
       <Stack.Screen name="EditItemScreen" component={EditItemScreen} options={{headerShown:false}}/>
       <Stack.Screen name="AboutUs" component={AboutUs} options={{headerShown:false}}/>
       <Stack.Screen name="RateScreen" component={RateScreen} options={{headerShown:false}}/>
-      
+      <Stack.Screen name="EditUsernameScreen" component={EditUsernameScreen} options={{headerShown:false}}/>
     </Stack.Navigator>
   )
 }
