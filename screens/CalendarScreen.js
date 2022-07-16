@@ -2,7 +2,7 @@ import React, {useState, useEffect, useMemo} from 'react';
 import { View, Text, TouchableOpacity, Alert, Animated, StyleSheet, FlatList } from 'react-native';
 import { db } from '../api/db';
 import { collection, onSnapshot, query, where, orderBy, deleteDoc, doc, setDoc } from 'firebase/firestore';
-import { getUserID } from '../api/authentication';
+import { authentication, getUserID } from '../api/authentication';
 import { Calendar } from 'react-native-calendars';
 import { StatusBarHeight } from '../components/constants';
 import moment from 'moment';
@@ -17,6 +17,8 @@ const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
 const CalendarScreen = ({navigation}) => {
   const [curDate, setCurDate] = useState(moment().format('YYYY-MM-DD'))
   const [curMonth, setCurMonth] = useState(moment().format('YYYY-MM-DD').substring(0, 7))
+  const [dayExpenses, setDayExpenses] = useState([])
+  const [dayIncomes, setDayIncomes] = useState([])
   const [finances, setFinances] = useState([])
   const [income, setIncome] = useState(0)
   const [monthIncome, setMonthIncome] = useState(0)
@@ -26,11 +28,12 @@ const CalendarScreen = ({navigation}) => {
   const [total, setTotal] = useState(0)
   const [balanceDay, setBalanceDay] = useState(0)
   const [expenseDays, setExpenseDays] = useState([])
+  const [userId, setUserId] = useState(getUserID())
 
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
   useEffect(() => {
-    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
+    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + userId)
 
     onSnapshot(expenseCategoryRef, (snapshot) => {
       let expenseCategories = {}
@@ -54,63 +57,106 @@ const CalendarScreen = ({navigation}) => {
   }, [])
 
   useEffect(() => {
-    const financePath = 'Finance/' + getUserID() + '/' + curDate.substring(0, 4)
-    const financeRef = collection(db, financePath)
-    const dayFinanceQuery = query(financeRef, where('date', '==', curDate.substring(8, 10)), where('month', '==', curDate.substring(5, 7)))
-    onSnapshot(dayFinanceQuery, (snapShot) => {
-      const finances = []
-      const expenses = []
-      const incomes = []
+    const expensePath = 'Finance/' + getUserID() + '/Expense'
+    const expenseRef = collection(db, expensePath)
+    const dayExpenseQuery = query(expenseRef, where('year', '==', curDate.substring(0, 4)), where('month', '==', curDate.substring(5, 7)), where('date', '==', curDate.substring(8, 10)))
+    onSnapshot(dayExpenseQuery, (snapShot) => {
+      const dayExpenses = []
+      let dayExpense = 0
       snapShot.forEach((doc) => {
-        finances.push({ 
+        dayExpenses.push({ 
+          id: doc.id,
+          key: doc.id, 
+          type: 'expense',
           date: doc.data().year + '-' + doc.data().month + '-' + doc.data().date,
           amount: doc.data().amount,
           note: doc.data().note,
           category: doc.data().category,
-          icon: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category+'icon'] : incomeCategoryList[doc.data().category+'icon'],
-          color: doc.data().type == 'expense' ? expenseCategoryList[doc.data().category+'color'] : incomeCategoryList[doc.data().category+'color'],
+          icon: expenseCategoryList[doc.data().category+'icon'],
+          color: expenseCategoryList[doc.data().category+'color'],
           notedAt: doc.data().notedAt,
-          type: doc.data().type,
-          id: doc.id,
-          key: doc.id
         })
-        if (doc.data().type == 'expense') { 
-          expenses.push(doc.data().amount)
-        } else { 
-          incomes.push(doc.data().amount)
-        }
+        dayExpense += doc.data().amount
+      
       })
-      finances.sort((a, b) => a.notedAt < b.notedAt ? 1 : -1)
-      setFinances(finances)
-      const totalIncome = incomes.reduce((total, current) => total = total + current, 0);
-      setIncome(totalIncome)
-      const totalExpense = expenses.reduce((total, current) => total = total + current, 0);
-      setExpense(totalExpense)
+      setExpense(dayExpense)
+      setDayExpenses(dayExpenses)
     })
-    const monthFinanceQuery = query(financeRef, where('month', "==", curMonth.substring(5, 7)))
-    onSnapshot(monthFinanceQuery, (snapShot) => {
-      const expensesMonth = []
-      const incomesMonth = []
+
+
+    const incomePath = 'Finance/' + getUserID() + '/Income'
+    const incomeRef = collection(db, incomePath)
+    const dayIncomeQuery = query(incomeRef, where('year', '==', curDate.substring(0, 4)), where('month', '==', curDate.substring(5, 7)), where('date', '==', curDate.substring(8, 10)))
+    onSnapshot(dayIncomeQuery, (snapShot) => {
+      const dayIncomes = []
+      let dayIncome = 0
+      snapShot.forEach((doc) => {
+        dayIncomes.push({ 
+          id: doc.id,
+          key: doc.id, 
+          type: 'income',
+          date: doc.data().year + '-' + doc.data().month + '-' + doc.data().date,
+          amount: doc.data().amount,
+          note: doc.data().note,
+          category: doc.data().category,
+          icon: incomeCategoryList[doc.data().category+'icon'],
+          color: incomeCategoryList[doc.data().category+'color'],
+          notedAt: doc.data().notedAt,
+        })
+        dayIncome += doc.data().amount
+      
+      })
+      setIncome(dayIncome)
+      setDayIncomes(dayIncomes)
+    })
+  }, [curDate, expenseCategoryList, incomeCategoryList])
+
+  useEffect(() => {
+    const dayBalance = + income - expense
+    setBalanceDay(dayBalance)
+  }, [curDate, income, expense])
+
+  useEffect(() => {
+    setBalanceDay(income - expense)
+    const dayFinances = dayExpenses.concat(...dayIncomes)
+    dayFinances.sort((a, b) => a.notedAt > b.notedAt ? -1 : 1)
+    setFinances(dayFinances)
+  }, [expense, income, dayExpenses, dayIncomes])
+
+  useEffect(() => {
+    const expensePath = 'Finance/' + getUserID() + '/Expense'
+    const expenseRef = collection(db, expensePath)
+    const monthExpenseQuery = query(expenseRef, where('year', '==', curMonth.substring(0, 4)), where('month', '==', curMonth.substring(5, 7)))
+    onSnapshot(monthExpenseQuery, (snapShot) => {
+      let monthExpense = 0
       const expenseDays = []
+      snapShot.forEach((doc) => {
+        monthExpense += doc.data().amount
+        expenseDays.push(doc.data().year + '-' + doc.data().month + '-' + doc.data().date)
+      })
+      setExpenseMonth(monthExpense)
+      setExpenseDays(expenseDays)
+    })
+
+    const incomePath = 'Finance/' + getUserID() + '/Income'
+    const incomeRef = collection(db, incomePath)
+    const monthIncomeQuery = query(incomeRef, where('year', '==', curMonth.substring(0, 4)), where('month', '==', curMonth.substring(5, 7)))
+    onSnapshot(monthIncomeQuery, (snapShot) => {
+      let monthIncome = 0
       const incomeDays = []
       snapShot.forEach((doc) => {
-        if (doc.data().type == 'expense') {
-          expensesMonth.push(doc.data().amount)
-          expenseDays.push(curDate.substring(0, 4) + '-' + doc.data().month + '-' + doc.data().date)
-        } else {
-          incomesMonth.push(doc.data().amount)
-          incomeDays.push(curDate.substring(0, 4) + '-' + doc.data().month + '-' + doc.data().date)
-        }
+        monthIncome += doc.data().amount
+        incomeDays.push(doc.data().year + '-' + doc.data().month + '-' + doc.data().date)
       })
-      const totalIncomeMonth = incomesMonth.reduce((total, current) => total = total + current, 0);
-      setMonthIncome(totalIncomeMonth)
+      setMonthIncome(monthIncome)
       setIncomeDays(incomeDays)
-      setExpenseDays(expenseDays)
-      const totalExpenseMonth = expensesMonth.reduce((total, current) => total = total + current, 0);
-      setExpenseMonth(totalExpenseMonth)
-      setTotal(totalIncomeMonth - totalExpenseMonth)
-      })
-  }, [curDate, curMonth, expenseCategoryList, incomeCategoryList])
+    })
+  }, [curMonth])
+
+  useEffect(() => {
+    const monthBalance = + monthIncome - expenseMonth
+    setTotal(monthBalance)
+  }, [curMonth, monthIncome, expenseMonth])
   /*********** Calendar marked dots config ***********/
   const exp = {color:'red'}
   const inc = {color:'green'}

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Text, View, Alert, StyleSheet, TouchableOpacity, TextInput, Pressable, Keyboard } from 'react-native';
 import { Feather, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
 import { getUserID } from '../api/authentication';
-import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
@@ -26,10 +26,12 @@ const EditLimitScreen = ({navigation}) => {
 
   const onSubmit = () => {
     const spendingLimitRef = doc(db, "Spending Limit", getUserID())
-    setDoc(spendingLimitRef, {
+    updateDoc(spendingLimitRef, {
       monthLimit: monthLimit, 
       dayLimit: dayLimit
-    })
+    }).then(
+      navigation.goBack()
+    )
   }
 
   return (
@@ -162,7 +164,7 @@ const EditLimitScreen = ({navigation}) => {
         <View style={[styles.submitButtonView, {alignItems:'center', justifyContent:'center', }]}>
           <TouchableOpacity 
           style={[styles.inputButton, {borderRadius:10, backgroundColor:darkYellow,width:120}]} 
-          onPress={() => {onSubmit(); navigation.goBack()}}> 
+          onPress={() => {onSubmit()}}> 
             <Text style={styles.cancelText}>Submit</Text>
           </TouchableOpacity>
         </View>
