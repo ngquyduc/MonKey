@@ -30,9 +30,11 @@ const Home = ({navigation}) => {
   const [dayIncome, setDayIncome] = useState(0)
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
+  const [userId, setUserId] = useState(getUserID())
+
   // get user name to display on screen
   useEffect(() => {
-    const userRef = doc(db, "Users", getUserID());
+    const userRef = doc(db, "Users", userId);
     onSnapshot(userRef, (snapShot) => {
       setUserName(snapShot.data().username)
     })
@@ -40,7 +42,7 @@ const Home = ({navigation}) => {
 
   // get monthlimit and daylimit
   useEffect(() => {
-    const financeRef = doc(db, "Spending Limit", getUserID())
+    const financeRef = doc(db, "Spending Limit", userId)
     onSnapshot(financeRef, (snapShot) => {
       setMonthLimit(snapShot.data().monthLimit)
       setDayLimit(snapShot.data().dayLimit)
@@ -73,11 +75,10 @@ const Home = ({navigation}) => {
             notedAt: doc.data().notedAt
           })
         }
-        setDayExpenses(dayExpenses)
-        setDayExpense(dayExpense)
-        setMonthExpense(monthExpense)
-        console.log(dayExpenses)
       })
+      setDayExpenses(dayExpenses)
+      setDayExpense(dayExpense)
+      setMonthExpense(monthExpense)
     })
 
     const incomePath = 'Finance/' + getUserID() + '/Income'
@@ -102,13 +103,12 @@ const Home = ({navigation}) => {
       })
       setDayIncomes(dayIncomes)
       setDayIncome(dayIncome)
-      console.log(dayIncomes)
     })
   }, [incomeCategoryList, expenseCategoryList])
 
   useEffect(() => {
-    const finances = dayIncomes.concat(dayExpenses)
-    finances.sort((a, b) => a.notedAt > b.notedAt ? 1 : -1)
+    const finances = dayExpenses.concat(...dayIncomes)
+    finances.sort((a, b) => a.notedAt > b.notedAt ? -1 : 1)
     setFinances(finances)
     console.log(finances)
   }, [dayExpenses, dayIncomes])
@@ -136,6 +136,7 @@ const Home = ({navigation}) => {
       })
       setIncomeCategoryList(incomeCategories)
     })
+
   }, [])
 
   const [ExpenseCategory, setExpenseCategory] = useState([])

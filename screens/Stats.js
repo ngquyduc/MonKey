@@ -116,19 +116,23 @@ const Stats = (props) => {
   }, [])
 
   useEffect(() => {
-    const financeRef = collection(db, 'Finance/' + getUserID() + '/' + year)
-    const monthQ = query(financeRef, where('month', '==', month.substring(5, 7)))
-    // const monthIncQ = query(financeRef, where('month', '==', month.substring(5, 7)), where('type', '==', 'income'))
-    const yearQ = query(financeRef)
-    // const yearIncQ = query(financeRef, where('type', '==', 'income'))
-    const q = isMonth ? monthQ : yearQ
+    const expenseRef = collection(db, 'Finance/' + getUserID() + '/Expense')
+    const incomeRef = collection(db, 'Finance/' + getUserID() + '/Income')
+    const monthExpQ = query(expenseRef, where('year', '==', month.substring(0, 4)), where('month', '==', month.substring(5, 7)))
+    const monthIncQ = query(incomeRef, where('year', '==', month.substring(0, 4)), where('month', '==', month.substring(5, 7)))
+    const yearExpQ = query(expenseRef, where('year', '==', year.substring(0, 4)))
+    const yearIncQ = query(incomeRef, where('year', '==', year.substring(0, 4)))
+
+    const q = isMonth && isExpense? monthExpQ 
+            : isMonth && isIncome ? monthIncQ
+            : isAnnual && isExpense ? yearExpQ
+            : yearIncQ
     
     onSnapshot(q,
       (snapShot) => {
         const expenses = new Map()
         const incomes = new Map()
         snapShot.forEach((doc) => {
-          if (doc.data().type == 'expense') {
             if (expenses.has(doc.data().category)) {
               var temp = expenses.get(doc.data().category)
               temp += doc.data().amount
@@ -137,7 +141,7 @@ const Stats = (props) => {
             else {
               expenses.set(doc.data().category, doc.data().amount)
             }
-          } else {
+
             if (incomes.has(doc.data().category)) {
               var temp = incomes.get(doc.data().category)
               temp += doc.data().amount
@@ -146,7 +150,7 @@ const Stats = (props) => {
             else {
               incomes.set(doc.data().category, doc.data().amount)
             }
-          }
+          
         })
         setIncome(incomes)      
         setExpense(expenses)
