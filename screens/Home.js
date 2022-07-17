@@ -2,7 +2,7 @@ import React, {useState, useMemo, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Alert, Animated, Modal, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
 import { colors } from '../components/colors';
 import moment from 'moment';
-import { Snackbar } from 'react-native-paper';
+import { ScreenHeight } from '../components/constants';
 import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 import { getUserID } from '../api/authentication';
@@ -192,7 +192,7 @@ const Home = ({navigation}) => {
     height: 150,
     ringSize:20
   };
-
+  
   const alertChangeLimit = () => {
     Alert.alert("Adjust your expense limit?","", [
       {text: 'Cancel', onPress: () => console.log('Alert closed')},
@@ -358,7 +358,7 @@ const Home = ({navigation}) => {
               </View>
             </View>
             {/************ List ************/}
-            <View style={{height:318}}>
+            <View style={{height:(318-(896-ScreenHeight))}}>
               {finances.length != 0 && <SwipeListView 
                 data={finances}
                 renderItem={renderItem}
@@ -385,6 +385,7 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     backgroundColor: lighterBlue,
+
   },
   header: {
     flex:1,
