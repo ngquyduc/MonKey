@@ -61,7 +61,7 @@ const CalendarScreen = ({navigation}) => {
     const expensePath = 'Finance/' + getUserID() + '/Expense'
     const expenseRef = collection(db, expensePath)
     const dayExpenseQuery = query(expenseRef, where('year', '==', curDate.substring(0, 4)), where('month', '==', curDate.substring(5, 7)), where('date', '==', curDate.substring(8, 10)))
-    onSnapshot(dayExpenseQuery, (snapShot) => {
+    const unsubscribeExpense = onSnapshot(dayExpenseQuery, (snapShot) => {
       const dayExpenses = []
       let dayExpense = 0
       snapShot.forEach((doc) => {
@@ -88,7 +88,7 @@ const CalendarScreen = ({navigation}) => {
     const incomePath = 'Finance/' + getUserID() + '/Income'
     const incomeRef = collection(db, incomePath)
     const dayIncomeQuery = query(incomeRef, where('year', '==', curDate.substring(0, 4)), where('month', '==', curDate.substring(5, 7)), where('date', '==', curDate.substring(8, 10)))
-    onSnapshot(dayIncomeQuery, (snapShot) => {
+    const unsubscribeIncome = onSnapshot(dayIncomeQuery, (snapShot) => {
       const dayIncomes = []
       let dayIncome = 0
       snapShot.forEach((doc) => {
@@ -110,6 +110,9 @@ const CalendarScreen = ({navigation}) => {
       setIncome(dayIncome)
       setDayIncomes(dayIncomes)
     })
+
+    // unsubscribeExpense()
+    // unsubscribeIncome()
   }, [curDate, expenseCategoryList, incomeCategoryList])
 
   useEffect(() => {
@@ -197,17 +200,23 @@ const CalendarScreen = ({navigation}) => {
   }, [curDate, curMonth, incomeDays, expenseDays]);
 
   /*************** Function to alert when deleting ***************/
-  const alertDelete = (rowMap, rowKey, id) => {
+  const alertDelete = (rowMap, rowKey, id, type) => {
     Alert.alert("Delete this record?","", [
       {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
-      {text: 'Delete', onPress: () => {deleteRow(id)}}
+      {text: 'Delete', onPress: () => {deleteRow(id, type)}}
     ]);
   }
   /*************** Function to delete record ***************/
-  const deleteRow = (id) => {
-    const cat = doc(db, 'Finance/' + getUserID() + '/' + curDate.substring(0, 4), id)
-    deleteDoc(cat)
+  const deleteRow = (id, type) => {
+    if (type == 'expense') {
+      const expense = doc(db, 'Finance/' + getUserID() + '/Expense', id)
+      deleteDoc(expense)
+    } else {
+      const income = doc(db, 'Finance/' + getUserID() + '/Income', id)
+      deleteDoc(income)
+    }
   }
+
   const renderItem = (data, rowMap) => {
     return <VisibleItem data={data}/>
   }
@@ -251,7 +260,7 @@ const CalendarScreen = ({navigation}) => {
             color:data.item.color,
           })
         }}
-        onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
+        onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id, data.item.type)}
       />
     )
   }

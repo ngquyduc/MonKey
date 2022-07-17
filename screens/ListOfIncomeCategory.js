@@ -20,6 +20,7 @@ const ListOfIncomeCategory = ({navigation}) => {
   const [inprogressIcon, setInprogressIcon] = useState('');
   const [inprogressColor, setInprogressColor] = useState('#767676');
   const [inprogressId, setInprogressId] = useState('')
+  const [fromCategory, setFromCategory] = useState('')
   
   /*************** Visibility of snackbar ***************/
   const [visible, setVisible] = useState(false);
@@ -103,8 +104,9 @@ const ListOfIncomeCategory = ({navigation}) => {
           setInprogressIcon(data.item.icon)
           setInprogressColor(data.item.color)
           setInprogressId(data.item.id)
+          setFromCategory(data.item.title)
         }}
-        onDelete={()=>alertDelete(rowMap,data.item.key,data.item.id)}
+        onDelete={()=>alertDelete(rowMap,data.item.key,data.item.id, data.item.title)}
       />
     )
   }
@@ -146,7 +148,7 @@ const ListOfIncomeCategory = ({navigation}) => {
         {text: 'OK', onPress: () => console.log('Alert closed')}
       ]);
     } else {
-      AddExpenseCategory(name, icon, color)
+      AddIncomeCategory(name, icon, color)
       setInprogressCategory('')
       setInprogressColor('#767676')
       setInprogressIcon('')
@@ -154,39 +156,61 @@ const ListOfIncomeCategory = ({navigation}) => {
     } 
   }
 
-  const onSubmitEdit = () => {
+  const onSubmitEdit = (id, name, icon, color) => {
     const existedcategories = []
     listCategories.forEach((cat) => existedcategories.push(cat.title))
-    if (inprogressCategory == '' || inprogressCategory == null) {
+    if (name == '' || name == null) {
       Alert.alert("Alert", "Invalid category name. Please choose another name.", [
         {text: 'OK', onPress: () => console.log('Alert closed')}
       ]);
     }
-    else if (existedcategories.includes(inprogressCategory)) {
-      Alert.alert("Alert", "This category is already existed. Please choose another name.", [
+    else if (name == 'Edit' || name == "Deleted Category") {
+      Alert.alert("Alert", "You cannot choose this name. Please choose another name.", [
         {text: 'OK', onPress: () => console.log('Alert closed')}
       ]);
-    } else {
-      editRow(inprogressId, inprogressCategory)
-      setInprogressCategory('')
-      setInprogressColor('#767676')
-      setInprogressIcon('')
-      setVisibleEdit(false)
-    }  
+    }
+    else {
+      const index = existedcategories.indexOf(name)
+      if (index > -1) { // only splice array when item is found
+        existedcategories.splice(index, 1); // 2nd parameter means remove one item only
+      }
+      else if (existedcategories.includes(name)) {
+        Alert.alert("Alert", "This category is already existed. Please choose another name.", [
+          {text: 'OK', onPress: () => console.log('Alert closed')}
+        ]);
+      } else {
+        editRow(id, name, icon, color)
+        setInprogressId('')
+        setInprogressCategory('')
+        setInprogressColor('#767676')
+        setInprogressIcon('')
+        setVisibleEdit(false)
+        const colRef = collection(db, 'Finance/' + getUserID() + '/Income')
+        const queryE = query(colRef, where('category', '==', fromCategory))
+        onSnapshot(queryE, (snapShot) => {
+          snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Income', ex.id), {category: name}))
+        })
+      } 
+    }
   }
 
   /*************** Function to alert when deleting ***************/
-  const alertDelete = (rowMap, rowKey, id) => {
+  const alertDelete = (rowMap, rowKey, id, name) => {
     Alert.alert("Delete this category?","", [
       {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
-      {text: 'Delete', onPress: () => {deleteRow(id)}}
+      {text: 'Delete', onPress: () => {deleteRow(id, name)}}
     ]);
   }
 
   /*************** Function to delete category ***************/
-  const deleteRow = (id) => {
+  const deleteRow = (id, name) => {
     const cat = doc(db, 'Input Category/Income/' + getUserID(), id)
     deleteDoc(cat)
+    const colRef = collection(db, 'Finance/' + getUserID() + '/Income')
+    const queryE = query(colRef, where('category', '==', name))
+    onSnapshot(queryE, (snapShot) => {
+      snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Income', ex.id), {category: 'Deleted Category'}))
+    })
   }
   useMemo(() => {
     const IncomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
@@ -455,7 +479,7 @@ const ListOfIncomeCategory = ({navigation}) => {
           <View style={{alignItems:'center',justifyContent:'center', marginTop:15}}>
             <TouchableOpacity 
               style={styles.submitButton}
-              onPress={() => {onSubmitEdit(inprogressCategory, inprogressIcon, inprogressColor)}}>
+              onPress={() => {onSubmitEdit(inprogressId, inprogressCategory, inprogressIcon, inprogressColor)}}>
               <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>

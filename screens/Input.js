@@ -115,12 +115,14 @@ const Input = ({navigation}) => {
     onSnapshot(expenseCategoryRef, (snapshot) => {
       const expenseCategories = [];
       snapshot.forEach((doc) => {
+        if (doc.data().name != 'Deleted Category') {
           expenseCategories.push({
             name: doc.data().name,
             color: doc.data().color,
             icon: doc.data().icon,
             isEdit: doc.data().name == 'Edit' ? true : false
           });
+        }
       });
       expenseCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setExpenseCategory(expenseCategories)
@@ -130,12 +132,14 @@ const Input = ({navigation}) => {
     onSnapshot(incomeCategoryRef, (snapshot) => {
       const incomeCategories = [];
       snapshot.forEach((doc) => {
+        if (doc.data().name != 'Deleted Category') {
           incomeCategories.push({
             name: doc.data().name,
             color: doc.data().color,
             icon: doc.data().icon,
             isEdit: doc.data().name == 'Edit' ? true : false
           });
+        }
       });
       incomeCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setIncomeCategory(incomeCategories)

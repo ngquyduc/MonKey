@@ -242,7 +242,7 @@ const Home = ({navigation}) => {
             color:data.item.color,
           })
         }}
-        onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id)}
+        onDelete={()=>alertDelete(rowMap, data.item.key, data.item.id, data.item.type)}
       />
     )
   }
@@ -275,16 +275,21 @@ const Home = ({navigation}) => {
   }
 
   /*************** Function to alert when deleting ***************/
-  const alertDelete = (rowMap, rowKey, id) => {
+  const alertDelete = (rowMap, rowKey, id, type) => {
     Alert.alert("Delete this record?","", [
       {text: 'Cancel', onPress: () => {closeRow(rowMap, rowKey)}},
-      {text: 'Delete', onPress: () => {deleteRow(id)}}
+      {text: 'Delete', onPress: () => {deleteRow(id, type)}}
     ]);
   }
   /*************** Function to delete record ***************/
-  const deleteRow = (id) => {
-    const cat = doc(db, 'Finance/' + getUserID() + '/' + date.substring(0, 4), id)
-    deleteDoc(cat)
+  const deleteRow = (id, type) => {
+    if (type == 'expense') {
+      const expense = doc(db, 'Finance/' + getUserID() + '/Expense', id)
+      deleteDoc(expense)
+    } else {
+      const income = doc(db, 'Finance/' + getUserID() + '/Income', id)
+      deleteDoc(income)
+    }
   }
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -293,7 +298,7 @@ const Home = ({navigation}) => {
   }
 
   return (
-    <>
+    <View style={{height: 665}}>
       <View style={styles.container}>
         {/************ Header ************/}
         <View style={styles.header}>
@@ -372,7 +377,7 @@ const Home = ({navigation}) => {
           </View>
         </View>
       </View>
-    </>
+    </View>
   );
 }
 
