@@ -610,14 +610,14 @@ const Input = ({navigation}) => {
 const styless = StyleSheet.create({
   header: {
     alignItems:'center', 
-    justifyContent: 'flex-end',
+    justifyContent:'flex-end',
     backgroundColor:'#fff',
     borderBottomColor:'#808080',
     borderBottomWidth:0,
     borderBottomLeftRadius:20,
     borderBottomRightRadius:20,
-    paddingTop: 33,
-    height: StatusBarHeight + 30,
+    paddingTop:3,
+    height: StatusBarHeight + 42,
     backgroundColor: lighterBlue,
     shadowColor:darkBlue,
     shadowOffset: {width:0,height:1},

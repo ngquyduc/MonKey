@@ -113,8 +113,7 @@ const styles = StyleSheet.create({
     color: '#494949',
   },
   boldBlueHeaderText: {
-    fontSize: 28,
-    fontWeight: '300',
+    fontSize: 35,
     color: darkBlue,
     marginBottom: 10,
     fontWeight: 'bold',

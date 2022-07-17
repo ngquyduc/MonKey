@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import { View, Text, TouchableOpacity, Alert, Animated, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Animated, StyleSheet } from 'react-native';
 import { db } from '../api/db';
 import { collection, onSnapshot, query, where, orderBy, deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { authentication, getUserID } from '../api/authentication';
@@ -12,7 +12,6 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { formatter } from '../api/formatCurrency';
 import { Timestamp } from 'firebase/firestore';
-import { ScreenHeight } from '../components/constants';
 const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
 
 const CalendarScreen = ({navigation}) => {
