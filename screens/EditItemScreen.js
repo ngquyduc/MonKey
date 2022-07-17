@@ -62,31 +62,30 @@ const EditItemScreen = ({route, navigation}) => {
     }
   }
 
+  const [inprogressAmount, setInprogressAmount] = useState('');
+  const [inprogressNote, setInprogressNote] = useState('');
+  const [inprogressCategory, setInprogressCategory]= useState('');
+  let [inprogressDate, setInprogressDate] = useState(moment());
+  const [inprogressId, setInprogressId] = useState('');
+  const [inprogressType, setInprogressType] = useState('')
+  const [colorC, setColor] = useState('')
+
   useFocusEffect(
     React.useCallback(() => {
       getExpenseCategories()
       getIncomeCategories()
+      setInprogressAmount(route.params.inprogressAmount)
+      setInprogressNote(route.params.inprogressNote)
+      setInprogressCategory(route.params.inprogressCategory)
+      setInprogressDate(moment(route.params.inprogressDate, 'YYYY-MM-DD'))
+      setInprogressId(route.params.inprogressId)
+      setInprogressType(route.params.inprogressType)
+      setColor(route.params.color)
       return () => {}
     }, [])
   );
-    
-  const [date, setDate] = useState(route.params.inprogressDate)
-  const [inprogressAmount, setInprogressAmount] = useState(route.params.inprogressAmount);
-  const [inprogressNote, setInprogressNote] = useState(route.params.inprogressNote);
-  const [inprogressCategory, setInprogressCategory]= useState(route.params.inprogressCategory);
-  let [inprogressDate, setInprogressDate] = useState(moment(route.params.inprogressDate, 'YYYY-MM-DD'));
-  const [inprogressId, setInprogressId] = useState(route.params.inprogressId);
-  const [inprogressType, setInprogressType] = useState(route.params.inprogressType)
-  const [colorC, setColor] = useState(route.params.color)
-  const switchType = () => {
-    if (inprogressType == 'income') {
-      setInprogressType('expense')
-      setInprogressCategory('')
-    } else {
-      setInprogressType('income')
-      setInprogressCategory('')
-    }
-  }
+  
+
   /********** Date Picker Variables **********/
   const [show, setShow] = useState(false);
 

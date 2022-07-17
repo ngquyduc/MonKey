@@ -252,7 +252,7 @@ exports[`snapshot Stats 1`] = `
                 style={
                   Object {
                     "alignItems": "center",
-                    "backgroundColor": "#FDEE87",
+                    "backgroundColor": "#cce9f6",
                     "borderRadius": 10,
                     "flex": 55,
                     "justifyContent": "center",
