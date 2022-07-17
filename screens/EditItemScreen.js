@@ -8,6 +8,7 @@ import { db } from '../api/db';
 import { ScreenWidth } from '../components/constants';
 import { getUserID } from '../api/authentication'; 
 import { StatusBarHeight } from '../components/constants';
+import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { Timestamp } from 'firebase/firestore';
 import CurrencyInput from 'react-native-currency-input';
@@ -136,6 +137,7 @@ const EditItemScreen = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style='dark'/>
       <Pressable onPress={Keyboard.dismiss}>
         {/*********** Header ***********/}
         <View style={[styles.headerModal, {flexDirection:'row'}]}>

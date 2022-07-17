@@ -13,7 +13,7 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../api/db";
 import { getUserID } from '../api/authentication';
 import CurrencyInput from 'react-native-currency-input';
-
+import { StatusBar } from 'expo-status-bar';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 
@@ -150,6 +150,7 @@ const Input = ({navigation}) => {
 
   return (
     <>
+    <StatusBar style='dark'/>
     <View style={{flex:1, backgroundColor:'#fff'}}>
       <View style={[styless.header, {marginBottom:4}]}>
         <Text style={styles.boldBlueHeaderText}>Input</Text>

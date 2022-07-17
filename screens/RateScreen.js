@@ -1,30 +1,29 @@
-import React, {useState, useEffect} from 'react'
-import { Text, View, Alert, StyleSheet, TouchableOpacity, TextInput, Pressable, Keyboard } from 'react-native';
+import React, {useState} from 'react'
+import { Text, View, StyleSheet, TouchableOpacity, TextInput, Pressable, Keyboard } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ScreenWidth } from '../components/constants';
 import { ShadowBox } from 'react-native-neomorph-shadows';
-import { getUserID } from '../api/authentication';
-import { doc, onSnapshot, setDoc } from 'firebase/firestore';
-import { db } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
 import { Snackbar } from 'react-native-paper';
 import { colors } from '../components/colors';
 import { Rating } from 'react-native-ratings';
-import CurrencyInput from 'react-native-currency-input';
-import SectionContainer from '../components/Containers/SectionContainer';
-const { lightYellow, lighterBlue, beige, darkBlue, darkYellow } = colors
+import { StatusBar } from 'expo-status-bar';
+const { darkBlue, darkYellow } = colors
 
 const RateScreen = ({navigation}) => {
+
   const [rating, setRating] = useState(3.5);
   const [feedback, setFeedback] = useState("");
   const [visible, setVisible] = useState(false)
   const onSubmit = () => {
     setRating(3.5)
-    setFeedback('')
+    setFeedback("")
     setVisible(true)
   }
+
   return (
     <View style={styles.container}>
+      <StatusBar style='dark'/>
       <Pressable onPress={Keyboard.dismiss} style={{flex:1}}>
         <View style={styles.header}>
           <View style={{flex:2, paddingLeft:5, paddingBottom:7}}>
@@ -91,9 +90,6 @@ const RateScreen = ({navigation}) => {
           onDismiss={()=>setVisible(false)}
           action={{
             label: 'Close',
-            onPress: () => {
-              // Do something
-            },
           }}
           duration={1000}>
           Feedback submitted!

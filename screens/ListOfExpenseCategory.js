@@ -11,7 +11,7 @@ import CustomModal from '../components/Containers/CustomModal';
 import { AddExpenseCategory, db, ExpenseCategoryRef } from '../api/db';
 import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc, getDocs } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
-import moment from 'moment';
+import { StatusBar } from 'expo-status-bar';
 
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
@@ -98,7 +98,7 @@ const ListOfExpenseCategory = ({navigation}) => {
           setInprogressIcon(data.item.icon)
           setInprogressColor(data.item.color)
           
-          ory(data.item.title)
+          setFromCategory(data.item.title)
           setFromIcon(data.item.icon)
           setFromColor(data.item.color)
           
@@ -258,6 +258,7 @@ const ListOfExpenseCategory = ({navigation}) => {
   
   return (
     <>
+      <StatusBar style='dark'/>
       {/*************** Header ***************/}
       <View style={styles.header}>
         <View style={{flex:2, paddingLeft:5, paddingBottom:7}}>

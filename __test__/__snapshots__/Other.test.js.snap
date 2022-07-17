@@ -147,7 +147,7 @@ exports[`snapshot Other 1`] = `
             style={
               Object {
                 "color": "#494949",
-                "fontSize": 30,
+                "fontSize": 28,
                 "fontWeight": "500",
               }
             }

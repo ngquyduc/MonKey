@@ -6,11 +6,13 @@ import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
 import { ScrollView } from 'react-native';
 import { Avatar } from 'react-native-paper';
+import { StatusBar } from 'expo-status-bar';
 const { darkBlue, darkYellow } = colors
 
 const AboutUs = ({navigation}) => {
   return (
     <View style={styles.container}>
+      <StatusBar style='dark'/>
       <View style={styles.header}>
         <View style={{flex:2, paddingLeft:5, paddingBottom:7}}>
           <TouchableOpacity onPress={()=>navigation.goBack()}>

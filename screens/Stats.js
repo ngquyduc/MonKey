@@ -216,6 +216,7 @@ const Stats = (props) => {
 
   return (
     <View style={styles.mainContainerInnerScreen}>
+      <StatusBar style='dark'/>
       <View style={[styles.header,{marginBottom:4}]}>
         <Text style={styles.boldBlueHeaderText}>Statistics</Text>
       </View>

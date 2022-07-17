@@ -3,7 +3,6 @@ import SignUp from '../screens/Signup';
 import Other from '../screens/Other';
 import ForgotPassword from '../screens/ForgotPassword';
 import InnerScreenNav from './innerScreensNav';
-import Tabs from './tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 

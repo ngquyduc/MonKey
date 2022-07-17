@@ -8,6 +8,7 @@ import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
 import CurrencyInput from 'react-native-currency-input';
 import { useFocusEffect } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 const { lightYellow, lighterBlue, lightBlue, darkBlue, darkYellow } = colors
 
 
@@ -43,6 +44,7 @@ const EditLimitScreen = ({navigation}) => {
 
   return (
     <View style={{backgroundColor:'#fff', flex:1}}>
+      <StatusBar style='dark'/>
       {/*********** Header ***********/}
       <Pressable onPress={Keyboard.dismiss} style={{flex:1}}>
         <View style={styles.header}>

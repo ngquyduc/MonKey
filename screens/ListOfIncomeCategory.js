@@ -12,6 +12,7 @@ import { AddIncomeCategory } from '../api/db';
 import { getUserID } from '../api/authentication';
 import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../api/db';
+import { StatusBar } from 'expo-status-bar';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const ListOfIncomeCategory = ({navigation}) => {
@@ -238,6 +239,7 @@ const ListOfIncomeCategory = ({navigation}) => {
 
   return (
     <>
+      <StatusBar style='dark'/>
       {/*************** Header ***************/}
       <View style={styles.header}>
         <View style={{flex:2, paddingLeft:5, paddingBottom:7}}>
