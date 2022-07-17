@@ -369,7 +369,6 @@ const Stats = (props) => {
                       alignItems:'center',
                       justifyContent:'center'
                     }}>
-                      {/************ Add function for these 2 buttons *************/}
                       <TouchableOpacity style={{position: 'absolute'}} onPress={subtractOneYear}>
                         <Entypo name='chevron-left' size={28} color={darkBlue}/>
                       </TouchableOpacity>
@@ -382,7 +381,6 @@ const Stats = (props) => {
                       alignItems:'center',
                       justifyContent:'center'
                     }}>
-                      {/************ Add function for these 2 buttons *************/}
                       <TouchableOpacity style={{position: 'absolute'}} onPress={addOneYear}>
                         <Entypo name='chevron-right' size={28} color={darkBlue}/>
                       </TouchableOpacity>
@@ -392,9 +390,6 @@ const Stats = (props) => {
                 )}
             </View>
           </>
-          {/* <Text style={{color:'green'}}>{"Income: " + totalIncome}</Text>
-          <Text style={{color:'red'}}>{"Expense: " + totalExpense}</Text>   
-          <Text style={{color:'black'}}>{"Balance: " + balance}</Text> */}
         <View>
           <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
@@ -446,11 +441,11 @@ const Stats = (props) => {
               fontWeight={'bold'}
               centerLabelComponent={() => 
                 <View>
-                  <Text style={[styles.pieChartDetail]}>{currentItem.key != undefined ? currentItem.key: ''}
+                  <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.key: ''}
                   </Text>
-                  <Text style={[styles.pieChartDetail]}>{currentItem.key != undefined ? formatter.format(currentItem.value) : ''}
+                  <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? formatter.format(currentItem.value) : ''}
                   </Text>
-                  <Text style={[styles.pieChartDetail]}>{currentItem.key != undefined ? currentItem.percentage: ''}
+                  <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.percentage: ''}
                   </Text>
                 </View>
               }
