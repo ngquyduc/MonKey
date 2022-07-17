@@ -97,7 +97,8 @@ const ListOfExpenseCategory = ({navigation}) => {
           setInprogressCategory(data.item.title)
           setInprogressIcon(data.item.icon)
           setInprogressColor(data.item.color)
-          setFromCategory(data.item.title)
+          
+          ory(data.item.title)
           setFromIcon(data.item.icon)
           setFromColor(data.item.color)
           
@@ -122,34 +123,39 @@ const ListOfExpenseCategory = ({navigation}) => {
   }
   /*************** Function when submitting new/edit category ***************/
   const onSubmitAdd = async (name, icon, color) => {
-    // const existedcategories = []
-    // listCategories.forEach((cat) => existedcategories.push(cat.title))
-    // if (name == '' || name == null) {
-    //   Alert.alert("Alert", "Invalid category name. Please choose another name.", [
-    //     {text: 'OK', onPress: () => console.log('Alert closed')}
-    //   ]);
-    // }
-    // else if (icon == '') {
-    //   Alert.alert("Alert", "No icon selected. Please choose an icon.", [
-    //     {text: 'OK', onPress: () => console.log('Alert closed')}
-    //   ]);
-    // }
-    // else if (color == '') {
-    //   Alert.alert("Alert", "No color selected yet. Please choose a color.", [
-    //     {text: 'OK', onPress: () => console.log('Alert closed')}
-    //   ]);
-    // }
-    // else if (existedcategories.includes(name)) {
-    //   Alert.alert("Alert", "This category is already existed. Please choose another name.", [
-    //     {text: 'OK', onPress: () => console.log('Alert closed')}
-    //   ]);
-    // } else {
-    //   AddExpenseCategory(name, icon, color)
-    //   setInprogressCategory('')
-    //   setInprogressColor('#767676')
-    //   setInprogressIcon('')
-    //   setVisibleAdd(false)
-    // } 
+    const existedcategories = []
+    listCategories.forEach((cat) => existedcategories.push(cat.title))
+    if (name == '' || name == null) {
+      Alert.alert("Alert", "Invalid category name. Please choose another name.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+    else if (name == 'Edit' || name == "Deleted Category") {
+      Alert.alert("Alert", "You cannot choose this name. Please choose another name.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+    else if (icon == '') {
+      Alert.alert("Alert", "No icon selected. Please choose an icon.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+    else if (color == '') {
+      Alert.alert("Alert", "No color selected yet. Please choose a color.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    }
+    else if (existedcategories.includes(name)) {
+      Alert.alert("Alert", "This category is already existed. Please choose another name.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    } else {
+      AddExpenseCategory(name, icon, color)
+      setInprogressCategory('')
+      setInprogressColor('#767676')
+      setInprogressIcon('')
+      setVisibleAdd(false)
+    } 
   }
   const onSubmitEdit = (id, name, icon, color) => {
     const existedcategories = []
@@ -159,12 +165,17 @@ const ListOfExpenseCategory = ({navigation}) => {
         {text: 'OK', onPress: () => console.log('Alert closed')}
       ]);
     }
+    else if (name == 'Edit' || name == "Deleted Category") {
+      Alert.alert("Alert", "You cannot choose this name. Please choose another name.", [
+        {text: 'OK', onPress: () => console.log('Alert closed')}
+      ]);
+    }
     else {
       const index = existedcategories.indexOf(name)
       if (index > -1) { // only splice array when item is found
         existedcategories.splice(index, 1); // 2nd parameter means remove one item only
       }
-      if (existedcategories.includes(name)) {
+      else if (existedcategories.includes(name)) {
         Alert.alert("Alert", "This category is already existed. Please choose another name.", [
           {text: 'OK', onPress: () => console.log('Alert closed')}
         ]);
@@ -175,14 +186,15 @@ const ListOfExpenseCategory = ({navigation}) => {
         setInprogressColor('#767676')
         setInprogressIcon('')
         setVisibleEdit(false)
+        const colRef = collection(db, 'Finance/' + getUserID() + '/Expense')
+        const queryE = query(colRef, where('category', '==', fromCategory))
+        onSnapshot(queryE, (snapShot) => {
+          snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Expense', ex.id), {category: name}))
+        })
       } 
     }
     
-    const colRef = collection(db, 'Finance/' + getUserID() + '/' + moment().format('YYYY'))
-    const queryE = query(colRef, where('category', '==', fromCategory))
-    onSnapshot(queryE, (snapShot) => {
-      snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/' + moment().format('YYYY'), ex.id), {category: name}))
-    })
+    
   }
 
   /*************** Function to alert when deleting ***************/
@@ -197,10 +209,10 @@ const ListOfExpenseCategory = ({navigation}) => {
   const deleteRow = (id, name) => {
     const cat = doc(db, 'Input Category/Expense/' + getUserID(), id)
     deleteDoc(cat)
-    const colRef = collection(db, 'Finance/' + getUserID() + '/' + moment().format('YYYY'))
+    const colRef = collection(db, 'Finance/' + getUserID() + '/Expense')
     const queryE = query(colRef, where('category', '==', name))
     onSnapshot(queryE, (snapShot) => {
-      snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/' + moment().format('YYYY'), ex.id), {category: 'Deleted Category'}))
+      snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Expense', ex.id), {category: 'Deleted Category'}))
     })
   }
   /*************** Function to edit category ***************/
@@ -221,7 +233,7 @@ const ListOfExpenseCategory = ({navigation}) => {
       (snapShot) => {
         const list = []
         snapShot.forEach((cat) => {
-          if (cat.data().name != 'Edit') {
+          if (cat.data().name != 'Edit' && cat.data().name != 'Deleted Category') {
             list.push(({
               key: `${cat.data().name}`,
               title: cat.data().name,

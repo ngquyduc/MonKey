@@ -162,12 +162,12 @@ const Stats = (props) => {
         incomes.forEach((amount, cat) => temp1.push({
           key: cat,
           percentage: (amount / totalExpense * 100).toFixed(2) + '%',
-          text: amount / totalIncome < 0.1 ? '' : cat,
+          text: amount / totalIncome < 0.1 ? '' : cat.substring(0, 10),
           value: amount,
           color: incomeCategoryList[cat+'color'],
           icon: incomeCategoryList[cat+'icon']
         }))
-        temp1.sort((a, b) => a.value > b.value ? -1 : 1)
+        temp1.sort((a, b) => a.key == 'Deleted Category' ? 1 : b.key == 'Deleted Category'? -1 : a.value < b.value ? 1 : -1)
         setData1(temp1)
         setTotalIncome(totalIncome)
         const temp2 = []
@@ -175,16 +175,15 @@ const Stats = (props) => {
           temp2.push({
           key: cat,
           percentage: (amount / totalExpense * 100).toFixed(2) + '%',
-          text: amount / totalExpense < 0.1 ? '' : cat, 
+          text: amount / totalExpense < 0.1 ? '' : cat.substring(0, 10), 
           value: amount,
           color: expenseCategoryList[cat+'color'],
           icon: expenseCategoryList[cat+'icon']
           })
         })
-        temp2.sort((a, b) => a.value > b.value ? -1 : 1)
+        temp2.sort((a, b) => a.key == 'Deleted Category' ? 1 : b.key == 'Deleted Category'? -1 : a.value < b.value ? 1 : -1)
         setData2(temp2)
         setTotalExpense(totalExpense)
-        setBalance(totalIncome - totalExpense)
       }
     )
     
@@ -423,11 +422,11 @@ const Stats = (props) => {
               fontWeight={'bold'}
               centerLabelComponent={() => 
                 <View>
-                  <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.key: ''}
+                  <Text style={[styles.pieChartDetail]}>{currentItem.key != undefined ? currentItem.key: ''}
                   </Text>
-                  <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? formatter.format(currentItem.value) : ''}
+                  <Text style={[styles.pieChartDetail]}>{currentItem.key != undefined ? formatter.format(currentItem.value) : ''}
                   </Text>
-                  <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.percentage: ''}
+                  <Text style={[styles.pieChartDetail]}>{currentItem.key != undefined ? currentItem.percentage: ''}
                   </Text>
                 </View>
               }
@@ -443,7 +442,7 @@ const Stats = (props) => {
                         <View style={{marginRight:10}}>
                           <MaterialCommunityIcons name={item.icon} color={item.color} size={20}/>
                         </View>
-                        <Text style={[styles.categoryText, {color: item.color}]}>{item.key}</Text>
+                        <Text style={[styles.categoryText]}>{item.key}</Text>
                       </View>
                     </View>
                     <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
@@ -474,7 +473,7 @@ const Stats = (props) => {
                   showText={true}
                   textColor={'white'}
                   textSize={14}
-                  textColor={'white'}
+                  textColor={'black'}
                   fontWeight={'bold'}
                   centerLabelComponent={() => 
                     <View>
@@ -666,6 +665,5 @@ const styles = StyleSheet.create({
   pieChartDetail: {
     justifyContent:'center',
     alignSelf:'center',
-    fontWeight:'bold'
   }
 })

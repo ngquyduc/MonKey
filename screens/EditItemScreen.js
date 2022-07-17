@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity,  Modal, TextInput, Alert, Pressable, Keyb
 import { colors } from '../components/colors';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { collection, onSnapshot, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import { collection, onSnapshot, deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 import { ScreenWidth } from '../components/constants';
 import { getUserID } from '../api/authentication'; 
@@ -84,34 +84,19 @@ const EditItemScreen = ({route, navigation}) => {
   }
   
   /*************** Function to edit record ***************/
-  const editRow = (id) => {
-    const path = 'Finance/' + getUserID() + '/' + date.substring(0, 4)
+  const editRow = (id, type) => {
+    const path = 'Finance/' + getUserID() + '/' + (type == 'income' ? 'Income' : 'Expense')
     const catRef = doc(db, path, id)
     const amountNumber = Number(inprogressAmount)
-    if (inprogressDate.format('YYYY-MM-DD') == date) {
-      setDoc(catRef, {
-        type: inprogressType, 
+      updateDoc(catRef, {
         date: inprogressDate.format('DD'),
         month: inprogressDate.format('MM'), 
+        year: inprogressDate.format('YYYY'), 
         amount: amountNumber,
         note: inprogressNote,
         category: inprogressCategory,
         notedAt: Timestamp.now(), 
       })
-    }
-    else {
-      deleteDoc(catRef)
-      const newpath = 'Finance/' + getUserID() + '/' + inprogressDate.format('YYYY')
-      setDoc(doc(db, newpath, id), {
-        type: inprogressType, 
-        amount: amountNumber,
-        date: inprogressDate.format('DD'),
-        month: inprogressDate.format('MM'), 
-        note: inprogressNote,
-        category: inprogressCategory,
-        notedAt: Timestamp.now(), 
-      })
-    }
   }
   const closeEditModal = () => {
     setInprogressCategory('')
@@ -136,7 +121,7 @@ const EditItemScreen = ({route, navigation}) => {
       ]);
     }
     else if (inprogressAmount != '' && inprogressCategory != '') {
-      editRow(inprogressId)
+      editRow(inprogressId, inprogressType)
       setInprogressCategory('')
       setInprogressNote('')
       setInprogressAmount('')
@@ -184,13 +169,13 @@ const EditItemScreen = ({route, navigation}) => {
             justifyContent:'center',
             borderBottomColor:darkYellow,
           }}>
-            <TouchableOpacity 
+            <View 
               style={{alignItems:'center',justifyContent:'center', backgroundColor:inprogressType=='income' ? '#e2f5e2' : '#fdddcf', width:210, height:34, borderRadius:20}}
-              onPress={switchType}>
+              >
               <Text style={{color: inprogressType=='income' ? '#26b522' : '#ef5011', fontSize:18, fontWeight:'500'}}>
                 {inprogressType=='income' ? 'Income' : 'Expense'}
               </Text>
-            </TouchableOpacity>
+            </View>
           </View>
         </View>
 
