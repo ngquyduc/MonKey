@@ -298,7 +298,7 @@ const Home = ({navigation}) => {
   }
 
   return (
-    <View style={{height: 665}}>
+    <View style={{flex:1}}>
       <View style={styles.container}>
         {/************ Header ************/}
         <View style={styles.header}>
@@ -385,7 +385,6 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     backgroundColor: lighterBlue,
-
   },
   header: {
     flex:1,
