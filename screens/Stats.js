@@ -629,7 +629,7 @@ const styles = StyleSheet.create({
     flex:55,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#FDEE87',
+    backgroundColor: lighterBlue,
     borderRadius:10
   },
   expenseInputButtonView: {
