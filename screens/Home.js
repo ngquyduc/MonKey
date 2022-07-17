@@ -62,7 +62,7 @@ const Home = ({navigation}) => {
       const expenseCats = await getDocs(expenseCategoryRef)
       const expenseCategories = {}
       expenseCats.docs.forEach((doc) => {
-        if (doc.data().name != 'Deleted Category' && doc.data().name != 'Edit') {
+        if (doc.data().name != 'Edit') {
           expenseCategories[doc.data().name + 'icon'] = doc.data().icon
           expenseCategories[doc.data().name + 'color'] = doc.data().color
         }
@@ -79,7 +79,7 @@ const Home = ({navigation}) => {
       const incomeCats = await getDocs(incomeCategoryRef)
       const incomeCategories = {}
       incomeCats.docs.forEach((doc) => {
-        if (doc.data().name != 'Deleted Category' && doc.data().name != 'Edit') {
+        if (doc.data().name != 'Edit') {
           console.log()
           incomeCategories[doc.data().name + 'icon'] = doc.data().icon
           incomeCategories[doc.data().name + 'color'] = doc.data().color
@@ -101,7 +101,6 @@ const Home = ({navigation}) => {
     }, [])
   );
     
-  // get month expense and today expense & income
   useFocusEffect(
     React.useCallback(() => {
       const expensePath = 'Finance/' + getUserID() + '/Expense'

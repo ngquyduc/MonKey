@@ -15,6 +15,7 @@ import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { formatter } from '../api/formatCurrency';
 import { current } from '@reduxjs/toolkit';
+import { useFocusEffect } from '@react-navigation/native';
 
 const {lightYellow, lighterBlue, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
@@ -30,6 +31,7 @@ const Stats = (props) => {
 
   const [isIncome, setIsIncome] = useState(false);
   const [isExpense, setIsExpense] = useState(true);
+  const [userId, setUserId] = useState(getUserID())
   const openExpense = () => {
     setIsExpense(true);
     setIsIncome(false);
@@ -91,31 +93,50 @@ const Stats = (props) => {
   const [expenseCategoryList, setExpenseCategoryList] = useState({})
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
 
-  useEffect(() => {
-    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
-
-    onSnapshot(expenseCategoryRef, (snapshot) => {
-      let expenseCategories = {}
-      snapshot.docs.forEach((doc) => {
-        expenseCategories[doc.data().name + 'color'] = doc.data().color
-        expenseCategories[doc.data().name + 'icon'] = doc.data().icon
+  const getExpenseCategories = async () => {
+    try {
+      const expenseCategoryRef = query(collection(db, 'Input Category/Expense/' + userId))
+      const expenseCats = await getDocs(expenseCategoryRef)
+      const expenseCategories = {}
+      expenseCats.docs.forEach((doc) => {
+        if (doc.data().name != 'Edit') {
+          expenseCategories[doc.data().name + 'icon'] = doc.data().icon
+          expenseCategories[doc.data().name + 'color'] = doc.data().color
+        }
+        setExpenseCategoryList(expenseCategories)
       })
-      setExpenseCategoryList(expenseCategories)
-    })
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
 
-    const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
-
-    onSnapshot(incomeCategoryRef, (snapshot) => {
-      let incomeCategories = {}
-      snapshot.docs.forEach((doc) => {
-        incomeCategories[doc.data().name + 'color'] = doc.data().color
-        incomeCategories[doc.data().name + 'icon'] = doc.data().icon
+  const getIncomeCategories = async () => {
+    try {
+      const incomeCategoryRef = query(collection(db, 'Input Category/Income/' + userId))
+      const incomeCats = await getDocs(incomeCategoryRef)
+      const incomeCategories = {}
+      incomeCats.docs.forEach((doc) => {
+        if (doc.data().name != 'Edit') {
+          console.log()
+          incomeCategories[doc.data().name + 'icon'] = doc.data().icon
+          incomeCategories[doc.data().name + 'color'] = doc.data().color
+        }
+        setIncomeCategoryList(incomeCategories)
       })
-      setIncomeCategoryList(incomeCategories)
-    })
-  }, [])
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
 
-  useEffect(() => {
+  useFocusEffect(
+    React.useCallback(() => {
+      getExpenseCategories()
+      getIncomeCategories()
+      return () => {}
+    }, [])
+  );
+
+  const getFinances = async () => {
     const expenseRef = collection(db, 'Finance/' + getUserID() + '/Expense')
     const incomeRef = collection(db, 'Finance/' + getUserID() + '/Income')
     const monthExpQ = query(expenseRef, where('year', '==', month.substring(0, 4)), where('month', '==', month.substring(5, 7)))
@@ -123,72 +144,75 @@ const Stats = (props) => {
     const yearExpQ = query(expenseRef, where('year', '==', year.substring(0, 4)))
     const yearIncQ = query(incomeRef, where('year', '==', year.substring(0, 4)))
 
-    const q = isMonth && isExpense? monthExpQ 
-            : isMonth && isIncome ? monthIncQ
-            : isAnnual && isExpense ? yearExpQ
-            : yearIncQ
-    
-    onSnapshot(q,
-      (snapShot) => {
-        const expenses = new Map()
-        const incomes = new Map()
-        snapShot.forEach((doc) => {
-            if (expenses.has(doc.data().category)) {
-              var temp = expenses.get(doc.data().category)
-              temp += doc.data().amount
-              expenses.set(doc.data().category, temp)
-            }
-            else {
-              expenses.set(doc.data().category, doc.data().amount)
-            }
+    const q = isMonth ? monthExpQ : yearExpQ
+    const otherQ = isMonth ? monthIncQ : yearIncQ
 
-            if (incomes.has(doc.data().category)) {
-              var temp = incomes.get(doc.data().category)
-              temp += doc.data().amount
-              incomes.set(doc.data().category, temp)
-            }
-            else {
-              incomes.set(doc.data().category, doc.data().amount)
-            }
-          
-        })
-        setIncome(incomes)      
-        setExpense(expenses)
-        var totalIncome = 0
-        incomes.forEach((amount, cat) => {totalIncome += amount})
-        var totalExpense = 0
-        expenses.forEach((amount, cat) => {totalExpense += amount})
-        const temp1 = []
-        incomes.forEach((amount, cat) => temp1.push({
-          key: cat,
-          percentage: (amount / totalExpense * 100).toFixed(2) + '%',
-          text: amount / totalIncome < 0.1 ? '' : cat.substring(0, 10),
-          value: amount,
-          color: incomeCategoryList[cat+'color'],
-          icon: incomeCategoryList[cat+'icon']
-        }))
-        temp1.sort((a, b) => a.key == 'Deleted Category' ? 1 : b.key == 'Deleted Category'? -1 : a.value < b.value ? 1 : -1)
-        setData1(temp1)
-        setTotalIncome(totalIncome)
-        const temp2 = []
-        expenses.forEach((amount, cat) => {
-          temp2.push({
-          key: cat,
-          percentage: (amount / totalExpense * 100).toFixed(2) + '%',
-          text: amount / totalExpense < 0.1 ? '' : cat.substring(0, 10), 
-          value: amount,
-          color: expenseCategoryList[cat+'color'],
-          icon: expenseCategoryList[cat+'icon']
-          })
-        })
-        temp2.sort((a, b) => a.key == 'Deleted Category' ? 1 : b.key == 'Deleted Category'? -1 : a.value < b.value ? 1 : -1)
-        setData2(temp2)
-        setTotalExpense(totalExpense)
+    const finances = await getDocs(q)
+    const expenses = new Map()
+    finances.docs.forEach((doc) => {
+      if (expenses.has(doc.data().category)) {
+        var temp = expenses.get(doc.data().category)
+        temp += doc.data().amount
+        expenses.set(doc.data().category, temp)
       }
-    )
-    
-  }, [isMonth, isAnnual, isExpense, isIncome, incomeCategoryList, expenseCategoryList])
+      else {
+        expenses.set(doc.data().category, doc.data().amount)
+      }
+    })
+    setExpense(expenses)
+    var totalExpense = 0
+    expenses.forEach((amount, cat) => {totalExpense += amount})
+    const temp2 = []
+    expenses.forEach((amount, cat) => {
+      temp2.push({
+      key: cat,
+      percentage: (amount / totalExpense * 100).toFixed(2) + '%',
+      text: amount / totalExpense < 0.1 ? '' : cat.substring(0, 10), 
+      value: amount,
+      color: expenseCategoryList[cat+'color'],
+      icon: expenseCategoryList[cat+'icon']
+      })
+    })
+    temp2.sort((a, b) => a.key == 'Deleted Category' ? 1 : b.key == 'Deleted Category'? -1 : a.value < b.value ? 1 : -1)
+    setData2(temp2)
+    setTotalExpense(totalExpense)
 
+    const otherFinances = await getDocs(otherQ)
+    const incomes = new Map()
+    otherFinances.docs.forEach((doc) => {
+      if (incomes.has(doc.data().category)) {
+        var temp = incomes.get(doc.data().category)
+        temp += doc.data().amount
+        incomes.set(doc.data().category, temp)
+      }
+      else {
+        incomes.set(doc.data().category, doc.data().amount)
+      }
+    })
+    setIncome(incomes)      
+    var totalIncome = 0
+    incomes.forEach((amount, cat) => {totalIncome += amount})    
+    const temp1 = []
+    incomes.forEach((amount, cat) => temp1.push({
+      key: cat,
+      percentage: (amount / totalIncome * 100).toFixed(2) + '%',
+      text: amount / totalIncome < 0.1 ? '' : cat.substring(0, 10),
+      value: amount,
+      color: incomeCategoryList[cat+'color'],
+      icon: incomeCategoryList[cat+'icon']
+    }))
+    temp1.sort((a, b) => a.key == 'Deleted Category' ? 1 : b.key == 'Deleted Category'? -1 : a.value < b.value ? 1 : -1)
+    setData1(temp1)
+    setTotalIncome(totalIncome)
+    setBalance(totalIncome - totalExpense)
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getFinances()
+      return () => {}
+    }, [isMonth, expenseCategoryList, incomeCategoryList])
+  );
   const VisibleItem = ({item}) => {
 
     return (
