@@ -4,6 +4,7 @@ import { db } from '../api/db';
 import { collection, onSnapshot, query, where, orderBy, deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { authentication, getUserID } from '../api/authentication';
 import { Calendar } from 'react-native-calendars';
+import { ScreenHeight } from '../components/constants';
 import { StatusBarHeight } from '../components/constants';
 import moment from 'moment';
 import { colors } from '../components/colors';
@@ -372,17 +373,17 @@ const CalendarScreen = ({navigation}) => {
         </View>
       </View>
       <View>
-        <View style={{flexDirection:'row', marginHorizontal:15, marginBottom:10, paddingTop:7}}>
+        <View style={{flexDirection:'row', marginHorizontal:23, marginBottom:10, paddingTop:7}}>
           <View style={{alignItems:'center', justifyContent:'center', flexDirection:'row'}}>
             <Text style={{fontSize:16, fontWeight:'700', color:'#494949'}}>{"Date (" + curDate.split('-').reverse().join('-') + '):'}</Text>
           </View>
           <View style={{flex:1,justifyContent:'center',alignItems:'flex-end'}}>
-            <Text style={{color: balanceDay<0?'#ef5011':(balanceDay>0?'#26b522':'#494949'), fontSize:18, fontWeight:'500'}}>{formatter.format(balanceDay)}</Text>
+            <Text style={{color: balanceDay<0?'#ef5011':(balanceDay>0?'#26b522':'#494949'), fontSize:20, fontWeight:'600'}}>{formatter.format(balanceDay)}</Text>
           </View>
         </View>
       </View>
       {/************ List ************/}
-      <View style={{height: (275-(896-ScreenHeight)), marginHorizontal:15}}>
+      <View style={{height: (260-(896-ScreenHeight)), marginHorizontal:15}}>
 
         {finances.length != 0 && <SwipeListView 
           data={finances}
@@ -656,10 +657,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight:'400',
     height: 36,
-  },
-  categoryText: {
-    fontSize: 18,
-    fontWeight: '500',
   },
   itemView: {
     flexDirection:'row',
