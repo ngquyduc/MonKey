@@ -752,7 +752,6 @@ const styless = StyleSheet.create({
   categoryButtonText: {
     fontSize: 16,
     fontWeight: '300',
-    
   },
   modalView: {
     flex:1, 
