@@ -2,35 +2,48 @@ import React, {useState, useEffect} from 'react'
 import { Text, View, Alert, StyleSheet, TouchableOpacity, TextInput, Pressable, Keyboard } from 'react-native';
 import { Feather, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
 import { getUserID } from '../api/authentication';
-import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
 import { ShadowBox } from 'react-native-neomorph-shadows';
+import { useFocusEffect } from '@react-navigation/native';
 const { lightYellow, lighterBlue, lightBlue, darkBlue, darkYellow } = colors
+
 
 const EditUsernameScreen = ({navigation}) => {
   const [userName, setUsername] = useState(""); // need to store on Firestore
+  const [userId, setUserId] = useState(getUserID())
   
   // get monthlimit and daylimit
-  useEffect(() => {
-    const usernameRef = doc(db, "Users", getUserID())
-    onSnapshot(usernameRef, (snapShot) => {
-      setUsername(snapShot.data().username)
-    })
-  }, [])
+  const getUsername = async () => {
+    try {
+      const userRef = doc(db, "Users", userId);
+      const user = await getDoc(userRef)
+      setUsername(user.data().username)
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
 
-  const onSubmit = () => {
+  useFocusEffect(
+    React.useCallback(() => {
+      getUsername()
+      return () => {}
+    }, [])
+  );
+
+  const onSubmit = async () => {
     if (userName == '') {
       Alert.alert("Alert", "Please enter ypur new username", [
         {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     } else {
       const usernameRef = doc(db, "Users", getUserID())
-      setDoc(usernameRef, {
+      updateDoc(usernameRef, {
         username: userName
       })
-      navigation.goBack();
+      .then(navigation.goBack())
     }
   }
 

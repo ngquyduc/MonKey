@@ -57,8 +57,7 @@ const CalendarScreen = ({navigation}) => {
       const incomeCats = await getDocs(incomeCategoryRef)
       const incomeCategories = {}
       incomeCats.docs.forEach((doc) => {
-        if ('Deleted Category' && doc.data().name != 'Edit') {
-          console.log()
+        if (doc.data().name != 'Edit') {
           incomeCategories[doc.data().name + 'icon'] = doc.data().icon
           incomeCategories[doc.data().name + 'color'] = doc.data().color
         }

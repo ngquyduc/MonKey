@@ -11,20 +11,22 @@ import SectionContainer from '../components/Containers/SectionContainer';
 import { copyDefaultCategory } from '../api/authentication';
 import moment from 'moment';
 
-import { addDoc, collection, doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../api/db';
+import { useFocusEffect } from '@react-navigation/native';
 const {beige, lighterBlue, brown, darkBlue, lightBlue, darkYellow, lightYellow} = colors;
 
 const Other = ({navigation}) => {
   const [image, setImage] = useState('');
   const [username, setUsername] = useState('')
   const [isChangeUsername, setIsChangeUsername] = useState(false);
-  const changePicture = (pictureURI) => {
+  const changePicture = async (pictureURI) => {
     const userRef = doc(db, 'Users', getUserID())
-    updateDoc(userRef, {
+    await updateDoc(userRef, {
       profilePhoto: pictureURI
     })
   }
+  const [userId, setUserId] = useState(getUserID())
 
   const changeUsername = (userName) => {
     const userRef = doc(db, 'Users', getUserID())
@@ -55,13 +57,28 @@ const Other = ({navigation}) => {
     ]);
   }
 
-  useEffect(() => {
-    const userRef = doc(db, 'Users', getUserID())
-    onSnapshot(userRef, (snapshot) => {
-      setUsername(snapshot.data().username)
-      setImage(snapshot.data().profilePhoto)
-    })
-  }, [])
+  const getUsername = async () => {
+    try {
+      const userRef = doc(db, "Users", userId);
+      const user = await getDoc(userRef)
+      setUsername(user.data().username)
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getUsername()
+      const userRef = doc(db, "Users", userId);
+      const getImage = onSnapshot(userRef, (snapshot) => {
+        setImage(snapshot.data().profilePhoto)
+      })
+      return () => {
+        getImage()
+      }
+    }, [])
+  );
 
   const URL = 'https://docs.google.com/document/d/1zk38ozwSbzv1nOYVJ0l_zQG_MHjvM1UZOu_qnUJOm3A/edit?usp=sharing'
 

@@ -12,6 +12,7 @@ import { AddIncomeCategory } from '../api/db';
 import { getUserID } from '../api/authentication';
 import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../api/db';
+import { useFocusEffect } from '@react-navigation/native';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
 const ListOfIncomeCategory = ({navigation}) => {
@@ -33,13 +34,13 @@ const ListOfIncomeCategory = ({navigation}) => {
   
   const [listCategories, setListCategories] = useState([])
   /*************** Function to edit category ***************/
-  const editRow = (id) => {
+  const editRow = (id, name, icon, color) => {
     const path = 'Input Category/Income/' + getUserID()
     const catRef = doc(db, path, id)
     updateDoc(catRef, {
-      name: inprogressCategory,
-      color: inprogressColor,
-      icon: inprogressIcon,
+      name: name,
+      icon: icon,
+      color: color,
     })
   }
 
@@ -174,7 +175,7 @@ const ListOfIncomeCategory = ({navigation}) => {
       if (index > -1) { // only splice array when item is found
         existedcategories.splice(index, 1); // 2nd parameter means remove one item only
       }
-      else if (existedcategories.includes(name)) {
+      if (existedcategories.includes(name)) {
         Alert.alert("Alert", "This category is already existed. Please choose another name.", [
           {text: 'OK', onPress: () => console.log('Alert closed')}
         ]);
@@ -212,30 +213,34 @@ const ListOfIncomeCategory = ({navigation}) => {
       snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Income', ex.id), {category: 'Deleted Category'}))
     })
   }
-  useMemo(() => {
-    const IncomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
-    const q = query(IncomeCategoryRef, orderBy('name', 'asc'))
-    onSnapshot(q,
-      (snapShot) => {
-        const list = []
-          snapShot.forEach((IncomeCategoryItem) => {
-          if (IncomeCategoryItem.data().name != 'Edit') (
-            list.push(({
-              key: `${IncomeCategoryItem.data().name}`,
-              title: IncomeCategoryItem.data().name,
-              isEdit: false,
-              id: IncomeCategoryItem.id,
-              icon: IncomeCategoryItem.data().icon,
-              color: IncomeCategoryItem.data().color
-            }))
-          )
-        })
-        setListCategories(list)
-      }
-    )
-    
-  }, [])
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const IncomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
+      const q = query(IncomeCategoryRef, orderBy('name', 'asc'))
+      const unsub = onSnapshot(q,
+        (snapShot) => {
+          const list = []
+            snapShot.forEach((IncomeCategoryItem) => {
+              if (IncomeCategoryItem.data().name != 'Edit' && IncomeCategoryItem.data().name != 'Deleted Category') {
+                list.push(({
+                  key: `${IncomeCategoryItem.data().name}`,
+                  title: IncomeCategoryItem.data().name,
+                  isEdit: false,
+                  id: IncomeCategoryItem.id,
+                  icon: IncomeCategoryItem.data().icon,
+                  color: IncomeCategoryItem.data().color
+                }))
+            }
+          })
+          setListCategories(list)
+        }
+      )
+      return () => {
+        unsub()
+      }
+    }, [])
+  );
   return (
     <>
       {/*************** Header ***************/}

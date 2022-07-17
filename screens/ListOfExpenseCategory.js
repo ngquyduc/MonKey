@@ -12,6 +12,7 @@ import { AddExpenseCategory, db, ExpenseCategoryRef } from '../api/db';
 import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc, getDocs } from 'firebase/firestore';
 import { getUserID } from '../api/authentication';
 import moment from 'moment';
+import { useFocusEffect } from '@react-navigation/native';
 
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
@@ -226,34 +227,32 @@ const ListOfExpenseCategory = ({navigation}) => {
       })
   }
 
-  useEffect(() => {
-    const ExpenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
-    const q = query(ExpenseCategoryRef, orderBy('name', 'asc'))
-    onSnapshot(q,
-      (snapShot) => {
-        const list = []
-        snapShot.forEach((cat) => {
-          if (cat.data().name != 'Edit' && cat.data().name != 'Deleted Category') {
-            list.push(({
-              key: `${cat.data().name}`,
-              title: cat.data().name,
-              isEdit: false,
-              id: cat.id,
-              icon: cat.data().icon,
-              color: cat.data().color
-            }))
-            
-          }
-        })
-        setListCategories(list)
-        console.log(list)
+  useFocusEffect(
+    React.useCallback(() => {
+      const ExpenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
+      const q = query(ExpenseCategoryRef, orderBy('name', 'asc'))
+      const unsub = onSnapshot(q, (snapShot) => {
+          const list = []
+          snapShot.forEach((cat) => {
+            if (cat.data().name != 'Edit' && cat.data().name != 'Deleted Category') {
+              list.push(({
+                key: `${cat.data().name}`,
+                title: cat.data().name,
+                isEdit: false,
+                id: cat.id,
+                icon: cat.data().icon,
+                color: cat.data().color
+              }))
+              
+            }
+          })
+          setListCategories(list)
+      })
+      return () => {
+        unsub()
       }
-    )
-
-    
-    
-    
-  }, [])
+    }, [])
+  );
 
   
   return (

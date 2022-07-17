@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity,  Modal, TextInput, Alert, Pressable, Keyb
 import { colors } from '../components/colors';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { collection, onSnapshot, deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, onSnapshot, deleteDoc, doc, getDoc, setDoc, updateDoc, getDocs, query } from 'firebase/firestore';
 import { db } from '../api/db';
 import { ScreenWidth } from '../components/constants';
 import { getUserID } from '../api/authentication'; 
@@ -11,17 +11,20 @@ import { StatusBarHeight } from '../components/constants';
 import { MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { Timestamp } from 'firebase/firestore';
 import CurrencyInput from 'react-native-currency-input';
+import { useFocusEffect } from '@react-navigation/native';
 const { lightBlue, darkBlue, darkYellow,lighterBlue } = colors
 
 const EditItemScreen = ({route, navigation}) => {
   const [ExpenseCategory, setExpenseCategory] = useState([])
   const [IncomeCategory, setIncomeCategory] = useState([])
-  useEffect(() => {
-    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
-    onSnapshot(expenseCategoryRef, (snapshot) => {
+
+  const getExpenseCategories = async () => {
+    try {
+      const expenseCategoryRef = query(collection(db, 'Input Category/Expense/' + getUserID()))
       const expenseCategories = [];
-      snapshot.forEach((doc) => {
-        if (doc.data().name != 'Edit') {
+      const expenseCats = await getDocs(expenseCategoryRef)
+      expenseCats.docs.forEach((doc) => {
+        if (doc.data().name != 'Deleted Category' && doc.data().name != 'Edit') {
           expenseCategories.push({
             name: doc.data().name,
             color: doc.data().color,
@@ -29,27 +32,43 @@ const EditItemScreen = ({route, navigation}) => {
           });
         }
       });
-      expenseCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      expenseCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setExpenseCategory(expenseCategories)
-    });
 
-    const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
-    onSnapshot(incomeCategoryRef, (snapshot) => {
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
+
+  const getIncomeCategories = async () => {
+    try {
+      const incomeCategoryRef = query(collection(db, 'Input Category/Income/' + getUserID()))
       const incomeCategories = [];
-        snapshot.forEach((doc) => {
-          if (doc.data().name != 'Edit') {
-            incomeCategories.push({
-              name: doc.data().name,
-              color: doc.data().color,
-              icon: doc.data().icon,
-            });
-          }
-        });
-
-      incomeCategories.sort((a, b) => a.name < b.name ? -1 : 1)
+      const incomeCats = await getDocs(incomeCategoryRef)
+      incomeCats.docs.forEach((doc) => {
+        if (doc.data().name != 'Deleted Category' && doc.data().name != 'Edit') {
+          incomeCategories.push({
+            name: doc.data().name,
+            color: doc.data().color,
+            icon: doc.data().icon,
+          });
+        }
+      });
+      incomeCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setIncomeCategory(incomeCategories)
-    });}
-  , [])
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getExpenseCategories()
+      getIncomeCategories()
+      return () => {}
+    }, [])
+  );
+    
   const [date, setDate] = useState(route.params.inprogressDate)
   const [inprogressAmount, setInprogressAmount] = useState(route.params.inprogressAmount);
   const [inprogressNote, setInprogressNote] = useState(route.params.inprogressNote);
