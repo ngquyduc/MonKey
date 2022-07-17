@@ -9,10 +9,11 @@ import { Entypo, Foundation, MaterialCommunityIcons } from '@expo/vector-icons'
 import moment from 'moment';
 import { handleExpenseSubmit, handleIncomeSubmit } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { collection, query, where, onSnapshot, getDocs } from "firebase/firestore";
 import { db } from "../api/db";
 import { getUserID } from '../api/authentication';
 import CurrencyInput from 'react-native-currency-input';
+import { useFocusEffect } from '@react-navigation/native';
 
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
@@ -110,11 +111,13 @@ const Input = ({navigation}) => {
 
   const [ExpenseCategory, setExpenseCategory] = useState([])
   const [IncomeCategory, setIncomeCategory] = useState([])
-  useEffect(() => {
-    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
-    onSnapshot(expenseCategoryRef, (snapshot) => {
+
+  const getExpenseCategories = async () => {
+    try {
+      const expenseCategoryRef = query(collection(db, 'Input Category/Expense/' + getUserID()))
       const expenseCategories = [];
-      snapshot.forEach((doc) => {
+      const expenseCats = await getDocs(expenseCategoryRef)
+      expenseCats.docs.forEach((doc) => {
         if (doc.data().name != 'Deleted Category') {
           expenseCategories.push({
             name: doc.data().name,
@@ -126,12 +129,18 @@ const Input = ({navigation}) => {
       });
       expenseCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setExpenseCategory(expenseCategories)
-    });
 
-    const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
-    onSnapshot(incomeCategoryRef, (snapshot) => {
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
+
+  const getIncomeCategories = async () => {
+    try {
+      const incomeCategoryRef = query(collection(db, 'Input Category/Income/' + getUserID()))
       const incomeCategories = [];
-      snapshot.forEach((doc) => {
+      const incomeCats = await getDocs(incomeCategoryRef)
+      incomeCats.docs.forEach((doc) => {
         if (doc.data().name != 'Deleted Category') {
           incomeCategories.push({
             name: doc.data().name,
@@ -143,11 +152,19 @@ const Input = ({navigation}) => {
       });
       incomeCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setIncomeCategory(incomeCategories)
-    });}
-  , [])
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
 
+  useFocusEffect(
+    React.useCallback(() => {
+      getExpenseCategories()
+      getIncomeCategories()
+      return () => {}
+    }, [])
+  );
   
-
   return (
     <>
     <View style={{flex:1, backgroundColor:'#fff'}}>

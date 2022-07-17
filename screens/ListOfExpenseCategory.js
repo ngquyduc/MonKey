@@ -98,7 +98,7 @@ const ListOfExpenseCategory = ({navigation}) => {
           setInprogressIcon(data.item.icon)
           setInprogressColor(data.item.color)
           
-          ory(data.item.title)
+          setFromCategory(data.item.title)
           setFromIcon(data.item.icon)
           setFromColor(data.item.color)
           
