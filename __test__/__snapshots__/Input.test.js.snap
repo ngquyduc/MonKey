@@ -20,9 +20,9 @@ Array [
             "borderBottomLeftRadius": 20,
             "borderBottomRightRadius": 20,
             "borderBottomWidth": 0,
-            "height": 50,
+            "height": 62,
             "justifyContent": "flex-end",
-            "paddingTop": 33,
+            "paddingTop": 3,
             "shadowColor": "#35baf6",
             "shadowOffset": Object {
               "height": 1,
@@ -41,7 +41,7 @@ Array [
         style={
           Object {
             "color": "#35baf6",
-            "fontSize": 28,
+            "fontSize": 35,
             "fontWeight": "bold",
             "marginBottom": 10,
           }

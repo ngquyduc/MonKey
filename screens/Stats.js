@@ -470,7 +470,6 @@ const Stats = (props) => {
                   extraRadiusForFocused={5}
                   shadow={true}
                   showText={true}
-                  textColor={'white'}
                   textSize={14}
                   textColor={'black'}
                   fontWeight={'bold'}

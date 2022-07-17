@@ -11,24 +11,29 @@ exports[`snapshot Stats 1`] = `
 >
   <View
     style={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "#cce9f6",
-        "borderBottomColor": "#808080",
-        "borderBottomLeftRadius": 20,
-        "borderBottomRightRadius": 20,
-        "borderBottomWidth": 0,
-        "height": 62,
-        "justifyContent": "flex-end",
-        "paddingTop": 3,
-        "shadowColor": "#35baf6",
-        "shadowOffset": Object {
-          "height": 1,
-          "width": 0,
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#cce9f6",
+          "borderBottomColor": "#808080",
+          "borderBottomLeftRadius": 20,
+          "borderBottomRightRadius": 20,
+          "borderBottomWidth": 0,
+          "height": 62,
+          "justifyContent": "flex-end",
+          "paddingTop": 3,
+          "shadowColor": "#35baf6",
+          "shadowOffset": Object {
+            "height": 1,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 3,
         },
-        "shadowOpacity": 0.8,
-        "shadowRadius": 3,
-      }
+        Object {
+          "marginBottom": 4,
+        },
+      ]
     }
   >
     <Text
