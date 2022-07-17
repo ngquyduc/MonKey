@@ -8,7 +8,7 @@ import { colors } from '../components/colors';
 import { Avatar } from 'react-native-paper';
 import { MaterialCommunityIcons  } from '@expo/vector-icons'
 import SectionContainer from '../components/Containers/SectionContainer';
-import { copyDefaultCategory } from '../api/authentication';
+import { StatusBar } from 'expo-status-bar';
 import moment from 'moment';
 
 import { addDoc, collection, doc, onSnapshot, updateDoc, getDoc } from 'firebase/firestore';
@@ -101,6 +101,7 @@ const Other = ({navigation}) => {
   }
   return (
     <View style={styles.mainContainer}>
+      <StatusBar style='dark'/>
       <View style={styles.header}>
         <Text style={styles.boldBlueHeaderText}>Other</Text>
       </View>
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   boldBlackHeaderText: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: '500',
     color: '#494949',
   },

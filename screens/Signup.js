@@ -34,7 +34,6 @@ const SignUp = ({navigation}) => {
   }
   return (
     <>
-      <StatusBar style='dark'/>
       <MainContainer>
         <KeyboardAvoidingContainer>
           <View style={{alignContent: 'flex-start', paddingBottom: 20}}>

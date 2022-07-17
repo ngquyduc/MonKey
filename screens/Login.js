@@ -18,7 +18,6 @@ const Login = ({navigation}) => {
 
   return (
     <>
-    <StatusBar style='dark'/>
       <MainContainer>
         <KeyboardAvoidingContainer>
           <View 

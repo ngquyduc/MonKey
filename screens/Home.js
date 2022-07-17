@@ -1,5 +1,5 @@
 import React, {useState, useMemo, useEffect} from 'react';
-import { View, Text, TouchableOpacity, Alert, Animated, Modal, TextInput, ScrollView, Pressable, Keyboard, StyleSheet, FlatList} from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Animated, StyleSheet, } from 'react-native';
 import { colors } from '../components/colors';
 import moment from 'moment';
 import { ScreenHeight } from '../components/constants';
@@ -8,15 +8,16 @@ import { db } from '../api/db';
 import { getUserID } from '../api/authentication';
 import ActivityRings from "react-native-activity-rings";  
 import { StatusBarHeight } from '../components/constants';
-import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
+import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Timestamp } from 'firebase/firestore';
 import { formatter } from '../api/formatCurrency';
+import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
-const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
+const { lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 const Home = ({navigation}) => {
-  // User name
+  // Username
   const [userName, setUserName] = useState('')
   /*********** Limit Ring ***********/
   const [monthLimit, setMonthLimit] = useState(0); 
@@ -285,6 +286,7 @@ const Home = ({navigation}) => {
 
   return (
     <View style={{flex:1}}>
+      <StatusBar style='dark'/>
       <View style={styles.container}>
         {/************ Header ************/}
         <View style={styles.header}>

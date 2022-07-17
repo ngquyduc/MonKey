@@ -8,6 +8,7 @@ import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
 import { ShadowBox } from 'react-native-neomorph-shadows';
 import { useFocusEffect } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 const { lightYellow, lighterBlue, lightBlue, darkBlue, darkYellow } = colors
 
 
@@ -35,7 +36,7 @@ const EditUsernameScreen = ({navigation}) => {
 
   const onSubmit = async () => {
     if (userName == '') {
-      Alert.alert("Alert", "Please enter ypur new username", [
+      Alert.alert("Alert", "Please enter your new username", [
         {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     } else {
@@ -49,6 +50,7 @@ const EditUsernameScreen = ({navigation}) => {
 
   return (
     <View style={{backgroundColor:'#fff', flex:1}}>
+      <StatusBar style='dark'/>
       {/*********** Header ***********/}
       <Pressable onPress={Keyboard.dismiss} style={{flex:1}}>
         <View style={styles.header}>
@@ -88,7 +90,8 @@ const EditUsernameScreen = ({navigation}) => {
                 shadowRadius: 3,
                 borderRadius: 10,
                 backgroundColor:'#f1fbfd',
-                width:235
+                width:235,
+                height:36,
               }}
             >
               <TextInput

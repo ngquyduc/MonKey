@@ -13,6 +13,7 @@ import { collection, query, where, onSnapshot, getDocs } from "firebase/firestor
 import { db } from "../api/db";
 import { getUserID } from '../api/authentication';
 import CurrencyInput from 'react-native-currency-input';
+import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
 
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
@@ -167,6 +168,7 @@ const Input = ({navigation}) => {
   
   return (
     <>
+    <StatusBar style='dark'/>
     <View style={{flex:1, backgroundColor:'#fff'}}>
       <View style={[styless.header, {marginBottom:4}]}>
         <Text style={styles.boldBlueHeaderText}>Input</Text>
@@ -750,7 +752,6 @@ const styless = StyleSheet.create({
   categoryButtonText: {
     fontSize: 16,
     fontWeight: '300',
-    
   },
   modalView: {
     flex:1, 

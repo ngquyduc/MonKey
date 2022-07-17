@@ -11,6 +11,7 @@ import { colors } from '../components/colors';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { formatter } from '../api/formatCurrency';
+import { StatusBar } from 'expo-status-bar';
 import { Timestamp } from 'firebase/firestore';
 import { useFocusEffect } from '@react-navigation/native';
 const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
@@ -361,6 +362,7 @@ const CalendarScreen = ({navigation}) => {
   return (
     <>
     <View style={styles.container}>
+      <StatusBar style='dark'/>
       <View style={[styles.header, {marginBottom:5}]}>
         <Text style={styles.boldBlueHeaderText}>Calendar</Text>
       </View>

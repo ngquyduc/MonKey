@@ -13,6 +13,7 @@ import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDo
 import { getUserID } from '../api/authentication';
 import moment from 'moment';
 import { useFocusEffect } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
 
@@ -257,6 +258,7 @@ const ListOfExpenseCategory = ({navigation}) => {
   
   return (
     <>
+      <StatusBar style='dark'/>
       {/*************** Header ***************/}
       <View style={styles.header}>
         <View style={{flex:2, paddingLeft:5, paddingBottom:7}}>
