@@ -1,0 +1,514 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot AboutUs 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "flex-end",
+        "backgroundColor": "#fff",
+        "borderBottomColor": "#808080",
+        "borderBottomWidth": 1,
+        "flexDirection": "row",
+        "height": 62,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 2,
+          "paddingBottom": 7,
+          "paddingLeft": 5,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <Text />
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 8,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#35baf6",
+            "fontSize": 34,
+            "fontWeight": "bold",
+            "marginBottom": 10,
+          }
+        }
+      >
+        About
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flex": 2,
+        }
+      }
+    />
+  </View>
+  <RCTScrollView
+    style={
+      Object {
+        "paddingHorizontal": 15,
+      }
+    }
+  >
+    <View>
+      <Text
+        style={
+          Object {
+            "color": "#494949",
+            "fontSize": 30,
+            "fontWeight": "700",
+            "paddingBottom": 15,
+            "paddingHorizontal": 15,
+            "paddingTop": 20,
+          }
+        }
+      >
+        Monkey
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#494949",
+            "fontSize": 17,
+            "fontWeight": "400",
+            "paddingBottom": 10,
+            "paddingHorizontal": 5,
+          }
+        }
+      >
+        MonKey is a mobile application providing a big-picture view of your finances, which easily help you to keep track of your money flow.
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#494949",
+            "fontSize": 17,
+            "fontWeight": "400",
+            "paddingHorizontal": 5,
+          }
+        }
+      >
+        To know more about MonKey, please refer to:
+      </Text>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "paddingHorizontal": 5,
+          }
+        }
+      >
+        <Text />
+        <Text
+          onPress={[Function]}
+          style={
+            Object {
+              "color": "#35baf6",
+              "fontSize": 17,
+            }
+          }
+        >
+             Documentation
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "paddingHorizontal": 5,
+          }
+        }
+      >
+        <Text />
+        <Text
+          onPress={[Function]}
+          style={
+            Object {
+              "color": "#35baf6",
+              "fontSize": 17,
+            }
+          }
+        >
+             Github repo
+        </Text>
+      </View>
+      <Text
+        style={
+          Object {
+            "color": "#494949",
+            "fontSize": 30,
+            "fontWeight": "700",
+            "paddingBottom": 15,
+            "paddingHorizontal": 15,
+            "paddingTop": 20,
+          }
+        }
+      >
+        Developers
+      </Text>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderRadius": 25,
+            "elevation": 5,
+            "flexDirection": "column",
+            "marginBottom": 15,
+            "padding": 15,
+            "shadowColor": "#999",
+            "shadowOffset": Object {
+              "height": 2,
+              "width": 0,
+            },
+            "shadowOpacity": 0.7,
+            "shadowRadius": 4,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "borderBottomColor": "#e9e9e9",
+              "borderBottomWidth": 1,
+              "flexDirection": "row",
+              "marginBottom": 10,
+              "paddingBottom": 10,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flex": 4,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#494949",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "paddingBottom": 6,
+                }
+              }
+            >
+              Bui Duc Thanh
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "#979797",
+                  "fontSize": 15,
+                  "fontWeight": "300",
+                }
+              }
+            >
+              National University of Singapore
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "alignItems": "flex-end",
+                "flex": 1,
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#6200ee",
+                    "borderRadius": 25,
+                    "height": 50,
+                    "width": 50,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Image
+                source={1}
+                style={
+                  Object {
+                    "borderRadius": 25,
+                    "height": 50,
+                    "width": 50,
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "paddingBottom": 10,
+            }
+          }
+        >
+          <Text />
+          <Text
+            onPress={[Function]}
+            style={
+              Object {
+                "color": "#494949",
+                "fontSize": 17,
+              }
+            }
+          >
+            bdthanh@u.nus.edu
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "paddingBottom": 10,
+            }
+          }
+        >
+          <Text />
+          <Text
+            onPress={[Function]}
+            style={
+              Object {
+                "color": "#494949",
+                "fontSize": 17,
+              }
+            }
+          >
+            bdthanh
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text />
+          <Text
+            onPress={[Function]}
+            style={
+              Object {
+                "color": "#494949",
+                "fontSize": 17,
+              }
+            }
+          >
+            buiducthanh2003
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderRadius": 25,
+            "elevation": 5,
+            "flexDirection": "column",
+            "marginBottom": 15,
+            "padding": 15,
+            "shadowColor": "#999",
+            "shadowOffset": Object {
+              "height": 2,
+              "width": 0,
+            },
+            "shadowOpacity": 0.7,
+            "shadowRadius": 4,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "borderBottomColor": "#e9e9e9",
+              "borderBottomWidth": 1,
+              "flexDirection": "row",
+              "marginBottom": 10,
+              "paddingBottom": 10,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flex": 4,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#494949",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "paddingBottom": 6,
+                }
+              }
+            >
+              Nguyen Quy Duc
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "#979797",
+                  "fontSize": 15,
+                  "fontWeight": "300",
+                }
+              }
+            >
+              National University of Singapore
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "alignItems": "flex-end",
+                "flex": 1,
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#6200ee",
+                    "borderRadius": 25,
+                    "height": 50,
+                    "width": 50,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Image
+                source={1}
+                style={
+                  Object {
+                    "borderRadius": 25,
+                    "height": 50,
+                    "width": 50,
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "paddingBottom": 10,
+            }
+          }
+        >
+          <Text />
+          <Text
+            onPress={[Function]}
+            style={
+              Object {
+                "color": "#494949",
+                "fontSize": 17,
+              }
+            }
+          >
+            quyduc@u.nus.edu
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "paddingBottom": 10,
+            }
+          }
+        >
+          <Text />
+          <Text
+            onPress={[Function]}
+            style={
+              Object {
+                "color": "#494949",
+                "fontSize": 17,
+              }
+            }
+          >
+            ngquyduc
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text />
+          <Text
+            onPress={[Function]}
+            style={
+              Object {
+                "color": "#494949",
+                "fontSize": 17,
+              }
+            }
+          >
+            quyduc
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;

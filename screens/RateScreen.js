@@ -16,7 +16,7 @@ const { lightYellow, lighterBlue, beige, darkBlue, darkYellow } = colors
 
 const RateScreen = ({navigation}) => {
   const [rating, setRating] = useState(3.5);
-  const [feedback, setFeedback] = useState('');
+  const [feedback, setFeedback] = useState("");
   const [visible, setVisible] = useState(false)
   const onSubmit = () => {
     setRating(3.5)

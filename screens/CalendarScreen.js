@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import { View, Text, TouchableOpacity, Alert, Animated, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Animated, StyleSheet } from 'react-native';
 import { db } from '../api/db';
 import { collection, onSnapshot, query, where, orderBy, deleteDoc, doc, setDoc, getDocs } from 'firebase/firestore';
 import { authentication, getUserID } from '../api/authentication';

@@ -1,0 +1,2851 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot CalendarScreen 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#cce9f6",
+          "borderBottomColor": "#808080",
+          "borderBottomLeftRadius": 20,
+          "borderBottomRightRadius": 20,
+          "borderBottomWidth": 0,
+          "height": 62,
+          "justifyContent": "flex-end",
+          "paddingTop": 3,
+          "shadowColor": "#35baf6",
+          "shadowOffset": Object {
+            "height": 1,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 3,
+        },
+        Object {
+          "marginBottom": 5,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#35baf6",
+          "fontSize": 35,
+          "fontWeight": "bold",
+          "marginBottom": 10,
+        }
+      }
+    >
+      Calendar
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "elevation": 5,
+          "marginHorizontal": 10,
+          "marginVertical": 8,
+          "shadowColor": "#999",
+          "shadowOffset": Object {
+            "height": 1,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 3,
+        },
+        Object {
+          "backgroundColor": "#fffffd",
+          "borderRadius": 10,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 5,
+          "marginVertical": 3,
+        }
+      }
+    >
+      <View
+        onMoveShouldSetResponder={[Function]}
+        onMoveShouldSetResponderCapture={[Function]}
+        onResponderEnd={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderReject={[Function]}
+        onResponderRelease={[Function]}
+        onResponderStart={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        onStartShouldSetResponderCapture={[Function]}
+        onSwipe={[Function]}
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#fffffd",
+                "paddingLeft": 5,
+                "paddingRight": 5,
+              },
+              undefined,
+            ]
+          }
+        >
+          <View
+            accessibilityActions={
+              Array [
+                Object {
+                  "label": "increment",
+                  "name": "increment",
+                },
+                Object {
+                  "label": "decrement",
+                  "name": "decrement",
+                },
+              ]
+            }
+            accessibilityRole="adjustable"
+            accessible={true}
+            onAccessibilityAction={[Function]}
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "marginTop": 6,
+                  "paddingLeft": 10,
+                  "paddingRight": 10,
+                }
+              }
+            >
+              <View
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                hitSlop={
+                  Object {
+                    "bottom": 20,
+                    "left": 20,
+                    "right": 20,
+                    "top": 20,
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "opacity": 1,
+                    "padding": 10,
+                  }
+                }
+                testID="native.calendar.CHANGE_MONTH_LEFT_ARROW"
+              >
+                <Image
+                  source={1}
+                  style={
+                    Object {
+                      "tintColor": "#00BBF2",
+                    }
+                  }
+                />
+              </View>
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  style={
+                    Object {
+                      "color": "#2d4150",
+                      "fontFamily": "System",
+                      "fontSize": 16,
+                      "fontWeight": "300",
+                      "margin": 10,
+                    }
+                  }
+                  testID="HEADER_MONTH_NAME"
+                >
+                  July 2022
+                </Text>
+              </View>
+              <View
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                hitSlop={
+                  Object {
+                    "bottom": 20,
+                    "left": 20,
+                    "right": 20,
+                    "top": 20,
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "opacity": 1,
+                    "padding": 10,
+                  }
+                }
+                testID="native.calendar.CHANGE_MONTH_RIGHT_ARROW"
+              >
+                <Image
+                  source={1}
+                  style={
+                    Object {
+                      "tintColor": "#00BBF2",
+                    }
+                  }
+                />
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-around",
+                  "marginTop": 7,
+                }
+              }
+              testID="native.calendar.DAY_NAMES"
+            >
+              <Text
+                accessibilityLabel=""
+                allowFontScaling={false}
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "color": "#b6c1cd",
+                      "fontFamily": "System",
+                      "fontSize": 13,
+                      "fontWeight": undefined,
+                      "marginBottom": 7,
+                      "marginTop": 2,
+                      "textAlign": "center",
+                      "width": 32,
+                    },
+                  ]
+                }
+              >
+                Mon
+              </Text>
+              <Text
+                accessibilityLabel=""
+                allowFontScaling={false}
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "color": "#b6c1cd",
+                      "fontFamily": "System",
+                      "fontSize": 13,
+                      "fontWeight": undefined,
+                      "marginBottom": 7,
+                      "marginTop": 2,
+                      "textAlign": "center",
+                      "width": 32,
+                    },
+                  ]
+                }
+              >
+                Tue
+              </Text>
+              <Text
+                accessibilityLabel=""
+                allowFontScaling={false}
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "color": "#b6c1cd",
+                      "fontFamily": "System",
+                      "fontSize": 13,
+                      "fontWeight": undefined,
+                      "marginBottom": 7,
+                      "marginTop": 2,
+                      "textAlign": "center",
+                      "width": 32,
+                    },
+                  ]
+                }
+              >
+                Wed
+              </Text>
+              <Text
+                accessibilityLabel=""
+                allowFontScaling={false}
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "color": "#b6c1cd",
+                      "fontFamily": "System",
+                      "fontSize": 13,
+                      "fontWeight": undefined,
+                      "marginBottom": 7,
+                      "marginTop": 2,
+                      "textAlign": "center",
+                      "width": 32,
+                    },
+                  ]
+                }
+              >
+                Thu
+              </Text>
+              <Text
+                accessibilityLabel=""
+                allowFontScaling={false}
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "color": "#b6c1cd",
+                      "fontFamily": "System",
+                      "fontSize": 13,
+                      "fontWeight": undefined,
+                      "marginBottom": 7,
+                      "marginTop": 2,
+                      "textAlign": "center",
+                      "width": 32,
+                    },
+                  ]
+                }
+              >
+                Fri
+              </Text>
+              <Text
+                accessibilityLabel=""
+                allowFontScaling={false}
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "color": "#b6c1cd",
+                      "fontFamily": "System",
+                      "fontSize": 13,
+                      "fontWeight": undefined,
+                      "marginBottom": 7,
+                      "marginTop": 2,
+                      "textAlign": "center",
+                      "width": 32,
+                    },
+                  ]
+                }
+              >
+                Sat
+              </Text>
+              <Text
+                accessibilityLabel=""
+                allowFontScaling={false}
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "color": "#b6c1cd",
+                      "fontFamily": "System",
+                      "fontSize": 13,
+                      "fontWeight": undefined,
+                      "marginBottom": 7,
+                      "marginTop": 2,
+                      "textAlign": "center",
+                      "width": 32,
+                    },
+                  ]
+                }
+              >
+                Sun
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#fffffd",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-around",
+                  "marginVertical": 7,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Monday 27 June 2022 "
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-06-27"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                        Object {
+                          "color": "#d9e1e8",
+                        },
+                      ]
+                    }
+                  >
+                    27
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Tuesday 28 June 2022 "
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-06-28"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                        Object {
+                          "color": "#d9e1e8",
+                        },
+                      ]
+                    }
+                  >
+                    28
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Wednesday 29 June 2022 "
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-06-29"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                        Object {
+                          "color": "#d9e1e8",
+                        },
+                      ]
+                    }
+                  >
+                    29
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Thursday 30 June 2022 "
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-06-30"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                        Object {
+                          "color": "#d9e1e8",
+                        },
+                      ]
+                    }
+                  >
+                    30
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Friday 1 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-01"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    1
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Saturday 2 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-02"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    2
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Sunday 3 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-03"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    3
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-around",
+                  "marginVertical": 7,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Monday 4 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-04"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    4
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Tuesday 5 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-05"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    5
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Wednesday 6 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-06"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    6
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Thursday 7 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-07"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    7
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Friday 8 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-08"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    8
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Saturday 9 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-09"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    9
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Sunday 10 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-10"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    10
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-around",
+                  "marginVertical": 7,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Monday 11 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-11"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    11
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Tuesday 12 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-12"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    12
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Wednesday 13 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-13"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    13
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Thursday 14 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-14"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    14
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Friday 15 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-15"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    15
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Saturday 16 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-16"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    16
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Sunday 17 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-17"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    17
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-around",
+                  "marginVertical": 7,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel="today Monday 18 July 2022 selected You have no entries for this day disabled "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": true,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={false}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "backgroundColor": "#00BBF2",
+                      "borderRadius": 16,
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-18"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                        Object {
+                          "color": "white",
+                        },
+                      ]
+                    }
+                  >
+                    18
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Tuesday 19 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-19"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    19
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Wednesday 20 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-20"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    20
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Thursday 21 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-21"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    21
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Friday 22 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-22"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    22
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Saturday 23 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-23"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    23
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Sunday 24 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-24"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    24
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-around",
+                  "marginVertical": 7,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Monday 25 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-25"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    25
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Tuesday 26 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-26"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    26
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Wednesday 27 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-27"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    27
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Thursday 28 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-28"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    28
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Friday 29 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-29"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    29
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Saturday 30 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-30"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    30
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel=" Sunday 31 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-31"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    31
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginBottom": 5,
+          "marginHorizontal": 7,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "borderRadius": 10,
+              "flex": 1,
+              "flexDirection": "row",
+              "height": 32,
+              "justifyContent": "center",
+              "marginBottom": 2,
+              "marginHorizontal": 4,
+              "shadowColor": "#999",
+              "shadowOffset": Object {
+                "height": 1,
+                "width": 0,
+              },
+              "shadowOpacity": 0.8,
+              "shadowRadius": 2,
+            },
+            Object {
+              "backgroundColor": "#e2f5e2",
+              "marginHorizontal": 3,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#26b522",
+              "fontSize": 14,
+              "fontWeight": "500",
+            }
+          }
+        >
+          $0.00
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "borderRadius": 10,
+              "flex": 1,
+              "flexDirection": "row",
+              "height": 32,
+              "justifyContent": "center",
+              "marginBottom": 2,
+              "marginHorizontal": 4,
+              "shadowColor": "#999",
+              "shadowOffset": Object {
+                "height": 1,
+                "width": 0,
+              },
+              "shadowOpacity": 0.8,
+              "shadowRadius": 2,
+            },
+            Object {
+              "backgroundColor": "#fdddcf",
+              "marginHorizontal": 3,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#ef5011",
+              "fontSize": 14,
+              "fontWeight": "500",
+            }
+          }
+        >
+          $0.00
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "borderRadius": 10,
+            "flexDirection": "row",
+            "height": 32,
+            "justifyContent": "center",
+            "marginBottom": 8,
+            "marginHorizontal": 4,
+            "shadowColor": "#999",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 0,
+            },
+            "shadowOpacity": 0.8,
+            "shadowRadius": 2,
+          },
+          Object {
+            "backgroundColor": "#e6e6e6",
+            "marginHorizontal": 10,
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#494949",
+            "fontSize": 14,
+            "fontWeight": "500",
+          }
+        }
+      >
+         Balance: $0.00
+      </Text>
+    </View>
+  </View>
+  <View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginBottom": 10,
+          "marginHorizontal": 23,
+          "paddingTop": 7,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#494949",
+              "fontSize": 16,
+              "fontWeight": "700",
+            }
+          }
+        >
+          Date (18-07-2022):
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#494949",
+              "fontSize": 20,
+              "fontWeight": "600",
+            }
+          }
+        >
+          $0.00
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "height": 698,
+        "marginHorizontal": 15,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "paddingTop": 20,
+        }
+      }
+    >
+      <Text />
+      <Text
+        style={
+          Object {
+            "color": "#e0e0e0",
+            "fontSize": 40,
+            "fontWeight": "bold",
+          }
+        }
+      >
+        No records!
+      </Text>
+    </View>
+  </View>
+</View>
+`;

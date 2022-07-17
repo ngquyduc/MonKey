@@ -1,0 +1,493 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot Home 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#cce9f6",
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "justifyContent": "flex-end",
+          "paddingBottom": 14,
+          "paddingHorizontal": 30,
+        }
+      }
+    >
+      <View>
+        <Text
+          style={
+            Object {
+              "color": "#35baf6",
+              "fontSize": 35,
+              "fontWeight": "bold",
+              "marginBottom": 10,
+            }
+          }
+        >
+          Welcome,
+        </Text>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#35baf6",
+                "fontSize": 35,
+                "fontWeight": "bold",
+                "marginBottom": 10,
+              }
+            }
+          >
+             !
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "borderTopLeftRadius": 30,
+          "borderTopRightRadius": 30,
+          "flex": 3.8,
+          "paddingHorizontal": 15,
+          "paddingVertical": 18,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "flexDirection": "column",
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "backgroundColor": "#fff",
+              "borderRadius": 25,
+              "elevation": 5,
+              "flexDirection": "column",
+              "height": 193,
+              "marginBottom": 10,
+              "paddingLeft": 10,
+              "shadowColor": "#999",
+              "shadowOffset": Object {
+                "height": 1,
+                "width": 0,
+              },
+              "shadowOpacity": 0.8,
+              "shadowRadius": 2,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "height": 35,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#FAB00E",
+                  "fontSize": 20,
+                  "fontWeight": "600",
+                }
+              }
+            >
+              Spending limit
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1.3,
+                  "marginRight": 4,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "height": 150,
+                      "width": 150,
+                    }
+                  }
+                >
+                  <RNSVGSvgView
+                    bbHeight={150}
+                    bbWidth={150}
+                    focusable={false}
+                    height={150}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        Object {
+                          "flex": 0,
+                          "height": 150,
+                          "width": 150,
+                        },
+                      ]
+                    }
+                    width={150}
+                  >
+                    <RNSVGGroup>
+                      <RNSVGGroup
+                        matrix={
+                          Array [
+                            1,
+                            0,
+                            -0,
+                            1,
+                            75,
+                            75,
+                          ]
+                        }
+                      >
+                        <RNSVGGroup>
+                          <RNSVGPath
+                            d="M 0 -53.5 A 53.5 53.5 0 1 1 -0.336148 -53.498944 L -0.336148 -53.498944 A 53.5 53.5 0 1 0 0 -53.5 Z "
+                            propList={
+                              Array [
+                                "stroke",
+                                "strokeWidth",
+                                "strokeLinecap",
+                                "strokeLinejoin",
+                              ]
+                            }
+                            stroke={859159286}
+                            strokeLinecap={1}
+                            strokeLinejoin={1}
+                            strokeWidth={20}
+                          />
+                          <RNSVGPath
+                            d="M 0 -32 A 32 32 0 1 1 -0.201061 -31.999368 L -0.201061 -31.999368 A 32 32 0 1 0 0 -32 Z "
+                            propList={
+                              Array [
+                                "stroke",
+                                "strokeWidth",
+                                "strokeLinecap",
+                                "strokeLinejoin",
+                              ]
+                            }
+                            stroke={872067086}
+                            strokeLinecap={1}
+                            strokeLinejoin={1}
+                            strokeWidth={20}
+                          />
+                        </RNSVGGroup>
+                        <RNSVGGroup>
+                          <RNSVGPath
+                            d="M 0 -53.5 A 53.5 53.5 0 0 1 0.000034 -53.5 L 0.000034 -53.5 A 53.5 53.5 0 0 0 0 -53.5 Z "
+                            propList={
+                              Array [
+                                "stroke",
+                                "strokeWidth",
+                                "strokeLinecap",
+                                "strokeLinejoin",
+                              ]
+                            }
+                            stroke={4281711350}
+                            strokeLinecap={1}
+                            strokeLinejoin={1}
+                            strokeWidth={20}
+                          />
+                          <RNSVGPath
+                            d="M 0 -32 A 32 32 0 0 1 0.00002 -32 L 0.00002 -32 A 32 32 0 0 0 0 -32 Z "
+                            propList={
+                              Array [
+                                "stroke",
+                                "strokeWidth",
+                                "strokeLinecap",
+                                "strokeLinejoin",
+                              ]
+                            }
+                            stroke={4294619150}
+                            strokeLinecap={1}
+                            strokeLinejoin={1}
+                            strokeWidth={20}
+                          />
+                        </RNSVGGroup>
+                      </RNSVGGroup>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignContent": "center",
+                  "flex": 2,
+                  "flexDirection": "column",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "margin": 5,
+                  }
+                }
+              >
+                <Text />
+                <View
+                  style={
+                    Object {
+                      "alignContent": "center",
+                      "justifyContent": "center",
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "fontSize": 15,
+                        "fontWeight": "500",
+                      }
+                    }
+                  >
+                     Month limit: $0.00/0
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "margin": 5,
+                  }
+                }
+              >
+                <Text />
+                <View
+                  style={
+                    Object {
+                      "alignContent": "center",
+                      "justifyContent": "center",
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "fontSize": 15,
+                        "fontWeight": "500",
+                      }
+                    }
+                  >
+                     Day limit: $0.00/0
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View>
+        <View
+          style={
+            Object {
+              "paddingBottom": 7,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "justifyContent": "center",
+                "paddingBottom": 7,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#35baf6",
+                  "fontSize": 16,
+                  "fontWeight": "700",
+                }
+              }
+            >
+              Today: 18-07-2022
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+                "marginBottom": 10,
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "borderRadius": 10,
+                    "flex": 1,
+                    "flexDirection": "row",
+                    "height": 40,
+                    "justifyContent": "center",
+                    "marginBottom": 5,
+                    "marginHorizontal": 7,
+                    "shadowColor": "#999",
+                    "shadowOffset": Object {
+                      "height": 1,
+                      "width": 0,
+                    },
+                    "shadowOpacity": 0.8,
+                    "shadowRadius": 2,
+                  },
+                  Object {
+                    "backgroundColor": "#e2f5e2",
+                  },
+                ]
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Object {
+                    "color": "#26b522",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                  }
+                }
+              >
+                 Income: $0.00
+              </Text>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "borderRadius": 10,
+                    "flex": 1,
+                    "flexDirection": "row",
+                    "height": 40,
+                    "justifyContent": "center",
+                    "marginBottom": 5,
+                    "marginHorizontal": 7,
+                    "shadowColor": "#999",
+                    "shadowOffset": Object {
+                      "height": 1,
+                      "width": 0,
+                    },
+                    "shadowOpacity": 0.8,
+                    "shadowRadius": 2,
+                  },
+                  Object {
+                    "backgroundColor": "#fdddcf",
+                  },
+                ]
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Object {
+                    "color": "#ef5011",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                  }
+                }
+              >
+                 Expense: $0.00
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "height": 763,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "justifyContent": "center",
+                "paddingTop": 20,
+              }
+            }
+          >
+            <Text />
+            <Text
+              style={
+                Object {
+                  "color": "#e0e0e0",
+                  "fontSize": 40,
+                  "fontWeight": "bold",
+                }
+              }
+            >
+              No record!
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

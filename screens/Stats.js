@@ -240,7 +240,7 @@ const Stats = (props) => {
 
   return (
     <View style={styles.mainContainerInnerScreen}>
-      <View style={styles.header}>
+      <View style={[styles.header,{marginBottom:4}]}>
         <Text style={styles.boldBlueHeaderText}>Statistics</Text>
       </View>
       <ScrollView style={{backgroundColor:'#fff'}}>
@@ -440,7 +440,6 @@ const Stats = (props) => {
               extraRadiusForFocused={5}
               shadow={true}
               showText={true}
-              textColor={'white'}
               textSize={14}
               textColor={'black'}
               fontWeight={'bold'}
@@ -495,7 +494,6 @@ const Stats = (props) => {
                   extraRadiusForFocused={5}
                   shadow={true}
                   showText={true}
-                  textColor={'white'}
                   textSize={14}
                   textColor={'black'}
                   fontWeight={'bold'}

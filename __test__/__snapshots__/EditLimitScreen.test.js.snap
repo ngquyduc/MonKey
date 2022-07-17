@@ -1,0 +1,340 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot EditLimitScreen 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "backgroundColor": "#fff",
+          "borderBottomColor": "#808080",
+          "borderBottomWidth": 1,
+          "flexDirection": "row",
+          "height": 62,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flex": 2,
+            "paddingBottom": 7,
+            "paddingLeft": 5,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <Text />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 8,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#35baf6",
+              "fontSize": 34,
+              "fontWeight": "bold",
+              "marginBottom": 10,
+            }
+          }
+        >
+          Change limit
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "flex": 2,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "borderBottomColor": "#E9E9E9",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "flexDirection": "row",
+            "height": 60,
+            "marginBottom": 6,
+            "paddingBottom": 4,
+            "paddingLeft": 4,
+            "paddingTop": 4,
+          },
+          Object {
+            "paddingTop": 8,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Object {
+            "flex": 50,
+            "justifyContent": "center",
+            "paddingLeft": 12,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#35baf6",
+              "fontSize": 19,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Month limit
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomColor": "#FAB00E",
+            "flex": 80,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <TextInput
+          keyboardType="decimal-pad"
+          maxLength={16}
+          onChangeText={[Function]}
+          placeholder="0.00"
+          placeholderTextColor="#ADD8E6"
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#cce9f6",
+                "borderColor": "#35baf6",
+                "borderRadius": 10,
+                "color": "#35baf6",
+                "fontSize": 20,
+                "fontWeight": "600",
+                "height": 36,
+                "paddingRight": 12,
+                "width": 200,
+              },
+              Object {
+                "textAlign": "right",
+              },
+            ]
+          }
+          value="0.00"
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 15,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text />
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "borderBottomColor": "#E9E9E9",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "flexDirection": "row",
+            "height": 60,
+            "marginBottom": 6,
+            "paddingBottom": 4,
+            "paddingLeft": 4,
+            "paddingTop": 4,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Object {
+            "flex": 50,
+            "justifyContent": "center",
+            "paddingLeft": 12,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#35baf6",
+              "fontSize": 19,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Day limit
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "borderBottomColor": "#FAB00E",
+            "flex": 80,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <TextInput
+          keyboardType="decimal-pad"
+          maxLength={16}
+          onChangeText={[Function]}
+          placeholder="0.00"
+          placeholderTextColor="#ADD8E6"
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#cce9f6",
+                "borderColor": "#35baf6",
+                "borderRadius": 10,
+                "color": "#35baf6",
+                "fontSize": 20,
+                "fontWeight": "600",
+                "height": 36,
+                "paddingRight": 12,
+                "width": 200,
+              },
+              Object {
+                "textAlign": "right",
+              },
+            ]
+          }
+          value="0.00"
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 15,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text />
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "borderBottomColor": "#E9E9E9",
+            "borderTopColor": "#E9E9E9",
+            "height": 48,
+            "justifyContent": "center",
+            "paddingBottom": 4,
+            "paddingLeft": 4,
+            "paddingTop": 20,
+          },
+          Object {
+            "alignItems": "center",
+            "justifyContent": "center",
+          },
+        ]
+      }
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#FAB00E",
+            "borderRadius": 10,
+            "flexDirection": "row",
+            "height": 40,
+            "justifyContent": "center",
+            "opacity": 1,
+            "padding": 5,
+            "width": 120,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#fff",
+              "fontSize": 18,
+              "fontWeight": "500",
+            }
+          }
+        >
+          Submit
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

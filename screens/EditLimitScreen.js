@@ -6,7 +6,6 @@ import { doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
-import {Slider} from '@miblanchard/react-native-slider';
 import CurrencyInput from 'react-native-currency-input';
 import { useFocusEffect } from '@react-navigation/native';
 const { lightYellow, lighterBlue, lightBlue, darkBlue, darkYellow } = colors
@@ -91,28 +90,6 @@ const EditLimitScreen = ({navigation}) => {
             <Foundation name='dollar' size={34} color={darkBlue}/>
           </View>
         </View>
-        {/* <View style={{marginHorizontal:5, flexDirection:'row', justifyContent:'space-evenly'}}>
-          <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
-            <Text style={{color:darkYellow, fontWeight:'bold'}}>100</Text>
-          </View>
-          <View style={{flex:9}}>
-            <Slider
-              value={parseFloat(monthLimit)}
-              minimumValue={0}
-              maximumValue={10000000000}
-              onValueChange={value => {setMonthLimit(value.toString())}}
-              step={20}
-              minimumTrackTintColor={darkYellow}
-              maximumTrackTintColor={lighterBlue}
-              thumbStyle={{backgroundColor:darkYellow}}
-            />
-          </View>
-          <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
-            <Text style={{color:darkYellow, fontWeight:'bold'}}> 2000</Text>
-          </View>
-        </View> */}
-
-
 
           {/*********** Day limit ***********/}
         <View style={[styles.noteView]}>
@@ -146,26 +123,6 @@ const EditLimitScreen = ({navigation}) => {
             <Foundation name='dollar' size={34} color={darkBlue}/>
           </View>
         </View>
-        {/* <View style={{marginHorizontal:5, flexDirection:'row', justifyContent:'space-evenly'}}>
-          <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
-            <Text style={{color:darkYellow, fontWeight:'bold'}}>5</Text>
-          </View>
-          <View style={{flex:9}}>
-            <Slider
-              value={parseFloat(dayLimit)}
-              minimumValue={5}
-              maximumValue={200}
-              onValueChange={value => {setDayLimit(value.toString())}}
-              step={1}
-              minimumTrackTintColor={darkYellow}
-              maximumTrackTintColor={lighterBlue}
-              thumbStyle={{backgroundColor:darkYellow}}
-            />
-          </View>
-          <View style={{flex:1.5, justifyContent:'center', alignItems:'center'}}>
-            <Text style={{color:darkYellow, fontWeight:'bold'}}> 200</Text>
-          </View>
-        </View> */}
 
 
         {/*********** Submit button ***********/}
