@@ -7,21 +7,29 @@ import { db } from '../api/db';
 import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
 import CurrencyInput from 'react-native-currency-input';
+import { useFocusEffect } from '@react-navigation/native';
 const { lightYellow, lighterBlue, lightBlue, darkBlue, darkYellow } = colors
 
 
 const EditLimitScreen = ({navigation}) => {
   const [monthLimit, setMonthLimit] = useState(0); // need to store on Firestore
   const [dayLimit, setDayLimit] = useState(0); // need to store on Firestore
+  const [userId, setUserId] = useState(getUserID())
   
   // get monthlimit and daylimit
-  useEffect(() => {
-    const spendingLimitRef = doc(db, "Spending Limit", getUserID())
-    onSnapshot(spendingLimitRef, (snapShot) => {
-      setMonthLimit(snapShot.data().monthLimit)
-      setDayLimit(snapShot.data().dayLimit)
-    })
-  }, [])
+  useFocusEffect(
+    React.useCallback(() => {
+      const financeRef = doc(db, "Spending Limit", userId)
+      const unsubLimit = onSnapshot(financeRef, (snapShot) => {
+        setMonthLimit(snapShot.data().monthLimit)
+        setDayLimit(snapShot.data().dayLimit)
+      })
+      
+      return () => {
+        unsubLimit()
+      }
+    }, [])
+  );
 
   const onSubmit = () => {
     const spendingLimitRef = doc(db, "Spending Limit", getUserID())

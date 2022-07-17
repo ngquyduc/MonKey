@@ -12,7 +12,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
 import { formatter } from '../api/formatCurrency';
 import { Timestamp } from 'firebase/firestore';
-
+import { ScreenHeight } from '../components/constants';
 const {beige, brown, darkBlue, lightBlue, darkYellow,lighterBlue} = colors;
 
 const CalendarScreen = ({navigation}) => {

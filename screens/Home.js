@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Alert, Animated, Modal, TextInput, Scroll
 import { colors } from '../components/colors';
 import moment from 'moment';
 import { ScreenHeight } from '../components/constants';
-import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc, getDoc, setDoc, getDocs } from 'firebase/firestore';
 import { db } from '../api/db';
 import { getUserID } from '../api/authentication';
 import ActivityRings from "react-native-activity-rings";  
@@ -12,6 +12,7 @@ import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundat
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Timestamp } from 'firebase/firestore';
 import { formatter } from '../api/formatCurrency';
+import { useFocusEffect } from '@react-navigation/native';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow, lighterBlue } = colors
 
 const Home = ({navigation}) => {
@@ -32,59 +33,108 @@ const Home = ({navigation}) => {
   const [incomeCategoryList, setIncomeCategoryList] = useState({})
   const [userId, setUserId] = useState(getUserID())
 
-  // get user name to display on screen
-  useEffect(() => {
-    const userRef = doc(db, "Users", userId);
-    onSnapshot(userRef, (snapShot) => {
-      setUserName(snapShot.data().username)
-    })
-  }, [])
 
-  // get monthlimit and daylimit
-  useEffect(() => {
-    const financeRef = doc(db, "Spending Limit", userId)
-    onSnapshot(financeRef, (snapShot) => {
-      setMonthLimit(snapShot.data().monthLimit)
-      setDayLimit(snapShot.data().dayLimit)
-    })
-  }, [])
+  const getUsername = async () => {
+    try {
+      const userRef = doc(db, "Users", userId);
+      const user = await getDoc(userRef)
+      setUserName(user.data().username)
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
 
-  // get month expense and today expense & income
-  useEffect(() => {
-    const dayFinances = []
-    const expensePath = 'Finance/' + getUserID() + '/Expense'
-    const expenseRef = collection(db, expensePath)
-    const dayExpenseQuery = query(expenseRef, where('year', '==', date.substring(0,4)), where('month', '==', date.substring(5, 7)))
-    onSnapshot(dayExpenseQuery, (snapShot) => {
-      const dayExpenses = []
-      let dayExpense = 0
-      let monthExpense = 0
-      snapShot.forEach((doc) => {
-        monthExpense += doc.data().amount
-        if (doc.data().date == date.substring(8, 10)) {
-          dayExpense += doc.data().amount
-          dayExpenses.push({
-            key: doc.id,
-            id: doc.id,
-            type: 'expense',
-            amount: doc.data().amount,
-            note: doc.data().note,
-            category: doc.data().category,
-            icon: expenseCategoryList[doc.data().category+'icon'],
-            color: expenseCategoryList[doc.data().category+'color'],
-            notedAt: doc.data().notedAt
-          })
+  const getSpendingLimit = async () => {
+    try {
+      const financeRef = doc(db, "Spending Limit", userId)
+      const spendingLimit = await getDoc(financeRef)
+      setMonthLimit(spendingLimit.data().monthLimit)
+      setDayLimit(spendingLimit.data().dayLimit)
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
+  
+  const getExpenseCategories = async () => {
+    try {
+      const expenseCategoryRef = query(collection(db, 'Input Category/Expense/' + userId))
+      const expenseCats = await getDocs(expenseCategoryRef)
+      const expenseCategories = {}
+      expenseCats.docs.forEach((doc) => {
+        if (doc.data().name != 'Deleted Category' && doc.data().name != 'Edit') {
+          expenseCategories[doc.data().name + 'icon'] = doc.data().icon
+          expenseCategories[doc.data().name + 'color'] = doc.data().color
         }
+        setExpenseCategoryList(expenseCategories)
       })
-      setDayExpenses(dayExpenses)
-      setDayExpense(dayExpense)
-      setMonthExpense(monthExpense)
-    })
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
 
+  const getIncomeCategories = async () => {
+    try {
+      const incomeCategoryRef = query(collection(db, 'Input Category/Income/' + userId))
+      const incomeCats = await getDocs(incomeCategoryRef)
+      const incomeCategories = {}
+      incomeCats.docs.forEach((doc) => {
+        if (doc.data().name != 'Deleted Category' && doc.data().name != 'Edit') {
+          console.log()
+          incomeCategories[doc.data().name + 'icon'] = doc.data().icon
+          incomeCategories[doc.data().name + 'color'] = doc.data().color
+        }
+        setIncomeCategoryList(incomeCategories)
+      })
+    } catch {
+      (error) => console.log(error.message)
+    }
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getUsername()
+      getSpendingLimit()
+      getExpenseCategories()
+      getIncomeCategories()
+      return () => {}
+    }, [])
+  );
+    
+  // get month expense and today expense & income
+  useFocusEffect(
+    React.useCallback(() => {
+      const expensePath = 'Finance/' + getUserID() + '/Expense'
+      const expenseRef = collection(db, expensePath)
+      const dayExpenseQuery = query(expenseRef, where('year', '==', date.substring(0,4)), where('month', '==', date.substring(5, 7)))
+      const unsubDayExpense = onSnapshot(dayExpenseQuery, (snapShot) => {
+        const dayExpenses = []
+        let dayExpense = 0
+        let monthExpense = 0
+        snapShot.forEach((doc) => {
+          monthExpense += doc.data().amount
+          if (doc.data().date == date.substring(8, 10)) {
+            dayExpense += doc.data().amount
+            dayExpenses.push({
+              key: doc.id,
+              id: doc.id,
+              type: 'expense',
+              amount: doc.data().amount,
+              note: doc.data().note,
+              category: doc.data().category,
+              icon: expenseCategoryList[doc.data().category+'icon'],
+              color: expenseCategoryList[doc.data().category+'color'],
+              notedAt: doc.data().notedAt
+            })
+          }
+        })
+        setDayExpenses(dayExpenses)
+        setDayExpense(dayExpense)
+        setMonthExpense(monthExpense)      
+    })
     const incomePath = 'Finance/' + getUserID() + '/Income'
     const incomeRef = collection(db, incomePath)
     const dayIncomeQuery = query(incomeRef, where('year', '==', date.substring(0,4)), where('month', '==', date.substring(5, 7)), where('date', '==', date.substring(8, 10)))
-    onSnapshot(dayIncomeQuery, (snapShot) => {
+    const unsubDayIncome = onSnapshot(dayIncomeQuery, (snapShot) => {
       const dayIncomes = []
       let dayIncome = 0
       snapShot.forEach((doc) => {
@@ -104,81 +154,18 @@ const Home = ({navigation}) => {
       setDayIncomes(dayIncomes)
       setDayIncome(dayIncome)
     })
-  }, [incomeCategoryList, expenseCategoryList])
+      return () => {
+        unsubDayExpense()
+        unsubDayIncome()
+      }
+    }, [incomeCategoryList, expenseCategoryList])
+  );
 
   useEffect(() => {
     const finances = dayExpenses.concat(...dayIncomes)
     finances.sort((a, b) => a.notedAt > b.notedAt ? -1 : 1)
     setFinances(finances)
-    console.log(finances)
   }, [dayExpenses, dayIncomes])
-
-  // create a map for categories
-  useEffect(() => {
-    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
-
-    onSnapshot(expenseCategoryRef, (snapshot) => {
-      const expenseCategories = {}
-      snapshot.docs.forEach((doc) => {
-        expenseCategories[doc.data().name + 'color'] = doc.data().color
-        expenseCategories[doc.data().name + 'icon'] = doc.data().icon
-      })
-      setExpenseCategoryList(expenseCategories)
-    })
-
-    const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
-
-    onSnapshot(incomeCategoryRef, (snapshot) => {
-      const incomeCategories = {}
-      snapshot.docs.forEach((doc) => {
-        incomeCategories[doc.data().name + 'color'] = doc.data().color
-        incomeCategories[doc.data().name + 'icon'] = doc.data().icon
-      })
-      setIncomeCategoryList(incomeCategories)
-    })
-
-  }, [])
-
-  const [ExpenseCategory, setExpenseCategory] = useState([])
-  const [IncomeCategory, setIncomeCategory] = useState([])
-  useEffect(() => {
-    const expenseCategoryRef = collection(db, 'Input Category/Expense/' + getUserID())
-    onSnapshot(expenseCategoryRef, (snapshot) => {
-      const expenseCategories = [];
-      snapshot.forEach((doc) => {
-        if (doc.data().name != 'Edit') {
-          expenseCategories.push({
-            name: doc.data().name,
-            color: doc.data().color,
-            icon: doc.data().icon,
-          });
-        }
-      });
-      expenseCategories.sort((a, b) => a.name < b.name ? -1 : 1)
-      setExpenseCategory(expenseCategories)
-    });
-
-    const incomeCategoryRef = collection(db, 'Input Category/Income/' + getUserID())
-    onSnapshot(incomeCategoryRef, (snapshot) => {
-      const incomeCategories = [];
-        snapshot.forEach((doc) => {
-          if (doc.data().name != 'Edit') {
-            incomeCategories.push({
-              name: doc.data().name,
-              color: doc.data().color,
-              icon: doc.data().icon,
-            });
-          }
-        });
-
-      incomeCategories.sort((a, b) => a.name < b.name ? -1 : 1)
-      setIncomeCategory(incomeCategories)
-    });}
-  , [])
-
-  
-
-  
 
   /*********** Activity ring config ***********/
   const activityData = [ 
