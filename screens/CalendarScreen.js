@@ -4,6 +4,7 @@ import { db } from '../api/db';
 import { collection, onSnapshot, query, where, orderBy, deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { authentication, getUserID } from '../api/authentication';
 import { Calendar } from 'react-native-calendars';
+import { ScreenHeight } from '../components/constants';
 import { StatusBarHeight } from '../components/constants';
 import moment from 'moment';
 import { colors } from '../components/colors';
