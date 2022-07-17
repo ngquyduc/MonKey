@@ -383,7 +383,7 @@ const CalendarScreen = ({navigation}) => {
         </View>
       </View>
       {/************ List ************/}
-      <View style={{height: (275-(896-ScreenHeight)), marginHorizontal:15}}>
+      <View style={{height: (260-(896-ScreenHeight)), marginHorizontal:15}}>
 
         {finances.length != 0 && <SwipeListView 
           data={finances}
@@ -657,10 +657,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight:'400',
     height: 36,
-  },
-  categoryText: {
-    fontSize: 18,
-    fontWeight: '500',
   },
   itemView: {
     flexDirection:'row',

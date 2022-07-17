@@ -358,7 +358,7 @@ const Home = ({navigation}) => {
               </View>
             </View>
             {/************ List ************/}
-            <View style={{height:(318-(896-ScreenHeight))}}>
+            <View style={{height:(325-(896-ScreenHeight))}}>
               {finances.length != 0 && <SwipeListView 
                 data={finances}
                 renderItem={renderItem}
@@ -488,8 +488,8 @@ const styles = StyleSheet.create({
     marginTop:-5
   },
   categoryText: {
-    fontSize:20,
-    fontWeight:'bold'
+    fontSize:18,
+    fontWeight:'600'
   },
   noteText: {
     fontSize:15,
@@ -601,10 +601,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight:'400',
     height: 36,
-  },
-  categoryText: {
-    fontSize: 18,
-    fontWeight: '600',
   },
   itemView: {
     flexDirection:'row',
