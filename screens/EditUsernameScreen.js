@@ -10,7 +10,7 @@ import { ShadowBox } from 'react-native-neomorph-shadows';
 const { lightYellow, lighterBlue, lightBlue, darkBlue, darkYellow } = colors
 
 const EditUsernameScreen = ({navigation}) => {
-  const [userName, setUsername] = useState(0); // need to store on Firestore
+  const [userName, setUsername] = useState(""); // need to store on Firestore
   
   // get monthlimit and daylimit
   useEffect(() => {
