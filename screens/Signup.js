@@ -5,6 +5,7 @@ import { Text, View, Alert } from 'react-native';
 import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import SignUpButton from '../components/Containers/SignUpButton';
+import PressableText from '../components/Containers/PressableText';
 import { handleSignup } from '../api/authentication';
 import { StatusBar } from 'expo-status-bar';
 import Login from './Login';
@@ -77,6 +78,12 @@ const SignUp = ({navigation}) => {
             <SignUpButton onPress={() => {handleSignUp1(username, email, password, cfPassword)}}>
               Sign-up
             </SignUpButton>
+            <PressableText onPress={() => navigation.navigate('Login')}>
+              Have an account? Login here
+            </PressableText>
+            <PressableText onPress={() => navigation.navigate('ForgotPassword')}>
+              Forgot password?
+            </PressableText>
         </KeyboardAvoidingContainer>
       </MainContainer>
     </>

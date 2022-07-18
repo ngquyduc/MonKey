@@ -33,6 +33,9 @@ const ForgotPassword = ({navigation}) => {
           <LogInButton onPress={() => sendResetPasswordEmail(email, navigation)}>
             Send Password Reset Email
           </LogInButton>
+          <PressableText onPress={() => navigation.navigate('Login')}>
+            Back to login page
+          </PressableText>
       </KeyboardAvoidingContainer>
     </MainContainer>
   )
