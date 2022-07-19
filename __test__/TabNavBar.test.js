@@ -1,10 +1,14 @@
 import React from 'react';
 import Other from '../screens/Other';
+import { NavigationContainer } from '@react-navigation/native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 
 describe('Testing navigation bar', () => {
-  test('Testing render Othe screen', async () => {
-    const component = (<Other/>);
+  test('Testing render Other screen', async () => {
+    const component = (
+      <NavigationContainer>
+        <Other/>
+      </NavigationContainer>);
 
     render(component);
 
