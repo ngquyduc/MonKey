@@ -1,11 +1,10 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform, Alert } from 'react-native';
-import PressableText from '../components/Containers/PressableText';
 import { getUserID, handleSignOut } from '../api/authentication';
 import { StatusBarHeight } from '../components/constants';
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../components/colors';
-import { Avatar } from 'react-native-paper';
+//import { Avatar } from 'react-native-paper';
 import { MaterialCommunityIcons  } from '@expo/vector-icons'
 import SectionContainer from '../components/Containers/SectionContainer';
 import { StatusBar } from 'expo-status-bar';
@@ -110,8 +109,8 @@ const Other = ({navigation}) => {
         <View style={styles.userView}>
           <View style={styles.imageView}>
             <TouchableOpacity onPress={askChangeAvatar}>
-            {image == '' && <Avatar.Image source={{ uri: "https://cdn.landesa.org/wp-content/uploads/default-user-image.png" }} size={100} />}
-            {image != '' && <Avatar.Image source={{ uri: image }} size={100} />}
+            {/* {image == '' && <Avatar.Image source={{ uri: "https://cdn.landesa.org/wp-content/uploads/default-user-image.png" }} size={100} />}
+            {image != '' && <Avatar.Image source={{ uri: image }} size={100} />} */}
             </TouchableOpacity>
           </View>
           <View style={styles.usernameView}>
