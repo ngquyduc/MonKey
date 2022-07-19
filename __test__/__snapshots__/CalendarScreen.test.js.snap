@@ -1755,7 +1755,69 @@ exports[`snapshot CalendarScreen 1`] = `
                 }
               >
                 <View
-                  accessibilityLabel="today Monday 18 July 2022 selected You have no entries for this day disabled "
+                  accessibilityLabel=" Monday 18 July 2022 "
+                  accessibilityRole="button"
+                  accessibilityState={
+                    Object {
+                      "disabled": false,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "height": 32,
+                      "opacity": 1,
+                      "width": 32,
+                    }
+                  }
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-18"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                          "color": "#2d4150",
+                          "fontFamily": "System",
+                          "fontSize": 16,
+                          "fontWeight": "300",
+                          "marginTop": 6,
+                        },
+                      ]
+                    }
+                  >
+                    18
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "flexDirection": "row",
+                      }
+                    }
+                  />
+                </View>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel="today Tuesday 19 July 2022 selected You have no entries for this day disabled "
                   accessibilityRole="button"
                   accessibilityState={
                     Object {
@@ -1782,7 +1844,7 @@ exports[`snapshot CalendarScreen 1`] = `
                       "width": 32,
                     }
                   }
-                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-18"
+                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-19"
                 >
                   <Text
                     allowFontScaling={false}
@@ -1798,68 +1860,6 @@ exports[`snapshot CalendarScreen 1`] = `
                         },
                         Object {
                           "color": "white",
-                        },
-                      ]
-                    }
-                  >
-                    18
-                  </Text>
-                  <View
-                    style={
-                      Object {
-                        "flexDirection": "row",
-                      }
-                    }
-                  />
-                </View>
-              </View>
-              <View
-                style={
-                  Object {
-                    "alignItems": "center",
-                    "flex": 1,
-                  }
-                }
-              >
-                <View
-                  accessibilityLabel=" Tuesday 19 July 2022 "
-                  accessibilityRole="button"
-                  accessibilityState={
-                    Object {
-                      "disabled": false,
-                    }
-                  }
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  style={
-                    Object {
-                      "alignItems": "center",
-                      "height": 32,
-                      "opacity": 1,
-                      "width": 32,
-                    }
-                  }
-                  testID="native.calendar.SELECT_DATE_SLOT-2022-07-19"
-                >
-                  <Text
-                    allowFontScaling={false}
-                    style={
-                      Array [
-                        Object {
-                          "backgroundColor": "rgba(255, 255, 255, 0)",
-                          "color": "#2d4150",
-                          "fontFamily": "System",
-                          "fontSize": 16,
-                          "fontWeight": "300",
-                          "marginTop": 6,
                         },
                       ]
                     }
@@ -2790,7 +2790,7 @@ exports[`snapshot CalendarScreen 1`] = `
             }
           }
         >
-          Date (18-07-2022):
+          Date (19-07-2022):
         </Text>
       </View>
       <View

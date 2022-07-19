@@ -354,6 +354,70 @@ exports[`snapshot Signup 1`] = `
               Sign-up
             </Text>
           </View>
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignSelf": "center",
+                "paddingTop": 10,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "fontWeight": "400",
+                }
+              }
+            >
+              Have an account? Login here
+            </Text>
+          </View>
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignSelf": "center",
+                "paddingTop": 10,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "fontWeight": "400",
+                }
+              }
+            >
+              Forgot password?
+            </Text>
+          </View>
         </View>
       </View>
     </RCTScrollView>

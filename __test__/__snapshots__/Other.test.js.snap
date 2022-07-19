@@ -141,7 +141,7 @@ exports[`snapshot Other 1`] = `
               }
             }
           >
-            Good night!
+            Good afternoon!
           </Text>
           <Text
             style={
