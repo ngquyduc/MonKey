@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 // import { PieChart } from "react-native-chart-kit";
 import { ScreenWidth } from '../components/constants';
 import { collection, onSnapshot, query, where, getDoc, getDocs, addDoc } from 'firebase/firestore';
-import { getUserID } from '../api/authentication';
-import { db } from '../api/db';
+import { getUserID } from '../utils/authentication';
+import { db } from '../utils/db';
 import { StatusBarHeight } from '../components/constants';
 import { colors } from '../components/colors';
 import { StatusBar } from 'expo-status-bar';
@@ -13,7 +13,7 @@ import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
-import { formatter } from '../api/formatCurrency';
+import { formatter } from '../utils/formatCurrency';
 import { current } from '@reduxjs/toolkit';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -42,7 +42,6 @@ const Stats = (props) => {
 
   }
 
-  /********** Bool to switch screens **********/
   const [isMonth, setIsMonth] = useState(true);
   const [isAnnual, setIsAnnual] = useState(false);
   const openMonth = () => {
@@ -58,83 +57,24 @@ const Stats = (props) => {
     setYear(moment().format('YYYY'))
   }
 
-  /********** Date Picker Variables **********/
-  let [date, setDate] = useState(moment().format('YYYY-MM-DD'));
-  let [month, setMonth] = useState(moment().format('YYYY-MM'));
-  let [year, setYear] = useState(moment().format('YYYY'))
-  const [show, setShow] = useState(false);
-
-  const onChange = (event, selectedDate) => {
-    setShow(Platform.OS === 'ios');
-    setDate(moment(selectedDate))
-    setMonth(moment(selectedDate).format('YYYY-MM'))
-  }
+  const [month, setMonth] = useState(moment().format('YYYY-MM'));
+  const [year, setYear] = useState(moment().format('YYYY'))
 
   const addOneMonth = () => {
-    setDate(moment(date).add(1, 'month'))
-    setMonth(moment(date).add(1, 'month').format('YYYY-MM'))
+    setMonth(month => moment(month).add(1, 'month').format('YYYY-MM'))
   }
 
   const addOneYear = () => {
-    setDate(moment(date).add(1, 'year'));
-    setYear(moment(date).add(1, 'year').format('YYYY'))
+    setYear(year => moment(year).add(1, 'year').format('YYYY'))
   }
 
   const subtractOneMonth = () => {
-    setDate(moment(date).subtract(1, 'month'))
-    setMonth(moment(date).subtract(1, 'month').format('YYYY-MM'))
+    setMonth(month => moment(month).subtract(1, 'month').format('YYYY-MM'))
   }
 
   const subtractOneYear = () => {
-    setDate(moment(date).subtract(1, 'year'))
-    setYear(moment(date).subtract(1, 'year').format('YYYY'))
+    setYear(year => moment(year).subtract(1, 'year').format('YYYY'))
   }
-  
-  const [expenseCategoryList, setExpenseCategoryList] = useState({})
-  const [incomeCategoryList, setIncomeCategoryList] = useState({})
-
-  const getExpenseCategories = async () => {
-    try {
-      const expenseCategoryRef = query(collection(db, 'Input Category/Expense/' + userId))
-      const expenseCats = await getDocs(expenseCategoryRef)
-      const expenseCategories = {}
-      expenseCats.docs.forEach((doc) => {
-        if (doc.data().name != 'Edit') {
-          expenseCategories[doc.data().name + 'icon'] = doc.data().icon
-          expenseCategories[doc.data().name + 'color'] = doc.data().color
-        }
-        setExpenseCategoryList(expenseCategories)
-      })
-    } catch {
-      (error) => console.log(error.message)
-    }
-  }
-
-  const getIncomeCategories = async () => {
-    try {
-      const incomeCategoryRef = query(collection(db, 'Input Category/Income/' + userId))
-      const incomeCats = await getDocs(incomeCategoryRef)
-      const incomeCategories = {}
-      incomeCats.docs.forEach((doc) => {
-        if (doc.data().name != 'Edit') {
-          console.log()
-          incomeCategories[doc.data().name + 'icon'] = doc.data().icon
-          incomeCategories[doc.data().name + 'color'] = doc.data().color
-        }
-        setIncomeCategoryList(incomeCategories)
-      })
-    } catch {
-      (error) => console.log(error.message)
-    }
-  }
-
-  useFocusEffect(
-    React.useCallback(() => {
-      getExpenseCategories()
-      getIncomeCategories()
-      return () => {}
-    }, [])
-  );
 
   const getFinances = async () => {
     const expenseRef = collection(db, 'Finance/' + getUserID() + '/Expense')
@@ -151,26 +91,26 @@ const Stats = (props) => {
     const expenses = new Map()
     finances.docs.forEach((doc) => {
       if (expenses.has(doc.data().category)) {
-        var temp = expenses.get(doc.data().category)
+        var temp = expenses.get(doc.data().category).amount
         temp += doc.data().amount
-        expenses.set(doc.data().category, temp)
+        expenses.set(doc.data().category, {...expenses.get(doc.data().category), amount: temp})
       }
       else {
-        expenses.set(doc.data().category, doc.data().amount)
+        expenses.set(doc.data().category, {icon: doc.data().categoryIcon, color: doc.data().categoryColor, amount: doc.data().amount})
       }
     })
     setExpense(expenses)
     var totalExpense = 0
-    expenses.forEach((amount, cat) => {totalExpense += amount})
+    expenses.forEach((ref, cat) => {totalExpense += ref.amount})
     const temp2 = []
-    expenses.forEach((amount, cat) => {
+    expenses.forEach((ref, cat) => {
       temp2.push({
       key: cat,
-      percentage: (amount / totalExpense * 100).toFixed(2) + '%',
-      text: amount / totalExpense < 0.1 ? '' : cat.substring(0, 10), 
-      value: amount,
-      color: expenseCategoryList[cat+'color'],
-      icon: expenseCategoryList[cat+'icon']
+      percentage: (ref.amount / totalExpense * 100).toFixed(2) + '%',
+      text: ref.amount / totalExpense < 0.1 ? '' : cat.substring(0, 10), 
+      value: ref.amount,
+      color: ref.color,
+      icon: ref.icon
       })
     })
     temp2.sort((a, b) => a.key == 'Deleted Category' ? 1 : b.key == 'Deleted Category'? -1 : a.value < b.value ? 1 : -1)
@@ -181,25 +121,25 @@ const Stats = (props) => {
     const incomes = new Map()
     otherFinances.docs.forEach((doc) => {
       if (incomes.has(doc.data().category)) {
-        var temp = incomes.get(doc.data().category)
+        var temp = incomes.get(doc.data().category).amount
         temp += doc.data().amount
-        incomes.set(doc.data().category, temp)
+        incomes.set(doc.data().category, {...incomes.get(doc.data().category), amount: temp})
       }
       else {
-        incomes.set(doc.data().category, doc.data().amount)
+        incomes.set(doc.data().category, {icon: doc.data().categoryIcon, color: doc.data().categoryColor, amount: doc.data().amount})
       }
     })
     setIncome(incomes)      
     var totalIncome = 0
-    incomes.forEach((amount, cat) => {totalIncome += amount})    
+    incomes.forEach((ref, cat) => {totalIncome += ref.amount})    
     const temp1 = []
-    incomes.forEach((amount, cat) => temp1.push({
+    incomes.forEach((ref, cat) => temp1.push({
       key: cat,
-      percentage: (amount / totalIncome * 100).toFixed(2) + '%',
-      text: amount / totalIncome < 0.1 ? '' : cat.substring(0, 10),
-      value: amount,
-      color: incomeCategoryList[cat+'color'],
-      icon: incomeCategoryList[cat+'icon']
+      percentage: (ref.amount / totalIncome * 100).toFixed(2) + '%',
+      text: ref.amount / totalIncome < 0.1 ? '' : cat.substring(0, 10),
+      value: ref.amount,
+      color: ref.color,
+      icon: ref.icon
     }))
     temp1.sort((a, b) => a.key == 'Deleted Category' ? 1 : b.key == 'Deleted Category'? -1 : a.value < b.value ? 1 : -1)
     setData1(temp1)
@@ -211,7 +151,7 @@ const Stats = (props) => {
     React.useCallback(() => {
       getFinances()
       return () => {}
-    }, [isMonth, expenseCategoryList, incomeCategoryList])
+    }, [isMonth, month, year])
   );
   const VisibleItem = ({item}) => {
 
@@ -299,11 +239,7 @@ const Stats = (props) => {
                       </TouchableOpacity>
                     </View>
                     <View style={styles.datePickerView}>
-                      <TouchableOpacity onPress={()=>setShow(true)}>
-                        <View>
-                          <Text style={styles.dateText}>{month}</Text>
-                        </View>
-                      </TouchableOpacity>
+                          <Text style={styles.dateText}>{month.split('-').reverse().join('-')}</Text>
                     </View>
                     <View style={{
                       flex:15,
@@ -317,40 +253,6 @@ const Stats = (props) => {
                       </TouchableOpacity>
                     </View>
                   </View>
-                  
-                  {show && (
-                    <>
-                      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', paddingTop:10, paddingLeft:20, paddingRight:20}}>
-                        <View style={{flex:5}}>
-                          <TouchableOpacity onPress={()=> {setShow(false), setDate(moment())}}>
-                            <View>
-                              <Text style={styles.datePickerOffText}>
-                                Cancel
-                              </Text>
-                            </View>
-                          </TouchableOpacity>
-                        </View>
-                        <View style={{flex:5, alignItems:'flex-end'}}>
-                          <TouchableOpacity onPress={()=> setShow(false)}>
-                            <View>
-                              <Text style={styles.datePickerOffText}>
-                                Done
-                              </Text>
-                            </View>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                      <View style={{
-                        borderBottomColor: '#E9E9E9',
-                      }}>
-                        <DateTimePicker
-                          value={new Date(date)}
-                          display={'spinner'}
-                          onChange ={onChange}
-                        />
-                      </View>
-                    </>
-                  )}
                 </View>)}
 
               {/********** Main Screens (Income) **********/}
@@ -374,7 +276,7 @@ const Stats = (props) => {
                       </TouchableOpacity>
                     </View>
                     <View style={styles.datePickerView}>            
-                        <Text style={styles.dateText}>{date.format('YYYY')}</Text>
+                        <Text style={styles.dateText}>{year}</Text>
                     </View>
                     <View style={{
                       flex:15,
@@ -420,6 +322,12 @@ const Stats = (props) => {
             </TouchableOpacity>
           </View>
         </View>
+        {isIncome && data1.length == 0 && 
+                <View style={{alignItems:'center', justifyContent:'center', paddingTop: 150}}>
+                  <Feather name='x-circle' size={110} color='#e0e0e0'/>
+                  <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No records!</Text>
+                </View>
+        }
         {isIncome && (
           <View style={{alignItems: 'center'}}>    
             <PieChart
@@ -471,8 +379,16 @@ const Stats = (props) => {
                 )
               })
             }
+            
             </View>
+            
           )
+        }
+        {isExpense && data2.length == 0 && 
+                <View style={{alignItems:'center', justifyContent:'center', paddingTop: 150}}>
+                  <Feather name='x-circle' size={110} color='#e0e0e0'/>
+                  <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No records!</Text>
+                </View>
         }
         {isExpense && (<View style={{alignItems: 'center'}}>
                 
@@ -515,7 +431,7 @@ const Stats = (props) => {
                             <View style={{marginRight:10}}>
                               <MaterialCommunityIcons name={item.icon} color={item.color} size={20}/>
                             </View>
-                            <Text style={[styles.categoryText, {color: item.color}]}>{item.key}</Text>
+                            <Text style={[styles.categoryText]}>{item.key}</Text>
                           </View>
                         </View>
                         <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>

@@ -6,7 +6,7 @@ import styles from '../components/styles';
 import TextInputWithIcon from '../components/Containers/TextInputWithIcon';
 import SignUpButton from '../components/Containers/SignUpButton';
 import PressableText from '../components/Containers/PressableText';
-import { handleSignup } from '../api/authentication';
+import { handleSignup } from '../utils/authentication';
 import { StatusBar } from 'expo-status-bar';
 import Login from './Login';
 

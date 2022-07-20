@@ -4,14 +4,13 @@ import { colors } from '../components/colors';
 import moment from 'moment';
 import { ScreenHeight } from '../components/constants';
 import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc, getDoc, setDoc, getDocs } from 'firebase/firestore';
-import { db } from '../api/db';
-import { getUserID } from '../api/authentication';
+import { db } from '../utils/db';
+import { getUserID } from '../utils/authentication';
 import ActivityRings from "react-native-activity-rings";  
 import { StatusBarHeight } from '../components/constants';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { Timestamp } from 'firebase/firestore';
-import { formatter } from '../api/formatCurrency';
+import { formatter } from '../utils/formatCurrency';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
 const { lightBlue, darkBlue, darkYellow, lighterBlue } = colors
@@ -30,8 +29,6 @@ const Home = ({navigation}) => {
   const [dayIncomes, setDayIncomes] = useState([])
   const [dayExpenses, setDayExpenses] = useState([])
   const [dayIncome, setDayIncome] = useState(0)
-  const [expenseCategoryList, setExpenseCategoryList] = useState({})
-  const [incomeCategoryList, setIncomeCategoryList] = useState({})
   const [userId, setUserId] = useState(getUserID())
 
 
@@ -55,48 +52,11 @@ const Home = ({navigation}) => {
       (error) => console.log(error.message)
     }
   }
-  
-  const getExpenseCategories = async () => {
-    try {
-      const expenseCategoryRef = query(collection(db, 'Input Category/Expense/' + userId))
-      const expenseCats = await getDocs(expenseCategoryRef)
-      const expenseCategories = {}
-      expenseCats.docs.forEach((doc) => {
-        if (doc.data().name != 'Edit') {
-          expenseCategories[doc.data().name + 'icon'] = doc.data().icon
-          expenseCategories[doc.data().name + 'color'] = doc.data().color
-        }
-        setExpenseCategoryList(expenseCategories)
-      })
-    } catch {
-      (error) => console.log(error.message)
-    }
-  }
-
-  const getIncomeCategories = async () => {
-    try {
-      const incomeCategoryRef = query(collection(db, 'Input Category/Income/' + userId))
-      const incomeCats = await getDocs(incomeCategoryRef)
-      const incomeCategories = {}
-      incomeCats.docs.forEach((doc) => {
-        if (doc.data().name != 'Edit') {
-          console.log()
-          incomeCategories[doc.data().name + 'icon'] = doc.data().icon
-          incomeCategories[doc.data().name + 'color'] = doc.data().color
-        }
-        setIncomeCategoryList(incomeCategories)
-      })
-    } catch {
-      (error) => console.log(error.message)
-    }
-  }
 
   useFocusEffect(
     React.useCallback(() => {
       getUsername()
       getSpendingLimit()
-      getExpenseCategories()
-      getIncomeCategories()
       return () => {}
     }, [])
   );
@@ -121,8 +81,8 @@ const Home = ({navigation}) => {
               amount: doc.data().amount,
               note: doc.data().note,
               category: doc.data().category,
-              icon: expenseCategoryList[doc.data().category+'icon'],
-              color: expenseCategoryList[doc.data().category+'color'],
+              icon: doc.data().categoryIcon,
+              color: doc.data().categoryColor,
               notedAt: doc.data().notedAt
             })
           }
@@ -145,8 +105,8 @@ const Home = ({navigation}) => {
           amount: doc.data().amount,
           note: doc.data().note,
           category: doc.data().category,
-          icon: incomeCategoryList[doc.data().category+'icon'],
-          color: incomeCategoryList[doc.data().category+'color'],
+          icon: doc.data().categoryIcon,
+          color: doc.data().categoryColor,
           notedAt: doc.data().notedAt
         })
         dayIncome += doc.data().amount
@@ -158,7 +118,7 @@ const Home = ({navigation}) => {
         unsubDayExpense()
         unsubDayIncome()
       }
-    }, [incomeCategoryList, expenseCategoryList])
+    }, [])
   );
 
   useEffect(() => {
@@ -358,7 +318,7 @@ const Home = ({navigation}) => {
               {finances.length == 0 && 
                 <View style={{alignItems:'center', justifyContent:'center', paddingTop:20}}>
                   <Feather name='x-circle' size={110} color='#e0e0e0'/>
-                  <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No record!</Text>
+                  <Text style={{fontSize:40, color:'#e0e0e0', fontWeight:'bold'}}>No records!</Text>
                 </View>
               }
             </View>

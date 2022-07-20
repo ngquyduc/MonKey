@@ -1,6 +1,6 @@
 import { app } from "./firebase";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "firebase/auth";
-import { Alert, SegmentedControlIOS } from "react-native";
+import { Alert } from "react-native";
 import { db,} from "./db";
 import { collection, addDoc, getDoc, getDocs, setDoc, doc } from "firebase/firestore";
 
@@ -33,8 +33,8 @@ export const copyDefaultCategory = (userId) => {
 export const createDefaultSpendingLimit = (userId) => {
   const spendingLimitRef = doc(db, 'Spending Limit', userId)
   setDoc(spendingLimitRef, {
-    monthLimit: 3000,
-    dayLimit: 100
+    monthLimit: 2000,
+    dayLimit: 50
   })
 }
 
@@ -46,12 +46,14 @@ export const handleSignup = (userName, email, password) => {
     copyDefaultCategory(userId)
     createDefaultSpendingLimit(userId)
     Alert.alert('Signed up successfully. Automatically logged in.')
+    return 'Signed up'
   })
   .catch((error) => {
     console.log(error.message);
     Alert.alert("Warning: ", error.message, [
       {text: 'Understand'}
     ])
+    return 'error'
   });
 }
 

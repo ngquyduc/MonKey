@@ -8,10 +8,10 @@ import { Snackbar } from 'react-native-paper';
 import IconList from '../CategoriesList/IconList'
 import ColorList from '../CategoriesList/ColorList'
 import CustomModal from '../components/Containers/CustomModal';
-import { AddIncomeCategory } from '../api/db';
-import { getUserID } from '../api/authentication';
+import { AddIncomeCategory } from '../utils/db';
+import { getUserID } from '../utils/authentication';
 import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../api/db';
+import { db } from '../utils/db';
 import { useFocusEffect } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 const { lightYellow, beige, lightBlue, darkBlue, darkYellow } = colors
