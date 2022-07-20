@@ -47,13 +47,11 @@ const Stats = (props) => {
   const openMonth = () => {
     setIsMonth(true);
     setIsAnnual(false);
-    setDate(moment())
     setMonth(moment().format('YYYY-MM'))
   }
   const openAnnual = () => {
     setIsMonth(false);
     setIsAnnual(true); 
-    setDate(moment())
     setYear(moment().format('YYYY'))
   }
 

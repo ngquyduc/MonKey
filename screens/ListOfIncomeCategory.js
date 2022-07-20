@@ -400,7 +400,7 @@ const ListOfIncomeCategory = ({navigation}) => {
         <Pressable onPress={Keyboard.dismiss}>
           {/*********** Category name ***********/}
           <CustomModal
-            header='Edit'
+            header='Edit category'
             closeModal={closeEditModal}
           >
             <TextInput

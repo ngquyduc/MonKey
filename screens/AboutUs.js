@@ -34,7 +34,7 @@ const AboutUs = ({navigation}) => {
         </Text>
         <View style={{flexDirection:'row', alignItems:'center', paddingHorizontal:5}}>
           <Octicons name='dot-fill' size={14} color='#494949'/>
-          <Text style={{fontSize:17, color:darkBlue}} onPress={() => Linking.openURL('https://docs.google.com/document/d/1OaEqTwu-V71DpezJAVhlfatpFLixf8X80C3NXoi8cdU/edit?usp=sharing')}>   Documentation</Text>
+          <Text style={{fontSize:17, color:darkBlue}} onPress={() => Linking.openURL('https://docs.google.com/document/d/1XEOJp9Fj-vb8lc5Ke96zox1RaTiUIgmZQ3utS0bzDTw/edit?usp=sharing')}>   Documentation</Text>
         </View>
         <View style={{flexDirection:'row', alignItems:'center',paddingHorizontal:5}}>
           <Octicons name='dot-fill' size={14} color='#494949'/>
