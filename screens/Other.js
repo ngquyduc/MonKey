@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform, Alert } from 'react-native';
-import { getUserID, handleSignOut } from '../api/authentication';
+import { getUserID, handleSignOut } from '../utils/authentication';
 import { StatusBarHeight } from '../components/constants';
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../components/colors';
