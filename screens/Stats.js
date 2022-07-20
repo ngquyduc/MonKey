@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { PieChart } from "react-native-chart-kit";
 import { ScreenWidth } from '../components/constants';
 import { collection, onSnapshot, query, where, getDoc, getDocs, addDoc } from 'firebase/firestore';
 import { getUserID } from '../utils/authentication';
@@ -13,9 +12,9 @@ import { Entypo, Foundation } from '@expo/vector-icons'
 import moment from 'moment';
 import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
-import { formatter } from '../utils/formatCurrency';
 import { current } from '@reduxjs/toolkit';
 import { useFocusEffect } from '@react-navigation/native';
+import CurrencyFormat from 'react-currency-format';
 
 const {lightYellow, lighterBlue, beige, brown, darkBlue, lightBlue, darkYellow} = colors;
 
@@ -293,13 +292,19 @@ const Stats = (props) => {
         <View>
           <View style={{flexDirection:'row', marginHorizontal:10, marginBottom:10}}>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
-              <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: " + formatter.format(totalIncome)}</Text>
+              <CurrencyFormat value={totalIncome} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+                <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{" Income: " + value}</Text>
+              }/>
             </View>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
-              <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: " + formatter.format(totalExpense)}</Text>
+              <CurrencyFormat value={totalExpense} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+                <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{" Expense: " + value}</Text>
+              }/>
             </View>
             <View style={[styles.incomeexpenseView, {backgroundColor:'#e6e6e6'}]}>
-              <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: " + formatter.format(balance)}</Text>
+              <CurrencyFormat value={balance} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+                <Text style={{color: '#494949', fontSize:14, fontWeight:'500'}}>{" Balance: " + value}</Text>
+              }/>
             </View>
           </View>
         </View>
@@ -349,8 +354,9 @@ const Stats = (props) => {
                 <View>
                   <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.key: ''}
                   </Text>
-                  <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? formatter.format(currentItem.value) : ''}
-                  </Text>
+                  <CurrencyFormat value={currentItem.key != undefined ? currentItem.value : ''} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+                    <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{value}</Text>
+                  }/>
                   <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.percentage: ''}
                   </Text>
                 </View>
@@ -411,8 +417,9 @@ const Stats = (props) => {
                     <View>
                       <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.key: ''}
                       </Text>
-                      <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? formatter.format(currentItem.value) : ''}
-                      </Text>
+                      <CurrencyFormat value={currentItem.key != undefined ? currentItem.value : ''} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+                        <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{value}</Text>
+                      }/>
                       <Text style={[styles.pieChartDetail, {color: currentItem.color}]}>{currentItem.key != undefined ? currentItem.percentage: ''}
                       </Text>
                     </View>

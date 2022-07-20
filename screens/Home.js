@@ -10,7 +10,7 @@ import ActivityRings from "react-native-activity-rings";
 import { StatusBarHeight } from '../components/constants';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { SwipeListView } from 'react-native-swipe-list-view';
-import { formatter } from '../utils/formatCurrency';
+import CurrencyFormat from 'react-currency-format';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
 const { lightBlue, darkBlue, darkYellow, lighterBlue } = colors
@@ -211,7 +211,9 @@ const Home = ({navigation}) => {
           </View>}
         </View>
         <View style={{flex:2,alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={[styles.amountText,{color:data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{formatter.format(data.item.amount)}</Text>
+          <CurrencyFormat value={data.item.amount} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+            <Text style={[styles.amountText,{color:data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{value}</Text>
+          }/>
         </View>
       </View>
     )
@@ -272,14 +274,18 @@ const Home = ({navigation}) => {
                   <View style={{flexDirection:'row', margin:5}}>
                     <Octicons name='dot-fill' size={40} color={darkBlue}/>
                     <View style={{alignContent:'center',justifyContent:'center'}}>
-                      <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + formatter.format(monthExpense) + '/' + monthLimit}</Text>
+                      <CurrencyFormat value={monthExpense} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+                        <Text style={{fontWeight:'500', fontSize:15}}>{' Month limit: ' + value + '/' + monthLimit}</Text>
+                      }/>
                       {monthExpense>monthLimit && <Text style={{color:'#ef5011', fontWeight:'bold'}}>{' Exceeded!!!'}</Text>}
                     </View>
                   </View>
                   <View style={{flexDirection:'row', margin:5}}>
                     <Octicons name='dot-fill' size={40} color={darkYellow}/>
                     <View style={{alignContent:'center',justifyContent:'center'}}>
-                      <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + formatter.format(dayExpense) + '/' + dayLimit}</Text>
+                      <CurrencyFormat value={dayExpense} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+                        <Text style={{fontWeight:'500', fontSize:15}}>{' Day limit: ' + value + '/' + dayLimit}</Text>
+                      }/>
                       {dayExpense>dayLimit && <Text style={{color:'#ef5011', fontWeight:'bold'}}>{' Exceeded!!!'}</Text>}
                     </View>
                   </View>
@@ -297,11 +303,15 @@ const Home = ({navigation}) => {
               <View style={{flexDirection:'row', marginBottom:10}}>
                 <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2'}]}>
                   <FontAwesome name='plus-circle' color={'#26b522'} size={18}/>
-                  <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: " + formatter.format(dayIncome)}</Text>
+                  <CurrencyFormat value={dayIncome} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+                    <Text style={{color:'#26b522', fontSize:16, fontWeight:'500'}}>{" Income: " + value}</Text>
+                  }/>
                 </View>
                 <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf'}]}>
                   <FontAwesome name='minus-circle' color={'#ef5011'} size={18}/>
-                  <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: " + formatter.format(dayExpense)}</Text>
+                  <CurrencyFormat value={dayExpense} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+                    <Text style={{color:'#ef5011', fontSize:16, fontWeight:'500'}}>{" Expense: " + value}</Text>
+                  }/>
                 </View>
               </View>
             </View>

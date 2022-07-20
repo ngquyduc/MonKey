@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import { View, Text, TouchableOpacity, Alert, Animated, StyleSheet } from 'react-native';
 import { db } from '../utils/db';
+import CurrencyFormat from 'react-currency-format';
 import { collection, onSnapshot, query, where, orderBy, deleteDoc, doc, setDoc, getDocs } from 'firebase/firestore';
 import { authentication, getUserID } from '../utils/authentication';
 import { Calendar } from 'react-native-calendars';
@@ -10,7 +11,6 @@ import moment from 'moment';
 import { colors } from '../components/colors';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Octicons, FontAwesome, Feather, MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'
-import { formatter } from '../utils/formatCurrency';
 import { StatusBar } from 'expo-status-bar';
 import { Timestamp } from 'firebase/firestore';
 import { useFocusEffect } from '@react-navigation/native';
@@ -218,7 +218,9 @@ const CalendarScreen = ({navigation}) => {
           </View>}
         </View>
         <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={[styles.amountText, {color: data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{formatter.format(data.item.amount)}</Text>
+          <CurrencyFormat value={data.item.amount} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+            <Text style={[styles.amountText, {color: data.item.type == 'income' ? '#26b522' : '#ef5011'}]}>{value}</Text>
+          }/>
         </View>
       </View>
     )
@@ -343,14 +345,20 @@ const CalendarScreen = ({navigation}) => {
         </View>
         <View style={{flexDirection:'row',marginHorizontal:7, marginBottom:5}}>
           <View style={[styles.incomeexpenseView, {backgroundColor:'#e2f5e2',marginHorizontal:3}]}>
-            <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{formatter.format(monthIncome)}</Text>
+            <CurrencyFormat value={monthIncome} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+              <Text style={{color:'#26b522', fontSize:14, fontWeight:'500'}}>{value}</Text>
+            }/>
           </View>
           <View style={[styles.incomeexpenseView, {backgroundColor:'#fdddcf',marginHorizontal:3}]}>
-            <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{formatter.format(expenseMonth)}</Text>
+            <CurrencyFormat value={expenseMonth} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+              <Text style={{color:'#ef5011', fontSize:14, fontWeight:'500'}}>{value}</Text>
+            }/>
           </View>
         </View>
         <View style={[styles.balanceView, {backgroundColor:'#e6e6e6',marginHorizontal:10,}]}>
-          <Text style={{color:'#494949', fontSize:14, fontWeight:'500'}}>{" Balance: " + formatter.format(total)}</Text>
+          <CurrencyFormat value={total} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+            <Text style={{color:'#494949', fontSize:14, fontWeight:'500'}}>{" Balance: " + value}</Text>
+          }/>
         </View>
       </View>
       <View>
@@ -359,7 +367,9 @@ const CalendarScreen = ({navigation}) => {
             <Text style={{fontSize:16, fontWeight:'700', color:'#494949'}}>{"Date (" + curDate.split('-').reverse().join('-') + '):'}</Text>
           </View>
           <View style={{flex:1,justifyContent:'center',alignItems:'flex-end'}}>
-            <Text style={{color: balanceDay<0?'#ef5011':(balanceDay>0?'#26b522':'#494949'), fontSize:20, fontWeight:'600'}}>{formatter.format(balanceDay)}</Text>
+            <CurrencyFormat value={balanceDay} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+              <Text style={{color: balanceDay<0?'#ef5011':(balanceDay>0?'#26b522':'#494949'), fontSize:20, fontWeight:'600'}}>{value}</Text>
+            }/>
           </View>
         </View>
       </View>
