@@ -147,33 +147,10 @@ const Stats = (props) => {
   useFocusEffect(
     React.useCallback(() => {
       getFinances()
+      setCurrentItem({})
       return () => {}
     }, [isMonth, month, year])
   );
-  const VisibleItem = ({item}) => {
-
-    return (
-      <View style={[styles.rowFront]}>
-        <View style={{flex:3, paddingLeft:15, flexDirection:'column'}}>
-          <View style={{flexDirection:'row', marginBottom:3}}>
-            <Text style={styles.categoryText}>{item.key}</Text>
-          </View>
-          <View>
-            <Text style={styles.noteText}>{item.name}</Text>
-          </View>
-        </View>
-        <View style={{flex:1.5, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-          <Text style={styles.amountText}>{'$' + item.amount}</Text>
-        </View>
-      </View>
-    )
-  }
-
-  const renderItem = (data, rowMap) => {
-    return <VisibleItem data={data}/>
-  }
-
-
 
   return (
     <View style={styles.mainContainerInnerScreen}>
@@ -343,8 +320,6 @@ const Stats = (props) => {
                   setCurrentItem({})
                 }
               }}
-              focusOnPress={true}
-              extraRadiusForFocused={5}
               shadow={true}
               showText={true}
               textSize={14}
@@ -395,7 +370,6 @@ const Stats = (props) => {
                 </View>
         }
         {isExpense && (<View style={{alignItems: 'center'}}>
-                
                 <PieChart 
                   data={data2}
                   radius={100}
@@ -406,8 +380,6 @@ const Stats = (props) => {
                       setCurrentItem({})
                     }
                   }}
-                  focusOnPress={true}
-                  extraRadiusForFocused={5}
                   shadow={true}
                   showText={true}
                   textSize={14}

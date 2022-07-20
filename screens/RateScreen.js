@@ -8,15 +8,17 @@ import { Snackbar } from 'react-native-paper';
 import { colors } from '../components/colors';
 import { Rating } from 'react-native-ratings';
 import { StatusBar } from 'expo-status-bar';
+import { ratingSubmit } from '../utils/db';
 const { darkBlue, darkYellow } = colors
 
 const RateScreen = ({navigation}) => {
 
-  const [rating, setRating] = useState(3.5);
+  const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
   const [visible, setVisible] = useState(false)
-  const onSubmit = () => {
-    setRating(3.5)
+  const onSubmit = (rating, feedback) => {
+    ratingSubmit(rating, feedback)
+    setRating(0)
     setFeedback("")
     setVisible(true)
   }
@@ -78,7 +80,7 @@ const RateScreen = ({navigation}) => {
         <View style={[styles.submitButtonView, {alignItems:'center', justifyContent:'center', }]}>
           <TouchableOpacity 
           style={[styles.inputButton, {borderRadius:10, backgroundColor:darkYellow,width:120}]} 
-          onPress={() => {onSubmit()}}> 
+          onPress={() => {onSubmit(rating, feedback)}}> 
           {/*********** modify function onSubmitEdit and editRow (Ctrl F) ***********/}
             <Text style={styles.cancelText}>Submit</Text>
           </TouchableOpacity>
