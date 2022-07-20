@@ -80,3 +80,16 @@ export const EditExpenseLimit = (amount) => {
     limit: amount
   })
 }
+
+export const ratingSubmit = async (score, feedback) => {
+  try {
+    const docRef = await addDoc(collection(db, 'Ratings'), {
+      user: getUserID(),
+      score: score,
+      feedback: feedback
+    })
+    console.log(docRef.id)
+  } catch (err) {
+    console.log(err.message)
+  }
+}
