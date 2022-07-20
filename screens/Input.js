@@ -102,7 +102,7 @@ const Input = ({navigation}) => {
       ]);
     } else if (amount != '' && chosenCategory != '') {
       handleIncomeSubmit(date, amount, note, chosenCategory, icon, color)
-      setVisibleExpense(true)
+      setVisibleIncome(true)
       setDate(moment())
       setAmount('')
       setNote('')

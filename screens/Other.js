@@ -1,6 +1,9 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform, Alert } from 'react-native';
+<<<<<<< HEAD
 import PressableText from '../components/Containers/PressableText';
+=======
+>>>>>>> 52af9ce6d98efc7a2f8f3ad5010fa8a6b60f4a98
 import { getUserID, handleSignOut } from '../utils/authentication';
 import { StatusBarHeight } from '../components/constants';
 import * as ImagePicker from 'expo-image-picker';

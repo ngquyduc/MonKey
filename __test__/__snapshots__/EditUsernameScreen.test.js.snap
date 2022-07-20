@@ -1,0 +1,727 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot EditUsernameScreen 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "backgroundColor": "#fff",
+          "borderBottomColor": "#808080",
+          "borderBottomWidth": 1,
+          "flexDirection": "row",
+          "height": 62,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flex": 1,
+            "paddingBottom": 7,
+            "paddingLeft": 5,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <Text />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 8,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#35baf6",
+              "fontSize": 34,
+              "fontWeight": "bold",
+              "marginBottom": 10,
+            }
+          }
+        >
+          Change username
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "borderBottomColor": "#E9E9E9",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "flexDirection": "row",
+            "height": 60,
+            "marginBottom": 6,
+            "paddingBottom": 4,
+            "paddingLeft": 4,
+            "paddingTop": 4,
+          },
+          Object {
+            "paddingTop": 8,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Object {
+            "flex": 25,
+            "justifyContent": "center",
+            "paddingLeft": 12,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#35baf6",
+              "fontSize": 19,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Username
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 80,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <View
+          onLayout={null}
+          style={
+            Object {
+              "borderRadius": 10,
+              "flex": 0,
+              "height": 36,
+              "overflow": "hidden",
+              "width": 235,
+            }
+          }
+        >
+          <RNSVGSvgView
+            bbHeight={114}
+            bbWidth={711}
+            focusable={false}
+            height={114}
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                },
+                Object {
+                  "left": -238,
+                  "opacity": 0.54,
+                  "position": "absolute",
+                  "top": -38,
+                  "zIndex": 2,
+                },
+                Object {
+                  "flex": 0,
+                  "height": 114,
+                  "width": 711,
+                },
+              ]
+            }
+            width={711}
+          >
+            <RNSVGGroup
+              opacity={0.54}
+            >
+              <RNSVGDefs>
+                <RNSVGLinearGradient
+                  gradient={
+                    Array [
+                      0,
+                      10066329,
+                      0.07692307692307693,
+                      10066329,
+                      0.23076923076923078,
+                      93952409,
+                      0.38461538461538464,
+                      446273945,
+                      0.5384615384615385,
+                      1117362585,
+                      0.6923076923076923,
+                      2107218329,
+                      0.8461538461538463,
+                      -1080452711,
+                      1,
+                      -6710887,
+                    ]
+                  }
+                  gradientTransform={null}
+                  gradientUnits={0}
+                  name="top"
+                  x1="0%"
+                  x2="0%"
+                  y1="100%"
+                  y2="0%"
+                />
+                <RNSVGLinearGradient
+                  gradient={
+                    Array [
+                      0,
+                      10066329,
+                      0.07692307692307693,
+                      10066329,
+                      0.23076923076923078,
+                      93952409,
+                      0.38461538461538464,
+                      446273945,
+                      0.5384615384615385,
+                      1117362585,
+                      0.6923076923076923,
+                      2107218329,
+                      0.8461538461538463,
+                      -1080452711,
+                      1,
+                      -6710887,
+                    ]
+                  }
+                  gradientTransform={null}
+                  gradientUnits={0}
+                  name="bottom"
+                  x1="0%"
+                  x2="0%"
+                  y1="0%"
+                  y2="100%"
+                />
+                <RNSVGLinearGradient
+                  gradient={
+                    Array [
+                      0,
+                      10066329,
+                      0.07692307692307693,
+                      10066329,
+                      0.23076923076923078,
+                      93952409,
+                      0.38461538461538464,
+                      446273945,
+                      0.5384615384615385,
+                      1117362585,
+                      0.6923076923076923,
+                      2107218329,
+                      0.8461538461538463,
+                      -1080452711,
+                      1,
+                      -6710887,
+                    ]
+                  }
+                  gradientTransform={null}
+                  gradientUnits={0}
+                  name="left"
+                  x1="100%"
+                  x2="0%"
+                  y1="0%"
+                  y2="0%"
+                />
+                <RNSVGLinearGradient
+                  gradient={
+                    Array [
+                      0,
+                      10066329,
+                      0.07692307692307693,
+                      10066329,
+                      0.23076923076923078,
+                      93952409,
+                      0.38461538461538464,
+                      446273945,
+                      0.5384615384615385,
+                      1117362585,
+                      0.6923076923076923,
+                      2107218329,
+                      0.8461538461538463,
+                      -1080452711,
+                      1,
+                      -6710887,
+                    ]
+                  }
+                  gradientTransform={null}
+                  gradientUnits={0}
+                  name="right"
+                  x1="0%"
+                  x2="100%"
+                  y1="0%"
+                  y2="0%"
+                />
+                <RNSVGRadialGradient
+                  cx="100%"
+                  cy="100%"
+                  fx="100%"
+                  fy="100%"
+                  gradient={
+                    Array [
+                      0,
+                      10066329,
+                      0.07692307692307693,
+                      10066329,
+                      0.23076923076923078,
+                      93952409,
+                      0.38461538461538464,
+                      446273945,
+                      0.5384615384615385,
+                      1117362585,
+                      0.6923076923076923,
+                      2107218329,
+                      0.8461538461538463,
+                      -1080452711,
+                      1,
+                      -6710887,
+                    ]
+                  }
+                  gradientTransform={null}
+                  gradientUnits={0}
+                  name="topLeft"
+                  rx="100%"
+                  ry="100%"
+                />
+                <RNSVGRadialGradient
+                  cx="0%"
+                  cy="100%"
+                  fx="0%"
+                  fy="100%"
+                  gradient={
+                    Array [
+                      0,
+                      10066329,
+                      0.07692307692307693,
+                      10066329,
+                      0.23076923076923078,
+                      93952409,
+                      0.38461538461538464,
+                      446273945,
+                      0.5384615384615385,
+                      1117362585,
+                      0.6923076923076923,
+                      2107218329,
+                      0.8461538461538463,
+                      -1080452711,
+                      1,
+                      -6710887,
+                    ]
+                  }
+                  gradientTransform={null}
+                  gradientUnits={0}
+                  name="topRight"
+                  rx="100%"
+                  ry="100%"
+                />
+                <RNSVGRadialGradient
+                  cx="100%"
+                  cy="0%"
+                  fx="100%"
+                  fy="0%"
+                  gradient={
+                    Array [
+                      0,
+                      10066329,
+                      0.07692307692307693,
+                      10066329,
+                      0.23076923076923078,
+                      93952409,
+                      0.38461538461538464,
+                      446273945,
+                      0.5384615384615385,
+                      1117362585,
+                      0.6923076923076923,
+                      2107218329,
+                      0.8461538461538463,
+                      -1080452711,
+                      1,
+                      -6710887,
+                    ]
+                  }
+                  gradientTransform={null}
+                  gradientUnits={0}
+                  name="bottomLeft"
+                  rx="100%"
+                  ry="100%"
+                />
+                <RNSVGRadialGradient
+                  cx="0%"
+                  cy="0%"
+                  fx="0%"
+                  fy="0%"
+                  gradient={
+                    Array [
+                      0,
+                      10066329,
+                      0.07692307692307693,
+                      10066329,
+                      0.23076923076923078,
+                      93952409,
+                      0.38461538461538464,
+                      446273945,
+                      0.5384615384615385,
+                      1117362585,
+                      0.6923076923076923,
+                      2107218329,
+                      0.8461538461538463,
+                      -1080452711,
+                      1,
+                      -6710887,
+                    ]
+                  }
+                  gradientTransform={null}
+                  gradientUnits={0}
+                  name="bottomRight"
+                  rx="100%"
+                  ry="100%"
+                />
+              </RNSVGDefs>
+              <RNSVGRect
+                fill={
+                  Array [
+                    1,
+                    "top",
+                  ]
+                }
+                height={13}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={215}
+                x={248}
+                y={36}
+              />
+              <RNSVGRect
+                fill={
+                  Array [
+                    1,
+                    "bottom",
+                  ]
+                }
+                height={13}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={215}
+                x={248}
+                y={65}
+              />
+              <RNSVGRect
+                fill={
+                  Array [
+                    1,
+                    "left",
+                  ]
+                }
+                height={16}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={13}
+                x={235}
+                y={49}
+              />
+              <RNSVGRect
+                fill={
+                  Array [
+                    1,
+                    "right",
+                  ]
+                }
+                height={16}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={13}
+                x={463}
+                y={49}
+              />
+              <RNSVGRect
+                fill={
+                  Array [
+                    1,
+                    "topLeft",
+                  ]
+                }
+                height={13}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={13}
+                x={235}
+                y={36}
+              />
+              <RNSVGRect
+                fill={
+                  Array [
+                    1,
+                    "topRight",
+                  ]
+                }
+                height={13}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={13}
+                x={463}
+                y={36}
+              />
+              <RNSVGRect
+                fill={
+                  Array [
+                    1,
+                    "bottomLeft",
+                  ]
+                }
+                height={13}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={13}
+                x={235}
+                y={65}
+              />
+              <RNSVGRect
+                fill={
+                  Array [
+                    1,
+                    "bottomRight",
+                  ]
+                }
+                height={13}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={13}
+                x={463}
+                y={65}
+              />
+              <RNSVGRect
+                fill={4288256409}
+                height={36}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={711}
+                x={0}
+                y={78}
+              />
+              <RNSVGRect
+                fill={4288256409}
+                height={36}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={711}
+                x={0}
+                y={0}
+              />
+              <RNSVGRect
+                fill={4288256409}
+                height={42}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={235}
+                x={476}
+                y={36}
+              />
+              <RNSVGRect
+                fill={4288256409}
+                height={42}
+                propList={
+                  Array [
+                    "fill",
+                  ]
+                }
+                width={235}
+                x={0}
+                y={36}
+              />
+            </RNSVGGroup>
+          </RNSVGSvgView>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#f1fbfd",
+                "borderRadius": 10,
+                "bottom": 0,
+                "height": 36,
+                "left": 0,
+                "position": "relative",
+                "right": 0,
+                "top": 0,
+                "width": 235,
+                "zIndex": 1,
+              }
+            }
+          >
+            <TextInput
+              maxLength={25}
+              onChangeText={[Function]}
+              placeholder="Enter username (max 25)"
+              placeholderTextColor="#49494950"
+              style={
+                Array [
+                  Object {
+                    "borderRadius": 10,
+                    "color": "#35baf6",
+                    "fontSize": 17,
+                    "fontWeight": "400",
+                    "height": 36,
+                    "paddingHorizontal": 7,
+                    "paddingVertical": 3,
+                    "width": 240,
+                  },
+                  Object {
+                    "textAlign": "left",
+                  },
+                ]
+              }
+              value=""
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "borderBottomColor": "#E9E9E9",
+            "borderTopColor": "#E9E9E9",
+            "height": 48,
+            "justifyContent": "center",
+            "paddingBottom": 4,
+            "paddingLeft": 4,
+            "paddingTop": 20,
+          },
+          Object {
+            "alignItems": "center",
+            "justifyContent": "center",
+          },
+        ]
+      }
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#FAB00E",
+            "borderRadius": 10,
+            "flexDirection": "row",
+            "height": 40,
+            "justifyContent": "center",
+            "opacity": 1,
+            "padding": 5,
+            "width": 120,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#fff",
+              "fontSize": 18,
+              "fontWeight": "500",
+            }
+          }
+        >
+          Submit
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

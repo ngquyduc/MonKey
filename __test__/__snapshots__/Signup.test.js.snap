@@ -1,0 +1,426 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#FFFAEB",
+      "flex": 1,
+      "padding": 25,
+      "paddingTop": 50,
+    }
+  }
+>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+          "flex": 1,
+        },
+        Object {
+          "paddingBottom": 0,
+        },
+      ]
+    }
+  >
+    <RCTScrollView
+      showsVerticalScrollIndicator={false}
+    >
+      <View>
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "alignContent": "flex-start",
+                "paddingBottom": 20,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#35baf6",
+                  "fontSize": 42,
+                  "fontWeight": "bold",
+                  "marginBottom": 10,
+                }
+              }
+            >
+              Sign-up
+            </Text>
+          </View>
+          <View>
+            <View
+              style={
+                Object {
+                  "borderRightColor": "#35baf6",
+                  "borderRightWidth": 2,
+                  "left": 13,
+                  "paddingRight": 8,
+                  "position": "absolute",
+                  "top": 40,
+                  "zIndex": 1,
+                }
+              }
+            >
+              <Text />
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "fontWeight": "400",
+                }
+              }
+            >
+              Username
+            </Text>
+            <TextInput
+              autoCapitalize="none"
+              onChangeText={[Function]}
+              placeholder="YourUsername"
+              placeholderTextColor="#ADD8E6"
+              style={
+                Object {
+                  "backgroundColor": "#FFFAEB",
+                  "borderColor": "#35baf6",
+                  "borderRadius": 8,
+                  "borderWidth": 2,
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "height": 60,
+                  "marginBottom": 25,
+                  "marginTop": 3,
+                  "padding": 15,
+                  "paddingLeft": 60,
+                  "paddingRight": 55,
+                }
+              }
+              value=""
+            />
+          </View>
+          <View>
+            <View
+              style={
+                Object {
+                  "borderRightColor": "#35baf6",
+                  "borderRightWidth": 2,
+                  "left": 13,
+                  "paddingRight": 8,
+                  "position": "absolute",
+                  "top": 40,
+                  "zIndex": 1,
+                }
+              }
+            >
+              <Text />
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "fontWeight": "400",
+                }
+              }
+            >
+              Email address
+            </Text>
+            <TextInput
+              autoCapitalize="none"
+              keyboardType="email-address"
+              onChangeText={[Function]}
+              placeholder="yourmail@gmail.com"
+              placeholderTextColor="#ADD8E6"
+              style={
+                Object {
+                  "backgroundColor": "#FFFAEB",
+                  "borderColor": "#35baf6",
+                  "borderRadius": 8,
+                  "borderWidth": 2,
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "height": 60,
+                  "marginBottom": 25,
+                  "marginTop": 3,
+                  "padding": 15,
+                  "paddingLeft": 60,
+                  "paddingRight": 55,
+                }
+              }
+              value=""
+            />
+          </View>
+          <View>
+            <View
+              style={
+                Object {
+                  "borderRightColor": "#35baf6",
+                  "borderRightWidth": 2,
+                  "left": 13,
+                  "paddingRight": 8,
+                  "position": "absolute",
+                  "top": 40,
+                  "zIndex": 1,
+                }
+              }
+            >
+              <Text />
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "fontWeight": "400",
+                }
+              }
+            >
+              Password
+            </Text>
+            <TextInput
+              autoCapitalize="none"
+              onChangeText={[Function]}
+              placeholder="* * * * * * * *"
+              placeholderTextColor="#ADD8E6"
+              secureTextEntry={true}
+              style={
+                Object {
+                  "backgroundColor": "#FFFAEB",
+                  "borderColor": "#35baf6",
+                  "borderRadius": 8,
+                  "borderWidth": 2,
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "height": 60,
+                  "marginBottom": 25,
+                  "marginTop": 3,
+                  "padding": 15,
+                  "paddingLeft": 60,
+                  "paddingRight": 55,
+                }
+              }
+              value=""
+            />
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                  "position": "absolute",
+                  "right": 13,
+                  "top": 40,
+                  "zIndex": 1,
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+          <View>
+            <View
+              style={
+                Object {
+                  "borderRightColor": "#35baf6",
+                  "borderRightWidth": 2,
+                  "left": 13,
+                  "paddingRight": 8,
+                  "position": "absolute",
+                  "top": 40,
+                  "zIndex": 1,
+                }
+              }
+            >
+              <Text />
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "fontWeight": "400",
+                }
+              }
+            >
+              Confirm password
+            </Text>
+            <TextInput
+              autoCapitalize="none"
+              onChangeText={[Function]}
+              placeholder="* * * * * * * *"
+              placeholderTextColor="#ADD8E6"
+              secureTextEntry={true}
+              style={
+                Object {
+                  "backgroundColor": "#FFFAEB",
+                  "borderColor": "#35baf6",
+                  "borderRadius": 8,
+                  "borderWidth": 2,
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "height": 60,
+                  "marginBottom": 25,
+                  "marginTop": 3,
+                  "padding": 15,
+                  "paddingLeft": 60,
+                  "paddingRight": 55,
+                }
+              }
+              value=""
+            />
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                  "position": "absolute",
+                  "right": 13,
+                  "top": 40,
+                  "zIndex": 1,
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#35baf6",
+                "borderRadius": 10,
+                "flex": 1,
+                "flexDirection": "row",
+                "height": 55,
+                "justifyContent": "center",
+                "opacity": 1,
+                "padding": 15,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#FFFAEB",
+                  "fontSize": 21,
+                  "fontWeight": "500",
+                }
+              }
+            >
+              Sign-up
+            </Text>
+          </View>
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignSelf": "center",
+                "paddingTop": 10,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "fontWeight": "400",
+                }
+              }
+            >
+              Have an account? Login here
+            </Text>
+          </View>
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignSelf": "center",
+                "paddingTop": 10,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#35baf6",
+                  "fontSize": 18,
+                  "fontWeight": "400",
+                }
+              }
+            >
+              Forgot password?
+            </Text>
+          </View>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;

@@ -1,0 +1,856 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#cce9f6",
+        "borderBottomColor": "#808080",
+        "borderBottomLeftRadius": 20,
+        "borderBottomRightRadius": 20,
+        "borderBottomWidth": 0,
+        "height": 62,
+        "justifyContent": "flex-end",
+        "paddingTop": 3,
+        "shadowColor": "#35baf6",
+        "shadowOffset": Object {
+          "height": 1,
+          "width": 0,
+        },
+        "shadowOpacity": 0.8,
+        "shadowRadius": 3,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#35baf6",
+          "fontSize": 34,
+          "fontWeight": "bold",
+          "marginBottom": 10,
+        }
+      }
+    >
+      Other
+    </Text>
+  </View>
+  <RCTScrollView
+    style={
+      Object {
+        "backgroundColor": "#f3f3f3",
+        "flex": 1,
+        "marginTop": 6,
+      }
+    }
+  >
+    <View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderBottomColor": "#E9E9E9",
+            "borderBottomWidth": 1,
+            "flexDirection": "row",
+            "paddingBottom": 15,
+            "paddingLeft": 20,
+            "paddingTop": 12,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 3,
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#6200ee",
+                    "borderRadius": 50,
+                    "height": 100,
+                    "width": 100,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "uri": "https://cdn.landesa.org/wp-content/uploads/default-user-image.png",
+                  }
+                }
+                style={
+                  Object {
+                    "borderRadius": 50,
+                    "height": 100,
+                    "width": 100,
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+              "flex": 7,
+              "justifyContent": "center",
+              "paddingLeft": 0,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#FAB00E",
+                "fontSize": 24,
+                "fontWeight": "500",
+              }
+            }
+          >
+            Good night!
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#494949",
+                "fontSize": 28,
+                "fontWeight": "500",
+              }
+            }
+          >
+            
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#f3f3f3",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "flexDirection": "row",
+            "height": 36,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#b2b2b2",
+              "fontSize": 16,
+            }
+          }
+        >
+          Personalize
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "paddingBottom": 4,
+            "paddingLeft": 12,
+            "paddingRight": 16,
+            "paddingTop": 4,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 8,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-start",
+                }
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Object {
+                    "color": "#494949",
+                    "fontSize": 16,
+                  }
+                }
+              >
+                  Edit username
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 2,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "paddingBottom": 4,
+            "paddingLeft": 12,
+            "paddingRight": 16,
+            "paddingTop": 4,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 8,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-start",
+                }
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Object {
+                    "color": "#494949",
+                    "fontSize": 16,
+                  }
+                }
+              >
+                  Expense limit setting
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 2,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "paddingBottom": 4,
+            "paddingLeft": 12,
+            "paddingRight": 16,
+            "paddingTop": 4,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 8,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-start",
+                }
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Object {
+                    "color": "#494949",
+                    "fontSize": 16,
+                  }
+                }
+              >
+                  Income category setting
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 2,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "paddingBottom": 4,
+            "paddingLeft": 12,
+            "paddingRight": 16,
+            "paddingTop": 4,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 8,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-start",
+                }
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Object {
+                    "color": "#494949",
+                    "fontSize": 16,
+                  }
+                }
+              >
+                  Expense category setting
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 2,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#f3f3f3",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "flexDirection": "row",
+            "height": 36,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#b2b2b2",
+              "fontSize": 16,
+            }
+          }
+        >
+          MonKey
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "paddingBottom": 4,
+            "paddingLeft": 12,
+            "paddingRight": 16,
+            "paddingTop": 4,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 8,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-start",
+                }
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Object {
+                    "color": "#494949",
+                    "fontSize": 16,
+                  }
+                }
+              >
+                  Help
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 2,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "paddingBottom": 4,
+            "paddingLeft": 12,
+            "paddingRight": 16,
+            "paddingTop": 4,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 8,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-start",
+                }
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Object {
+                    "color": "#494949",
+                    "fontSize": 16,
+                  }
+                }
+              >
+                  About us
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 2,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#f3f3f3",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "flexDirection": "row",
+            "height": 36,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#b2b2b2",
+              "fontSize": 16,
+            }
+          }
+        >
+          Feedback
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "paddingBottom": 4,
+            "paddingLeft": 12,
+            "paddingRight": 16,
+            "paddingTop": 4,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 8,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-start",
+                }
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Object {
+                    "color": "#494949",
+                    "fontSize": 16,
+                  }
+                }
+              >
+                  Rate this MonKey
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 2,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#f3f3f3",
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "flexDirection": "row",
+            "height": 36,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#b2b2b2",
+              "fontSize": 16,
+            }
+          }
+        >
+          Sign out
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderBottomColor": "#E9E9E9",
+            "borderBottomWidth": 1,
+            "borderTopColor": "#E9E9E9",
+            "borderTopWidth": 1,
+            "height": 48,
+            "justifyContent": "center",
+            "paddingBottom": 4,
+            "paddingLeft": 12,
+            "paddingRight": 16,
+            "paddingTop": 4,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "flex-start",
+                }
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Object {
+                    "color": "#494949",
+                    "fontSize": 16,
+                    "fontWeight": "bold",
+                  }
+                }
+              >
+                  Sign out
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;
