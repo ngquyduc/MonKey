@@ -190,7 +190,7 @@ const ListOfIncomeCategory = ({navigation}) => {
         const colRef = collection(db, 'Finance/' + getUserID() + '/Income')
         const queryE = query(colRef, where('category', '==', fromCategory))
         onSnapshot(queryE, (snapShot) => {
-          snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Income', ex.id), {category: name}))
+          snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Income', ex.id), {category: name, categoryIcon: icon, categoryColor: color}))
         })
       } 
     }
@@ -211,7 +211,7 @@ const ListOfIncomeCategory = ({navigation}) => {
     const colRef = collection(db, 'Finance/' + getUserID() + '/Income')
     const queryE = query(colRef, where('category', '==', name))
     onSnapshot(queryE, (snapShot) => {
-      snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Income', ex.id), {category: 'Deleted Category'}))
+      snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Income', ex.id), {category: 'Deleted Category', categoryIcon: 'delete-forever', categoryColor: '#767676'}))
     })
   }
 

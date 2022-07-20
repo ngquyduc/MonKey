@@ -114,6 +114,8 @@ const EditItemScreen = ({route, navigation}) => {
         amount: amountNumber,
         note: inprogressNote,
         category: inprogressCategory,
+        categoryIcon: type == 'income' ? IncomeCategory.find(cat => cat.name == inprogressCategory).icon : ExpenseCategory.find(cat => cat.name == inprogressCategory).icon,
+        categoryColor: type == 'income' ? IncomeCategory.find(cat => cat.name == inprogressCategory).color : ExpenseCategory.find(cat => cat.name == inprogressCategory).color,
         notedAt: Timestamp.now(), 
       })
   }

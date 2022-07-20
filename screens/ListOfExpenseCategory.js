@@ -177,7 +177,7 @@ const ListOfExpenseCategory = ({navigation}) => {
       if (index > -1) { // only splice array when item is found
         existedcategories.splice(index, 1); // 2nd parameter means remove one item only
       }
-      else if (existedcategories.includes(name)) {
+      if (existedcategories.includes(name)) {
         Alert.alert("Alert", "This category is already existed. Please choose another name.", [
           {text: 'OK', onPress: () => console.log('Alert closed')}
         ]);
@@ -191,7 +191,7 @@ const ListOfExpenseCategory = ({navigation}) => {
         const colRef = collection(db, 'Finance/' + getUserID() + '/Expense')
         const queryE = query(colRef, where('category', '==', fromCategory))
         onSnapshot(queryE, (snapShot) => {
-          snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Expense', ex.id), {category: name}))
+          snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Expense', ex.id), {category: name, categoryIcon: icon, categoryColor: color}))
         })
       } 
     }
@@ -214,7 +214,7 @@ const ListOfExpenseCategory = ({navigation}) => {
     const colRef = collection(db, 'Finance/' + getUserID() + '/Expense')
     const queryE = query(colRef, where('category', '==', name))
     onSnapshot(queryE, (snapShot) => {
-      snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Expense', ex.id), {category: 'Deleted Category'}))
+      snapShot.forEach((ex) => updateDoc(doc(db, 'Finance/' + getUserID() + '/Expense', ex.id), {category: 'Deleted Category', categoryIcon: 'delete-forever', categoryColor: '#767676'}))
     })
   }
   /*************** Function to edit category ***************/
