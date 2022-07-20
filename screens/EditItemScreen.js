@@ -4,9 +4,9 @@ import { colors } from '../components/colors';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { collection, onSnapshot, deleteDoc, doc, getDoc, setDoc, updateDoc, getDocs, query } from 'firebase/firestore';
-import { db } from '../api/db';
+import { db } from '../utils/db';
 import { ScreenWidth } from '../components/constants';
-import { getUserID } from '../api/authentication'; 
+import { getUserID } from '../utils/authentication'; 
 import { StatusBarHeight } from '../components/constants';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons, Entypo, Foundation } from '@expo/vector-icons'

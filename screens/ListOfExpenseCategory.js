@@ -8,9 +8,9 @@ import { Snackbar } from 'react-native-paper';
 import IconList from '../CategoriesList/IconList'
 import ColorList from '../CategoriesList/ColorList'
 import CustomModal from '../components/Containers/CustomModal';
-import { AddExpenseCategory, db, ExpenseCategoryRef } from '../api/db';
+import { AddExpenseCategory, db, ExpenseCategoryRef } from '../utils/db';
 import { query, where, onSnapshot, collection, orderBy, deleteDoc, doc, updateDoc, getDocs } from 'firebase/firestore';
-import { getUserID } from '../api/authentication';
+import { getUserID } from '../utils/authentication';
 import moment from 'moment';
 import { useFocusEffect } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';

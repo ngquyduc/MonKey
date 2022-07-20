@@ -10,7 +10,7 @@ import { getUserID } from './authentication';
 
 export const db = getFirestore(app);
 
-export const handleExpenseSubmit = async (date, amount, note, category) => {
+export const handleExpenseSubmit = async (date, amount, note, category, icon, color) => {
   try {
     const expensePath = 'Finance/' + getUserID() + '/Expense'
     const expenseRef = collection(db, expensePath)
@@ -21,15 +21,18 @@ export const handleExpenseSubmit = async (date, amount, note, category) => {
       amount: amount,
       note: note,
       category: category,
+      categoryIcon: icon,
+      categoryColor: color,
       notedAt: Timestamp.now(),
     })
-    .then()
+    return 'Expense submitted'
   } catch (err) {
     Alert.alert(err.message)
+    return 'error'
   }
 }
 
-export const handleIncomeSubmit = async (date, amount, note, category) => {
+export const handleIncomeSubmit = async (date, amount, note, category, icon, color) => {
   try {
     const incomePath = 'Finance/' + getUserID() + '/Income'
     const incomeRef = collection(db, incomePath)
@@ -40,6 +43,8 @@ export const handleIncomeSubmit = async (date, amount, note, category) => {
       amount: amount,
       note: note,
       category: category,
+      categoryIcon: icon,
+      categoryColor: color,
       notedAt: Timestamp.now(),
     })
     .then()

@@ -7,11 +7,11 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScreenWidth } from '../components/constants';
 import { Entypo, Foundation, MaterialCommunityIcons } from '@expo/vector-icons'
 import moment from 'moment';
-import { handleExpenseSubmit, handleIncomeSubmit } from '../api/db';
+import { handleExpenseSubmit, handleIncomeSubmit } from '../utils/db';
 import { StatusBarHeight } from '../components/constants';
 import { collection, query, where, onSnapshot, getDocs } from "firebase/firestore";
-import { db } from "../api/db";
-import { getUserID } from '../api/authentication';
+import { db } from "../utils/db";
+import { getUserID } from '../utils/authentication';
 import CurrencyInput from 'react-native-currency-input';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect } from '@react-navigation/native';
@@ -70,7 +70,7 @@ const Input = ({navigation}) => {
 
   /********** Submit **********/
   
-  const handleExpenseInput = (date, amount, note, chosenCategory) => {
+  const handleExpenseInput = (date, amount, note, chosenCategory, icon, color) => {
     if (amount == null || amount == 0) {
       Alert.alert("Alert", "Please enter the expense amount", [
         {text: 'Understand', onPress: () => console.log('Alert closed')}
@@ -80,17 +80,18 @@ const Input = ({navigation}) => {
         {text: 'Understand', onPress: () => console.log('Alert closed')}
       ]);
     } else if (amount != '' && chosenCategory != '') {
-      handleExpenseSubmit(date, amount, note, chosenCategory)
+      handleExpenseSubmit(date, amount, note, chosenCategory, icon, color)
       setVisibleExpense(true)
       setDate(moment())
       setAmount('')
       setNote('')
       setChosenCategory('')
       setColor('');
+      return 'submitted'
     } 
   }
 
-  const handleIncomeInput = (date, amount, note, chosenCategory) => {
+  const handleIncomeInput = (date, amount, note, chosenCategory, icon, color) => {
     if (amount == null || amount == 0) {
       Alert.alert("Alert", "Please enter the expense amount", [
         {text: 'Understand', onPress: () => console.log('Alert closed')}
@@ -100,7 +101,7 @@ const Input = ({navigation}) => {
         {text: 'Understand', onPress: () => console.log('Alert closed')}
       ]);
     } else if (amount != '' && chosenCategory != '') {
-      handleIncomeSubmit(date, amount, note, chosenCategory)
+      handleIncomeSubmit(date, amount, note, chosenCategory, icon, color)
       setVisibleExpense(true)
       setDate(moment())
       setAmount('')
@@ -117,6 +118,7 @@ const Input = ({navigation}) => {
     try {
       const expenseCategoryRef = query(collection(db, 'Input Category/Expense/' + getUserID()))
       const expenseCategories = [];
+      const expenseCategoryMap = {};
       const expenseCats = await getDocs(expenseCategoryRef)
       expenseCats.docs.forEach((doc) => {
         if (doc.data().name != 'Deleted Category') {
@@ -150,6 +152,7 @@ const Input = ({navigation}) => {
             isEdit: doc.data().name == 'Edit' ? true : false
           });
         }
+        
       });
       incomeCategories.sort((a, b) => a.name == 'Edit' ? 1 : b.name == 'Edit' ? -1 : a.name > b.name ? 1 : -1)
       setIncomeCategory(incomeCategories)
@@ -386,7 +389,7 @@ const Input = ({navigation}) => {
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                     <TouchableOpacity 
                       style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkBlue,width:200}]} 
-                      onPress={() => {handleExpenseInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory)}}>
+                      onPress={() => {handleExpenseInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory, ExpenseCategory.find(cat => cat.name == chosenCategory).icon, ExpenseCategory.find(cat => cat.name == chosenCategory).color)}}>
                       <Text style={styles.inputText}>Submit</Text>
                     </TouchableOpacity>
                   </View>
@@ -581,7 +584,7 @@ const Input = ({navigation}) => {
                   <View style={[styless.submitButtonView, {alignItems:'center', justifyContent:'center'}]}>
                     <TouchableOpacity 
                     style={[styles.inputButton, {borderBottomLeftRadius:10, borderTopLeftRadius:10, borderBottomRightRadius:10, borderTopRightRadius:10, backgroundColor:darkBlue,width:200}]} 
-                    onPress={() => {handleIncomeInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory)}}>
+                    onPress={() => {handleIncomeInput(date.format('YYYY-MM-DD').toString(), amount, note, chosenCategory, IncomeCategory.find(cat => cat.name == chosenCategory).icon, IncomeCategory.find(cat => cat.name == chosenCategory).color)}}>
                       <Text style={styles.inputText}>Submit</Text>
                     </TouchableOpacity>
                   </View>
