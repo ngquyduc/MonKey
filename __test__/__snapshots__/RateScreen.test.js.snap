@@ -1,0 +1,934 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "backgroundColor": "#fff",
+          "borderBottomColor": "#808080",
+          "borderBottomWidth": 1,
+          "flexDirection": "row",
+          "height": 62,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flex": 2,
+            "paddingBottom": 7,
+            "paddingLeft": 5,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <Text />
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 8,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#35baf6",
+              "fontSize": 34,
+              "fontWeight": "bold",
+              "marginBottom": 10,
+            }
+          }
+        >
+          Rate it!
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "flex": 2,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#fff",
+          "borderRadius": 25,
+          "elevation": 5,
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "marginBottom": 15,
+          "marginHorizontal": 20,
+          "marginTop": 20,
+          "paddingVertical": 30,
+          "shadowColor": "#999",
+          "shadowOffset": Object {
+            "height": 1,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+        }
+      }
+    >
+      <View
+        pointerEvents="auto"
+        style={
+          Object {
+            "borderWidth": 0,
+            "paddingVertical": 10,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "column",
+              "justifyContent": "center",
+              "paddingBottom": 5,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "paddingBottom": 5,
+              }
+            }
+          >
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "#34495e",
+                    "fontFamily": "Trebuchet MS",
+                    "fontSize": 15,
+                    "textAlign": "center",
+                  },
+                  Object {
+                    "color": "#e74c3c",
+                  },
+                ]
+              }
+            >
+              Rating: 
+            </Text>
+            <Text
+              style={
+                Array [
+                  Object {
+                    "fontFamily": "Trebuchet MS",
+                    "fontSize": 30,
+                    "textAlign": "center",
+                  },
+                  Object {
+                    "color": "#e74c3c",
+                  },
+                ]
+              }
+            >
+              3.5
+            </Text>
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "#34495e",
+                    "fontFamily": "Trebuchet MS",
+                    "fontSize": 18,
+                    "textAlign": "center",
+                  },
+                  Object {
+                    "color": "#e74c3c",
+                  },
+                ]
+              }
+            >
+              /
+              5
+            </Text>
+          </View>
+          <View />
+        </View>
+        <View
+          onMoveShouldSetResponder={[Function]}
+          onMoveShouldSetResponderCapture={[Function]}
+          onResponderEnd={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderReject={[Function]}
+          onResponderRelease={[Function]}
+          onResponderStart={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          onStartShouldSetResponderCapture={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            onLayout={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "bottom": 0,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              }
+            }
+          >
+            <View
+              collapsable={false}
+              style={
+                Object {
+                  "backgroundColor": "#e74c3c",
+                  "height": 40,
+                  "width": 140,
+                }
+              }
+            />
+            <View
+              collapsable={false}
+              style={
+                Object {
+                  "backgroundColor": "white",
+                  "height": 40,
+                  "width": 60,
+                }
+              }
+            />
+          </View>
+          <View>
+            <Image
+              source={1}
+              style={
+                Object {
+                  "height": 40,
+                  "tintColor": undefined,
+                  "width": 40,
+                }
+              }
+            />
+          </View>
+          <View>
+            <Image
+              source={1}
+              style={
+                Object {
+                  "height": 40,
+                  "tintColor": undefined,
+                  "width": 40,
+                }
+              }
+            />
+          </View>
+          <View>
+            <Image
+              source={1}
+              style={
+                Object {
+                  "height": 40,
+                  "tintColor": undefined,
+                  "width": 40,
+                }
+              }
+            />
+          </View>
+          <View>
+            <Image
+              source={1}
+              style={
+                Object {
+                  "height": 40,
+                  "tintColor": undefined,
+                  "width": 40,
+                }
+              }
+            />
+          </View>
+          <View>
+            <Image
+              source={1}
+              style={
+                Object {
+                  "height": 40,
+                  "tintColor": undefined,
+                  "width": 40,
+                }
+              }
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#fff",
+          "borderRadius": 25,
+          "elevation": 5,
+          "flexDirection": "column",
+          "height": 300,
+          "marginBottom": 10,
+          "marginHorizontal": 20,
+          "padding": 10,
+          "shadowColor": "#999",
+          "shadowOffset": Object {
+            "height": 1,
+            "width": 0,
+          },
+          "shadowOpacity": 0.8,
+          "shadowRadius": 2,
+        }
+      }
+    >
+      <View>
+        <Text
+          style={
+            Object {
+              "color": "#35baf6",
+              "fontSize": 17,
+              "fontWeight": "400",
+              "paddingBottom": 8,
+            }
+          }
+        >
+          Any feedback?
+        </Text>
+      </View>
+      <View
+        onLayout={null}
+        style={
+          Object {
+            "borderRadius": 20,
+            "flex": 0,
+            "height": 243,
+            "overflow": "hidden",
+            "width": 680,
+          }
+        }
+      >
+        <RNSVGSvgView
+          bbHeight={735}
+          bbWidth={2046}
+          focusable={false}
+          height={735}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              Object {
+                "left": -683,
+                "opacity": 0.54,
+                "position": "absolute",
+                "top": -245,
+                "zIndex": 2,
+              },
+              Object {
+                "flex": 0,
+                "height": 735,
+                "width": 2046,
+              },
+            ]
+          }
+          width={2046}
+        >
+          <RNSVGGroup
+            opacity={0.54}
+          >
+            <RNSVGDefs>
+              <RNSVGLinearGradient
+                gradient={
+                  Array [
+                    0,
+                    10066329,
+                    0.4782608695652174,
+                    10066329,
+                    0.5652173913043479,
+                    93952409,
+                    0.6521739130434783,
+                    446273945,
+                    0.7391304347826086,
+                    1117362585,
+                    0.8260869565217391,
+                    2107218329,
+                    0.9130434782608696,
+                    -1080452711,
+                    1,
+                    -6710887,
+                  ]
+                }
+                gradientTransform={null}
+                gradientUnits={0}
+                name="top"
+                x1="0%"
+                x2="0%"
+                y1="100%"
+                y2="0%"
+              />
+              <RNSVGLinearGradient
+                gradient={
+                  Array [
+                    0,
+                    10066329,
+                    0.4782608695652174,
+                    10066329,
+                    0.5652173913043479,
+                    93952409,
+                    0.6521739130434783,
+                    446273945,
+                    0.7391304347826086,
+                    1117362585,
+                    0.8260869565217391,
+                    2107218329,
+                    0.9130434782608696,
+                    -1080452711,
+                    1,
+                    -6710887,
+                  ]
+                }
+                gradientTransform={null}
+                gradientUnits={0}
+                name="bottom"
+                x1="0%"
+                x2="0%"
+                y1="0%"
+                y2="100%"
+              />
+              <RNSVGLinearGradient
+                gradient={
+                  Array [
+                    0,
+                    10066329,
+                    0.4782608695652174,
+                    10066329,
+                    0.5652173913043479,
+                    93952409,
+                    0.6521739130434783,
+                    446273945,
+                    0.7391304347826086,
+                    1117362585,
+                    0.8260869565217391,
+                    2107218329,
+                    0.9130434782608696,
+                    -1080452711,
+                    1,
+                    -6710887,
+                  ]
+                }
+                gradientTransform={null}
+                gradientUnits={0}
+                name="left"
+                x1="100%"
+                x2="0%"
+                y1="0%"
+                y2="0%"
+              />
+              <RNSVGLinearGradient
+                gradient={
+                  Array [
+                    0,
+                    10066329,
+                    0.4782608695652174,
+                    10066329,
+                    0.5652173913043479,
+                    93952409,
+                    0.6521739130434783,
+                    446273945,
+                    0.7391304347826086,
+                    1117362585,
+                    0.8260869565217391,
+                    2107218329,
+                    0.9130434782608696,
+                    -1080452711,
+                    1,
+                    -6710887,
+                  ]
+                }
+                gradientTransform={null}
+                gradientUnits={0}
+                name="right"
+                x1="0%"
+                x2="100%"
+                y1="0%"
+                y2="0%"
+              />
+              <RNSVGRadialGradient
+                cx="100%"
+                cy="100%"
+                fx="100%"
+                fy="100%"
+                gradient={
+                  Array [
+                    0,
+                    10066329,
+                    0.4782608695652174,
+                    10066329,
+                    0.5652173913043479,
+                    93952409,
+                    0.6521739130434783,
+                    446273945,
+                    0.7391304347826086,
+                    1117362585,
+                    0.8260869565217391,
+                    2107218329,
+                    0.9130434782608696,
+                    -1080452711,
+                    1,
+                    -6710887,
+                  ]
+                }
+                gradientTransform={null}
+                gradientUnits={0}
+                name="topLeft"
+                rx="100%"
+                ry="100%"
+              />
+              <RNSVGRadialGradient
+                cx="0%"
+                cy="100%"
+                fx="0%"
+                fy="100%"
+                gradient={
+                  Array [
+                    0,
+                    10066329,
+                    0.4782608695652174,
+                    10066329,
+                    0.5652173913043479,
+                    93952409,
+                    0.6521739130434783,
+                    446273945,
+                    0.7391304347826086,
+                    1117362585,
+                    0.8260869565217391,
+                    2107218329,
+                    0.9130434782608696,
+                    -1080452711,
+                    1,
+                    -6710887,
+                  ]
+                }
+                gradientTransform={null}
+                gradientUnits={0}
+                name="topRight"
+                rx="100%"
+                ry="100%"
+              />
+              <RNSVGRadialGradient
+                cx="100%"
+                cy="0%"
+                fx="100%"
+                fy="0%"
+                gradient={
+                  Array [
+                    0,
+                    10066329,
+                    0.4782608695652174,
+                    10066329,
+                    0.5652173913043479,
+                    93952409,
+                    0.6521739130434783,
+                    446273945,
+                    0.7391304347826086,
+                    1117362585,
+                    0.8260869565217391,
+                    2107218329,
+                    0.9130434782608696,
+                    -1080452711,
+                    1,
+                    -6710887,
+                  ]
+                }
+                gradientTransform={null}
+                gradientUnits={0}
+                name="bottomLeft"
+                rx="100%"
+                ry="100%"
+              />
+              <RNSVGRadialGradient
+                cx="0%"
+                cy="0%"
+                fx="0%"
+                fy="0%"
+                gradient={
+                  Array [
+                    0,
+                    10066329,
+                    0.4782608695652174,
+                    10066329,
+                    0.5652173913043479,
+                    93952409,
+                    0.6521739130434783,
+                    446273945,
+                    0.7391304347826086,
+                    1117362585,
+                    0.8260869565217391,
+                    2107218329,
+                    0.9130434782608696,
+                    -1080452711,
+                    1,
+                    -6710887,
+                  ]
+                }
+                gradientTransform={null}
+                gradientUnits={0}
+                name="bottomRight"
+                rx="100%"
+                ry="100%"
+              />
+            </RNSVGDefs>
+            <RNSVGRect
+              fill={
+                Array [
+                  1,
+                  "top",
+                ]
+              }
+              height={23}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={640}
+              x={703}
+              y={243}
+            />
+            <RNSVGRect
+              fill={
+                Array [
+                  1,
+                  "bottom",
+                ]
+              }
+              height={23}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={640}
+              x={703}
+              y={469}
+            />
+            <RNSVGRect
+              fill={
+                Array [
+                  1,
+                  "left",
+                ]
+              }
+              height={203}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={23}
+              x={680}
+              y={266}
+            />
+            <RNSVGRect
+              fill={
+                Array [
+                  1,
+                  "right",
+                ]
+              }
+              height={203}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={23}
+              x={1343}
+              y={266}
+            />
+            <RNSVGRect
+              fill={
+                Array [
+                  1,
+                  "topLeft",
+                ]
+              }
+              height={23}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={23}
+              x={680}
+              y={243}
+            />
+            <RNSVGRect
+              fill={
+                Array [
+                  1,
+                  "topRight",
+                ]
+              }
+              height={23}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={23}
+              x={1343}
+              y={243}
+            />
+            <RNSVGRect
+              fill={
+                Array [
+                  1,
+                  "bottomLeft",
+                ]
+              }
+              height={23}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={23}
+              x={680}
+              y={469}
+            />
+            <RNSVGRect
+              fill={
+                Array [
+                  1,
+                  "bottomRight",
+                ]
+              }
+              height={23}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={23}
+              x={1343}
+              y={469}
+            />
+            <RNSVGRect
+              fill={4288256409}
+              height={243}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={2046}
+              x={0}
+              y={492}
+            />
+            <RNSVGRect
+              fill={4288256409}
+              height={243}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={2046}
+              x={0}
+              y={0}
+            />
+            <RNSVGRect
+              fill={4288256409}
+              height={249}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={680}
+              x={1366}
+              y={243}
+            />
+            <RNSVGRect
+              fill={4288256409}
+              height={249}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              width={680}
+              x={0}
+              y={243}
+            />
+          </RNSVGGroup>
+        </RNSVGSvgView>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#f1fbfd",
+              "borderRadius": 20,
+              "bottom": 0,
+              "height": 243,
+              "left": 0,
+              "position": "relative",
+              "right": 0,
+              "top": 0,
+              "width": 680,
+              "zIndex": 1,
+            }
+          }
+        >
+          <TextInput
+            multiline={true}
+            onChangeText={[Function]}
+            placeholder="Write your feedback here!!!"
+            style={
+              Object {
+                "marginVertical": 15,
+                "padding": 20,
+              }
+            }
+            value=""
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "borderBottomColor": "#E9E9E9",
+            "borderTopColor": "#E9E9E9",
+            "height": 48,
+            "justifyContent": "center",
+            "marginTop": 10,
+            "paddingBottom": 4,
+            "paddingLeft": 4,
+            "paddingTop": 4,
+          },
+          Object {
+            "alignItems": "center",
+            "justifyContent": "center",
+          },
+        ]
+      }
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#FAB00E",
+            "borderRadius": 10,
+            "flexDirection": "row",
+            "height": 40,
+            "justifyContent": "center",
+            "opacity": 1,
+            "padding": 5,
+            "width": 120,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#fff",
+              "fontSize": 18,
+              "fontWeight": "500",
+            }
+          }
+        >
+          Submit
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "justifyContent": "flex-end",
+      }
+    }
+  />
+</View>
+`;
