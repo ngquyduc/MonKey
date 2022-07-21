@@ -73,11 +73,11 @@ const Input = ({navigation}) => {
   const handleExpenseInput = (date, amount, note, chosenCategory, icon, color) => {
     if (amount == null || amount == 0) {
       Alert.alert("Alert", "Please enter the expense amount", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     } else if (chosenCategory == '') {
       Alert.alert("Alert", "Please choose the category", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     } else if (amount != '' && chosenCategory != '') {
       handleExpenseSubmit(date, amount, note, chosenCategory, icon, color)
@@ -94,11 +94,11 @@ const Input = ({navigation}) => {
   const handleIncomeInput = (date, amount, note, chosenCategory, icon, color) => {
     if (amount == null || amount == 0) {
       Alert.alert("Alert", "Please enter the expense amount", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     } else if (chosenCategory == '') {
       Alert.alert("Alert", "Please choose the category", [
-        {text: 'Understand', onPress: () => console.log('Alert closed')}
+        {text: 'Okay', onPress: () => console.log('Alert closed')}
       ]);
     } else if (amount != '' && chosenCategory != '') {
       handleIncomeSubmit(date, amount, note, chosenCategory, icon, color)
