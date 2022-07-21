@@ -412,7 +412,9 @@ const Stats = (props) => {
                           </View>
                         </View>
                         <View style={{flex:3, alignItems:'flex-end', justifyContent:'center', paddingRight:15}}>
-                          <Text style={[styles.amountText, {color: '#ef5011'}]}>{'$' +item.value.toFixed(2)}</Text>
+                          <CurrencyFormat value={item.value} fixedDecimalScale={true} decimalScale={2} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => 
+                            <Text style={[styles.amountText, {color: '#ef5011'}]}>{value}</Text>
+                          }/>
                         </View>
                       </View>
                     )
