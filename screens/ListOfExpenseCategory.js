@@ -148,7 +148,7 @@ const ListOfExpenseCategory = ({navigation}) => {
       ]);
     }
     else if (existedcategories.includes(name)) {
-      Alert.alert("Alert", "This category is already existed. Please choose another name.", [
+      Alert.alert("Alert", "This category already existed. Please choose another name.", [
         {text: 'OK', onPress: () => console.log('Alert closed')}
       ]);
     } else {
