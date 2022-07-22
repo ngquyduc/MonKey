@@ -324,6 +324,7 @@ const EditItemScreen = ({route, navigation}) => {
             justifyContent:'center',
           }}>
             <TextInput
+              maxLength={40}
               multiline={true}
               scrollEnabled={true}
               style={[styles.noteInputContainer, {textAlign:'left'}]}

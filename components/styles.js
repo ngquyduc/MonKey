@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 25,
     paddingTop: StatusBarHeight + 30,
-    backgroundColor: beige,
+    backgroundColor: '#fff',
   },
   mainContainerInnerScreen: {
     flex: 1,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     color: darkBlue,
   },
   inputContainer: {
-    backgroundColor: beige,
+    backgroundColor: '#fff',
     color: darkBlue,
     borderColor: darkBlue,
     padding: 15,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   loginText: {
     fontSize: 21,
     fontWeight: '500',
-    color: beige,
+    color: '#fff',
   },
   inputButton: {
     padding: 5,

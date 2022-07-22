@@ -316,6 +316,7 @@ const ListOfExpenseCategory = ({navigation}) => {
             closeModal={closeAddModal}
           >
             <TextInput
+              maxLength={20}
               style={[styles.inputContainer, {textAlign:'left'}]}
               placeholder='Category'
               placeholderTextColor={lightBlue}
@@ -418,6 +419,7 @@ const ListOfExpenseCategory = ({navigation}) => {
             closeModal={closeEditModal}
           >
             <TextInput
+              maxLength={20}
               style={[styles.inputContainer, {textAlign:'left'}]}
               placeholder='Category'
               placeholderTextColor={lightBlue}

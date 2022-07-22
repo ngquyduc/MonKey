@@ -327,6 +327,7 @@ const Input = ({navigation}) => {
                       borderBottomColor:darkYellow,
                     }}>
                       <TextInput
+                        maxLength={40}
                         multiline={true}
                         scrollEnabled={true}
                         style={[styless.noteInputContainer, {textAlign:'left'}]}
@@ -522,6 +523,7 @@ const Input = ({navigation}) => {
                       borderBottomColor:darkYellow,
                     }}>
                       <TextInput
+                        maxLength={40}
                         multiline={true}
                         scrollEnabled={true}
                         style={[styless.noteInputContainer, {textAlign:'left'}]}
