@@ -44,7 +44,7 @@ const SignUp = ({navigation}) => {
               maxLength={15}
               label='Username'
               icon='user'
-              placeholder='YourUsername'
+              placeholder='Username (max 15)'
               value={username}
               autoCapitalize = 'none'
               onChangeText={text => setUsername(text)}
