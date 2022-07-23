@@ -95,7 +95,7 @@ const EditUsernameScreen = ({navigation}) => {
               }}
             >
               <TextInput
-                maxLength={25}
+                maxLength={15}
                 style={[styles.noteInputContainer, {textAlign:'left'}]}
                 placeholder='Enter username (max 25)'
                 placeholderTextColor={'#49494950'}

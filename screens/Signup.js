@@ -41,6 +41,7 @@ const SignUp = ({navigation}) => {
             <Text style={styles.boldBlueText}>Sign-up</Text>
           </View>
             <TextInputWithIcon
+              maxLength={15}
               label='Username'
               icon='user'
               placeholder='YourUsername'

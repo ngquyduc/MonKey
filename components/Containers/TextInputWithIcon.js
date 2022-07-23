@@ -5,7 +5,7 @@ import { Entypo } from '@expo/vector-icons'
 import { colors } from "../colors";
 const {darkBlue, lightBlue} = colors;
 
-const TextInputWithIcon = ({icon, label, placeholder, keyboardType, isPassword, ...props}) => {
+const TextInputWithIcon = ({icon, label, placeholder, keyboardType, isPassword, maxLength, ...props}) => {
   const [isHide, setIsHide] = useState(true);
 
   return (
@@ -16,6 +16,7 @@ const TextInputWithIcon = ({icon, label, placeholder, keyboardType, isPassword, 
       <Text style={styles.blueRegularText}>{label}</Text>
       <TextInput 
         {...props }
+        maxLength={maxLength}
         style={styles.inputContainer}
         placeholder={placeholder}
         placeholderTextColor = {lightBlue}
