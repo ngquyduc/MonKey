@@ -2,8 +2,8 @@
   "expo": {
     "name": "MonKey",
     "slug": "monkey_prototype",
-    "description": "MonKey prototype to test for Milestone 2 submission", 
-    "version": "1.0.0",
+    "description": "MonKey prototype to test for Milestone 3 submission", 
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,7 +21,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.grape.monkey",
-      "buildNumber": "1.0.0"
+      "buildNumber": "2.0.0"
     },
     "android": {
       "adaptiveIcon": {
