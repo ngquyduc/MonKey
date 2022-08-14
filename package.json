@@ -20,7 +20,6 @@
   "dependencies": {
     "@miblanchard/react-native-slider": "^2.1.0",
     "@react-native-async-storage/async-storage": "^1.17.6",
-    "@react-native-community/datetimepicker": "6.1.2",
     "@react-native-community/slider": "^4.2.4",
     "@react-native-firebase/app": "^14.11.0",
     "@react-native-firebase/auth": "^14.11.0",
@@ -58,7 +57,6 @@
     "react-native-linear-gradient": "^2.6.2",
     "react-native-modal": "^13.0.1",
     "react-native-month-view-calendar": "^1.0.0",
-    "react-native-month-year-picker": "^1.8.1",
     "react-native-neomorph-shadows": "0.0.8",
     "react-native-paper": "^4.12.3",
     "react-native-ratings": "^8.1.0",

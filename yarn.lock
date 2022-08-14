@@ -3098,13 +3098,6 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
-"@react-native-community/datetimepicker@6.1.2":
-  version "6.1.2"
-  resolved "https://registry.npmjs.org/@react-native-community/datetimepicker/-/datetimepicker-6.1.2.tgz"
-  integrity sha512-4D21x4eywCY2Ex4BI6tQhUEOOKSruz9uPbGK0azGKZap/etoiPtH3nuG56ACtpmUlu5d1R9zzTlumr02dp39hA==
-  dependencies:
-    invariant "^2.2.4"
-
 "@react-native-community/slider@^4.2.4":
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-4.2.4.tgz#8d88adceeb32f7997a122feba48d7186fca80346"
@@ -9119,14 +9112,6 @@ react-native-month-view-calendar@^1.0.0:
   integrity sha512-Ua9Aj+SW5zzlFWKWn1C91dhISl+tXIKkusTuWXuguZ7LRgBRGLW0jYdsnJrfY0+lLmS47Gp4Vwv5fZUL7cO+Wg==
   dependencies:
     prop-types "^15.7.2"
-
-react-native-month-year-picker@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/react-native-month-year-picker/-/react-native-month-year-picker-1.8.1.tgz#914378033535e8627355f927139d41ae45a58a34"
-  integrity sha512-96S/stxggCAEtjC3YqS3UNDaNhndknPH3s24sVMyiXeyoKJKbMCohy7AJJQAV29QSXtnHe3ULRcJL5Wz4VJCtA==
-  dependencies:
-    invariant "^2.2.4"
-    moment "^2.24.0"
 
 react-native-neomorph-shadows@0.0.8:
   version "0.0.8"
