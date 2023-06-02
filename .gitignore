@@ -1,7 +1,7 @@
-node_modules/
+
 .expo/
 dist/
-npm-debug.*
+
 *.jks
 *.p8
 *.p12
@@ -12,3 +12,11 @@ web-build/
 
 # macOS
 .DS_Store
+
+# Node
+yarn-error.log
+npm-debug.*
+node_modules/
+
+# Dotenv
+.env
